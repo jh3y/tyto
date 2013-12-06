@@ -1,70 +1,36 @@
 body {
+  background-color: #f0ffff;
   font-family: tahoma;
   padding: 5px 5px 5px 5px;
-}
-body {
-  background-color: #f0ffff;
-}
-h5 {
-  border-bottom: thin solid black;
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0 auto;
-  margin-bottom: 25px;
-  text-align: center;
-  width: 70%;
 }
 .header {
   height: 50px;
 }
-.task-content {
+.tyto-item-content {
   min-height: 100px;
   text-align: center;
   padding: 10px 10px 10px 10px;
   overflow: hidden;
 }
-.task-holder.over {
-  border: 2px dashed #000;
-}
-#taskboard {
-  border: thin solid black;
-  position: relative;
-  background-color: #fff;
-  height: 600px;
-  width: 90%;
-  padding: 40px 40px 40px 40px;
-  margin: 0 auto 0 auto;
-}
-.column {
-  height: 600px;
-  float: left;
-}
-.task .task-structure {
+.tyto-item .tyto-item-structure {
   position: relative;
 }
-.task-holder .task {
+.tyto-item-holder .tyto-item {
   width: 90%;
   margin: 0 auto 5px;
 }
-.task {
+.tyto-item {
   min-height: 100px;
   background-color: #fff500;
   box-shadow: #ebebeb 0px 5px 5px;
+  cursor: move;
+}
+.tyto-item .tyto-item-content[contenteditable] {
+  cursor: text;
 }
 .edit {
   border: 1px #333 dashed;
   background-color: yellow;
-}
-.taskboard-title {
-  position: absolute;
-  right: 100px;
-  top: -15px;
-  color: black;
-}
-.task-holder {
-  height: 500px;
-  margin: 0 auto;
-  overflow: auto;
 }
 .close {
   padding: 0 5px 0 0;
@@ -87,8 +53,44 @@ h5 {
   top: 30%;
   right: 10px;
 }
-#workflowfiles {
+#tytofiles {
   display: none;
+}
+#barn {
+  border: thin solid black;
+  position: relative;
+  background-color: #fff;
+  height: 600px;
+  width: 90%;
+  padding: 40px 40px 40px 40px;
+  margin: 0 auto 0 auto;
+}
+.barn-title {
+  position: absolute;
+  right: 100px;
+  top: -15px;
+  color: black;
+}
+#barn .column {
+  height: 600px;
+  float: left;
+}
+#barn .column .column-title {
+  border-bottom: thin solid black;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  text-align: center;
+  width: 70%;
+}
+#barn .column .tyto-item-holder {
+  height: 500px;
+  margin: 0 auto;
+  overflow: auto;
+}
+#barn .column .tyto-item-holder.over {
+  border: 2px dashed #000;
 }
 .tab {
   position: absolute;

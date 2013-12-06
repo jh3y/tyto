@@ -2,29 +2,29 @@ define([], function() {
   var config;
   return config = {
     theme: 'default',
-    DOMId: 'taskboard',
-    DOMElementSelector: '.taskboard',
-    emailSubject: 'my current tasks',
+    DOMId: 'barn',
+    DOMElementSelector: '.barn',
+    emailSubject: 'my current items',
     emailRecipient: 'you@me.com',
     actionsTab: true,
-    saveFilename: 'taskboard',
+    saveFilename: 'barn',
     columns: [
       {
         title: 'To do',
-        tasks: [
+        items: [
           {
-            content: 'finish implementing workflow'
+            content: 'finish implementing tyto'
           }
         ]
       }, {
         title: 'In progress',
-        tasks: []
+        items: []
       }, {
         title: 'Awaiting merge',
-        tasks: []
+        items: []
       }, {
         title: 'Done',
-        tasks: []
+        items: []
       }
     ]
   };

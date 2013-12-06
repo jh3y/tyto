@@ -1,7 +1,7 @@
 {
-  "name": "workflow",
+  "name": "tyto",
   "version": "0.0.2",
-  "description": "workflow task manager",
+  "description": "tyto - manage and organise",
   "engines": {
     "node": "0.10",
     "npm": "1.3"

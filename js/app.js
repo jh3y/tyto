@@ -1,11 +1,11 @@
-var myWorkflow;
+var mytyto;
 
-myWorkflow = undefined;
+mytyto = undefined;
 
-define('app', ['workflow'], function(workflow) {
+define('app', ['tyto'], function(tyto) {
   var initialize;
   initialize = function() {
-    return myWorkflow = new workflow();
+    return mytyto = new tyto();
   };
   return {
     initialize: initialize
