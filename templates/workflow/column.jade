@@ -1,0 +1,13 @@
+.column
+	h5.column-title(contenteditable = 'true')
+		|{{#if title }}
+		|{{ title }}
+		|{{ else }}
+		|new column
+		|{{/if}}
+	.task-holder
+		|{{#if tasks }}
+		|{{#each tasks}}
+		|{{> task }}
+		|{{/each}}
+		|{{/if}}

@@ -1,0 +1,12 @@
+<div class="email">{{#if columns }}
+Here are your current tasks.
+{{#each columns }}
+{{#if tasks}}
+{{ title }}
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
+{{#each tasks}}
+&#8226;    {{ content }}
+{{/each}}
+{{/if}}
+{{/each}}
+{{/if}}</div>

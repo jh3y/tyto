@@ -1,0 +1,9 @@
+<div class="column"><h5 contenteditable="true" class="column-title">{{#if title }}
+{{ title }}
+{{ else }}
+new column
+{{/if}}</h5><div class="task-holder">{{#if tasks }}
+{{#each tasks}}
+{{> task }}
+{{/each}}
+{{/if}}</div></div>
