@@ -1,11 +1,11 @@
 .email
 	|{{#if columns }}
-	|Here are your current tasks.
+	|Here are your current items.
 	|{{#each columns }}
-	|{{#if tasks}}
+	|{{#if items}}
 	|{{ title }}
 	&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;
-	|{{#each tasks}}
+	|{{#each items}}
 	&#8226;    {{ content }}
 	|{{/each}}
 	|{{/if}}

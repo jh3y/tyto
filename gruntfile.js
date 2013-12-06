@@ -47,7 +47,7 @@ module.exports = function(grunt) {
 					},
 					{
 						expand: true,
-						src: ["templates/workflow/*.jade"],
+						src: ["templates/tyto/*.jade"],
 						ext: ".html"
 					}
 				]
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
 						// "templates/index.jade",
 						// "templates/layout/header.jade",
 						// "templates/page/*.jade",
-						// "templates/workflow/*.jade",
+						// "templates/tyto/*.jade",
 						"templates/**/*.jade",
 						"less/**/*.less",
 						"coffeescript/**/*.coffee",

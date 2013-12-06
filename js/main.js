@@ -3,7 +3,7 @@ require.config({
     jquery: 'libs/jquery/jquery-min',
     handlebars: 'libs/handlebars/handlebars',
     config: 'config',
-    workflow: 'workflow',
+    tyto: 'tyto',
     draggable: 'libs/jh3y/draggable',
     tab: 'libs/jh3y/tab',
     templates: '../templates',

@@ -1,5 +1,5 @@
-myWorkflow = `undefined`
-define 'app', ['workflow'], (workflow) ->
+mytyto = `undefined`
+define 'app', ['tyto'], (tyto) ->
 	initialize = ->
-		myWorkflow = new workflow()
+		mytyto = new tyto()
 	{initialize: initialize}
