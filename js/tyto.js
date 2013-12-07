@@ -10,7 +10,7 @@ define(['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
     return this;
   };
   tyto.prototype._createBarn = function(config) {
-    var i;
+    var e, i;
     tyto = this;
     tyto.config = config;
     if (config.DOMElementSelector !== undefined || config.DOMId !== undefined) {
@@ -29,8 +29,14 @@ define(['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
           });
         }
       }
-      if (config.theme !== undefined && typeof config.theme === 'string') {
-        tyto.element.addClass(config.theme);
+      if (config.theme !== undefined && typeof config.theme === 'string' && config.themePath !== undefined && typeof config.themePath === 'string') {
+        try {
+          $('head').append($('<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'));
+          tyto.element.addClass(config.theme);
+        } catch (_error) {
+          e = _error;
+          throw Error('tyto: could not load theme.');
+        }
       }
       if (config.actionsTab && $('[data-tab]').length === 0) {
         tyto._createActionsTab();
@@ -231,6 +237,7 @@ define(['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
     tyto = this;
     itemboardJSON = {
       theme: tyto.config.theme,
+      themePath: tyto.config.themePath,
       actionsTab: tyto.config.actionsTab,
       emailSubject: tyto.config.emailSubject,
       emailRecipient: tyto.config.emailRecipient,

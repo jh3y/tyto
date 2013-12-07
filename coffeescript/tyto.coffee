@@ -20,8 +20,13 @@ define ['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
 				if tyto.element.find('.tyto-item').length > 0
 					$.each tyto.element.find('.tyto-item'), (index, item) ->
 						tyto._binditemEvents $ item
-			if config.theme isnt `undefined` and typeof config.theme is 'string'
-				tyto.element.addClass config.theme
+			if config.theme isnt `undefined` and typeof config.theme is 'string' and config.themePath isnt `undefined` and typeof config.themePath is 'string'
+				# need to do a little try catch here and pull in the file.
+				try
+					$('head').append $ '<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'
+					tyto.element.addClass config.theme
+				catch e
+					return throw Error 'tyto: could not load theme.'
 			if config.actionsTab and $('[data-tab]').length is 0
 				tyto._createActionsTab()
 				tyto._bindTabActions()
@@ -156,6 +161,7 @@ define ['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
 		tyto = this
 		itemboardJSON =
 			theme: tyto.config.theme
+			themePath: tyto.config.themePath
 			actionsTab: tyto.config.actionsTab
 			emailSubject: tyto.config.emailSubject
 			emailRecipient: tyto.config.emailRecipient

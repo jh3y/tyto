@@ -1,6 +1,7 @@
 define [], ->
 	config =
-		theme: 'default'
+		theme: false
+		themePath: 'css/themes/theme.css'
 		DOMId: 'barn'
 		DOMElementSelector: '.barn'
 		emailSubject: 'my current items'
@@ -8,17 +9,23 @@ define [], ->
 		actionsTab: true
 		saveFilename: 'barn'
 		columns: [
-			title: 'To do'
+			title: 'A column'
 			items: [
-				content: 'finish implementing tyto'
+				content: 'your first item'
+			,
+				content: 'there are actions available in the tab to the left, just click it to access the actions'
 			]
 		,
-			title: 'In progress'
+			title: 'Another column'
 			items: []
 		,
-			title: 'Awaiting merge'
-			items: []
+			title: 'Click me to edit'
+			items: [
+				content: 'you can double-click me to enter edit mode'
+			]
 		,
 			title: 'Done'
-			items: []
+			items: [
+				content: 'then click to edit and when you are done click elsewhere or double click the item again'
+			]
 		]
