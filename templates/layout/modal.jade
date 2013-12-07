@@ -1,3 +1,4 @@
+input.hide.tytofiles(id = 'tytofiles', name = 'files[]', single, type = 'file')
 .modal.fade.introModal(id = 'tytoIntroModal', tabindex = '-1', role = 'dialog', aria-labelledby = 'tytoIntroModal', aria-hidden = 'true')
 	.modal-dialog
 		.modal-content
@@ -12,13 +13,13 @@
 						div.loadconfig.info
 							p
 								|you may already have a config file you wish to load in which case you can simply
-							button.btn.btn-default
+							button.btn.btn-default.tytoloadconfig
 								|load that config.
 					li
 						div.loadcolumns.info
 							p
 								|alternatively you may wish to start a new board with
-							select
+							select.tytonumberofcols
 								option
 									|1
 								option
@@ -41,7 +42,7 @@
 									|10
 							p
 								|columns by pressing
-							button.btn.btn-default
+							button.btn.btn-default.loadtytocolumns
 								|here.
 					li
 						div.loaddefault.info
