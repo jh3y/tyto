@@ -1,6 +1,7 @@
 define [], ->
 	config =
 		theme: false
+		showModalOnLoad: true
 		themePath: 'css/themes/theme.css'
 		DOMId: 'barn'
 		DOMElementSelector: '.barn'

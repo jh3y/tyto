@@ -1,13 +1,23 @@
-define ['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, config, Handlebars, tab, columnHtml, itemHtml, actionsHtml, emailHtml) ->
+define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, bootstrap, config, Handlebars, tab, columnHtml, itemHtml, actionsHtml, emailHtml) ->
 	tyto = (options) ->
 		return new tyto() unless this instanceof tyto
 		config = if options isnt `undefined` then options else config
-		this._createBarn(config)
+		this.config = config
+		if config.showModalOnLoad
+			this.modal = $ '#tytoIntroModal'
+			this._bindModalEvents()
+			this.modal.modal backdrop: 'static'
+		else
+			this._createBarn(config)
 		this._bindPageEvents()
 		this
+	tyto::_bindModalEvents = ->
+		tyto = this
+		tyto.modal.find('.loadtytodefaultconfig').on 'click', (e) ->
+			tyto._createBarn tyto.config
+			tyto.modal.modal 'hide'
 	tyto::_createBarn = (config) ->
 		tyto = this
-		tyto.config = config
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
 			tyto.element = if config.DOMId isnt `undefined` then $ '#' + config.DOMId else $ config.DOMElementSelector
 			if config.columns isnt `undefined` and config.columns.length > 0
@@ -21,7 +31,6 @@ define ['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
 					$.each tyto.element.find('.tyto-item'), (index, item) ->
 						tyto._binditemEvents $ item
 			if config.theme isnt `undefined` and typeof config.theme is 'string' and config.themePath isnt `undefined` and typeof config.themePath is 'string'
-				# need to do a little try catch here and pull in the file.
 				try
 					$('head').append $ '<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'
 					tyto.element.addClass config.theme
@@ -46,7 +55,7 @@ define ['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
 					$(item).attr 'draggable', true
 			if tyto.config.actionsTab		
 				isSidebar = ($clicked.attr 'data-tab') or ($clicked.parents('[data-tab]').length > 0)
-				if not isSidebar
+				if not isSidebar and tyto.tab isnt `undefined`
 					tyto.tab.open = false
 	tyto::_bindColumnEvents =  ($column) ->
 		tyto = this
