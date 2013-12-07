@@ -2,6 +2,7 @@ define([], function() {
   var config;
   return config = {
     theme: false,
+    showModalOnLoad: true,
     themePath: 'css/themes/theme.css',
     DOMId: 'barn',
     DOMElementSelector: '.barn',

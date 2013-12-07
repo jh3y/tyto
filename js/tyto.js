@@ -1,18 +1,33 @@
-define(['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, config, Handlebars, tab, columnHtml, itemHtml, actionsHtml, emailHtml) {
+define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, bootstrap, config, Handlebars, tab, columnHtml, itemHtml, actionsHtml, emailHtml) {
   var tyto;
   tyto = function(options) {
     if (!(this instanceof tyto)) {
       return new tyto();
     }
     config = options !== undefined ? options : config;
-    this._createBarn(config);
+    this.config = config;
+    if (config.showModalOnLoad) {
+      this.modal = $('#tytoIntroModal');
+      this._bindModalEvents();
+      this.modal.modal({
+        backdrop: 'static'
+      });
+    } else {
+      this._createBarn(config);
+    }
     this._bindPageEvents();
     return this;
+  };
+  tyto.prototype._bindModalEvents = function() {
+    tyto = this;
+    return tyto.modal.find('.loadtytodefaultconfig').on('click', function(e) {
+      tyto._createBarn(tyto.config);
+      return tyto.modal.modal('hide');
+    });
   };
   tyto.prototype._createBarn = function(config) {
     var e, i;
     tyto = this;
-    tyto.config = config;
     if (config.DOMElementSelector !== undefined || config.DOMId !== undefined) {
       tyto.element = config.DOMId !== undefined ? $('#' + config.DOMId) : $(config.DOMElementSelector);
       if (config.columns !== undefined && config.columns.length > 0) {
@@ -65,7 +80,7 @@ define(['jquery', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.htm
       });
       if (tyto.config.actionsTab) {
         isSidebar = ($clicked.attr('data-tab')) || ($clicked.parents('[data-tab]').length > 0);
-        if (!isSidebar) {
+        if (!isSidebar && tyto.tab !== undefined) {
           return tyto.tab.open = false;
         }
       }

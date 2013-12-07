@@ -1,0 +1,55 @@
+.modal.fade.introModal(id = 'tytoIntroModal', tabindex = '-1', role = 'dialog', aria-labelledby = 'tytoIntroModal', aria-hidden = 'true')
+	.modal-dialog
+		.modal-content
+			.modal-header
+				h4.modal-title(id = 'myModalLabel')
+					|welcome to tyto!
+			.modal-body
+				p
+					|<strong>tyto</strong> helps you manage and organise things.
+				ul
+					li
+						div.loadconfig.info
+							p
+								|you may already have a config file you wish to load in which case you can simply
+							button.btn.btn-default
+								|load that config.
+					li
+						div.loadcolumns.info
+							p
+								|alternatively you may wish to start a new board with
+							select
+								option
+									|1
+								option
+									|2
+								option
+									|3
+								option
+									|4
+								option
+									|5
+								option
+									|6
+								option
+									|7
+								option
+									|8
+								option
+									|9
+								option
+									|10
+							p
+								|columns by pressing
+							button.btn.btn-default
+								|here.
+					li
+						div.loaddefault.info
+							p
+								|or you could just 
+							button.btn.btn-default.loadtytodefaultconfig
+								|load the default config.
+					li
+						div.stuck.info
+							p
+								|if you get stuck, simply refer to the readme over at <a href="https://github.com/jh3y/tyto">github.com/jh3y/tyto</a>.

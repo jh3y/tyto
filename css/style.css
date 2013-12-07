@@ -6,6 +6,24 @@ body {
 .header {
   height: 50px;
 }
+#tytoIntroModal .modal-dialog {
+  width: 740px;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body p {
+  margin: 6px 6px 6px 6px;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadconfig p,
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns p,
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select,
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loaddefault p {
+  float: left;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select {
+  margin: 6px 0px 6px 0px;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body .info {
+  margin: 10px 0px 10px 0px;
+}
 .tyto-item-content {
   min-height: 100px;
   text-align: center;
@@ -33,10 +51,10 @@ body {
   background-color: yellow;
 }
 .close {
-  padding: 0 5px 0 0;
+  font-size: 12px;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 2px;
+  top: 2px;
   cursor: pointer;
 }
 .actions {
