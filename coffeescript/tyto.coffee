@@ -54,7 +54,8 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			if config.actionsTab and $('[data-tab]').length is 0
 				tyto._createActionsTab()
 				tyto._bindTabActions()
-		tyto.modal.modal 'hide'
+		if tyto.modal isnt `undefined`
+			tyto.modal.modal 'hide'
 	tyto::_createColumn = (columnData) ->
 		template = Handlebars.compile columnHtml
 		Handlebars.registerPartial "item", itemHtml

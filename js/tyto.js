@@ -75,7 +75,9 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
         tyto._bindTabActions();
       }
     }
-    return tyto.modal.modal('hide');
+    if (tyto.modal !== undefined) {
+      return tyto.modal.modal('hide');
+    }
   };
   tyto.prototype._createColumn = function(columnData) {
     var $newColumn, template;
