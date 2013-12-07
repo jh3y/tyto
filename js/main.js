@@ -7,6 +7,7 @@ require.config({
     draggable: 'libs/jh3y/draggable',
     tab: 'libs/jh3y/tab',
     templates: '../templates',
+    themes: '../css/themes',
     text: 'libs/require/text'
   }
 });
