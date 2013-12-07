@@ -20,9 +20,26 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
   };
   tyto.prototype._bindModalEvents = function() {
     tyto = this;
-    return tyto.modal.find('.loadtytodefaultconfig').on('click', function(e) {
-      tyto._createBarn(tyto.config);
-      return tyto.modal.modal('hide');
+    tyto.modal.find('.loadtytodefaultconfig').on('click', function(e) {
+      return tyto._createBarn(tyto.config);
+    });
+    tyto.modal.find('.loadtytocolumns').on('click', function(e) {
+      var columns, i, numberOfCols;
+      columns = [];
+      numberOfCols = parseInt(tyto.modal.find('.tytonumberofcols').val());
+      i = 0;
+      while (i < numberOfCols) {
+        columns.push({
+          title: "column",
+          tasks: []
+        });
+        i++;
+      }
+      tyto.config.columns = columns;
+      return tyto._createBarn(tyto.config);
+    });
+    return tyto.modal.find('.tytoloadconfig').on('click', function(e) {
+      return tyto.loadBarn();
     });
   };
   tyto.prototype._createBarn = function(config) {
@@ -55,9 +72,10 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
       }
       if (config.actionsTab && $('[data-tab]').length === 0) {
         tyto._createActionsTab();
-        return tyto._bindTabActions();
+        tyto._bindTabActions();
       }
     }
+    return tyto.modal.modal('hide');
   };
   tyto.prototype._createColumn = function(columnData) {
     var $newColumn, template;
@@ -251,6 +269,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     var columns, itemboardJSON;
     tyto = this;
     itemboardJSON = {
+      showModalOnLoad: tyto.config.showModalOnLoad,
       theme: tyto.config.theme,
       themePath: tyto.config.themePath,
       actionsTab: tyto.config.actionsTab,

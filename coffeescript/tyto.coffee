@@ -15,7 +15,22 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		tyto = this
 		tyto.modal.find('.loadtytodefaultconfig').on 'click', (e) ->
 			tyto._createBarn tyto.config
-			tyto.modal.modal 'hide'
+			# tyto.modal.modal 'hide'
+		tyto.modal.find('.loadtytocolumns').on 'click', (e) ->
+			columns = []
+			numberOfCols = parseInt(tyto.modal.find('.tytonumberofcols').val())
+			i = 0
+			while i < numberOfCols
+				columns.push
+					title: "column"
+					tasks: []
+				i++
+			tyto.config.columns = columns
+			tyto._createBarn tyto.config
+			# tyto.modal.modal 'hide'
+		tyto.modal.find('.tytoloadconfig').on 'click', (e) ->
+			tyto.loadBarn()
+			# tyto.modal.modal 'hide'
 	tyto::_createBarn = (config) ->
 		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
@@ -39,6 +54,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			if config.actionsTab and $('[data-tab]').length is 0
 				tyto._createActionsTab()
 				tyto._bindTabActions()
+		tyto.modal.modal 'hide'
 	tyto::_createColumn = (columnData) ->
 		template = Handlebars.compile columnHtml
 		Handlebars.registerPartial "item", itemHtml
@@ -169,6 +185,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 	tyto::_createBarnJSON = -> 
 		tyto = this
 		itemboardJSON =
+			showModalOnLoad: tyto.config.showModalOnLoad
 			theme: tyto.config.theme
 			themePath: tyto.config.themePath
 			actionsTab: tyto.config.actionsTab
