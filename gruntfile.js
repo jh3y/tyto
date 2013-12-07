@@ -38,9 +38,6 @@ module.exports = function(grunt) {
 						"index.html": "templates/index.jade"
 					},
 					{
-						"404.html": "templates/404.jade"
-					},
-					{
 						expand: true,
 						src: ["templates/page/*.jade"],
 						ext: ".html"
@@ -63,10 +60,6 @@ module.exports = function(grunt) {
 		watch: {
 			scripts: {
 				files: [
-						// "templates/index.jade",
-						// "templates/layout/header.jade",
-						// "templates/page/*.jade",
-						// "templates/tyto/*.jade",
 						"templates/**/*.jade",
 						"less/**/*.less",
 						"coffeescript/**/*.coffee",
