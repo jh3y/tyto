@@ -6,6 +6,11 @@ body {
 .header {
   height: 50px;
 }
+.header .header-content {
+  position: absolute;
+  right: 100px;
+  color: black;
+}
 #tytoIntroModal .modal-dialog {
   width: 740px;
 }
@@ -83,11 +88,9 @@ body {
   padding: 40px 40px 40px 40px;
   margin: 0 auto 0 auto;
 }
-.barn-title {
-  position: absolute;
-  right: 100px;
-  top: -15px;
-  color: black;
+.header .header-content .barn-title {
+  float: left;
+  margin: 0 0 0 0;
 }
 #barn .column {
   height: 600px;
