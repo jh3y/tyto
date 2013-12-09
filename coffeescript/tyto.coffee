@@ -15,7 +15,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		tyto = this
 		tyto.modal.find('.loadtytodefaultconfig').on 'click', (e) ->
 			tyto._createBarn tyto.config
-			# tyto.modal.modal 'hide'
 		tyto.modal.find('.loadtytocolumns').on 'click', (e) ->
 			columns = []
 			numberOfCols = parseInt(tyto.modal.find('.tytonumberofcols').val())
@@ -27,14 +26,13 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				i++
 			tyto.config.columns = columns
 			tyto._createBarn tyto.config
-			# tyto.modal.modal 'hide'
 		tyto.modal.find('.tytoloadconfig').on 'click', (e) ->
 			tyto.loadBarn()
-			# tyto.modal.modal 'hide'
 	tyto::_createBarn = (config) ->
 		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
 			tyto.element = if config.DOMId isnt `undefined` then $ '#' + config.DOMId else $ config.DOMElementSelector
+			tyto.element.attr 'data-tyto', 'true'
 			if config.columns isnt `undefined` and config.columns.length > 0
 				tyto.element.find('.column').remove()
 				i = 0
@@ -63,6 +61,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		this._bindColumnEvents $newColumn
 		this.element.append $newColumn
 	tyto::_bindPageEvents = ->
+		tyto = this
 		$('body').on 'click', (event) ->
 			$clicked = $ event.target
 			$clickeditem = if $clicked.hasClass 'item' then $clicked else if $clicked.parents('.tyto-item').length > 0 then $clicked.parents '.tyto-item'
@@ -74,7 +73,12 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				isSidebar = ($clicked.attr 'data-tab') or ($clicked.parents('[data-tab]').length > 0)
 				if not isSidebar and tyto.tab isnt `undefined`
 					tyto.tab.open = false
-	tyto::_bindColumnEvents =  ($column) ->
+		tytoFlap = ->
+			$('.tyto-header').find('.tyto-logo').addClass 'flap'
+			setTimeout (-> $('.tyto-header').find('.tyto-logo').removeClass 'flap'), 1000
+		$('body').on 'tyto:action', (e) ->
+			tytoFlap()
+	tyto::_bindColumnEvents = ($column) ->
 		tyto = this
 		$column.find('.column-title').on 'keydown', (event) ->
 			columnTitle = this
@@ -100,30 +104,34 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			$column.find('.tyto-item-holder').removeClass "over"
 			false
 		), false
-		$column.find('.close').on 'click', (e) ->
+		$column.children('.close').on 'click', (e) ->
 			tyto.removeColumn $column
-
 	tyto::addColumn = ->
-		this._createColumn()
-		this._resizeColumns()
-	tyto::removeColumn = ($column) ->
+		tyto = this
+		tyto._createColumn()
+		tyto._resizeColumns()
+		tyto.element.trigger 'tyto:action'
+	tyto::removeColumn = ($column = this.element.find('.column').last()) ->
 		tyto = this
 		removeColumn = ->
 			$column.remove()
 			tyto._resizeColumns()
 		if $column.find('.tyto-item').length > 0
-			if confirm 'are you sure you want to remove the last column? doing so will lose any items within that column'
+			if confirm 'are you sure you want to remove this column? doing so will lose all items within it.'
 				removeColumn()
 		else
 			removeColumn()
-	tyto::additem = (column = $('.column').first(), content) ->
-		this._createitem $(column), content
+		tyto.element.trigger 'tyto:action'
+	tyto::additem = ($column = this.element.find('.column').first(), content) ->
+		this._createitem $column, content
+		tyto.element.trigger 'tyto:action'
 	tyto::_createitem = ($column, content) ->
 		template = Handlebars.compile itemHtml
 		$newitem = $ template {}
 		this._binditemEvents $newitem
 		$newitem.css({'max-width': $column[0].offsetWidth * 0.9 + 'px'})
 		$column.find('.tyto-item-holder').append $newitem
+		tyto.element.trigger 'tyto:action'
 	tyto::_binditemEvents = ($item) ->
 		tyto = this
 		enableEdit = (content) ->
@@ -141,8 +149,10 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				enableEdit(content)
 			else
 				disableEdit(content)
-		$item.find('.close').on 'click', (event) -> 
-			$item.remove()
+		$item.find('.close').on 'click', (event) ->
+			if confirm 'are you sure you want to remove this item?'
+				$item.remove()
+				tyto.element.trigger 'tyto:action'
 		$item.find('.tyto-item-content').on 'dblclick', -> toggleEdit(this)
 		$item.find('.tyto-item-content').on 'mousedown', ->
 			$($(this)[0]._parent).on 'mousemove', ->
@@ -161,10 +171,11 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		), false
 		$item[0].addEventListener "dragend", ((event) ->
 			@style.opacity = "1"
+			tyto.element.trigger 'tyto:action'
 		), false
 	tyto::_createActionsTab = ->
 		tyto = this
-		tyto.tab = new tab title: 'actions', attachTo: tyto.element[0], content: actionsHtml
+		tyto.tab = new tab title: 'menu', attachTo: tyto.element[0], content: actionsHtml
 	tyto::_bindTabActions = ->
 		tyto = this
 		$('button.additem').on 'click', (event) ->
@@ -207,6 +218,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 	tyto::_loadBarnJSON = (json) ->
 		tyto._createBarn json
 		tyto.tab.open = false
+		tyto.element.trigger 'tyto:action'
 	tyto::saveBarn = ->
 		tyto = this
 		saveAnchor = $ '#savetyto'
@@ -216,6 +228,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		saveAnchor[0].setAttribute 'href', content
 		saveAnchor[0].click()
 		tyto.tab.open = false
+		tyto.element.trigger 'tyto:action'
 	tyto::loadBarn = ->
 		tyto = this
 		$files = $ '#tytofiles'
@@ -256,4 +269,5 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		$('#tytoemail').attr 'href', mailtoString
 		$('#tytoemail')[0].click()
 		tyto.tab.open = false
+		tyto.element.trigger 'tyto:action'
 	tyto
