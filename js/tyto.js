@@ -6,27 +6,29 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     }
     config = options !== undefined ? options : config;
     this.config = config;
-    if (config.showModalOnLoad) {
-      this.modal = $('#tytoIntroModal');
-      this._bindModalEvents();
-      this.modal.modal({
+    this.modals = {};
+    this._bindPageEvents();
+    if (config.showIntroModalOnLoad && config.introModalId) {
+      this.modals.introModal = $('#' + config.introModalId);
+      this._bindIntroModalEvents();
+      this.modals.introModal.modal({
         backdrop: 'static'
       });
     } else {
       this._createBarn(config);
     }
-    this._bindPageEvents();
     return this;
   };
-  tyto.prototype._bindModalEvents = function() {
+  tyto.prototype._bindIntroModalEvents = function() {
     tyto = this;
-    tyto.modal.find('.loadtytodefaultconfig').on('click', function(e) {
-      return tyto._createBarn(tyto.config);
+    tyto.modals.introModal.find('.loadtytodefaultconfig').on('click', function(e) {
+      tyto._createBarn(tyto.config);
+      return tyto.element.trigger('tyto:action');
     });
-    tyto.modal.find('.loadtytocolumns').on('click', function(e) {
+    tyto.modals.introModal.find('.loadtytocolumns').on('click', function(e) {
       var columns, i, numberOfCols;
       columns = [];
-      numberOfCols = parseInt(tyto.modal.find('.tytonumberofcols').val());
+      numberOfCols = parseInt(tyto.modals.introModal.find('.tytonumberofcols').val());
       i = 0;
       while (i < numberOfCols) {
         columns.push({
@@ -36,9 +38,10 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
         i++;
       }
       tyto.config.columns = columns;
-      return tyto._createBarn(tyto.config);
+      tyto._createBarn(tyto.config);
+      return tyto.element.trigger('tyto:action');
     });
-    return tyto.modal.find('.tytoloadconfig').on('click', function(e) {
+    return tyto.modals.introModal.find('.tytoloadconfig').on('click', function(e) {
       return tyto.loadBarn();
     });
   };
@@ -76,8 +79,8 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
         tyto._bindTabActions();
       }
     }
-    if (tyto.modal !== undefined) {
-      return tyto.modal.modal('hide');
+    if (tyto.modals.introModal !== undefined) {
+      return tyto.modals.introModal.modal('hide');
     }
   };
   tyto.prototype._createColumn = function(columnData) {
@@ -109,15 +112,19 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
         }
       }
     });
-    tytoFlap = function() {
-      $('.tyto-header').find('.tyto-logo').addClass('flap');
-      return setTimeout((function() {
-        return $('.tyto-header').find('.tyto-logo').removeClass('flap');
-      }), 1000);
-    };
-    return $('body').on('tyto:action', function(e) {
-      return tytoFlap();
-    });
+    if ($('html').hasClass('csstransforms')) {
+      tytoFlap = function() {
+        $('.tyto-header').find('.tyto-logo').addClass('flap');
+        return setTimeout((function() {
+          return $('.tyto-header').find('.tyto-logo').removeClass('flap');
+        }), 1000);
+      };
+      return $('body').on('tyto:action', function(e) {
+        return tytoFlap();
+      });
+    } else {
+      return $('.tyto-logo-image').attr('src', 'images/tyto.png');
+    }
   };
   tyto.prototype._bindColumnEvents = function($column) {
     tyto = this;
@@ -152,8 +159,11 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
       $column.find('.tyto-item-holder').removeClass("over");
       return false;
     }), false);
-    return $column.children('.close').on('click', function(e) {
+    $column.children('.close').on('click', function(e) {
       return tyto.removeColumn($column);
+    });
+    return $column.children('.additem').on('click', function(e) {
+      return tyto.addItem($column);
     });
   };
   tyto.prototype.addColumn = function() {
@@ -181,14 +191,14 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     }
     return tyto.element.trigger('tyto:action');
   };
-  tyto.prototype.additem = function($column, content) {
+  tyto.prototype.addItem = function($column, content) {
     if ($column == null) {
       $column = this.element.find('.column').first();
     }
-    this._createitem($column, content);
+    this._createItem($column, content);
     return tyto.element.trigger('tyto:action');
   };
-  tyto.prototype._createitem = function($column, content) {
+  tyto.prototype._createItem = function($column, content) {
     var $newitem, template;
     template = Handlebars.compile(itemHtml);
     $newitem = $(template({}));
@@ -264,7 +274,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
   tyto.prototype._bindTabActions = function() {
     tyto = this;
     $('button.additem').on('click', function(event) {
-      return tyto.additem();
+      return tyto.addItem();
     });
     $('button.addcolumn').on('click', function(event) {
       return tyto.addColumn();
@@ -275,8 +285,14 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     $('button.loadbarn').on('click', function(event) {
       return tyto.loadBarn();
     });
-    return $('button.emailbarn').on('click', function(event) {
+    $('button.emailbarn').on('click', function(event) {
       return tyto.emailBarn();
+    });
+    $('button.helpbarn').on('click', function(event) {
+      return tyto.showHelp();
+    });
+    return $('button.infobarn').on('click', function(event) {
+      return tyto.showInfo();
     });
   };
   tyto.prototype._resizeColumns = function() {
@@ -296,7 +312,8 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     var columns, itemboardJSON;
     tyto = this;
     itemboardJSON = {
-      showModalOnLoad: tyto.config.showModalOnLoad,
+      showIntroModalOnLoad: tyto.config.showIntroModalOnLoad,
+      introModalId: tyto.config.introModalId,
       theme: tyto.config.theme,
       themePath: tyto.config.themePath,
       actionsTab: tyto.config.actionsTab,
@@ -398,6 +415,20 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     $('#tytoemail')[0].click();
     tyto.tab.open = false;
     return tyto.element.trigger('tyto:action');
+  };
+  tyto.prototype.showHelp = function() {
+    tyto = this;
+    if (tyto.config.helpModalId) {
+      tyto.modals.helpModal = $('#' + tyto.config.helpModalId);
+      return tyto.modals.helpModal.modal();
+    }
+  };
+  tyto.prototype.showInfo = function() {
+    tyto = this;
+    if (tyto.config.infoModalId) {
+      tyto.modals.infoModal = $('#' + tyto.config.infoModalId);
+      return tyto.modals.infoModal.modal();
+    }
   };
   return tyto;
 });

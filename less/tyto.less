@@ -45,7 +45,21 @@ body {
 	50% {-webkit-transform:rotate(-45deg);}
 	100% {-webkit-transform: rotate(0deg);}
 }
-
+#tytoInfoModal img.modal-tyto-logo {
+	height: 150px;
+}
+#tytoInfoModal .modal-dialog {
+	width: 465px;
+}
+img.modal-tyto-logo {
+	float: left;
+	-moz-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
+	filter: FlipH;
+	-ms-filter: "FlipH";
+}
 #tytoIntroModal .modal-dialog {
 	width: 740px;
 }

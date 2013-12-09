@@ -55,6 +55,21 @@ body {
     -webkit-transform: rotate(0deg);
   }
 }
+#tytoInfoModal img.modal-tyto-logo {
+  height: 150px;
+}
+#tytoInfoModal .modal-dialog {
+  width: 465px;
+}
+img.modal-tyto-logo {
+  float: left;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
 #tytoIntroModal .modal-dialog {
   width: 740px;
 }
@@ -88,7 +103,7 @@ body {
 }
 .tyto-item {
   min-height: 100px;
-  background-color: #fff500;
+  background-color: #ffffd5;
   box-shadow: #ebebeb 0px 5px 5px;
   cursor: move;
 }
@@ -156,6 +171,20 @@ body {
   top: -20px;
   cursor: pointer;
 }
+#barn .column .additem {
+  color: #333;
+  font-weight: normal;
+  font-size: 11px;
+  position: absolute;
+  right: 14px;
+  top: -20px;
+  cursor: pointer;
+  opacity: 0.2;
+}
+#barn .column .additem:hover,
+#barn .column .additem:focus {
+  opacity: 0.5;
+}
 .tab {
   position: absolute;
   top: 56px;
@@ -179,7 +208,7 @@ body {
 .tab .tab-tab {
   position: relative;
   float: left;
-  background: lightgray;
+  background: #ebebeb;
   height: 100px;
   width: 25px;
   padding: 18px 0px 0px 5px;
@@ -206,9 +235,10 @@ body {
   overflow: hidden;
   position: relative;
   float: left;
-  height: 248px;
+  height: 288px;
   width: 0px;
-  background: lightgray;
+  border-radius: 0 0 6px;
+  background: #ebebeb;
   transition: width 1s, display 1s;
   -webkit-transition: width 1s, display 1s;
 }

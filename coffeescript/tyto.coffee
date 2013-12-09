@@ -3,21 +3,23 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		return new tyto() unless this instanceof tyto
 		config = if options isnt `undefined` then options else config
 		this.config = config
-		if config.showModalOnLoad
-			this.modal = $ '#tytoIntroModal'
-			this._bindModalEvents()
-			this.modal.modal backdrop: 'static'
+		this.modals = {}
+		this._bindPageEvents()
+		if config.showIntroModalOnLoad and config.introModalId
+			this.modals.introModal = $ '#' + config.introModalId
+			this._bindIntroModalEvents()
+			this.modals.introModal.modal backdrop: 'static'
 		else
 			this._createBarn(config)
-		this._bindPageEvents()
 		this
-	tyto::_bindModalEvents = ->
+	tyto::_bindIntroModalEvents = ->
 		tyto = this
-		tyto.modal.find('.loadtytodefaultconfig').on 'click', (e) ->
+		tyto.modals.introModal.find('.loadtytodefaultconfig').on 'click', (e) ->
 			tyto._createBarn tyto.config
-		tyto.modal.find('.loadtytocolumns').on 'click', (e) ->
+			tyto.element.trigger 'tyto:action'
+		tyto.modals.introModal.find('.loadtytocolumns').on 'click', (e) ->
 			columns = []
-			numberOfCols = parseInt(tyto.modal.find('.tytonumberofcols').val())
+			numberOfCols = parseInt(tyto.modals.introModal.find('.tytonumberofcols').val())
 			i = 0
 			while i < numberOfCols
 				columns.push
@@ -26,7 +28,8 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				i++
 			tyto.config.columns = columns
 			tyto._createBarn tyto.config
-		tyto.modal.find('.tytoloadconfig').on 'click', (e) ->
+			tyto.element.trigger 'tyto:action'
+		tyto.modals.introModal.find('.tytoloadconfig').on 'click', (e) ->
 			tyto.loadBarn()
 	tyto::_createBarn = (config) ->
 		tyto = this
@@ -52,8 +55,8 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			if config.actionsTab and $('[data-tab]').length is 0
 				tyto._createActionsTab()
 				tyto._bindTabActions()
-		if tyto.modal isnt `undefined`
-			tyto.modal.modal 'hide'
+		if tyto.modals.introModal isnt `undefined`
+			tyto.modals.introModal.modal 'hide'
 	tyto::_createColumn = (columnData) ->
 		template = Handlebars.compile columnHtml
 		Handlebars.registerPartial "item", itemHtml
@@ -74,11 +77,14 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				if not isSidebar and tyto.tab isnt `undefined`
 					tyto.tab.open = false
 					true
-		tytoFlap = ->
-			$('.tyto-header').find('.tyto-logo').addClass 'flap'
-			setTimeout (-> $('.tyto-header').find('.tyto-logo').removeClass 'flap'), 1000
-		$('body').on 'tyto:action', (e) ->
-			tytoFlap()
+		if $('html').hasClass 'csstransforms'
+			tytoFlap = ->
+				$('.tyto-header').find('.tyto-logo').addClass 'flap'
+				setTimeout (-> $('.tyto-header').find('.tyto-logo').removeClass 'flap'), 1000
+			$('body').on 'tyto:action', (e) ->
+				tytoFlap()
+		else 
+			$('.tyto-logo-image').attr 'src', 'images/tyto.png'
 	tyto::_bindColumnEvents = ($column) ->
 		tyto = this
 		$column.find('.column-title').on 'keydown', (event) ->
@@ -107,6 +113,8 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		), false
 		$column.children('.close').on 'click', (e) ->
 			tyto.removeColumn $column
+		$column.children('.additem').on 'click', (e) ->
+			tyto.addItem $column
 	tyto::addColumn = ->
 		tyto = this
 		tyto._createColumn()
@@ -123,10 +131,10 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		else
 			removeColumn()
 		tyto.element.trigger 'tyto:action'
-	tyto::additem = ($column = this.element.find('.column').first(), content) ->
-		this._createitem $column, content
+	tyto::addItem = ($column = this.element.find('.column').first(), content) ->
+		this._createItem $column, content
 		tyto.element.trigger 'tyto:action'
-	tyto::_createitem = ($column, content) ->
+	tyto::_createItem = ($column, content) ->
 		template = Handlebars.compile itemHtml
 		$newitem = $ template {}
 		this._binditemEvents $newitem
@@ -180,7 +188,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 	tyto::_bindTabActions = ->
 		tyto = this
 		$('button.additem').on 'click', (event) ->
-			tyto.additem()
+			tyto.addItem()
 		$('button.addcolumn').on 'click', (event) ->
 			tyto.addColumn()
 		$('button.savebarn').on 'click', (event) ->
@@ -189,6 +197,10 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			tyto.loadBarn()
 		$('button.emailbarn').on 'click', (event) ->
 			tyto.emailBarn()
+		$('button.helpbarn').on 'click', (event) ->
+			tyto.showHelp()
+		$('button.infobarn').on 'click', (event) ->
+			tyto.showInfo()
 	tyto::_resizeColumns = ->
 		tyto = this
 		if tyto.element.find('.column').length > 0
@@ -198,7 +210,8 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 	tyto::_createBarnJSON = -> 
 		tyto = this
 		itemboardJSON =
-			showModalOnLoad: tyto.config.showModalOnLoad
+			showIntroModalOnLoad: tyto.config.showIntroModalOnLoad
+			introModalId: tyto.config.introModalId
 			theme: tyto.config.theme
 			themePath: tyto.config.themePath
 			actionsTab: tyto.config.actionsTab
@@ -271,4 +284,14 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		$('#tytoemail')[0].click()
 		tyto.tab.open = false
 		tyto.element.trigger 'tyto:action'
+	tyto::showHelp = ->
+		tyto = this
+		if tyto.config.helpModalId
+			tyto.modals.helpModal = $ '#' + tyto.config.helpModalId
+			tyto.modals.helpModal.modal()
+	tyto::showInfo = ->
+		tyto = this
+		if tyto.config.infoModalId
+			tyto.modals.infoModal = $ '#' + tyto.config.infoModalId
+			tyto.modals.infoModal.modal()
 	tyto
