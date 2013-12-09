@@ -1,0 +1,42 @@
+.tyto-header {
+	height: 50px
+}
+.tyto-header .tyto-header-content .tyto-title {
+	float: left;
+	margin: 0 0 0 0;
+}
+.tyto-header .tyto-header-content {
+	position: absolute;
+	right: 100px;
+	color: black;	
+}
+.tyto-header .tyto-header-content .tyto-logo {
+	position: relative;
+	float: right;
+}
+.tyto-header .tyto-header-content .tyto-logo .tyto-wing {
+	position: absolute;
+	width: 8px;
+	height: 18px;
+	top: 16px;
+	left: 34px;
+	background-color: #945925;
+	transform-origin: top center 0;
+	-webkit-transform-origin: top center 0;
+}
+.tyto-header .tyto-header-content .tyto-logo.flap .tyto-wing {
+	animation: flap 1s;
+	-webkit-animation: flap 1s;
+}
+@keyframes flap
+{
+	0% {transform: rotate(0deg);}
+	50% {transform:rotate(-45deg);}
+	100% {transform: rotate(0deg);}
+}
+@-webkit-keyframes flap
+{
+	0% {-webkit-transform: rotate(0deg);}
+	50% {-webkit-transform:rotate(-45deg);}
+	100% {-webkit-transform: rotate(0deg);}
+}
