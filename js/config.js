@@ -1,7 +1,7 @@
 define([], function() {
   var config;
   return config = {
-    showIntroModalOnLoad: false,
+    showIntroModalOnLoad: true,
     introModalId: 'tytoIntroModal',
     helpModalId: 'tytoHelpModal',
     infoModalId: 'tytoInfoModal',
