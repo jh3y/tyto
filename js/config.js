@@ -1,7 +1,10 @@
 define([], function() {
   var config;
   return config = {
-    showModalOnLoad: true,
+    showIntroModalOnLoad: false,
+    introModalId: 'tytoIntroModal',
+    helpModalId: 'tytoHelpModal',
+    infoModalId: 'tytoInfoModal',
     theme: false,
     themePath: 'css/themes/theme.css',
     DOMId: 'barn',
@@ -15,9 +18,9 @@ define([], function() {
         title: 'A column',
         items: [
           {
-            content: 'your first item'
+            content: 'im your first item, and just like all items I am draggable between columns.'
           }, {
-            content: 'there are actions available in the tab to the left, just click it to access the actions'
+            content: 'there are actions available in the menu, just click the menu tab'
           }
         ]
       }, {
@@ -27,14 +30,14 @@ define([], function() {
         title: 'Click me to edit',
         items: [
           {
-            content: 'you can double-click me to enter edit mode'
+            content: 'you can double-click an item to enter edit mode'
           }
         ]
       }, {
         title: 'Done',
         items: [
           {
-            content: 'then click to edit and when you are done click elsewhere or double click the item again'
+            content: 'then click to edit and when you are done click elsewhere or double click the item again and it then becomes draggable'
           }
         ]
       }

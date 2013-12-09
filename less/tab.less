@@ -1,3 +1,4 @@
+@tab-color: #ebebeb;
 .tab {
 	position: absolute;
 	top: 56px;
@@ -21,7 +22,7 @@
 .tab .tab-tab {
 	position: relative;
 	float: left;
-	background: lightgray;
+	background: @tab-color;
 	height: 100px;
 	width: 25px;
 	padding: 18px 0px 0px 5px;
@@ -48,9 +49,10 @@
 	overflow: hidden;
 	position: relative;
 	float: left;
-	height: 248px;
+	height: 288px;
 	width: 0px;
-	background: lightgray;
+	border-radius: 0 0 6px;
+	background: @tab-color;
 	transition: width 1s, display 1s;
 	-webkit-transition: width 1s, display 1s;
 }
