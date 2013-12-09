@@ -1,0 +1,9 @@
+<div class="column"><span title="add item." class="additem glyphicon glyphicon-plus"></span><span title="remove column." class="close glyphicon glyphicon-remove"></span><h5 contenteditable="true" title="edit column title." class="column-title">{{#if title }}
+{{ title }}
+{{ else }}
+new column
+{{/if}}</h5><div class="tyto-item-holder">{{#if items }}
+{{#each items}}
+{{> item }}
+{{/each}}
+{{/if}}</div></div>

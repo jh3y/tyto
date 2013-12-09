@@ -1,0 +1,247 @@
+body {
+  background-color: #f0ffff;
+  font-family: tahoma;
+  padding: 5px 5px 5px 5px;
+}
+.tyto-header {
+  height: 50px;
+}
+.tyto-header .tyto-header-content .tyto-title {
+  float: left;
+  margin: 0 0 0 0;
+}
+.tyto-header .tyto-header-content {
+  position: absolute;
+  right: 100px;
+  color: black;
+}
+.tyto-header .tyto-header-content .tyto-logo {
+  position: relative;
+  float: right;
+}
+.tyto-header .tyto-header-content .tyto-logo .tyto-wing {
+  position: absolute;
+  width: 8px;
+  height: 18px;
+  top: 16px;
+  left: 34px;
+  background-color: #945925;
+  transform-origin: top center 0;
+  -webkit-transform-origin: top center 0;
+}
+.tyto-header .tyto-header-content .tyto-logo.flap .tyto-wing {
+  animation: flap 1s;
+  -webkit-animation: flap 1s;
+}
+@keyframes flap {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@-webkit-keyframes flap {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(-45deg);
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+  }
+}
+#tytoInfoModal img.modal-tyto-logo {
+  height: 150px;
+}
+#tytoInfoModal .modal-dialog {
+  width: 465px;
+}
+img.modal-tyto-logo {
+  float: left;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+#tytoIntroModal .modal-dialog {
+  width: 740px;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body p {
+  margin: 6px 6px 6px 6px;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadconfig p,
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns p,
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select,
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loaddefault p {
+  float: left;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select {
+  margin: 6px 0px 6px 0px;
+}
+#tytoIntroModal .modal-dialog .modal-content .modal-body .info {
+  margin: 10px 0px 10px 0px;
+}
+.tyto-item-content {
+  min-height: 100px;
+  text-align: center;
+  padding: 10px 10px 10px 10px;
+  overflow: hidden;
+}
+.tyto-item .tyto-item-structure {
+  position: relative;
+}
+.tyto-item-holder .tyto-item {
+  width: 90%;
+  margin: 0 auto 5px;
+}
+.tyto-item {
+  min-height: 100px;
+  background-color: #ffffd5;
+  box-shadow: #ebebeb 0px 5px 5px;
+  cursor: move;
+}
+.tyto-item .tyto-item-content[contenteditable] {
+  cursor: text;
+}
+.edit {
+  border: 1px #333 dashed;
+  background-color: yellow;
+}
+#barn .column .tyto-item-holder .tyto-item .close {
+  top: 2px;
+}
+.actions {
+  padding: 4px 4px 4px 4px;
+}
+.actions button {
+  width: 160px;
+  margin: 2px 2px 2px 2px;
+  position: relative;
+  height: 36px;
+}
+.actions button .icon {
+  position: absolute;
+  top: 30%;
+  right: 10px;
+}
+#barn {
+  border: thin solid black;
+  position: relative;
+  background-color: #fff;
+  height: 600px;
+  width: 90%;
+  padding: 40px 40px 40px 40px;
+  margin: 0 auto 0 auto;
+}
+#barn .column {
+  height: 600px;
+  float: left;
+  position: relative;
+}
+#barn .column .column-title {
+  border-bottom: thin solid black;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  text-align: center;
+  width: 70%;
+}
+#barn .column .tyto-item-holder {
+  height: 500px;
+  margin: 0 auto;
+  overflow: auto;
+}
+#barn .column .tyto-item-holder.over {
+  border: 2px dashed #000;
+}
+#barn .column .close {
+  color: #333;
+  font-weight: normal;
+  font-size: 12px;
+  position: absolute;
+  right: 2px;
+  top: -20px;
+  cursor: pointer;
+}
+#barn .column .additem {
+  color: #333;
+  font-weight: normal;
+  font-size: 11px;
+  position: absolute;
+  right: 14px;
+  top: -20px;
+  cursor: pointer;
+  opacity: 0.2;
+}
+#barn .column .additem:hover,
+#barn .column .additem:focus {
+  opacity: 0.5;
+}
+.tab {
+  position: absolute;
+  top: 56px;
+  left: -10px;
+  transition: left 1s;
+  -webkit-transition: left 1s;
+  z-index: 1;
+}
+.tab:after {
+  position: absolute;
+  content: "";
+  height: 0px;
+  width: 0px;
+  left: 0px;
+  top: -10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid #333;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid #333;
+}
+.tab .tab-tab {
+  position: relative;
+  float: left;
+  background: #ebebeb;
+  height: 100px;
+  width: 25px;
+  padding: 18px 0px 0px 5px;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+.tab .tab-tab .tab-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  padding: 0 0 0 10px;
+}
+.tab.open .tab-content {
+  width: 172px;
+}
+.tab .tab-content * {
+  transition: width 1s display 1s;
+  -webkit-transition: width 1s display 1s;
+}
+.tab .tab-content {
+  overflow: hidden;
+  position: relative;
+  float: left;
+  height: 288px;
+  width: 0px;
+  border-radius: 0 0 6px;
+  background: #ebebeb;
+  transition: width 1s, display 1s;
+  -webkit-transition: width 1s, display 1s;
+}
+.task[draggable=true] {
+  cursor: move;
+}

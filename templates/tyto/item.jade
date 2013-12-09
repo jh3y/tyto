@@ -1,0 +1,9 @@
+.tyto-item(data-tyto-item = 'true', draggable = 'true')
+	.tyto-item-structure
+		.tyto-item-content
+			|{{#if content }}
+			|{{{ content }}}
+			|{{ else }}
+			|this is a new item
+			|{{/if}}
+		span.close.glyphicon.glyphicon-remove(title = "remove item.")

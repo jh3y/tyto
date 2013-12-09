@@ -1,0 +1,15 @@
+.column
+	span.additem.glyphicon.glyphicon-plus(title = "add item.")
+	span.close.glyphicon.glyphicon-remove(title = "remove column.")
+	h5.column-title(contenteditable = 'true', title = "edit column title.")
+		|{{#if title }}
+		|{{ title }}
+		|{{ else }}
+		|new column
+		|{{/if}}
+	.tyto-item-holder
+		|{{#if items }}
+		|{{#each items}}
+		|{{> item }}
+		|{{/each}}
+		|{{/if}}
