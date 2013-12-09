@@ -128,7 +128,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     $column[0].addEventListener("dragleave", (function(event) {
       return $column.find('.tyto-item-holder').removeClass("over");
     }), false);
-    return $column[0].addEventListener("drop", (function(event) {
+    $column[0].addEventListener("drop", (function(event) {
       if (event.stopPropagation && event.preventDefault) {
         event.stopPropagation();
         event.preventDefault();
@@ -139,24 +139,27 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
       $column.find('.tyto-item-holder').removeClass("over");
       return false;
     }), false);
+    return $column.find('.close').on('click', function(e) {
+      return tyto.removeColumn($column);
+    });
   };
   tyto.prototype.addColumn = function() {
     this._createColumn();
     return this._resizeColumns();
   };
-  tyto.prototype.removeColumn = function() {
-    var removeLast;
+  tyto.prototype.removeColumn = function($column) {
+    var removeColumn;
     tyto = this;
-    removeLast = function() {
-      tyto.element.find('.column').last().remove();
+    removeColumn = function() {
+      $column.remove();
       return tyto._resizeColumns();
     };
-    if (tyto.element.find('.column').last().find('.tyto-item').length > 0) {
+    if ($column.find('.tyto-item').length > 0) {
       if (confirm('are you sure you want to remove the last column? doing so will lose any items within that column')) {
-        return removeLast();
+        return removeColumn();
       }
     } else {
-      return removeLast();
+      return removeColumn();
     }
   };
   tyto.prototype.additem = function(column, content) {
@@ -240,9 +243,6 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     });
     $('button.addcolumn').on('click', function(event) {
       return tyto.addColumn();
-    });
-    $('button.removecolumn').on('click', function(event) {
-      return tyto.removeColumn();
     });
     $('button.savebarn').on('click', function(event) {
       return tyto.saveBarn();
