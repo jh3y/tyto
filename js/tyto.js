@@ -104,7 +104,8 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
       if (tyto.config.actionsTab) {
         isSidebar = ($clicked.attr('data-tab')) || ($clicked.parents('[data-tab]').length > 0);
         if (!isSidebar && tyto.tab !== undefined) {
-          return tyto.tab.open = false;
+          tyto.tab.open = false;
+          return true;
         }
       }
     });

@@ -116,9 +116,6 @@ body {
   top: 30%;
   right: 10px;
 }
-#tytofiles {
-  display: none;
-}
 #barn {
   border: thin solid black;
   position: relative;

@@ -1,7 +1,7 @@
 define([], function() {
   var config;
   return config = {
-    showModalOnLoad: false,
+    showModalOnLoad: true,
     theme: false,
     themePath: 'css/themes/theme.css',
     DOMId: 'barn',

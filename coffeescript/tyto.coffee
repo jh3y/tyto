@@ -73,6 +73,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				isSidebar = ($clicked.attr 'data-tab') or ($clicked.parents('[data-tab]').length > 0)
 				if not isSidebar and tyto.tab isnt `undefined`
 					tyto.tab.open = false
+					true
 		tytoFlap = ->
 			$('.tyto-header').find('.tyto-logo').addClass 'flap'
 			setTimeout (-> $('.tyto-header').find('.tyto-logo').removeClass 'flap'), 1000
