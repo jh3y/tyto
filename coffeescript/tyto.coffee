@@ -100,20 +100,22 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			$column.find('.tyto-item-holder').removeClass "over"
 			false
 		), false
+		$column.find('.close').on 'click', (e) ->
+			tyto.removeColumn $column
 
 	tyto::addColumn = ->
 		this._createColumn()
 		this._resizeColumns()
-	tyto::removeColumn = ->
+	tyto::removeColumn = ($column) ->
 		tyto = this
-		removeLast = ->
-			tyto.element.find('.column').last().remove()
+		removeColumn = ->
+			$column.remove()
 			tyto._resizeColumns()
-		if tyto.element.find('.column').last().find('.tyto-item').length > 0
+		if $column.find('.tyto-item').length > 0
 			if confirm 'are you sure you want to remove the last column? doing so will lose any items within that column'
-				removeLast()
+				removeColumn()
 		else
-			removeLast()
+			removeColumn()
 	tyto::additem = (column = $('.column').first(), content) ->
 		this._createitem $(column), content
 	tyto::_createitem = ($column, content) ->
@@ -169,8 +171,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			tyto.additem()
 		$('button.addcolumn').on 'click', (event) ->
 			tyto.addColumn()
-		$('button.removecolumn').on 'click', (event) ->
-			tyto.removeColumn()
 		$('button.savebarn').on 'click', (event) ->
 			tyto.saveBarn()
 		$('button.loadbarn').on 'click', (event) ->

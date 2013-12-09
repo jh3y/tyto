@@ -95,12 +95,8 @@ body {
   border: 1px #333 dashed;
   background-color: yellow;
 }
-.close {
-  font-size: 12px;
-  position: absolute;
-  right: 2px;
+#barn .column .tyto-item-holder .tyto-item .close {
   top: 2px;
-  cursor: pointer;
 }
 .actions {
   padding: 4px 4px 4px 4px;
@@ -135,6 +131,7 @@ body {
 #barn .column {
   height: 600px;
   float: left;
+  position: relative;
 }
 #barn .column .column-title {
   border-bottom: thin solid black;
@@ -152,6 +149,15 @@ body {
 }
 #barn .column .tyto-item-holder.over {
   border: 2px dashed #000;
+}
+#barn .column .close {
+  color: #333;
+  font-weight: normal;
+  font-size: 12px;
+  position: absolute;
+  right: 2px;
+  top: -20px;
+  cursor: pointer;
 }
 .tab {
   position: absolute;
@@ -202,7 +208,7 @@ body {
   overflow: hidden;
   position: relative;
   float: left;
-  height: 248px;
+  height: 208px;
   width: 0px;
   background: lightgray;
   transition: width 1s, display 1s;
