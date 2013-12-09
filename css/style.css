@@ -3,19 +3,23 @@ body {
   font-family: tahoma;
   padding: 5px 5px 5px 5px;
 }
-.header {
+.tyto-header {
   height: 50px;
 }
-.header .header-content {
+.tyto-header .tyto-header-content .tyto-title {
+  float: left;
+  margin: 0 0 0 0;
+}
+.tyto-header .tyto-header-content {
   position: absolute;
   right: 100px;
   color: black;
 }
-.header .header-content .tyto-logo {
+.tyto-header .tyto-header-content .tyto-logo {
   position: relative;
   float: right;
 }
-.header .header-content .tyto-logo .tyto-wing {
+.tyto-header .tyto-header-content .tyto-logo .tyto-wing {
   position: absolute;
   width: 8px;
   height: 18px;
@@ -25,7 +29,7 @@ body {
   transform-origin: top center 0;
   -webkit-transform-origin: top center 0;
 }
-.header .header-content .tyto-logo .tyto-wing.flap {
+.tyto-header .tyto-header-content .tyto-logo.flap .tyto-wing {
   animation: flap 1s;
   -webkit-animation: flap 1s;
 }
@@ -124,10 +128,6 @@ body {
   padding: 40px 40px 40px 40px;
   margin: 0 auto 0 auto;
 }
-.header .header-content .barn-title {
-  float: left;
-  margin: 0 0 0 0;
-}
 #barn .column {
   height: 600px;
   float: left;
@@ -185,9 +185,10 @@ body {
   background: lightgray;
   height: 100px;
   width: 25px;
-  padding: 5px 0px 0px 5px;
+  padding: 18px 0px 0px 5px;
   border-radius: 0 10px 10px 0;
   cursor: pointer;
+  font-weight: bold;
 }
 .tab .tab-tab .tab-title {
   -webkit-transform: rotate(90deg);
@@ -208,7 +209,7 @@ body {
   overflow: hidden;
   position: relative;
   float: left;
-  height: 208px;
+  height: 248px;
   width: 0px;
   background: lightgray;
   transition: width 1s, display 1s;
