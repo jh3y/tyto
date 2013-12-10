@@ -21,6 +21,8 @@ It is true that most organisations have some form of tool for this exact problem
 
 This is why __tyto__ came about. It's simple to use, no accounts needed, you can configure it how you want, theme it and the source code isn't hard to grasp as the tech under the bonnet makes it very easy to understand therefore making it also easily extensible and customizable.
 
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto2.png)
+
 ###who 's it for?
 Initially, __tyto__ was intended for developers and project managers as an easy way to share current tasks and project progression.
 
@@ -58,6 +60,9 @@ if you're cloning the repo and setting up the codebase you are going to need __[
 if you simply wish to host __tyto__ in your own environment you can do. I would suggest just taking a snapshot of the `gh-pages` branch and ftp'ing this onto your desired server or web space.
 
 in most cases and ideally you will want to configure __tyto__ to your own needs and tweak it accordingly whether it be with styles and themes or you want to change the branding, html etc. To do this, the best way is to follow the instructions for developing against __tyto__ and then taking the output from this and pushing it to a desired environment or server.
+
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto3.png)
+
 ####configuration
 a nice feature of __tyto__ is how easily configurable it is. It handles this by having a config file that is shimmed for use with requireJS. This file is a javascript file that simply defines a block of json which is the configuration or options.
 #####showIntroModalOnLoad: bool
@@ -119,6 +124,8 @@ as you can see this theme is really simple and all it does is change the default
 
 note that this theme is using `themed` as a class. When you define a theme in your config, that theme name is added as a class to the DOM element being used to create the board. so with the default config you get `.barn.themed`.
 
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto4.png)
+
 ###development
 the beauty of __tyto__ is how easy it is to change things and really customise and extend it to be exactly what you want.
 ####under the hood
@@ -147,6 +154,9 @@ using the text plugin for requireJS, __tyto__ pulls in templates and then using 
 * __tyto__ is being shared in a very early age stage to get feedback primarily on how bad or maybe good it is or how it could be improved or approached differently. this is afterall my own little personal project.
 * online persistence if there was demand. this does however mean accounts which isn't cool but maybe the notion of guest accounts and persistent accounts whereby multiple boards could be saved.
 * better responsive design for various devices in general.
+
+
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto5.png)
 
 ###contributing
 if you feel __tyto__ would be something you'd like to contribute ideas to or enhancements please don't hesitate to get in touch or fork the repo and submit a pull request. i know __tyto__ has many flaws so I welcome the criticism to be honest as any publicity is good publicity.
