@@ -197,8 +197,9 @@ img.modal-tyto-logo {
   margin: 0 auto 0 auto;
 }
 #barn .column {
-  height: 600px;
+  height: 100%;
   float: left;
+  padding-bottom: 25px;
   position: relative;
 }
 #barn .column .column-title {
@@ -211,7 +212,7 @@ img.modal-tyto-logo {
   width: 70%;
 }
 #barn .column .tyto-item-holder {
-  height: 500px;
+  height: 100%;
   margin: 0 auto;
   overflow: auto;
 }
