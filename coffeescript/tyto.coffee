@@ -85,6 +85,9 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				tytoFlap()
 		else 
 			$('.tyto-logo-image').attr 'src', 'images/tyto.png'
+		# silly little function for flap on hover of fork link.
+		$('#forkongithub').on 'hover', (e) ->
+			$(this).trigger 'tyto:action'
 	tyto::_bindColumnEvents = ($column) ->
 		tyto = this
 		$column.find('.column-title').on 'keydown', (event) ->
