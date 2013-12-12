@@ -3,78 +3,9 @@ body {
     	font-family: tahoma;
     	padding: 5px 5px 5px 5px;
 }
-.tyto-header {
-	height: 50px
-}
-.tyto-header .tyto-header-content .tyto-title {
-	float: left;
-	margin: 0 0 0 0;
-}
-.tyto-header .tyto-header-content {
-	position: absolute;
-	right: 100px;
-	color: black;	
-}
-.tyto-header .tyto-header-content .tyto-logo {
-	position: relative;
-	float: right;
-}
-.tyto-header .tyto-header-content .tyto-logo .tyto-wing {
-	position: absolute;
-	width: 8px;
-	height: 18px;
-	top: 16px;
-	left: 34px;
-	background-color: #945925;
-	transform-origin: top center 0;
-	-webkit-transform-origin: top center 0;
-}
-.tyto-header .tyto-header-content .tyto-logo.flap .tyto-wing {
-	animation: flap 1s;
-	-webkit-animation: flap 1s;
-}
-@keyframes flap
-{
-	0% {transform: rotate(0deg);}
-	50% {transform:rotate(-45deg);}
-	100% {transform: rotate(0deg);}
-}
-@-webkit-keyframes flap
-{
-	0% {-webkit-transform: rotate(0deg);}
-	50% {-webkit-transform:rotate(-45deg);}
-	100% {-webkit-transform: rotate(0deg);}
-}
-#tytoInfoModal img.modal-tyto-logo {
-	height: 150px;
-}
-#tytoInfoModal .modal-dialog {
-	width: 465px;
-}
-img.modal-tyto-logo {
-	float: left;
-	-moz-transform: scaleX(-1);
-	-o-transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
-	transform: scaleX(-1);
-	filter: FlipH;
-	-ms-filter: "FlipH";
-}
-#tytoIntroModal .modal-dialog {
-	width: 740px;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body p {
-	margin: 6px 6px 6px 6px;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadconfig p, #tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns p, #tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select, #tytoIntroModal .modal-dialog .modal-content .modal-body .loaddefault p  {
-	float: left;
-} 
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select {
-	margin: 6px 0px 6px 0px;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .info {
-	margin: 10px 0px 10px 0px;	
-}
+@import 'header';
+@import 'modals';
+@import 'forkme';
 @import 'item';
 @import 'actions';
 @import 'barn';

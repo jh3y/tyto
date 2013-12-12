@@ -1,6 +1,6 @@
 define [], ->
 	config =
-		showIntroModalOnLoad: true
+		showIntroModalOnLoad: false
 		introModalId: 'tytoIntroModal'
 		helpModalId: 'tytoHelpModal'
 		infoModalId: 'tytoInfoModal'

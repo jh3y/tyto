@@ -119,12 +119,15 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
           return $('.tyto-header').find('.tyto-logo').removeClass('flap');
         }), 1000);
       };
-      return $('body').on('tyto:action', function(e) {
+      $('body').on('tyto:action', function(e) {
         return tytoFlap();
       });
     } else {
-      return $('.tyto-logo-image').attr('src', 'images/tyto.png');
+      $('.tyto-logo-image').attr('src', 'images/tyto.png');
     }
+    return $('#forkongithub').on('hover', function(e) {
+      return $(this).trigger('tyto:action');
+    });
   };
   tyto.prototype._bindColumnEvents = function($column) {
     tyto = this;
