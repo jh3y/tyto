@@ -188,22 +188,24 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 	tyto::_createActionsTab = ->
 		tyto = this
 		tyto.tab = new tab title: 'menu', attachTo: tyto.element[0], content: actionsHtml
+
 	tyto::_bindTabActions = ->
 		tyto = this
-		$('button.additem').on 'click', (event) ->
-			tyto.addItem()
-		$('button.addcolumn').on 'click', (event) ->
-			tyto.addColumn()
-		$('button.savebarn').on 'click', (event) ->
-			tyto.saveBarn()
-		$('button.loadbarn').on 'click', (event) ->
-			tyto.loadBarn()
-		$('button.emailbarn').on 'click', (event) ->
-			tyto.emailBarn()
-		$('button.helpbarn').on 'click', (event) ->
-			tyto.showHelp()
-		$('button.infobarn').on 'click', (event) ->
-			tyto.showInfo()
+		actionMap =
+			additem: 'addItem'
+			addcolumn: 'addColumn'
+			savebarn: 'saveBarn'
+			loadbarn: 'loadBarn'
+			emailbarn: 'emailBarn'
+			helpbarn: 'showHelp'
+			infobarn: 'showInfo'
+
+		action = ""
+
+		$('.actions').on 'click', 'button', (e) ->
+			action = e.target.dataset.action
+			tyto[actionMap[action]]()
+
 	tyto::_resizeColumns = ->
 		tyto = this
 		if tyto.element.find('.column').length > 0
