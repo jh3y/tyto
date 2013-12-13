@@ -1,3 +1,7 @@
+html,
+body {
+  height: 100%;
+}
 body {
   background-color: #f0ffff;
   font-family: tahoma;
@@ -186,14 +190,19 @@ img.modal-tyto-logo {
   border: thin solid black;
   position: relative;
   background-color: #fff;
+  min-height: 320px;
   height: 600px;
+  /*fallback*/
+  height: calc(100% - 100px);
+  height: -webkit-calc(100% - 100px);
   width: 90%;
   padding: 40px 40px 40px 40px;
   margin: 0 auto 0 auto;
 }
 #barn .column {
-  height: 600px;
+  height: 100%;
   float: left;
+  padding-bottom: 25px;
   position: relative;
 }
 #barn .column .column-title {
@@ -206,7 +215,7 @@ img.modal-tyto-logo {
   width: 70%;
 }
 #barn .column .tyto-item-holder {
-  height: 500px;
+  height: 100%;
   margin: 0 auto;
   overflow: auto;
 }

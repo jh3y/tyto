@@ -275,27 +275,21 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     });
   };
   tyto.prototype._bindTabActions = function() {
+    var action, actionMap;
     tyto = this;
-    $('button.additem').on('click', function(event) {
-      return tyto.addItem();
-    });
-    $('button.addcolumn').on('click', function(event) {
-      return tyto.addColumn();
-    });
-    $('button.savebarn').on('click', function(event) {
-      return tyto.saveBarn();
-    });
-    $('button.loadbarn').on('click', function(event) {
-      return tyto.loadBarn();
-    });
-    $('button.emailbarn').on('click', function(event) {
-      return tyto.emailBarn();
-    });
-    $('button.helpbarn').on('click', function(event) {
-      return tyto.showHelp();
-    });
-    return $('button.infobarn').on('click', function(event) {
-      return tyto.showInfo();
+    actionMap = {
+      additem: 'addItem',
+      addcolumn: 'addColumn',
+      savebarn: 'saveBarn',
+      loadbarn: 'loadBarn',
+      emailbarn: 'emailBarn',
+      helpbarn: 'showHelp',
+      infobarn: 'showInfo'
+    };
+    action = "";
+    return $('.actions').on('click', 'button', function(e) {
+      action = e.target.dataset.action;
+      return tyto[actionMap[action]]();
     });
   };
   tyto.prototype._resizeColumns = function() {
