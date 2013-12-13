@@ -190,7 +190,7 @@ img.modal-tyto-logo {
   border: thin solid black;
   position: relative;
   background-color: #fff;
-  min-height: 200px;
+  min-height: 320px;
   height: 600px;
   /*fallback*/
   height: calc(100% - 100px);
