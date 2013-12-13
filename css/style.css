@@ -1,4 +1,5 @@
-html,body {
+html,
+body {
   height: 100%;
 }
 body {
@@ -189,9 +190,11 @@ img.modal-tyto-logo {
   border: thin solid black;
   position: relative;
   background-color: #fff;
-  min-height: 600px;
-  height: 600px; /*fallback*/
+  min-height: 200px;
+  height: 600px;
+  /*fallback*/
   height: calc(100% - 100px);
+  height: -webkit-calc(100% - 100px);
   width: 90%;
   padding: 40px 40px 40px 40px;
   margin: 0 auto 0 auto;
