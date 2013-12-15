@@ -205,6 +205,10 @@ img.modal-tyto-logo {
   padding-bottom: 25px;
   position: relative;
 }
+#barn .column .actions {
+  margin: 0;
+  padding: 0;
+}
 #barn .column .column-title {
   border-bottom: thin solid black;
   font-size: 16px;

@@ -1,7 +1,8 @@
 .column
-	span.additem.glyphicon.glyphicon-plus(title = "add item.")
-	span.close.glyphicon.glyphicon-remove(title = "remove column.")
-	h5.column-title(contenteditable = 'true', title = "edit column title.")
+	.actions
+		span.additem.glyphicon.glyphicon-plus(title = 'add item.', data-fn='addItem')
+		span.close.glyphicon.glyphicon-remove(title = 'remove column.', data-fn='removeColumn')
+	h5.column-title(contenteditable = 'true', title = 'edit column title.')
 		|{{#if title }}
 		|{{ title }}
 		|{{ else }}
