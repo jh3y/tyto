@@ -15,9 +15,9 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * etc.
 
 ###what's been happening.
-* 11/12/13: Posted to HN, really great and very appreciated feedback from a large group of people.
-* 11-22/12/13: Been really busy and ill but been able to reply here and there to issues when I can.
-* 22/12/13: After a congested couple of weeks, finally have sat down and taken notes from the HN discussion in order to compile a nice little issues list of what needs doing. The summary can be seen [here](https://github.com/jh3y/tyto/master/docs/HNnotes.txt)
+* __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
+* __11-22/12/13__: Been really busy and ill but been able to reply here and there to issues when I can.
+* __22/12/13__: After a congested couple of weeks, finally have sat down and taken notes from the HN discussion in order to compile a nice little issues list of what needs doing. The summary can be seen [here](https://github.com/jh3y/tyto/master/docs/HNnotes.txt)
 
 ###why tyto? what's it for?
 To be honest __tyto__ arose from my own and other members of my then team desiring something easy to organise and manage your own daily workflow. This could be something simple like the current development tasks on your plate or maybe the meetings you have scheduled in the current week coming. The ability to also share this is important.
