@@ -1,6 +1,6 @@
 {
   "name": "tyto",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "tyto - manage and organise",
   "engines": {
     "node": "0.10",

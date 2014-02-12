@@ -16,7 +16,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		tyto = this
 		tyto.modals.introModal.find('.loadtytodefaultconfig').on 'click', (e) ->
 			tyto._createBarn tyto.config
-			tyto.element.trigger 'tyto:action'
 		tyto.modals.introModal.find('.loadtytocolumns').on 'click', (e) ->
 			columns = []
 			numberOfCols = parseInt(tyto.modals.introModal.find('.tytonumberofcols').val())
@@ -28,7 +27,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				i++
 			tyto.config.columns = columns
 			tyto._createBarn tyto.config
-			tyto.element.trigger 'tyto:action'
 		tyto.modals.introModal.find('.tytoloadconfig').on 'click', (e) ->
 			tyto.loadBarn()
 	tyto::_createBarn = (config) ->
@@ -77,17 +75,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				if not isSidebar and tyto.tab isnt `undefined`
 					tyto.tab.open = false
 					true
-		if $('html').hasClass 'csstransforms'
-			tytoFlap = ->
-				$('.tyto-header').find('.tyto-logo').addClass 'flap'
-				setTimeout (-> $('.tyto-header').find('.tyto-logo').removeClass 'flap'), 1000
-			$('body').on 'tyto:action', (e) ->
-				tytoFlap()
-		else 
-			$('.tyto-logo-image').attr 'src', 'images/tyto.png'
-		# silly little function for flap on hover of fork link.
-		$('#forkongithub').on 'hover', (e) ->
-			$(this).trigger 'tyto:action'
 	tyto::_bindColumnEvents = ($column) ->
 		tyto = this
 		$column.find('.column-title').on 'keydown', (event) ->
@@ -122,7 +109,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		tyto = this
 		tyto._createColumn()
 		tyto._resizeColumns()
-		tyto.element.trigger 'tyto:action'
 	tyto::removeColumn = ($column = this.element.find('.column').last()) ->
 		tyto = this
 		removeColumn = ->
@@ -133,17 +119,14 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				removeColumn()
 		else
 			removeColumn()
-		tyto.element.trigger 'tyto:action'
 	tyto::addItem = ($column = this.element.find('.column').first(), content) ->
 		this._createItem $column, content
-		tyto.element.trigger 'tyto:action'
 	tyto::_createItem = ($column, content) ->
 		template = Handlebars.compile itemHtml
 		$newitem = $ template {}
 		this._binditemEvents $newitem
 		$newitem.css({'max-width': $column[0].offsetWidth * 0.9 + 'px'})
 		$column.find('.tyto-item-holder').append $newitem
-		tyto.element.trigger 'tyto:action'
 	tyto::_binditemEvents = ($item) ->
 		tyto = this
 		enableEdit = (content) ->
@@ -164,7 +147,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		$item.find('.close').on 'click', (event) ->
 			if confirm 'are you sure you want to remove this item?'
 				$item.remove()
-				tyto.element.trigger 'tyto:action'
 		$item.find('.tyto-item-content').on 'dblclick', -> toggleEdit(this)
 		$item.find('.tyto-item-content').on 'mousedown', ->
 			$($(this)[0]._parent).on 'mousemove', ->
@@ -183,7 +165,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		), false
 		$item[0].addEventListener "dragend", ((event) ->
 			@style.opacity = "1"
-			tyto.element.trigger 'tyto:action'
 		), false
 	tyto::_createActionsTab = ->
 		tyto = this
@@ -237,7 +218,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 	tyto::_loadBarnJSON = (json) ->
 		tyto._createBarn json
 		tyto.tab.open = false
-		tyto.element.trigger 'tyto:action'
 	tyto::saveBarn = ->
 		tyto = this
 		saveAnchor = $ '#savetyto'
@@ -247,7 +227,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		saveAnchor[0].setAttribute 'href', content
 		saveAnchor[0].click()
 		tyto.tab.open = false
-		tyto.element.trigger 'tyto:action'
 	tyto::loadBarn = ->
 		tyto = this
 		$files = $ '#tytofiles'
@@ -288,7 +267,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		$('#tytoemail').attr 'href', mailtoString
 		$('#tytoemail')[0].click()
 		tyto.tab.open = false
-		tyto.element.trigger 'tyto:action'
 	tyto::showHelp = ->
 		tyto = this
 		if tyto.config.helpModalId
