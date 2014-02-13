@@ -44,6 +44,17 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     });
   };
   tyto.prototype._createBarn = function(config) {
+    tyto = this;
+    tyto._buildDOM(config);
+    tyto.element.find('[data-action="addcolumn"]').on('click', function(e) {
+      return tyto.addColumn();
+    });
+    tyto._bindActions();
+    if (tyto.modals.introModal !== undefined) {
+      return tyto.modals.introModal.modal('hide');
+    }
+  };
+  tyto.prototype._buildDOM = function(config) {
     var e, i;
     tyto = this;
     if (config.DOMElementSelector !== undefined || config.DOMId !== undefined) {
@@ -66,16 +77,12 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
       if (config.theme !== undefined && typeof config.theme === 'string' && config.themePath !== undefined && typeof config.themePath === 'string') {
         try {
           $('head').append($('<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'));
-          tyto.element.addClass(config.theme);
+          return tyto.element.addClass(config.theme);
         } catch (_error) {
           e = _error;
           throw Error('tyto: could not load theme.');
         }
       }
-      tyto._bindActions();
-    }
-    if (tyto.modals.introModal !== undefined) {
-      return tyto.modals.introModal.modal('hide');
     }
   };
   tyto.prototype._createColumn = function(columnData) {
@@ -128,17 +135,18 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
         event.preventDefault();
       }
       if (tyto._dragitem && tyto._dragitem !== null) {
-        $column.find('.tyto-item-holder')[0].appendChild(tyto._dragitem);
+        $column.find('.tyto-item-holder .items')[0].appendChild(tyto._dragitem);
       }
       $column.find('.tyto-item-holder').removeClass("over");
       return false;
     }), false);
-    $column.children('.close').on('click', function(e) {
+    $column.find('[data-action="removecolumn"]').on('click', function(e) {
       return tyto.removeColumn($column);
     });
-    return $column.children('.additem').on('click', function(e) {
+    $column.find('[data-action="additem"]').on('click', function(e) {
       return tyto.addItem($column);
     });
+    return tyto;
   };
   tyto.prototype.addColumn = function() {
     tyto = this;
@@ -181,7 +189,7 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     $newitem.css({
       'max-width': $column[0].offsetWidth * 0.9 + 'px'
     });
-    return $column.find('.tyto-item-holder').append($newitem);
+    return $column.find('.tyto-item-holder .items').append($newitem);
   };
   tyto.prototype._binditemEvents = function($item) {
     var disableEdit, enableEdit, toggleEdit;
@@ -299,7 +307,7 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     return itemboardJSON;
   };
   tyto.prototype._loadBarnJSON = function(json) {
-    return tyto._createBarn(json);
+    return tyto._buildDOM(json);
   };
   tyto.prototype.saveBarn = function() {
     var content, filename, saveAnchor;
@@ -365,6 +373,7 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     content = encodeURIComponent(content);
     mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
     $('#tytoemail').attr('href', mailtoString);
+    console.log('twice?');
     return $('#tytoemail')[0].click();
   };
   tyto.prototype.showHelp = function() {

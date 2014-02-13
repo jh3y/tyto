@@ -31,6 +31,15 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			tyto.loadBarn()
 	tyto::_createBarn = (config) ->
 		tyto = this
+		# I think we need to refactor the DOM stuff out so that it happens elsewhere and only the page actions get done once.
+		tyto._buildDOM config
+		tyto.element.find('[data-action="addcolumn"]').on 'click', (e) ->
+				tyto.addColumn()
+		tyto._bindActions();
+		if tyto.modals.introModal isnt `undefined`
+			tyto.modals.introModal.modal 'hide'
+	tyto::_buildDOM = (config) ->
+		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
 			tyto.element = if config.DOMId isnt `undefined` then $ '#' + config.DOMId else $ config.DOMElementSelector
 			tyto.element.attr 'data-tyto', 'true'
@@ -50,9 +59,6 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 					tyto.element.addClass config.theme
 				catch e
 					return throw Error 'tyto: could not load theme.'
-			tyto._bindActions();
-		if tyto.modals.introModal isnt `undefined`
-			tyto.modals.introModal.modal 'hide'
 	tyto::_createColumn = (columnData) ->
 		template = Handlebars.compile columnHtml
 		Handlebars.registerPartial "item", itemHtml
@@ -90,14 +96,15 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 				event.stopPropagation()
 				event.preventDefault()
 			if tyto._dragitem and tyto._dragitem isnt null
-				$column.find('.tyto-item-holder')[0].appendChild tyto._dragitem
+				$column.find('.tyto-item-holder .items')[0].appendChild tyto._dragitem
 			$column.find('.tyto-item-holder').removeClass "over"
 			false
 		), false
-		$column.children('.close').on 'click', (e) ->
+		$column.find('[data-action="removecolumn"]').on 'click', (e) ->
 			tyto.removeColumn $column
-		$column.children('.additem').on 'click', (e) ->
+		$column.find('[data-action="additem"]').on 'click', (e) ->
 			tyto.addItem $column
+		tyto
 	tyto::addColumn = ->
 		tyto = this
 		if tyto.element.find('.column').length < tyto.config.maxColumns
@@ -122,7 +129,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		$newitem = $ template {}
 		this._binditemEvents $newitem
 		$newitem.css({'max-width': $column[0].offsetWidth * 0.9 + 'px'})
-		$column.find('.tyto-item-holder').append $newitem
+		$column.find('.tyto-item-holder .items').append $newitem
 	tyto::_binditemEvents = ($item) ->
 		tyto = this
 		enableEdit = (content) ->
@@ -208,7 +215,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			itemboardJSON.columns.push title: columnTitle, items: items
 		itemboardJSON
 	tyto::_loadBarnJSON = (json) ->
-		tyto._createBarn json
+		tyto._buildDOM json
 	tyto::saveBarn = ->
 		tyto = this
 		saveAnchor = $ '#savetyto'
@@ -255,6 +262,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		content = encodeURIComponent content
 		mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
 		$('#tytoemail').attr 'href', mailtoString
+		console.log 'twice?'
 		$('#tytoemail')[0].click()
 	tyto::showHelp = ->
 		tyto = this
