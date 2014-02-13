@@ -4,17 +4,19 @@
 	background-color: #fff;
 	min-height: 320px;
 	height: 600px; /*fallback*/
-	height: ~"calc(100% - 100px)";
-	height: ~"-webkit-calc(100% - 100px)";
+	height: ~"calc(100% - 125px)";
+	height: ~"-webkit-calc(100% - 125px)";
 	width: 90%;
-	padding: 40px 40px 40px 40px;
+	padding: 1em 3em;
 	margin: 0 auto 0 auto;
 }
 #barn .column {
-	height: 100%;
-	float: left;
-	padding-bottom: 25px;
+	height: 85%;
+	height: ~"calc(100% - 40px)";
+	height: ~"-webkit-calc(100% - 40px)";
+	display: inline-block;
 	position: relative;
+	padding: 1em 0 0 0;
 }
 #barn .column .column-title {
 	border-bottom: thin solid black;
@@ -31,7 +33,14 @@
 	overflow: auto;
 }
 #barn .column .tyto-item-holder.over {
-	border: 2px dashed #000;
+	border: 2px dashed #999;
+}
+
+#barn i.fa.fa-plus[data-action] {
+	position: absolute;
+	margin: 0.25em;
+	top: 0;
+	right: 0;
 }
 
 #barn .column .close {

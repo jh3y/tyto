@@ -1,4 +1,4 @@
-define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, bootstrap, config, Handlebars, tab, columnHtml, itemHtml, actionsHtml, emailHtml) ->
+define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) ->
 	tyto = (options) ->
 		return new tyto() unless this instanceof tyto
 		config = if options isnt `undefined` then options else config
@@ -50,9 +50,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 					tyto.element.addClass config.theme
 				catch e
 					return throw Error 'tyto: could not load theme.'
-			if config.actionsTab and $('[data-tab]').length is 0
-				tyto._createActionsTab()
-				tyto._bindTabActions()
+			tyto._bindActions();
 		if tyto.modals.introModal isnt `undefined`
 			tyto.modals.introModal.modal 'hide'
 	tyto::_createColumn = (columnData) ->
@@ -70,11 +68,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 				if !$(item).is $clickeditem
 					$(item).find('.tyto-item-content').removeClass('edit').removeAttr 'contenteditable'
 					$(item).attr 'draggable', true
-			if tyto.config.actionsTab		
-				isSidebar = ($clicked.attr 'data-tab') or ($clicked.parents('[data-tab]').length > 0)
-				if not isSidebar and tyto.tab isnt `undefined`
-					tyto.tab.open = false
-					true
 	tyto::_bindColumnEvents = ($column) ->
 		tyto = this
 		$column.find('.column-title').on 'keydown', (event) ->
@@ -169,11 +162,8 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		$item[0].addEventListener "dragend", ((event) ->
 			@style.opacity = "1"
 		), false
-	tyto::_createActionsTab = ->
-		tyto = this
-		tyto.tab = new tab title: 'menu', attachTo: tyto.element[0], content: actionsHtml
-
-	tyto::_bindTabActions = ->
+	
+	tyto::_bindActions = ->
 		tyto = this
 		actionMap =
 			additem: 'addItem'
@@ -186,7 +176,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 
 		action = ""
 
-		$('.actions').on 'click', 'button', (e) ->
+		$('.actions').on 'click', '[data-action]', (e) ->
 			action = e.target.dataset.action
 			tyto[actionMap[action]]()
 
@@ -203,7 +193,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			introModalId: tyto.config.introModalId
 			theme: tyto.config.theme
 			themePath: tyto.config.themePath
-			actionsTab: tyto.config.actionsTab
 			emailSubject: tyto.config.emailSubject
 			emailRecipient: tyto.config.emailRecipient
 			DOMId: tyto.config.DOMId
@@ -220,7 +209,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		itemboardJSON
 	tyto::_loadBarnJSON = (json) ->
 		tyto._createBarn json
-		tyto.tab.open = false
 	tyto::saveBarn = ->
 		tyto = this
 		saveAnchor = $ '#savetyto'
@@ -229,7 +217,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		saveAnchor[0].setAttribute 'download', filename
 		saveAnchor[0].setAttribute 'href', content
 		saveAnchor[0].click()
-		tyto.tab.open = false
 	tyto::loadBarn = ->
 		tyto = this
 		$files = $ '#tytofiles'
@@ -269,7 +256,6 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
 		$('#tytoemail').attr 'href', mailtoString
 		$('#tytoemail')[0].click()
-		tyto.tab.open = false
 	tyto::showHelp = ->
 		tyto = this
 		if tyto.config.helpModalId

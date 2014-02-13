@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, bootstrap, config, Handlebars, tab, columnHtml, itemHtml, actionsHtml, emailHtml) {
+define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) {
   var tyto;
   tyto = function(options) {
     if (!(this instanceof tyto)) {
@@ -72,10 +72,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
           throw Error('tyto: could not load theme.');
         }
       }
-      if (config.actionsTab && $('[data-tab]').length === 0) {
-        tyto._createActionsTab();
-        tyto._bindTabActions();
-      }
+      tyto._bindActions();
     }
     if (tyto.modals.introModal !== undefined) {
       return tyto.modals.introModal.modal('hide');
@@ -92,22 +89,15 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
   tyto.prototype._bindPageEvents = function() {
     tyto = this;
     return $('body').on('click', function(event) {
-      var $clicked, $clickeditem, isSidebar;
+      var $clicked, $clickeditem;
       $clicked = $(event.target);
       $clickeditem = $clicked.hasClass('item') ? $clicked : $clicked.parents('.tyto-item').length > 0 ? $clicked.parents('.tyto-item') : void 0;
-      $.each($('.tyto-item'), function(index, item) {
+      return $.each($('.tyto-item'), function(index, item) {
         if (!$(item).is($clickeditem)) {
           $(item).find('.tyto-item-content').removeClass('edit').removeAttr('contenteditable');
           return $(item).attr('draggable', true);
         }
       });
-      if (tyto.config.actionsTab) {
-        isSidebar = ($clicked.attr('data-tab')) || ($clicked.parents('[data-tab]').length > 0);
-        if (!isSidebar && tyto.tab !== undefined) {
-          tyto.tab.open = false;
-          return true;
-        }
-      }
     });
   };
   tyto.prototype._bindColumnEvents = function($column) {
@@ -245,15 +235,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
       return this.style.opacity = "1";
     }), false);
   };
-  tyto.prototype._createActionsTab = function() {
-    tyto = this;
-    return tyto.tab = new tab({
-      title: 'menu',
-      attachTo: tyto.element[0],
-      content: actionsHtml
-    });
-  };
-  tyto.prototype._bindTabActions = function() {
+  tyto.prototype._bindActions = function() {
     var action, actionMap;
     tyto = this;
     actionMap = {
@@ -266,7 +248,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
       infobarn: 'showInfo'
     };
     action = "";
-    return $('.actions').on('click', 'button', function(e) {
+    return $('.actions').on('click', '[data-action]', function(e) {
       action = e.target.dataset.action;
       return tyto[actionMap[action]]();
     });
@@ -292,7 +274,6 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
       introModalId: tyto.config.introModalId,
       theme: tyto.config.theme,
       themePath: tyto.config.themePath,
-      actionsTab: tyto.config.actionsTab,
       emailSubject: tyto.config.emailSubject,
       emailRecipient: tyto.config.emailRecipient,
       DOMId: tyto.config.DOMId,
@@ -318,8 +299,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     return itemboardJSON;
   };
   tyto.prototype._loadBarnJSON = function(json) {
-    tyto._createBarn(json);
-    return tyto.tab.open = false;
+    return tyto._createBarn(json);
   };
   tyto.prototype.saveBarn = function() {
     var content, filename, saveAnchor;
@@ -329,8 +309,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     content = 'data:text/plain,' + JSON.stringify(tyto._createBarnJSON());
     saveAnchor[0].setAttribute('download', filename);
     saveAnchor[0].setAttribute('href', content);
-    saveAnchor[0].click();
-    return tyto.tab.open = false;
+    return saveAnchor[0].click();
   };
   tyto.prototype.loadBarn = function() {
     var $files;
@@ -386,8 +365,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     content = encodeURIComponent(content);
     mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
     $('#tytoemail').attr('href', mailtoString);
-    $('#tytoemail')[0].click();
-    return tyto.tab.open = false;
+    return $('#tytoemail')[0].click();
   };
   tyto.prototype.showHelp = function() {
     tyto = this;

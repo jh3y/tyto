@@ -1,24 +1,28 @@
 .actions
 	button.btn.btn-default.additem(title = "add item.", data-action = "additem")
 		|add item
-		span.icon.glyphicon.glyphicon-plus
 	button.btn.btn-default.addcolumn(title = "add column.", data-action = "addcolumn")
 		|add column
-		span.icon.glyphicon.glyphicon-stats
-	button.btn.btn-default.savebarn(title = "save.", data-action = "savebarn")
-		|save
-		span.icon.glyphicon.glyphicon-hdd
-	button.btn.btn-default.loadbarn(title = "load.", data-action = "loadbarn")
-		|load
-		span.icon.glyphicon.glyphicon-import
-	button.btn.btn-default.emailbarn(title = "email.", data-action = "emailbarn")
-		|email
-		span.icon.glyphicon.glyphicon-envelope
-	button.btn.btn-default.helpbarn(title = "show help.", data-action = "helpbarn")
-		|help
-		span.icon.glyphicon.glyphicon-question-sign
-	button.btn.btn-default.infobarn(title = "show info.", data-action = "infobarn")
-		|info
-		span.icon.glyphicon.glyphicon-info-sign
 	a.hide.savetyto(id = 'savetyto')
 	a.hide.tytoemail(id = 'tytoemail')
+	.btn-group
+		button.btn.btn-default.dropdown-toggle(type = "button", data-toggle = "dropdown")
+			|more
+			span.caret
+		ul.dropdown-menu(role = "menu")
+			li
+				a(title = "export", data-action = "savebarn")
+					|export
+			li
+				a(title = "load", data-action = "loadbarn")
+					|load
+			li
+				a(title = "email", data-action = "emailbarn")
+					|email
+			li.divider
+			li
+				a(title = "show help", data-action = "helpbarn")
+					|help
+			li
+				a(title = "show info", data-action = "infobarn")
+					|info
