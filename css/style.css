@@ -7,6 +7,9 @@ body {
   font-family: tahoma;
   padding: 5px 5px 5px 5px;
 }
+.tyto-header-content {
+  text-align: center;
+}
 .tyto-header {
   width: 90%;
   margin: 0 auto 0 auto;
@@ -20,6 +23,7 @@ h2.tyto-title {
   .tyto-header .tyto-header-content {
     display: inline-block;
     float: right;
+    text-align: left;
   }
   .tyto-header .tyto-header-content h2.tyto-title,
   .tyto-header .tyto-header-content .tyto-logo {
