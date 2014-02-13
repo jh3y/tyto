@@ -259,7 +259,7 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     actionMap = {
       additem: 'addItem',
       addcolumn: 'addColumn',
-      savebarn: 'saveBarn',
+      exportbarn: 'exportBarn',
       loadbarn: 'loadBarn',
       emailbarn: 'emailBarn',
       helpbarn: 'showHelp',
@@ -321,15 +321,15 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
     tyto._createBarn(json);
     return tyto.tab.open = false;
   };
-  tyto.prototype.saveBarn = function() {
-    var content, filename, saveAnchor;
+  tyto.prototype.exportBarn = function() {
+    var content, exportAnchor, filename;
     tyto = this;
-    saveAnchor = $('#savetyto');
-    filename = tyto.config.saveFilename !== undefined ? tyto.config.saveFilename + '.json' : 'itemboard.json';
+    exportAnchor = $('#exporttyto');
+    filename = tyto.config.exportFilename !== undefined ? tyto.config.exportFilename + '.json' : 'itemboard.json';
     content = 'data:text/plain,' + JSON.stringify(tyto._createBarnJSON());
-    saveAnchor[0].setAttribute('download', filename);
-    saveAnchor[0].setAttribute('href', content);
-    saveAnchor[0].click();
+    exportAnchor[0].setAttribute('download', filename);
+    exportAnchor[0].setAttribute('href', content);
+    exportAnchor[0].click();
     return tyto.tab.open = false;
   };
   tyto.prototype.loadBarn = function() {

@@ -11,7 +11,7 @@ define [], ->
 		emailSubject: 'my current items'
 		emailRecipient: 'you@me.com'
 		actionsTab: true
-		saveFilename: 'barn'
+		exportFilename: 'barn'
 		maxColumns: 10
 		columns: [
 			title: 'A column'

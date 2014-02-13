@@ -178,7 +178,7 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 		actionMap =
 			additem: 'addItem'
 			addcolumn: 'addColumn'
-			savebarn: 'saveBarn'
+			exportbarn: 'exportBarn'
 			loadbarn: 'loadBarn'
 			emailbarn: 'emailBarn'
 			helpbarn: 'showHelp'
@@ -221,14 +221,14 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 	tyto::_loadBarnJSON = (json) ->
 		tyto._createBarn json
 		tyto.tab.open = false
-	tyto::saveBarn = ->
+	tyto::exportBarn = ->
 		tyto = this
-		saveAnchor = $ '#savetyto'
-		filename = if tyto.config.saveFilename isnt `undefined` then tyto.config.saveFilename + '.json' else 'itemboard.json'
+		exportAnchor = $ '#exporttyto'
+		filename = if tyto.config.exportFilename isnt `undefined` then tyto.config.exportFilename + '.json' else 'itemboard.json'
 		content = 'data:text/plain,' + JSON.stringify tyto._createBarnJSON()
-		saveAnchor[0].setAttribute 'download', filename
-		saveAnchor[0].setAttribute 'href', content
-		saveAnchor[0].click()
+		exportAnchor[0].setAttribute 'download', filename
+		exportAnchor[0].setAttribute 'href', content
+		exportAnchor[0].click()
 		tyto.tab.open = false
 	tyto::loadBarn = ->
 		tyto = this
