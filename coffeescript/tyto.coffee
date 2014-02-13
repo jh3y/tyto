@@ -107,8 +107,11 @@ define ['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
 			tyto.addItem $column
 	tyto::addColumn = ->
 		tyto = this
-		tyto._createColumn()
-		tyto._resizeColumns()
+		if tyto.element.find('.column').length < tyto.config.maxColumns
+			tyto._createColumn()
+			tyto._resizeColumns()
+		else
+			alert "whoah, it's getting busy and you've reached the maximum amount of columns. You can however increase the amount of maximum columns via the config."
 	tyto::removeColumn = ($column = this.element.find('.column').last()) ->
 		tyto = this
 		removeColumn = ->

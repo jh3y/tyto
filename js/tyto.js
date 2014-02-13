@@ -152,8 +152,12 @@ define(['jquery', 'bootstrap', 'config', 'handlebars', 'tab', 'text!templates/ty
   };
   tyto.prototype.addColumn = function() {
     tyto = this;
-    tyto._createColumn();
-    return tyto._resizeColumns();
+    if (tyto.element.find('.column').length < tyto.config.maxColumns) {
+      tyto._createColumn();
+      return tyto._resizeColumns();
+    } else {
+      return alert("whoah, it's getting busy and you've reached the maximum amount of columns. You can however increase the amount of maximum columns via the config.");
+    }
   };
   tyto.prototype.removeColumn = function($column) {
     var removeColumn;

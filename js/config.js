@@ -13,6 +13,7 @@ define([], function() {
     emailRecipient: 'you@me.com',
     actionsTab: true,
     saveFilename: 'barn',
+    maxColumns: 10,
     columns: [
       {
         title: 'A column',
