@@ -1,11 +1,9 @@
 require.config({
   paths: {
-    jquery: 'libs/jquery/jquery-min',
-    bootstrap: 'libs/bootstrap/bootstrap.min',
+    jquery: 'http://code.jquery.com/jquery-2.1.0.min',
     handlebars: 'libs/handlebars/handlebars',
     config: 'config',
     tyto: 'tyto',
-    draggable: 'libs/jh3y/draggable',
     tab: 'libs/jh3y/tab',
     templates: '../templates',
     themes: '../css/themes',

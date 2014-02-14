@@ -1,7 +1,7 @@
 define([], function() {
   var config;
   return config = {
-    showIntroModalOnLoad: true,
+    showIntroModalOnLoad: false,
     introModalId: 'tytoIntroModal',
     helpModalId: 'tytoHelpModal',
     infoModalId: 'tytoInfoModal',
@@ -11,16 +11,16 @@ define([], function() {
     DOMElementSelector: '.barn',
     emailSubject: 'my current items',
     emailRecipient: 'you@me.com',
-    actionsTab: true,
     saveFilename: 'barn',
+    maxColumns: 10,
     columns: [
       {
         title: 'A column',
         items: [
           {
-            content: 'im your first item, and just like all items I am draggable between columns.'
+            content: "I'm your first item, and just like all items I am draggable between columns."
           }, {
-            content: 'there are actions available in the menu, just click the menu tab'
+            content: 'there are actions available above for you to add columns and items, export your board, load a board etc.'
           }
         ]
       }, {
