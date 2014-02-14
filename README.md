@@ -17,6 +17,8 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * __NEW!__ UI overhaul
 * etc.
 
+###tyto has had a big overhaul after the great feedback it received previously on HN. New features have also been updated that people were keen on.
+
 ###what's been happening.
 * __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
 * __11-22/12/13__: Been really busy and ill but been able to reply here and there to issues when I can.
