@@ -180,11 +180,13 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 				else
 					console.log "tyto: no luck, you don't seem to be able to undo that"
 			$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
+			tyto.notify 'undone', 2000
 	tyto::addColumn = ->
 		tyto = this
 		if tyto.element.find('.column').length < tyto.config.maxColumns
 			tyto._createColumn()
 			tyto._resizeColumns()
+			tyto.notify 'column added', 2000
 		else
 			alert "whoah, it's getting busy and you've reached the maximum amount of columns. You can however increase the amount of maximum columns via the config."
 	tyto::removeColumn = ($column = this.element.find('.column').last()) ->
@@ -206,8 +208,10 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 				removeColumn()
 		else
 			removeColumn()
+		tyto.notify 'column removed', 2000
 	tyto::addItem = ($column = this.element.find('.column').first(), content) ->
 		this._createItem $column, content
+		this.notify 'item added', 2000
 	tyto::_createItem = ($column, content) ->
 		tyto = this
 		template = Handlebars.compile itemHtml
@@ -239,6 +243,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 				itemList = Array.prototype.slice.call $item.parent('.items').children()
 				tyto.element.trigger {type: 'tyto:action', name: 'remove-item', DOMitem: $item, DOMcolumn: $item.parents('.column'), columnIndex: undefined, itemIndex: itemList.indexOf $item[0]}
 				$item.remove()
+				tyto.notify 'item removed', 2000
 		$item.find('.tyto-item-content').on 'dblclick', -> toggleEdit(this)
 		$item.find('.tyto-item-content').on 'mousedown', ->
 			$($(this)[0]._parent).on 'mousemove', ->
@@ -267,6 +272,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		this.notify 'board saved', 2000
 	tyto::deleteSave = ->
 		window.localStorage.removeItem 'tyto'
+		this.notify 'save deleted', 2000
 	tyto::_bindActions = ->
 		tyto = this
 		actionMap =

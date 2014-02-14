@@ -261,14 +261,16 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
         default:
           console.log("tyto: no luck, you don't seem to be able to undo that");
       }
-      return $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
+      $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
+      return tyto.notify('undone', 2000);
     }
   };
   tyto.prototype.addColumn = function() {
     tyto = this;
     if (tyto.element.find('.column').length < tyto.config.maxColumns) {
       tyto._createColumn();
-      return tyto._resizeColumns();
+      tyto._resizeColumns();
+      return tyto.notify('column added', 2000);
     } else {
       return alert("whoah, it's getting busy and you've reached the maximum amount of columns. You can however increase the amount of maximum columns via the config.");
     }
@@ -305,17 +307,19 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     };
     if ($column.find('.tyto-item').length > 0) {
       if (confirm('are you sure you want to remove this column? doing so will lose all items within it.')) {
-        return removeColumn();
+        removeColumn();
       }
     } else {
-      return removeColumn();
+      removeColumn();
     }
+    return tyto.notify('column removed', 2000);
   };
   tyto.prototype.addItem = function($column, content) {
     if ($column == null) {
       $column = this.element.find('.column').first();
     }
-    return this._createItem($column, content);
+    this._createItem($column, content);
+    return this.notify('item added', 2000);
   };
   tyto.prototype._createItem = function($column, content) {
     var $newitem, template;
@@ -368,7 +372,8 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
           columnIndex: void 0,
           itemIndex: itemList.indexOf($item[0])
         });
-        return $item.remove();
+        $item.remove();
+        return tyto.notify('item removed', 2000);
       }
     });
     $item.find('.tyto-item-content').on('dblclick', function() {
@@ -412,7 +417,8 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     return this.notify('board saved', 2000);
   };
   tyto.prototype.deleteSave = function() {
-    return window.localStorage.removeItem('tyto');
+    window.localStorage.removeItem('tyto');
+    return this.notify('save deleted', 2000);
   };
   tyto.prototype._bindActions = function() {
     var action, actionMap;
