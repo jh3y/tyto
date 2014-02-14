@@ -1,16 +1,26 @@
+.tyto-header-content {
+	text-align: center;
+}
 .tyto-header {
-	height: 50px
+	width: 90%;
+	margin: 0 auto 0 auto;
+	padding: 0.5em 0;
 }
-.tyto-header .tyto-header-content .tyto-title {
-	float: left;
-	margin: 0 0 0 0;
+h2.tyto-title {
+	margin: 0.2em 0 0 0;
 }
-.tyto-header .tyto-header-content {
-	position: absolute;
-	right: 100px;
-	color: black;	
+/* RESPONSIVE MEDIA QUERIES */
+@media (min-width: 768px) {
+	.tyto-header .tyto-header-content {
+		display: inline-block;
+		float: right;
+		text-align: left;
+	}
+	.tyto-header .tyto-header-content h2.tyto-title, .tyto-header .tyto-header-content .tyto-logo {
+		display: inline-block;
+	}
 }
-.tyto-header .tyto-header-content .tyto-logo {
-	position: relative;
-	float: right;
+@media (min-width: 992px) {
+}
+@media (min-width: 1200px) {
 }

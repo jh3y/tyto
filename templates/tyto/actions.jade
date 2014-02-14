@@ -1,24 +1,38 @@
-.actions
+.actions.hidden-xs
 	button.btn.btn-default.additem(title = "add item.", data-action = "additem")
 		|add item
-		span.icon.glyphicon.glyphicon-plus
+		i.fa.fa-file-o
 	button.btn.btn-default.addcolumn(title = "add column.", data-action = "addcolumn")
 		|add column
-		span.icon.glyphicon.glyphicon-stats
-	button.btn.btn-default.exportbarn(title = "export.", data-action = "exportbarn")
-		|export
-		span.icon.glyphicon.glyphicon-hdd
-	button.btn.btn-default.loadbarn(title = "load.", data-action = "loadbarn")
-		|load
-		span.icon.glyphicon.glyphicon-import
-	button.btn.btn-default.emailbarn(title = "email.", data-action = "emailbarn")
-		|email
-		span.icon.glyphicon.glyphicon-envelope
-	button.btn.btn-default.helpbarn(title = "show help.", data-action = "helpbarn")
-		|help
-		span.icon.glyphicon.glyphicon-question-sign
-	button.btn.btn-default.infobarn(title = "show info.", data-action = "infobarn")
-		|info
-		span.icon.glyphicon.glyphicon-info-sign
-	a.hide.savetyto(id = 'exporttyto')
+		i.fa.fa-bar-chart-o
+	a.hide.savetyto(id = 'savetyto')
 	a.hide.tytoemail(id = 'tytoemail')
+	button.btn.btn-disabled.undolast(title = "undo.", data-action = "undolast", disabled = "true")
+		|undo
+		i.fa.fa-undo
+	.btn-group
+		button.btn.btn-default.dropdown-toggle(type = "button", data-toggle = "dropdown")
+			|more
+			span.caret
+		ul.dropdown-menu(role = "menu")
+			li
+				a(title = "export", data-action = "savebarn")
+					|export
+					i.fa.fa-download
+			li
+				a(title = "load", data-action = "loadbarn")
+					|load
+					i.fa.fa-folder-o
+			li
+				a(title = "email", data-action = "emailbarn")
+					|email
+					i.fa.fa-envelope-o
+			li.divider
+			li
+				a(title = "show help", data-action = "helpbarn")
+					|help
+					i.fa.fa-user
+			li
+				a(title = "show info", data-action = "infobarn")
+					|info
+					i.fa.fa-info

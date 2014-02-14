@@ -2,35 +2,46 @@ html,
 body {
   height: 100%;
 }
+* {
+  transition: width 1s ease 0s;
+  -webkit-transition: width 1s ease 0s;
+}
 body {
   background-color: #f0ffff;
   font-family: tahoma;
   padding: 5px 5px 5px 5px;
 }
+.tyto-header-content {
+  text-align: center;
+}
 .tyto-header {
-  height: 50px;
+  width: 90%;
+  margin: 0 auto 0 auto;
+  padding: 0.5em 0;
 }
-.tyto-header .tyto-header-content .tyto-title {
-  float: left;
-  margin: 0 0 0 0;
+h2.tyto-title {
+  margin: 0.2em 0 0 0;
 }
-.tyto-header .tyto-header-content {
-  position: absolute;
-  right: 100px;
-  color: black;
-}
-.tyto-header .tyto-header-content .tyto-logo {
-  position: relative;
-  float: right;
+/* RESPONSIVE MEDIA QUERIES */
+@media (min-width: 768px) {
+  .tyto-header .tyto-header-content {
+    display: inline-block;
+    float: right;
+    text-align: left;
+  }
+  .tyto-header .tyto-header-content h2.tyto-title,
+  .tyto-header .tyto-header-content .tyto-logo {
+    display: inline-block;
+  }
 }
 #tytoInfoModal img.modal-tyto-logo {
   height: 150px;
 }
 #tytoInfoModal .modal-dialog {
   width: 465px;
+  text-align: center;
 }
 img.modal-tyto-logo {
-  float: left;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
@@ -41,20 +52,13 @@ img.modal-tyto-logo {
 #tytoIntroModal .modal-dialog {
   width: 740px;
 }
-#tytoIntroModal .modal-dialog .modal-content .modal-body p {
-  margin: 6px 6px 6px 6px;
+#tytoIntroModal ul li * {
+  display: inline-block;
+  vertical-align: top;
 }
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadconfig p,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns p,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loaddefault p {
-  float: left;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select {
-  margin: 6px 0px 6px 0px;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .info {
-  margin: 10px 0px 10px 0px;
+#tytoIntroModal ul button,
+#tytoIntroModal ul select {
+  margin: 0 0.5em;
 }
 #forkongithub a {
   background: #ebebeb;
@@ -119,6 +123,7 @@ img.modal-tyto-logo {
 .tyto-item-holder .tyto-item {
   width: 90%;
   margin: 0 auto 5px;
+  font-size: 0.85em;
 }
 .tyto-item {
   min-height: 100px;
@@ -134,22 +139,28 @@ img.modal-tyto-logo {
   background-color: yellow;
 }
 #barn .column .tyto-item-holder .tyto-item .close {
-  top: 2px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .actions {
-  padding: 4px 4px 4px 4px;
-  float: right;
+  padding: 2em 1em 0 1em;
 }
 .actions button {
-  width: 160px;
-  margin: 2px 2px 2px 2px;
-  position: relative;
-  height: 36px;
+  margin-right: 0.5em;
 }
-.actions button .icon {
+.actions button i {
+  margin: 0 0 0 0.25em;
+}
+.dropdown-menu i {
   position: absolute;
-  top: 30%;
-  right: 10px;
+  right: 0;
+  margin: 0.25em;
+  width: 3em;
+  text-align: center;
+}
+.btn-group ul.dropdown-menu {
+  margin-top: 0 !important;
 }
 #barn {
   border: thin solid black;
@@ -158,26 +169,27 @@ img.modal-tyto-logo {
   min-height: 320px;
   height: 600px;
   /*fallback*/
-  height: calc(100% - 100px);
-  height: -webkit-calc(100% - 100px);
+  height: calc(100% - 125px);
+  height: -webkit-calc(100% - 125px);
   width: 90%;
-  padding: 40px 40px 40px 40px;
+  padding: 1em 3em;
   margin: 0 auto 0 auto;
+  overflow: hidden;
 }
 #barn .column {
-  height: 100%;
-  float: left;
-  padding-bottom: 25px;
+  height: 85%;
+  height: calc(100% - 60px);
+  height: -webkit-calc(100% - 60px);
+  display: inline-block;
   position: relative;
+  padding: 1em 0 0 0;
 }
 #barn .column .column-title {
-  border-bottom: thin solid black;
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0 auto;
-  margin-bottom: 25px;
+  height: 26px;
+  text-overflow: ellipsis;
+  overflow: hidden;
   text-align: center;
-  width: 70%;
+  text-decoration: underline;
 }
 #barn .column .tyto-item-holder {
   height: 100%;
@@ -185,30 +197,30 @@ img.modal-tyto-logo {
   overflow: auto;
 }
 #barn .column .tyto-item-holder.over {
-  border: 2px dashed #000;
+  border: 2px dashed #999;
 }
-#barn .column .close {
-  color: #333;
-  font-weight: normal;
-  font-size: 12px;
+#barn i.fa.fa-plus.addcolumn[data-action] {
   position: absolute;
-  right: 2px;
-  top: -20px;
-  cursor: pointer;
+  margin: 0.5em;
+  top: 0;
+  right: 0;
 }
-#barn .column .additem {
-  color: #333;
-  font-weight: normal;
-  font-size: 11px;
-  position: absolute;
-  right: 14px;
-  top: -20px;
-  cursor: pointer;
+#barn .column .icon-holder {
+  text-align: right;
+}
+#barn .column .tyto-item-holder .icon-holder {
+  text-align: center;
+}
+#barn i {
   opacity: 0.2;
+  font-size: 0.85em;
+  cursor: pointer;
 }
-#barn .column .additem:hover,
-#barn .column .additem:focus {
-  opacity: 0.5;
+#barn i:hover {
+  opacity: 0.8;
+}
+.viewport-message {
+  text-align: center;
 }
 .tab {
   position: absolute;
