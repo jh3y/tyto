@@ -104,6 +104,10 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
   };
   tyto.prototype._bindPageEvents = function() {
     tyto = this;
+    $('[data-action="cookie-close"]').on('click', function(e) {
+      $('.cookie-banner').remove();
+      return $('#forkongithub').removeClass('hide');
+    });
     $('body').on('tyto:action', function(event) {
       console.log(event);
       tyto.undo.action = event.name;

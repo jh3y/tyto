@@ -70,6 +70,9 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		tyto.element.trigger {type: 'tyto:action', name: 'add-column', DOMcolumn: $newColumn, DOMitem: undefined}
 	tyto::_bindPageEvents = ->
 		tyto = this
+		$('[data-action="cookie-close"]').on 'click', (e)->
+			$('.cookie-banner').remove()
+			$('#forkongithub').removeClass 'hide'
 		$('body').on 'tyto:action', (event) ->
 			console.log event
 			tyto.undo.action = event.name
