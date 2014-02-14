@@ -3,8 +3,8 @@ body {
   height: 100%;
 }
 * {
-  transition: all 1s ease 0s;
-  -webkit-transition: all 1s ease 0s;
+  transition: width 1s ease 0s;
+  -webkit-transition: width 1s ease 0s;
 }
 body {
   background-color: #f0ffff;
@@ -174,6 +174,7 @@ img.modal-tyto-logo {
   width: 90%;
   padding: 1em 3em;
   margin: 0 auto 0 auto;
+  overflow: hidden;
 }
 #barn .column {
   height: 85%;

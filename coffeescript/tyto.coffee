@@ -4,6 +4,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		config = if options isnt `undefined` then options else config
 		this.config = config
 		this.modals = {}
+		this.undo = {}
 		this._bindPageEvents()
 		if config.showIntroModalOnLoad and config.introModalId
 			this.modals.introModal = $ '#' + config.introModalId
@@ -31,13 +32,14 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			tyto.loadBarn()
 	tyto::_createBarn = (config) ->
 		tyto = this
-		# I think we need to refactor the DOM stuff out so that it happens elsewhere and only the page actions get done once.
 		tyto._buildDOM config
 		tyto.element.find('[data-action="addcolumn"]').on 'click', (e) ->
 				tyto.addColumn()
 		tyto._bindActions();
 		if tyto.modals.introModal isnt `undefined`
 			tyto.modals.introModal.modal 'hide'
+		tyto.undo = {}
+		$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
 	tyto::_buildDOM = (config) ->
 		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
@@ -65,8 +67,17 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		$newColumn = $ template columnData
 		this._bindColumnEvents $newColumn
 		this.element.append $newColumn
+		tyto.element.trigger {type: 'tyto:action', name: 'add-column', DOMcolumn: $newColumn, DOMitem: undefined}
 	tyto::_bindPageEvents = ->
 		tyto = this
+		$('body').on 'tyto:action', (event) ->
+			console.log event
+			tyto.undo.action = event.name
+			tyto.undo.column = event.DOMcolumn
+			tyto.undo.item = event.DOMitem
+			tyto.undo.columnIndex = event.columnIndex
+			tyto.undo.itemIndex = event.itemIndex
+			$('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass 'btn-default'
 		$('body').on 'click', (event) ->
 			$clicked = $ event.target
 			$clickeditem = if $clicked.hasClass 'item' then $clicked else if $clicked.parents('.tyto-item').length > 0 then $clicked.parents '.tyto-item'
@@ -105,6 +116,33 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		$column.find('[data-action="additem"]').on 'click', (e) ->
 			tyto.addItem $column
 		tyto
+	tyto::undoLast = ->
+		tyto = this
+		if tyto.undo
+			switch tyto.undo.action
+				when 'add-column'
+					tyto.undo.column.remove()
+					tyto._resizeColumns()
+				when 'add-item'
+					tyto.undo.item.remove()
+				when 'remove-column'
+					if tyto.undo.columnIndex > tyto.element.find('.column').length - 1
+						tyto.element.append tyto.undo.column
+					else
+						$(tyto.element.find('.column')[tyto.undo.columnIndex]).before tyto.undo.column
+					tyto._bindColumnEvents tyto.undo.column
+					$.each tyto.undo.column.find('[data-tyto-item]'), () ->
+						tyto._binditemEvents $ this
+					tyto._resizeColumns()
+				when 'remove-item'
+					if tyto.undo.itemIndex > tyto.undo.column.find('[data-tyto-item]').length - 1
+						tyto.undo.column.find('.items').append tyto.undo.item
+					else
+						$(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before tyto.undo.item
+					tyto._binditemEvents tyto.undo.item
+				else
+					console.log 'no luck'
+			$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
 	tyto::addColumn = ->
 		tyto = this
 		if tyto.element.find('.column').length < tyto.config.maxColumns
@@ -114,7 +152,16 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			alert "whoah, it's getting busy and you've reached the maximum amount of columns. You can however increase the amount of maximum columns via the config."
 	tyto::removeColumn = ($column = this.element.find('.column').last()) ->
 		tyto = this
+		calculateIndex = ->
+			colIndex = undefined
+			$.each $(".column"), (key, value) ->
+				if $column[0] is value
+					colIndex = key
+					return false
+			colIndex
 		removeColumn = ->
+			columnList = Array.prototype.slice.call $column.parent('[data-tyto]').children('.column')
+			tyto.element.trigger {type: 'tyto:action', name: 'remove-column', DOMitem: undefined, DOMcolumn: $column, columnIndex: columnList.indexOf $column[0]}
 			$column.remove()
 			tyto._resizeColumns()
 		if $column.find('.tyto-item').length > 0
@@ -125,10 +172,12 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 	tyto::addItem = ($column = this.element.find('.column').first(), content) ->
 		this._createItem $column, content
 	tyto::_createItem = ($column, content) ->
+		tyto = this
 		template = Handlebars.compile itemHtml
 		$newitem = $ template {}
-		this._binditemEvents $newitem
+		tyto._binditemEvents $newitem
 		$column.find('.tyto-item-holder .items').append $newitem
+		tyto.element.trigger {type: 'tyto:action', name: 'add-item', DOMitem: $newitem, DOMcolumn: $column}
 	tyto::_binditemEvents = ($item) ->
 		tyto = this
 		enableEdit = (content) ->
@@ -148,6 +197,8 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 				disableEdit(content)
 		$item.find('.close').on 'click', (event) ->
 			if confirm 'are you sure you want to remove this item?'
+				itemList = Array.prototype.slice.call $item.parent('.items').children()
+				tyto.element.trigger {type: 'tyto:action', name: 'remove-item', DOMitem: $item, DOMcolumn: $item.parents('.column'), columnIndex: undefined, itemIndex: itemList.indexOf $item[0]}
 				$item.remove()
 		$item.find('.tyto-item-content').on 'dblclick', -> toggleEdit(this)
 		$item.find('.tyto-item-content').on 'mousedown', ->
@@ -179,6 +230,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			emailbarn: 'emailBarn'
 			helpbarn: 'showHelp'
 			infobarn: 'showInfo'
+			undolast: 'undoLast'
 
 		action = ""
 
