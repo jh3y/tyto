@@ -1,8 +1,10 @@
 .actions.hidden-xs
 	button.btn.btn-default.additem(title = "add item.", data-action = "additem")
 		|add item
+		i.fa.fa-file-o
 	button.btn.btn-default.addcolumn(title = "add column.", data-action = "addcolumn")
 		|add column
+		i.fa.fa-bar-chart-o
 	a.hide.savetyto(id = 'savetyto')
 	a.hide.tytoemail(id = 'tytoemail')
 	.btn-group
@@ -13,16 +15,21 @@
 			li
 				a(title = "export", data-action = "savebarn")
 					|export
+					i.fa.fa-download
 			li
 				a(title = "load", data-action = "loadbarn")
 					|load
+					i.fa.fa-folder-o
 			li
 				a(title = "email", data-action = "emailbarn")
 					|email
+					i.fa.fa-envelope-o
 			li.divider
 			li
 				a(title = "show help", data-action = "helpbarn")
 					|help
+					i.fa.fa-user
 			li
 				a(title = "show info", data-action = "infobarn")
 					|info
+					i.fa.fa-info

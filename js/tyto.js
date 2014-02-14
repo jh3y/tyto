@@ -186,9 +186,6 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     template = Handlebars.compile(itemHtml);
     $newitem = $(template({}));
     this._binditemEvents($newitem);
-    $newitem.css({
-      'max-width': $column[0].offsetWidth * 0.9 + 'px'
-    });
     return $column.find('.tyto-item-holder .items').append($newitem);
   };
   tyto.prototype._binditemEvents = function($item) {
@@ -266,11 +263,8 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     tyto = this;
     if (tyto.element.find('.column').length > 0) {
       correctWidth = 100 / tyto.element.find('.column').length;
-      tyto.element.find('.column').css({
+      return tyto.element.find('.column').css({
         'width': correctWidth + '%'
-      });
-      return tyto.element.find('.tyto-item').css({
-        'max-width': tyto.element.find('.column').first()[0].offsetWidth * 0.9 + 'px'
       });
     }
   };

@@ -2,6 +2,10 @@ html,
 body {
   height: 100%;
 }
+* {
+  transition: all 1s ease 0s;
+  -webkit-transition: all 1s ease 0s;
+}
 body {
   background-color: #f0ffff;
   font-family: tahoma;
@@ -126,6 +130,7 @@ img.modal-tyto-logo {
 .tyto-item-holder .tyto-item {
   width: 90%;
   margin: 0 auto 5px;
+  font-size: 0.85em;
 }
 .tyto-item {
   min-height: 100px;
@@ -141,13 +146,24 @@ img.modal-tyto-logo {
   background-color: yellow;
 }
 #barn .column .tyto-item-holder .tyto-item .close {
-  top: 2px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .actions {
   padding: 2em 1em 0 1em;
 }
 .actions button {
   margin-right: 0.5em;
+}
+.actions button i {
+  margin: 0 0 0 0.25em;
+}
+.dropdown-menu i {
+  float: right;
+}
+.btn-group ul.dropdown-menu {
+  margin-top: 0 !important;
 }
 #barn {
   border: thin solid black;
@@ -203,11 +219,10 @@ img.modal-tyto-logo {
   cursor: pointer;
 }
 #barn i:hover {
-  opacity: 0.5;
+  opacity: 0.8;
 }
-#barn .column .additem:hover,
-#barn .column .additem:focus {
-  opacity: 0.5;
+.viewport-message {
+  text-align: center;
 }
 .tab {
   position: absolute;
