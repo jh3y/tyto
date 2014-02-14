@@ -39,9 +39,9 @@ h2.tyto-title {
 }
 #tytoInfoModal .modal-dialog {
   width: 465px;
+  text-align: center;
 }
 img.modal-tyto-logo {
-  float: left;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
@@ -52,20 +52,13 @@ img.modal-tyto-logo {
 #tytoIntroModal .modal-dialog {
   width: 740px;
 }
-#tytoIntroModal .modal-dialog .modal-content .modal-body p {
-  margin: 6px 6px 6px 6px;
+#tytoIntroModal ul li * {
+  display: inline-block;
+  vertical-align: top;
 }
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadconfig p,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns p,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loaddefault p {
-  float: left;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select {
-  margin: 6px 0px 6px 0px;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .info {
-  margin: 10px 0px 10px 0px;
+#tytoIntroModal ul button,
+#tytoIntroModal ul select {
+  margin: 0 0.5em;
 }
 #forkongithub a {
   background: #ebebeb;
@@ -160,7 +153,11 @@ img.modal-tyto-logo {
   margin: 0 0 0 0.25em;
 }
 .dropdown-menu i {
-  float: right;
+  position: absolute;
+  right: 0;
+  margin: 0.25em;
+  width: 3em;
+  text-align: center;
 }
 .btn-group ul.dropdown-menu {
   margin-top: 0 !important;
