@@ -57,6 +57,7 @@ h2.tyto-title {
 .cookie-banner .cookie-banner-content a[data-action='cookie-close'] {
   position: absolute;
   right: 0;
+  top: 1em;
 }
 .cookie-banner .cookie-banner-content {
   width: 90%;
@@ -94,55 +95,27 @@ img.modal-tyto-logo {
 #tytoIntroModal ul select {
   margin: 0 0.5em;
 }
-#forkongithub a {
-  background: #ebebeb;
-  color: #000000;
-  text-decoration: none;
-  font-family: arial, sans-serif;
-  text-align: center;
-  font-weight: bold;
-  padding: 5px 40px;
-  font-size: 1rem;
-  line-height: 2rem;
-  position: relative;
-  transition: 0.5s;
-}
-#forkongithub a:hover {
-  background: #800080;
-  color: #ffffff;
-}
-#forkongithub a::before,
-#forkongithub a::after {
-  content: "";
-  width: 100%;
-  display: block;
-  position: absolute;
-  top: 1px;
-  left: 0;
-  height: 1px;
-  background: #555555;
-}
-#forkongithub a::after {
-  bottom: 1px;
-  top: auto;
-}
 @media screen and (min-width: 0px) {
   #forkongithub {
     position: absolute;
-    display: block;
-    top: 0;
-    right: 0;
-    width: 130px;
-    overflow: hidden;
-    height: 130px;
+    top: 12em;
+    right: -2.5em;
+    border-radius: 0.5em;
+    padding: 0.25em;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    background-color: #ECF0F1;
+    border: thin solid #999;
+    font-weight: 300;
+    font-size: 0.85em;
   }
-  #forkongithub a {
-    width: 190px;
-    position: absolute;
-    top: 20px;
-    right: -60px;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
+  #forkongithub i {
+    margin: 0 0.25em;
+  }
+  #forkongithub:hover {
+    color: #FFF;
+    background-color: #8E44AD;
+    border: thin solid #FFF;
   }
 }
 .tyto-item-content {
@@ -255,6 +228,84 @@ img.modal-tyto-logo {
 }
 .viewport-message {
   text-align: center;
+}
+.tyto-notification {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0.25em 0.25em 0.25em 0.25em;
+  background-color: #FFF;
+  padding: 0.25em 0.25em 0.25em 0.25em;
+  border: thin solid black;
+  border-radius: 0.25em 0.25em 0.25em 0.25em;
+  transition: opacity 1s ease 0s;
+  -webkit-transition: opacity 1s ease 0s;
+}
+.notify[data-tyto-notify="0"] {
+  animation: notify 0s;
+  -webkit-animation: notify 0s;
+}
+.notify[data-tyto-notify="1"] {
+  animation: notify 1s;
+  -webkit-animation: notify 1s;
+}
+.notify[data-tyto-notify="2"] {
+  animation: notify 2s;
+  -webkit-animation: notify 2s;
+}
+.notify[data-tyto-notify="3"] {
+  animation: notify 3s;
+  -webkit-animation: notify 3s;
+}
+.notify[data-tyto-notify="4"] {
+  animation: notify 4s;
+  -webkit-animation: notify 4s;
+}
+.notify[data-tyto-notify="5"] {
+  animation: notify 5s;
+  -webkit-animation: notify 5s;
+}
+.notify[data-tyto-notify="6"] {
+  animation: notify 6s;
+  -webkit-animation: notify 6s;
+}
+.notify[data-tyto-notify="7"] {
+  animation: notify 7s;
+  -webkit-animation: notify 7s;
+}
+.notify[data-tyto-notify="8"] {
+  animation: notify 8s;
+  -webkit-animation: notify 8s;
+}
+.notify[data-tyto-notify="9"] {
+  animation: notify 9s;
+  -webkit-animation: notify 9s;
+}
+.notify[data-tyto-notify="10"] {
+  animation: notify 10s;
+  -webkit-animation: notify 10s;
+}
+@keyframes notify {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes notify {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .tab {
   position: absolute;

@@ -11,7 +11,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			this._bindIntroModalEvents()
 			this.modals.introModal.modal backdrop: 'static'
 		else
-			this._createBarn(config)
+			this._createBarn(this.config)
 		this
 	tyto::_bindIntroModalEvents = ->
 		tyto = this
@@ -70,11 +70,30 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		tyto.element.trigger {type: 'tyto:action', name: 'add-column', DOMcolumn: $newColumn, DOMitem: undefined}
 	tyto::_bindPageEvents = ->
 		tyto = this
-		$('[data-action="cookie-close"]').on 'click', (e)->
-			$('.cookie-banner').remove()
-			$('#forkongithub').removeClass 'hide'
+		inThrottle = undefined
+		throttle = (func, delay) ->
+			if inThrottle
+				clearTimeout inThrottle
+			inThrottle = setTimeout(->
+				func.apply()
+				tyto
+			, delay)
+		setUpLS = () ->
+			$('body').on 'tyto:action', (event)->
+				throttle(->
+					tyto.saveBarn()
+				, 5000)
+		if window.localStorage and window.localStorage.tyto
+			tyto.config = JSON.parse window.localStorage.tyto
+			tyto._loadBarnJSON JSON.parse window.localStorage.tyto
+			setUpLS()
+		else if window.localStorage
+			$('#cookie-banner').removeClass('hide').find('[data-action="cookie-close"]').on 'click', (e)->
+				setUpLS()
+				$('.cookie-banner').remove()
+				$('#forkongithub').removeClass 'hide'
+				tyto.saveBarn()
 		$('body').on 'tyto:action', (event) ->
-			console.log event
 			tyto.undo.action = event.name
 			tyto.undo.column = event.DOMcolumn
 			tyto.undo.item = event.DOMitem
@@ -159,7 +178,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 				when 'edit-column-title'
 					tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent
 				else
-					console.log 'no luck'
+					console.log "tyto: no luck, you don't seem to be able to undo that"
 			$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
 	tyto::addColumn = ->
 		tyto = this
@@ -243,18 +262,24 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		$item[0].addEventListener "dragend", ((event) ->
 			@style.opacity = "1"
 		), false
-	
+	tyto::saveBarn = ->
+		window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
+		this.notify 'board saved', 2000
+	tyto::deleteSave = ->
+		window.localStorage.removeItem 'tyto'
 	tyto::_bindActions = ->
 		tyto = this
 		actionMap =
 			additem: 'addItem'
 			addcolumn: 'addColumn'
-			savebarn: 'saveBarn'
+			exportbarn: 'exportBarn'
 			loadbarn: 'loadBarn'
 			emailbarn: 'emailBarn'
 			helpbarn: 'showHelp'
 			infobarn: 'showInfo'
 			undolast: 'undoLast'
+			savebarn: 'saveBarn'
+			deletesave: 'deleteSave'
 
 		action = ""
 
@@ -272,12 +297,16 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		itemboardJSON =
 			showIntroModalOnLoad: tyto.config.showIntroModalOnLoad
 			introModalId: tyto.config.introModalId
+			helpModalId: tyto.config.helpModalId
+			infoModalId: tyto.config.infoModalId
 			theme: tyto.config.theme
 			themePath: tyto.config.themePath
 			emailSubject: tyto.config.emailSubject
 			emailRecipient: tyto.config.emailRecipient
 			DOMId: tyto.config.DOMId
 			DOMElementSelector: tyto.config.DOMElementSelector
+			saveFilename: tyto.config.saveFilename
+			maxColumns: tyto.config.maxColumns
 			columns: []
 		columns = tyto.element.find '.column'
 		$.each columns, (index, column) ->
@@ -290,7 +319,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		itemboardJSON
 	tyto::_loadBarnJSON = (json) ->
 		tyto._buildDOM json
-	tyto::saveBarn = ->
+	tyto::exportBarn = ->
 		tyto = this
 		saveAnchor = $ '#savetyto'
 		filename = if tyto.config.saveFilename isnt `undefined` then tyto.config.saveFilename + '.json' else 'itemboard.json'
@@ -337,6 +366,12 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
 		$('#tytoemail').attr 'href', mailtoString
 		$('#tytoemail')[0].click()
+	tyto::notify = (message, duration) ->
+		$message = $ '<div class= "tyto-notification notify" data-tyto-notify=" ' + (duration / 1000) + ' ">' + message + '</div>'
+		$('body').prepend $message
+		setTimeout(->
+			$message.remove()
+		, duration)
 	tyto::showHelp = ->
 		tyto = this
 		if tyto.config.helpModalId
