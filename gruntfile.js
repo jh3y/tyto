@@ -38,6 +38,9 @@ module.exports = function(grunt) {
 						"index.html": "templates/index.jade"
 					},
 					{
+						"cookies.html": "templates/cookies.jade"
+					},
+					{
 						expand: true,
 						src: ["templates/page/*.jade"],
 						ext: ".html"
