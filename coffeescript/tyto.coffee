@@ -77,6 +77,7 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			tyto.undo.item = event.DOMitem
 			tyto.undo.columnIndex = event.columnIndex
 			tyto.undo.itemIndex = event.itemIndex
+			tyto.undo.editContent = event.content
 			$('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass 'btn-default'
 		$('body').on 'click', (event) ->
 			$clicked = $ event.target
@@ -91,6 +92,10 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			columnTitle = this
 			if event.keyCode is 13 or event.charCode is 13
 				columnTitle.blur()
+		$column.find('.column-title').on 'click', (event) ->
+			tyto._preEditItemContent = this.innerHTML.toString().trim();
+		$column.find('.column-title').on 'blur', (e) ->
+			tyto.element.trigger {type: 'tyto:action', name: 'edit-column-title', DOMcolumn: $column, content: tyto._preEditItemContent}
 		$column[0].addEventListener "dragenter", ((event) ->
 			$column.find('.tyto-item-holder').addClass "over"
 		), false
@@ -106,8 +111,9 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			if event.stopPropagation and event.preventDefault
 				event.stopPropagation()
 				event.preventDefault()
-			if tyto._dragitem and tyto._dragitem isnt null
-				$column.find('.tyto-item-holder .items')[0].appendChild tyto._dragitem
+			if tyto._dragItem and tyto._dragItem isnt null
+				$column.find('.tyto-item-holder .items')[0].appendChild tyto._dragItem
+				tyto.element.trigger {type: 'tyto:action', name: 'move-item', DOMcolumn: tyto._dragColumn, DOMitem: tyto._dragItem, itemIndex: tyto._dragItemIndex}
 			$column.find('.tyto-item-holder').removeClass "over"
 			false
 		), false
@@ -140,6 +146,15 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 					else
 						$(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before tyto.undo.item
 					tyto._binditemEvents tyto.undo.item
+				when 'move-item'
+					if tyto.undo.itemIndex > tyto.undo.column.find('[data-tyto-item]').length - 1
+						tyto.undo.column.find('.items').append tyto.undo.item
+					else
+						$(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before tyto.undo.item
+				when 'edit-item'
+					tyto.undo.item.find('.tyto-item-content')[0].innerHTML = tyto.undo.editContent
+				when 'edit-column-title'
+					tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent
 				else
 					console.log 'no luck'
 			$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
@@ -183,6 +198,8 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		enableEdit = (content) ->
 			content.contentEditable = true
 			$(content).addClass 'edit'
+			$(content).on 'click', (e) ->
+				tyto._preEditItemContent = content.innerHTML.toString().trim();
 			$item.attr 'draggable', false
 		disableEdit = (content) ->
 			content.contentEditable = false
@@ -209,12 +226,16 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			$(this).removeAttr 'contenteditable'
 			$(this).removeClass 'edit'
 			$item.attr 'draggable', true
+			tyto.element.trigger {type: 'tyto:action', name: 'edit-item', DOMitem: $item, DOMcolumn: $item.parents('.column'), content: tyto._preEditItemContent}
 		$item[0].addEventListener "dragstart", ((event) ->
 			$item.find('-item-content').blur()
 			@style.opacity = "0.4"
 			event.dataTransfer.effectAllowed = "move"
-			event.dataTransfer.setData "text/html", this
-			tyto._dragitem = this
+			event.dataTransfer.setData "text/html", $item[0]
+			tyto._dragItem = $item[0]
+			itemList = Array.prototype.slice.call $item.parent('.items').children()
+			tyto._dragItemIndex = itemList.indexOf $item[0]
+			tyto._dragColumn = $item.parents '.column'
 		), false
 		$item[0].addEventListener "dragend", ((event) ->
 			@style.opacity = "1"
@@ -312,7 +333,6 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 		content = encodeURIComponent content
 		mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
 		$('#tytoemail').attr 'href', mailtoString
-		console.log 'twice?'
 		$('#tytoemail')[0].click()
 	tyto::showHelp = ->
 		tyto = this

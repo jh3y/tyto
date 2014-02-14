@@ -111,6 +111,7 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
       tyto.undo.item = event.DOMitem;
       tyto.undo.columnIndex = event.columnIndex;
       tyto.undo.itemIndex = event.itemIndex;
+      tyto.undo.editContent = event.content;
       return $('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass('btn-default');
     });
     return $('body').on('click', function(event) {
@@ -134,6 +135,17 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
         return columnTitle.blur();
       }
     });
+    $column.find('.column-title').on('click', function(event) {
+      return tyto._preEditItemContent = this.innerHTML.toString().trim();
+    });
+    $column.find('.column-title').on('blur', function(e) {
+      return tyto.element.trigger({
+        type: 'tyto:action',
+        name: 'edit-column-title',
+        DOMcolumn: $column,
+        content: tyto._preEditItemContent
+      });
+    });
     $column[0].addEventListener("dragenter", (function(event) {
       return $column.find('.tyto-item-holder').addClass("over");
     }), false);
@@ -152,8 +164,15 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
         event.stopPropagation();
         event.preventDefault();
       }
-      if (tyto._dragitem && tyto._dragitem !== null) {
-        $column.find('.tyto-item-holder .items')[0].appendChild(tyto._dragitem);
+      if (tyto._dragItem && tyto._dragItem !== null) {
+        $column.find('.tyto-item-holder .items')[0].appendChild(tyto._dragItem);
+        tyto.element.trigger({
+          type: 'tyto:action',
+          name: 'move-item',
+          DOMcolumn: tyto._dragColumn,
+          DOMitem: tyto._dragItem,
+          itemIndex: tyto._dragItemIndex
+        });
       }
       $column.find('.tyto-item-holder').removeClass("over");
       return false;
@@ -196,6 +215,19 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
             $(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before(tyto.undo.item);
           }
           tyto._binditemEvents(tyto.undo.item);
+          break;
+        case 'move-item':
+          if (tyto.undo.itemIndex > tyto.undo.column.find('[data-tyto-item]').length - 1) {
+            tyto.undo.column.find('.items').append(tyto.undo.item);
+          } else {
+            $(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before(tyto.undo.item);
+          }
+          break;
+        case 'edit-item':
+          tyto.undo.item.find('.tyto-item-content')[0].innerHTML = tyto.undo.editContent;
+          break;
+        case 'edit-column-title':
+          tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent;
           break;
         default:
           console.log('no luck');
@@ -276,6 +308,9 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     enableEdit = function(content) {
       content.contentEditable = true;
       $(content).addClass('edit');
+      $(content).on('click', function(e) {
+        return tyto._preEditItemContent = content.innerHTML.toString().trim();
+      });
       return $item.attr('draggable', false);
     };
     disableEdit = function(content) {
@@ -319,14 +354,25 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
       this.contentEditable = false;
       $(this).removeAttr('contenteditable');
       $(this).removeClass('edit');
-      return $item.attr('draggable', true);
+      $item.attr('draggable', true);
+      return tyto.element.trigger({
+        type: 'tyto:action',
+        name: 'edit-item',
+        DOMitem: $item,
+        DOMcolumn: $item.parents('.column'),
+        content: tyto._preEditItemContent
+      });
     });
     $item[0].addEventListener("dragstart", (function(event) {
+      var itemList;
       $item.find('-item-content').blur();
       this.style.opacity = "0.4";
       event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("text/html", this);
-      return tyto._dragitem = this;
+      event.dataTransfer.setData("text/html", $item[0]);
+      tyto._dragItem = $item[0];
+      itemList = Array.prototype.slice.call($item.parent('.items').children());
+      tyto._dragItemIndex = itemList.indexOf($item[0]);
+      return tyto._dragColumn = $item.parents('.column');
     }), false);
     return $item[0].addEventListener("dragend", (function(event) {
       return this.style.opacity = "1";
@@ -460,7 +506,6 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     content = encodeURIComponent(content);
     mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
     $('#tytoemail').attr('href', mailtoString);
-    console.log('twice?');
     return $('#tytoemail')[0].click();
   };
   tyto.prototype.showHelp = function() {
