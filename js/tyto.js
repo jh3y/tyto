@@ -16,7 +16,7 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
         backdrop: 'static'
       });
     } else {
-      this._createBarn(config);
+      this._createBarn(this.config);
     }
     return this;
   };
@@ -103,9 +103,38 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     });
   };
   tyto.prototype._bindPageEvents = function() {
+    var inThrottle, setUpLS, throttle;
     tyto = this;
+    inThrottle = void 0;
+    throttle = function(func, delay) {
+      if (inThrottle) {
+        clearTimeout(inThrottle);
+      }
+      return inThrottle = setTimeout(function() {
+        func.apply();
+        return tyto;
+      }, delay);
+    };
+    setUpLS = function() {
+      return $('body').on('tyto:action', function(event) {
+        return throttle(function() {
+          return tyto.saveBarn();
+        }, 5000);
+      });
+    };
+    if (window.localStorage && window.localStorage.tyto) {
+      tyto.config = JSON.parse(window.localStorage.tyto);
+      tyto._loadBarnJSON(JSON.parse(window.localStorage.tyto));
+      setUpLS();
+    } else if (window.localStorage) {
+      $('#cookie-banner').removeClass('hide').find('[data-action="cookie-close"]').on('click', function(e) {
+        setUpLS();
+        $('.cookie-banner').remove();
+        $('#forkongithub').removeClass('hide');
+        return tyto.saveBarn();
+      });
+    }
     $('body').on('tyto:action', function(event) {
-      console.log(event);
       tyto.undo.action = event.name;
       tyto.undo.column = event.DOMcolumn;
       tyto.undo.item = event.DOMitem;
@@ -230,7 +259,7 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
           tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent;
           break;
         default:
-          console.log('no luck');
+          console.log("tyto: no luck, you don't seem to be able to undo that");
       }
       return $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
     }
@@ -378,18 +407,27 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
       return this.style.opacity = "1";
     }), false);
   };
+  tyto.prototype.saveBarn = function() {
+    window.localStorage.setItem('tyto', JSON.stringify(tyto._createBarnJSON()));
+    return this.notify('board saved', 2000);
+  };
+  tyto.prototype.deleteSave = function() {
+    return window.localStorage.removeItem('tyto');
+  };
   tyto.prototype._bindActions = function() {
     var action, actionMap;
     tyto = this;
     actionMap = {
       additem: 'addItem',
       addcolumn: 'addColumn',
-      savebarn: 'saveBarn',
+      exportbarn: 'exportBarn',
       loadbarn: 'loadBarn',
       emailbarn: 'emailBarn',
       helpbarn: 'showHelp',
       infobarn: 'showInfo',
-      undolast: 'undoLast'
+      undolast: 'undoLast',
+      savebarn: 'saveBarn',
+      deletesave: 'deleteSave'
     };
     action = "";
     return $('.actions').on('click', '[data-action]', function(e) {
@@ -413,12 +451,16 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     itemboardJSON = {
       showIntroModalOnLoad: tyto.config.showIntroModalOnLoad,
       introModalId: tyto.config.introModalId,
+      helpModalId: tyto.config.helpModalId,
+      infoModalId: tyto.config.infoModalId,
       theme: tyto.config.theme,
       themePath: tyto.config.themePath,
       emailSubject: tyto.config.emailSubject,
       emailRecipient: tyto.config.emailRecipient,
       DOMId: tyto.config.DOMId,
       DOMElementSelector: tyto.config.DOMElementSelector,
+      saveFilename: tyto.config.saveFilename,
+      maxColumns: tyto.config.maxColumns,
       columns: []
     };
     columns = tyto.element.find('.column');
@@ -442,7 +484,7 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
   tyto.prototype._loadBarnJSON = function(json) {
     return tyto._buildDOM(json);
   };
-  tyto.prototype.saveBarn = function() {
+  tyto.prototype.exportBarn = function() {
     var content, filename, saveAnchor;
     tyto = this;
     saveAnchor = $('#savetyto');
@@ -507,6 +549,14 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
     mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
     $('#tytoemail').attr('href', mailtoString);
     return $('#tytoemail')[0].click();
+  };
+  tyto.prototype.notify = function(message, duration) {
+    var $message;
+    $message = $('<div class= "tyto-notification notify" data-tyto-notify=" ' + (duration / 1000) + ' ">' + message + '</div>');
+    $('body').prepend($message);
+    return setTimeout(function() {
+      return $message.remove();
+    }, duration);
   };
   tyto.prototype.showHelp = function() {
     tyto = this;
