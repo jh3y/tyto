@@ -513,7 +513,7 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
         return items.push({
           content: item.querySelector('.tyto-item-content').innerHTML.toString().trim(),
           title: item.querySelector('.tyto-item-title').innerHTML.toString().trim(),
-          collapsed: item.querySelector('.action-icons .collapser').className.contains('plus')
+          collapsed: item.querySelector('.action-icons .collapser').className.toString().trim().contains('plus')
         });
       });
       return itemboardJSON.columns.push({
