@@ -44,6 +44,16 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			connectWith: '.column',
 			handle: '.column-mover'
 			placeholder: 'column-placeholder'
+			axis: "x"
+			containment: "#barn"
+			opacity: 0.8
+			start: (event, ui) ->
+				tyto._movedItem = $ ui.item
+				tyto._movedItemOrigin = $ event.currentTarget
+				columnList = Array.prototype.slice.call tyto.element.children '.column'
+				tyto._movedItemIndex = columnList.indexOf $(ui.item)[0]
+			stop: (event, ui) ->
+				tyto.element.trigger {type: 'tyto:action', name: 'move-column', DOMcolumn: tyto._movedItem, itemIndex: tyto._movedItemIndex}
 	tyto::_buildDOM = (config) ->
 		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
@@ -59,13 +69,6 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 				if tyto.element.find('.tyto-item').length > 0
 					$.each tyto.element.find('.tyto-item'), (index, item) ->
 						tyto._binditemEvents $ item
-			# TODO: remove theming.
-			# if config.theme isnt `undefined` and typeof config.theme is 'string' and config.themePath isnt `undefined` and typeof config.themePath is 'string'
-			# 	try
-			# 		$('head').append $ '<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'
-			# 		tyto.element.addClass config.theme
-			# 	catch e
-			# 		return throw Error 'tyto: could not load theme.'
 	tyto::_createColumn = (columnData) ->
 		template = Handlebars.compile columnHtml
 		Handlebars.registerPartial "item", itemHtml
@@ -120,13 +123,22 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			connectWith: ".items"
 			handle: ".item-mover"
 			placeholder: "item-placeholder"
+			containment: "#barn"
+			opacity: 0.8
+			revert: true
+			start: (event, ui) ->
+				tyto._movedItem = $ ui.item
+				tyto._movedItemOrigin = $ event.currentTarget
+				itemList = Array.prototype.slice.call $column.find('.items').children('.tyto-item')
+				tyto._movedItemIndex = itemList.indexOf $(ui.item)[0]
+			stop: (event, ui) ->
+				tyto.element.trigger {type: 'tyto:action', name: 'move-item', DOMcolumn: tyto._movedItemOrigin, DOMitem: tyto._movedItem, itemIndex: tyto._movedItemIndex}
 		$column.find('[data-action="removecolumn"]').on 'click', (e) ->
 			tyto.removeColumn $column
 		$column.find('[data-action="additem"]').on 'click', (e) ->
 			tyto.addItem $column
 		tyto
 	tyto::undoLast = ->
-		# TODO: revisit this undo stuff.
 		tyto = this
 		if tyto.undo
 			switch tyto.undo.action
@@ -151,11 +163,15 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 						$(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before tyto.undo.item
 					tyto._binditemEvents tyto.undo.item
 				when 'move-item'
-					if tyto.undo.itemIndex > tyto.undo.column.find('[data-tyto-item]').length - 1
-						tyto.undo.column.find('.items').append tyto.undo.item
+					if tyto.undo.itemIndex is 0
+						tyto.undo.column.append tyto.undo.item
 					else
-						$(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before tyto.undo.item
-				when 'edit-item'
+						$(tyto.undo.column.children('.tyto-item')[tyto.undo.itemIndex]).before tyto.undo.item
+				when 'move-column'
+					$(tyto.element.children('.column')[tyto.undo.itemIndex]).before tyto.undo.column
+				when 'edit-item-title'
+					tyto.undo.item.find('.tyto-item-title')[0].innerHTML = tyto.undo.editContent
+				when 'edit-item-content'
 					tyto.undo.item.find('.tyto-item-content')[0].innerHTML = tyto.undo.editContent
 				when 'edit-column-title'
 					tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent
@@ -213,6 +229,18 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			icon = $ this
 			icon.toggleClass 'fa-minus fa-plus'
 			icon.closest('.tyto-item').find('.tyto-item-content').toggle()
+		$item.find('.tyto-item-title, .tyto-item-content').on 'keydown', (event) ->
+			item = this
+			if event.keyCode is 27 or event.charCode is 27
+				item.blur()
+		$item.find('.tyto-item-title').on 'click', (event) ->
+			tyto._preEditItemContent = this.innerHTML.toString().trim();
+		$item.find('.tyto-item-title').on 'blur', (e) ->
+			tyto.element.trigger {type: 'tyto:action', name: 'edit-item-title', DOMitem: $item, content: tyto._preEditItemContent}
+		$item.find('.tyto-item-content').on 'click', (event) ->
+			tyto._preEditItemContent = this.innerHTML.toString().trim();
+		$item.find('.tyto-item-content').on 'blur', (e) ->
+			tyto.element.trigger {type: 'tyto:action', name: 'edit-item-content', DOMitem: $item, content: tyto._preEditItemContent}
 	tyto::saveBarn = ->
 		window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
 		this.notify 'board saved', 2000
@@ -251,8 +279,6 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			introModalId: tyto.config.introModalId
 			helpModalId: tyto.config.helpModalId
 			infoModalId: tyto.config.infoModalId
-			theme: tyto.config.theme
-			themePath: tyto.config.themePath
 			emailSubject: tyto.config.emailSubject
 			emailRecipient: tyto.config.emailRecipient
 			DOMId: tyto.config.DOMId
@@ -266,7 +292,10 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			items = []
 			columnitems = $(column).find('.tyto-item')
 			$.each columnitems, (index, item) ->
-				items.push content: item.querySelector('.tyto-item-content').innerHTML.toString().trim()
+				items.push
+					content: item.querySelector('.tyto-item-content').innerHTML.toString().trim()
+					title: item.querySelector('.tyto-item-title').innerHTML.toString().trim()
+					collapsed: item.querySelector('.action-icons .collapser').className.contains 'plus'
 			itemboardJSON.columns.push title: columnTitle, items: items
 		itemboardJSON
 	tyto::_loadBarnJSON = (json) ->
@@ -292,7 +321,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 				reader = new FileReader()
 				reader.onloadend = (event) ->
 					result = JSON.parse this.result
-					if result.columns isnt `undefined` and result.theme isnt `undefined` and (result.DOMId isnt `undefined` or result.DOMElementSelector isnt `undefined`)
+					if result.columns isnt `undefined` and (result.DOMId isnt `undefined` or result.DOMElementSelector isnt `undefined`)
 						tyto._loadBarnJSON result
 					else 
 						alert 'tyto: incorrect json'
