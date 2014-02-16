@@ -171,6 +171,8 @@ using the text plugin for requireJS, __tyto__ pulls in templates and then using 
 ###discuss
 i have yet to work my way through the feedback and insight left on Hacker News to create an issue list etc. so feel free to join the discussion [here](https://news.ycombinator.com/item?id=6886834).
 
+Alternatively, email me or leave a comment on my site.
+
 It would be really appreciated!  :)
 ###contributing
 if you feel __tyto__ would be something you'd like to contribute ideas to or enhancements please don't hesitate to get in touch or fork the repo and submit a pull request. i know __tyto__ has many flaws so I welcome the criticism to be honest as any publicity is good publicity.
