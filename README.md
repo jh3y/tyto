@@ -19,6 +19,8 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 *__NEW!__ Collapsible items
 * etc.
 
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto6.gif)
+
 ###tyto has had a big overhaul
 after the great feedback it received previously on HN. New features have been added that people requested.
 
@@ -30,7 +32,8 @@ after the great feedback it received previously on HN. New features have been ad
 * __14/02/14__: V1.1.0 released with plenty of new features that were raised in the first showing.
 * __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto6.gif)
+
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto8.gif)
 
 ###why tyto? what's it for?
 To be honest __tyto__ arose from my own and other members of my then team desiring something easy to organise and manage your own daily workflow. This could be something simple like the current development tasks on your plate or maybe the meetings you have scheduled in the current week coming. The ability to also share this is important.
@@ -61,6 +64,9 @@ the nice thing about __tyto__ is that you can use it however you want to and it'
 Your data will be persisted in the browser using localStorage so you can close the tab browser etc. and you won't lose anything. 
 
 If you want to move to a different browser or machine, simply use the __export__ action to export a json file which can be loaded in wherever you use __tyto__. 
+
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto7.gif)
+
 ####using tyto in your own environment to develop against, extend, etc.
 alternatively, if you want to use __tyto__ in your own environment or want to start hacking away at it and extending, configuring it etc. it's very easy!
 #####prerequisites
