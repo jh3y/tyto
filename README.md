@@ -180,6 +180,19 @@ if you feel __tyto__ would be something you'd like to contribute ideas to or enh
 
 MIT
 
-although if you do wish to use __tyto__ please star the repo or fork it, it helps it get spread. Also if you have an interesting use or example usage please don't hesitate to share it and it can be put up as an example.
+if you do wish to use __tyto__ please star the repo or fork it, it helps it get spread. Also if you have an interesting use or example usage please don't hesitate to share it and it can be put up as an example.
+
+
+_tyto - http://jh3y.github.io/tyto
+Licensed under the MIT license
+
+[Jhey Tompkins](https://github.com/jh3y) (c) 2014.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE._
+
 
 @jh3y
