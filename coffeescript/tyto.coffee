@@ -1,4 +1,4 @@
-define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) ->
+define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, jqueryUI, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) ->
 	tyto = (options) ->
 		return new tyto() unless this instanceof tyto
 		config = if options isnt `undefined` then options else config
@@ -40,6 +40,12 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			tyto.modals.introModal.modal 'hide'
 		tyto.undo = {}
 		$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
+		# now it can do some magic whereby we edit it somehow so this should be interesting. SO that bit was super easy. Column reordering by dragging the title.
+		#  TODO: change this to icon instead of title.
+		tyto.element.sortable({
+			connectWith: '.column',
+			handle: '.column-title'
+		})
 	tyto::_buildDOM = (config) ->
 		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
@@ -118,27 +124,9 @@ define ['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
 			tyto._preEditItemContent = this.innerHTML.toString().trim();
 		$column.find('.column-title').on 'blur', (e) ->
 			tyto.element.trigger {type: 'tyto:action', name: 'edit-column-title', DOMcolumn: $column, content: tyto._preEditItemContent}
-		$column[0].addEventListener "dragenter", ((event) ->
-			$column.find('.tyto-item-holder').addClass "over"
-		), false
-		$column[0].addEventListener "dragover", ((event) ->
-			event.preventDefault()  if event.preventDefault
-			event.dataTransfer.dropEffect = "move"
-			false
-		), false
-		$column[0].addEventListener "dragleave", ((event) ->
-			$column.find('.tyto-item-holder').removeClass "over"
-		), false
-		$column[0].addEventListener "drop", ((event) ->
-			if event.stopPropagation and event.preventDefault
-				event.stopPropagation()
-				event.preventDefault()
-			if tyto._dragItem and tyto._dragItem isnt null
-				$column.find('.tyto-item-holder .items')[0].appendChild tyto._dragItem
-				tyto.element.trigger {type: 'tyto:action', name: 'move-item', DOMcolumn: tyto._dragColumn, DOMitem: tyto._dragItem, itemIndex: tyto._dragItemIndex}
-			$column.find('.tyto-item-holder').removeClass "over"
-			false
-		), false
+		$column.find('.items').sortable
+			connectWith: ".items"
+			handle: ".tyto-item-structure"
 		$column.find('[data-action="removecolumn"]').on 'click', (e) ->
 			tyto.removeColumn $column
 		$column.find('[data-action="additem"]').on 'click', (e) ->

@@ -1,4 +1,4 @@
-define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) {
+define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, jqueryUI, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) {
   var tyto;
   tyto = function(options) {
     if (!(this instanceof tyto)) {
@@ -55,7 +55,11 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
       tyto.modals.introModal.modal('hide');
     }
     tyto.undo = {};
-    return $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
+    $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
+    return tyto.element.sortable({
+      connectWith: '.column',
+      handle: '.column-title'
+    });
   };
   tyto.prototype._buildDOM = function(config) {
     var e, i;
@@ -175,37 +179,10 @@ define(['jquery', 'config', 'handlebars', 'text!templates/tyto/column.html', 'te
         content: tyto._preEditItemContent
       });
     });
-    $column[0].addEventListener("dragenter", (function(event) {
-      return $column.find('.tyto-item-holder').addClass("over");
-    }), false);
-    $column[0].addEventListener("dragover", (function(event) {
-      if (event.preventDefault) {
-        event.preventDefault();
-      }
-      event.dataTransfer.dropEffect = "move";
-      return false;
-    }), false);
-    $column[0].addEventListener("dragleave", (function(event) {
-      return $column.find('.tyto-item-holder').removeClass("over");
-    }), false);
-    $column[0].addEventListener("drop", (function(event) {
-      if (event.stopPropagation && event.preventDefault) {
-        event.stopPropagation();
-        event.preventDefault();
-      }
-      if (tyto._dragItem && tyto._dragItem !== null) {
-        $column.find('.tyto-item-holder .items')[0].appendChild(tyto._dragItem);
-        tyto.element.trigger({
-          type: 'tyto:action',
-          name: 'move-item',
-          DOMcolumn: tyto._dragColumn,
-          DOMitem: tyto._dragItem,
-          itemIndex: tyto._dragItemIndex
-        });
-      }
-      $column.find('.tyto-item-holder').removeClass("over");
-      return false;
-    }), false);
+    $column.find('.items').sortable({
+      connectWith: ".items",
+      handle: ".tyto-item-structure"
+    });
     $column.find('[data-action="removecolumn"]').on('click', function(e) {
       return tyto.removeColumn($column);
     });
