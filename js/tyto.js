@@ -18,10 +18,10 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
       return new tyto();
     }
     config = options !== undefined ? options : config;
-    this.config = config;
+    this.config = window.localStorage.tyto !== undefined ? JSON.parse(window.localStorage.tyto) : config;
     this.modals = {};
     this.undo = {};
-    this._autoSave = config.autoSave;
+    this._autoSave = this.config.autoSave;
     this._bindPageEvents();
     if (config.showIntroModalOnLoad && config.introModalId) {
       this.modals.introModal = $('#' + config.introModalId);
@@ -157,8 +157,6 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
       });
     };
     if (window.localStorage && window.localStorage.tyto) {
-      tyto.config = JSON.parse(window.localStorage.tyto);
-      tyto._loadBarnJSON(JSON.parse(window.localStorage.tyto));
       setUpLS();
     } else if (window.localStorage) {
       $('#cookie-banner').removeClass('hide').find('[data-action="cookie-close"]').on('click', function(e) {
@@ -471,10 +469,11 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
     $('[data-action="toggleautosave"] i').toggleClass('fa-check-square-o fa-square-o');
     tyto._autoSave = !tyto._autoSave;
     if (tyto._autoSave) {
-      return tyto.notify('auto-save: ON', 2000);
+      tyto.notify('auto-save: ON', 2000);
     } else {
-      return tyto.notify('auto-save: OFF', 2000);
+      tyto.notify('auto-save: OFF', 2000);
     }
+    return window.localStorage.setItem('tyto', JSON.stringify(tyto._createBarnJSON()));
   };
   tyto.prototype._resizeColumns = function() {
     var correctWidth;
@@ -510,10 +509,12 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
       items = [];
       columnitems = $(column).find('.tyto-item');
       $.each(columnitems, function(index, item) {
+        var isCollapsed;
+        isCollapsed = item.querySelector('.action-icons .collapser').className.indexOf('plus') !== -1 ? true : false;
         return items.push({
           content: item.querySelector('.tyto-item-content').innerHTML.toString().trim(),
           title: item.querySelector('.tyto-item-title').innerHTML.toString().trim(),
-          collapsed: item.querySelector('.action-icons .collapser').className.contains('plus')
+          collapsed: isCollapsed
         });
       });
       return itemboardJSON.columns.push({

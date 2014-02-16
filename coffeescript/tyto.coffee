@@ -15,10 +15,10 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 	tyto = (options) ->
 		return new tyto() unless this instanceof tyto
 		config = if options isnt `undefined` then options else config
-		this.config = config
+		this.config = if window.localStorage.tyto isnt `undefined` then JSON.parse window.localStorage.tyto else config
 		this.modals = {}
 		this.undo = {}
-		this._autoSave = config.autoSave
+		this._autoSave = this.config.autoSave
 		this._bindPageEvents()
 		if config.showIntroModalOnLoad and config.introModalId
 			this.modals.introModal = $ '#' + config.introModalId
@@ -110,8 +110,6 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 						tyto.saveBarn()
 					, 5000)
 		if window.localStorage and window.localStorage.tyto
-			tyto.config = JSON.parse window.localStorage.tyto
-			tyto._loadBarnJSON JSON.parse window.localStorage.tyto
 			setUpLS()
 		else if window.localStorage
 			$('#cookie-banner').removeClass('hide').find('[data-action="cookie-close"]').on 'click', (e)->
@@ -308,6 +306,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			tyto.notify 'auto-save: ON', 2000
 		else
 			tyto.notify 'auto-save: OFF', 2000
+		window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
 	tyto::_resizeColumns = ->
 		tyto = this
 		if tyto.element.find('.column').length > 0
@@ -334,10 +333,11 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			items = []
 			columnitems = $(column).find('.tyto-item')
 			$.each columnitems, (index, item) ->
+				isCollapsed = if item.querySelector('.action-icons .collapser').className.indexOf('plus') isnt -1 then true else false
 				items.push
 					content: item.querySelector('.tyto-item-content').innerHTML.toString().trim()
 					title: item.querySelector('.tyto-item-title').innerHTML.toString().trim()
-					collapsed: item.querySelector('.action-icons .collapser').className.contains 'plus'
+					collapsed: isCollapsed
 			itemboardJSON.columns.push title: columnTitle, items: items
 		itemboardJSON
 	tyto::_loadBarnJSON = (json) ->
