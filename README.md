@@ -165,6 +165,9 @@ of course, the use of jade, less and coffeescript or any of the technology being
 using jade and handlebars has made it very easy to template html for __tyto__. this makes it also easy to extend or customize in a desirable way.
 
 using the text plugin for requireJS, __tyto__ pulls in templates and then using handlebars generates items, columns, and email drafts so changing entities is as easy as changing the template.
+
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto9.gif)
+
 ###roadmap and known needs
 * the documentation isn't great and in some ways not clear. this does mean that there are probably ways the implementation could be made simpler.
 * mobile support for touch events such as drag and swipe possibly using hammer.js
