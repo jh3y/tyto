@@ -30,6 +30,8 @@ after the great feedback it received previously on HN. New features have been ad
 * __14/02/14__: V1.1.0 released with plenty of new features that were raised in the first showing.
 * __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
 
+![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto6.gif)
+
 ###why tyto? what's it for?
 To be honest __tyto__ arose from my own and other members of my then team desiring something easy to organise and manage your own daily workflow. This could be something simple like the current development tasks on your plate or maybe the meetings you have scheduled in the current week coming. The ability to also share this is important.
 

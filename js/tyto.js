@@ -263,7 +263,7 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
           tyto._binditemEvents(tyto.undo.item);
           break;
         case 'move-item':
-          if (tyto.undo.itemIndex === 0) {
+          if (tyto.undo.itemIndex === 0 || tyto.undo.itemIndex === tyto.undo.column.children('.tyto-item').length) {
             tyto.undo.column.append(tyto.undo.item);
           } else {
             $(tyto.undo.column.children('.tyto-item')[tyto.undo.itemIndex]).before(tyto.undo.item);

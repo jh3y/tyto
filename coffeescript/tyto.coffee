@@ -182,7 +182,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 						$(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before tyto.undo.item
 					tyto._binditemEvents tyto.undo.item
 				when 'move-item'
-					if tyto.undo.itemIndex is 0
+					if tyto.undo.itemIndex is 0 or tyto.undo.itemIndex is tyto.undo.column.children('.tyto-item').length
 						tyto.undo.column.append tyto.undo.item
 					else
 						$(tyto.undo.column.children('.tyto-item')[tyto.undo.itemIndex]).before tyto.undo.item
