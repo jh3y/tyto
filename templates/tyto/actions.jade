@@ -18,6 +18,11 @@
 			i.fa.fa-cog
 			span.caret
 		ul.dropdown-menu(role = "menu")
+			li	
+				a(title = "wipe board", data-action = "wipeboard")
+					|wipe board
+					i.fa.fa-eraser
+			li.divider
 			li
 				a(title = "export", data-action = "exportbarn")
 					|export
@@ -31,6 +36,10 @@
 					|email
 					i.fa.fa-envelope-o
 			li.divider
+			li	
+				a(title = "toggle auto-save", data-action = "toggleautosave")
+					|auto-save
+					i.fa.fa-check-square-o
 			li	
 				a(title = "delete save", data-action = "deletesave")
 					|delete save

@@ -1,5 +1,6 @@
 define [], ->
 	config =
+		autoSave: true
 		showIntroModalOnLoad: false
 		introModalId: 'tytoIntroModal'
 		helpModalId: 'tytoHelpModal'

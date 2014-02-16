@@ -1,6 +1,7 @@
 define([], function() {
   var config;
   return config = {
+    autoSave: true,
     showIntroModalOnLoad: false,
     introModalId: 'tytoIntroModal',
     helpModalId: 'tytoHelpModal',

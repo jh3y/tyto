@@ -8,6 +8,7 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
     this.config = config;
     this.modals = {};
     this.undo = {};
+    this._autoSave = config.autoSave;
     this._bindPageEvents();
     if (config.showIntroModalOnLoad && config.introModalId) {
       this.modals.introModal = $('#' + config.introModalId);
@@ -84,6 +85,9 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
   tyto.prototype._buildDOM = function(config) {
     var i;
     tyto = this;
+    if (!tyto.autoSave) {
+      $('.actions [data-action="toggleautosave"] i').toggleClass('fa-check-square-o fa-square-o');
+    }
     if (config.DOMElementSelector !== undefined || config.DOMId !== undefined) {
       tyto.element = config.DOMId !== undefined ? $('#' + config.DOMId) : $(config.DOMElementSelector);
       tyto.element.attr('data-tyto', 'true');
@@ -132,9 +136,11 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
     };
     setUpLS = function() {
       return $('body').on('tyto:action', function(event) {
-        return throttle(function() {
-          return tyto.saveBarn();
-        }, 5000);
+        if (tyto._autoSave) {
+          return throttle(function() {
+            return tyto.saveBarn();
+          }, 5000);
+        }
       });
     };
     if (window.localStorage && window.localStorage.tyto) {
@@ -261,6 +267,15 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
           break;
         case 'edit-column-title':
           tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent;
+          break;
+        case 'wipe-board':
+          tyto.element.append(tyto.undo.item);
+          $.each(tyto.element.find('.tyto-item'), function(key, $item) {
+            return tyto._binditemEvents($($item));
+          });
+          $.each(tyto.element.find('.column'), function(key, $column) {
+            return tyto._bindColumnEvents($($column));
+          });
           break;
         default:
           console.log("tyto: no luck, you don't seem to be able to undo that");
@@ -416,13 +431,37 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
       infobarn: 'showInfo',
       undolast: 'undoLast',
       savebarn: 'saveBarn',
-      deletesave: 'deleteSave'
+      deletesave: 'deleteSave',
+      wipeboard: 'wipeBoard',
+      toggleautosave: 'toggleAutoSave'
     };
     action = "";
     return $('.actions').on('click', '[data-action]', function(e) {
       action = e.target.dataset.action;
       return tyto[actionMap[action]]();
     });
+  };
+  tyto.prototype.wipeBoard = function() {
+    var boardContent;
+    if (confirm('are you really sure you wish to wipe your entire board?')) {
+      boardContent = tyto.element[0].innerHTML;
+      tyto.element[0].innerHTML = '';
+      tyto.element.trigger({
+        type: 'tyto:action',
+        name: 'wipe-board',
+        DOMitem: $(boardContent)
+      });
+      return tyto.notify('board wiped', 2000);
+    }
+  };
+  tyto.prototype.toggleAutoSave = function() {
+    $('[data-action="toggleautosave"] i').toggleClass('fa-check-square-o fa-square-o');
+    tyto._autoSave = !tyto._autoSave;
+    if (tyto._autoSave) {
+      return tyto.notify('auto-save: ON', 2000);
+    } else {
+      return tyto.notify('auto-save: OFF', 2000);
+    }
   };
   tyto.prototype._resizeColumns = function() {
     var correctWidth;
@@ -438,6 +477,7 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
     var columns, itemboardJSON;
     tyto = this;
     itemboardJSON = {
+      autoSave: tyto._autoSave,
       showIntroModalOnLoad: tyto.config.showIntroModalOnLoad,
       introModalId: tyto.config.introModalId,
       helpModalId: tyto.config.helpModalId,

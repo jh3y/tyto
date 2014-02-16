@@ -5,6 +5,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 		this.config = config
 		this.modals = {}
 		this.undo = {}
+		this._autoSave = config.autoSave
 		this._bindPageEvents()
 		if config.showIntroModalOnLoad and config.introModalId
 			this.modals.introModal = $ '#' + config.introModalId
@@ -57,6 +58,8 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 				tyto.notify 'column moved', 2000
 	tyto::_buildDOM = (config) ->
 		tyto = this
+		if !tyto.autoSave
+			$('.actions [data-action="toggleautosave"] i').toggleClass 'fa-check-square-o fa-square-o'
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
 			tyto.element = if config.DOMId isnt `undefined` then $ '#' + config.DOMId else $ config.DOMElementSelector
 			tyto.element.attr 'data-tyto', 'true'
@@ -89,9 +92,10 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			, delay)
 		setUpLS = () ->
 			$('body').on 'tyto:action', (event)->
-				throttle(->
-					tyto.saveBarn()
-				, 5000)
+				if tyto._autoSave
+					throttle(->
+						tyto.saveBarn()
+					, 5000)
 		if window.localStorage and window.localStorage.tyto
 			tyto.config = JSON.parse window.localStorage.tyto
 			tyto._loadBarnJSON JSON.parse window.localStorage.tyto
@@ -177,6 +181,12 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 					tyto.undo.item.find('.tyto-item-content')[0].innerHTML = tyto.undo.editContent
 				when 'edit-column-title'
 					tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent
+				when 'wipe-board'
+					tyto.element.append tyto.undo.item
+					$.each tyto.element.find('.tyto-item'), (key, $item) ->
+						tyto._binditemEvents $ $item
+					$.each tyto.element.find('.column'), (key, $column) ->
+						tyto._bindColumnEvents $ $column
 				else
 					console.log "tyto: no luck, you don't seem to be able to undo that"
 			$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
@@ -264,13 +274,27 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			undolast: 'undoLast'
 			savebarn: 'saveBarn'
 			deletesave: 'deleteSave'
+			wipeboard: 'wipeBoard'
+			toggleautosave: 'toggleAutoSave'
 
 		action = ""
 
 		$('.actions').on 'click', '[data-action]', (e) ->
 			action = e.target.dataset.action
 			tyto[actionMap[action]]()
-
+	tyto::wipeBoard = ->
+		if confirm 'are you really sure you wish to wipe your entire board?'
+			boardContent = tyto.element[0].innerHTML
+			tyto.element[0].innerHTML = '';
+			tyto.element.trigger {type: 'tyto:action', name: 'wipe-board', DOMitem: $ boardContent}
+			tyto.notify 'board wiped', 2000
+	tyto::toggleAutoSave = ->
+		$('[data-action="toggleautosave"] i').toggleClass 'fa-check-square-o fa-square-o'
+		tyto._autoSave = !tyto._autoSave
+		if tyto._autoSave
+			tyto.notify 'auto-save: ON', 2000
+		else
+			tyto.notify 'auto-save: OFF', 2000
 	tyto::_resizeColumns = ->
 		tyto = this
 		if tyto.element.find('.column').length > 0
@@ -279,6 +303,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 	tyto::_createBarnJSON = -> 
 		tyto = this
 		itemboardJSON =
+			autoSave: tyto._autoSave
 			showIntroModalOnLoad: tyto.config.showIntroModalOnLoad
 			introModalId: tyto.config.introModalId
 			helpModalId: tyto.config.helpModalId
