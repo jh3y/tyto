@@ -98,7 +98,7 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
   tyto.prototype._buildDOM = function(config) {
     var i;
     tyto = this;
-    if (!tyto.autoSave) {
+    if (tyto._autoSave === false || tyto._autoSave === void 0) {
       $('.actions [data-action="toggleautosave"] i').toggleClass('fa-check-square-o fa-square-o');
     }
     if (config.DOMElementSelector !== undefined || config.DOMId !== undefined) {

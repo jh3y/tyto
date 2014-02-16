@@ -71,7 +71,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 				tyto.notify 'column moved', 2000
 	tyto::_buildDOM = (config) ->
 		tyto = this
-		if !tyto.autoSave
+		if tyto._autoSave is false or tyto._autoSave is undefined
 			$('.actions [data-action="toggleautosave"] i').toggleClass 'fa-check-square-o fa-square-o'
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
 			tyto.element = if config.DOMId isnt `undefined` then $ '#' + config.DOMId else $ config.DOMElementSelector
