@@ -4,8 +4,6 @@ define [], ->
 		introModalId: 'tytoIntroModal'
 		helpModalId: 'tytoHelpModal'
 		infoModalId: 'tytoInfoModal'
-		theme: false
-		themePath: 'css/themes/theme.css'
 		DOMId: 'barn'
 		DOMElementSelector: '.barn'
 		emailSubject: 'my current items'
@@ -16,8 +14,12 @@ define [], ->
 			title: 'A column'
 			items: [
 				content: "I'm your first item, and just like all items I am draggable between columns."
+				collapsed: true
+				title:"Sweet little item."
 			,
+				collapsed: false
 				content: 'there are actions available above for you to add columns and items, export your board, load a board etc.'
+				title: "non collapsed"
 			]
 		,
 			title: 'Another column'
@@ -25,6 +27,8 @@ define [], ->
 		,
 			title: 'Click me to edit'
 			items: [
+				collapsed: true
+				title: "collapsed"
 				content: 'you can double-click an item to enter edit mode'
 			]
 		,

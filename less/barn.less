@@ -17,7 +17,6 @@
 	height: ~"-webkit-calc(100% - 60px)";
 	display: inline-block;
 	position: relative;
-	padding: 1em 0 0 0;
 }
 #barn .column .column-title {
 	height: 26px;
@@ -25,6 +24,7 @@
 	overflow: hidden;
 	text-align: center;
 	text-decoration: underline;
+	margin: 0 0 0.5em 0;
 }
 #barn .column .tyto-item-holder {
 	height: 100%;
@@ -37,20 +37,29 @@
 
 #barn i.fa.fa-plus.addcolumn[data-action] {
 	position: absolute;
-	margin: 0.5em;
+	margin: 0.1em;
 	top: 0;
 	right: 0;
 }
 #barn .column .icon-holder {
 	text-align: right;
 }
+#barn .column .icon-holder .column-mover {
+	margin: 0 4px 0 0;
+}
+#barn .column .items {
+	padding: 0 0 1em 0;
+}
 #barn .column .tyto-item-holder .icon-holder {
 	text-align: center;
 }
 #barn i {
 	opacity: 0.2;
-	font-size: 0.85em;
+	font-size: 14px;
 	cursor: pointer;
+}
+#barn i.fa.fa-plus[data-action] {
+	font-size: 1em;
 }
 #barn i:hover {
 	opacity: 0.8;
