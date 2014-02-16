@@ -1,43 +1,58 @@
 define([], function() {
   var config;
   return config = {
-    showIntroModalOnLoad: true,
+    autoSave: true,
+    showIntroModalOnLoad: false,
     introModalId: 'tytoIntroModal',
     helpModalId: 'tytoHelpModal',
     infoModalId: 'tytoInfoModal',
-    theme: false,
-    themePath: 'css/themes/theme.css',
     DOMId: 'barn',
     DOMElementSelector: '.barn',
     emailSubject: 'my current items',
     emailRecipient: 'you@me.com',
-    actionsTab: true,
     saveFilename: 'barn',
+    maxColumns: 10,
     columns: [
       {
         title: 'A column',
         items: [
           {
-            content: 'im your first item, and just like all items I am draggable between columns.'
+            content: "I'm your first item, and just like all items I am draggable between columns by using the move icon.",
+            collapsed: false,
+            title: "Item header."
           }, {
-            content: 'there are actions available in the menu, just click the menu tab'
+            collapsed: false,
+            content: 'there are actions available above for you to add columns and items, export your board, load a board etc.',
+            title: "Click to edit me!"
           }
         ]
       }, {
         title: 'Another column',
-        items: []
+        items: [
+          {
+            collapsed: false,
+            content: "You can also collapse/expand items by clicking the plus/minus icon.",
+            title: "collapsible"
+          }
+        ]
       }, {
         title: 'Click me to edit',
         items: [
           {
-            content: 'you can double-click an item to enter edit mode'
+            collapsed: false,
+            title: "edit me",
+            content: 'you can click an item to enter edit mode and edit it.'
+          }, {
+            collapsed: true,
+            content: "I was collapsed.",
+            title: "collapsed"
           }
         ]
       }, {
         title: 'Done',
         items: [
           {
-            content: 'then click to edit and when you are done click elsewhere or double click the item again and it then becomes draggable'
+            content: 'You can also drag columns to resort their ordering using the move icon at the top next to the remove icon.'
           }
         ]
       }

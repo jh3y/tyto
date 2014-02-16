@@ -2,71 +2,104 @@ html,
 body {
   height: 100%;
 }
+* {
+  transition: width 1s ease 0s, height 1s ease 0s;
+  -webkit-transition: width 1s ease 0s, height 1s ease 0s;
+}
+a:hover {
+  color: #E74C3C;
+}
+.center-text {
+  text-align: center;
+}
 body {
   background-color: #f0ffff;
   font-family: tahoma;
   padding: 5px 5px 5px 5px;
 }
-.tyto-header {
-  height: 50px;
+.close {
+  float: none;
 }
-.tyto-header .tyto-header-content .tyto-title {
-  float: left;
+#barn i.fa.fa-arrows {
+  cursor: move;
+}
+.item-placeholder {
+  border: 1px dashed #888;
+  height: 100px;
+  width: 90%;
+  margin: 0em auto 1em auto;
+}
+.column-placeholder {
+  border: 1px dashed #888;
+  display: inline-block;
+  width: 100px;
+  margin: 0 1em;
+  height: 100%;
+  vertical-align: top;
+}
+.tyto-header-content {
+  text-align: center;
+}
+.tyto-header {
+  width: 90%;
+  margin: 0 auto 0 auto;
+  padding: 0.5em 0;
+}
+h2.tyto-title {
+  margin: 0.2em 0 0 0;
+}
+/* RESPONSIVE MEDIA QUERIES */
+@media (min-width: 768px) {
+  .tyto-header .tyto-header-content {
+    display: inline-block;
+    float: right;
+    text-align: left;
+  }
+  .tyto-header .tyto-header-content h2.tyto-title,
+  .tyto-header .tyto-header-content .tyto-logo {
+    display: inline-block;
+  }
+}
+.cookie-banner {
+  background-color: #95A5A6;
+  border-radius: 0.25em;
+  z-index: 2;
+}
+.cookie-banner h6 {
   margin: 0 0 0 0;
 }
-.tyto-header .tyto-header-content {
-  position: absolute;
-  right: 100px;
-  color: black;
+.cookie-banner img {
+  margin: 0.5em;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
-.tyto-header .tyto-header-content .tyto-logo {
+.cookie-banner .cookie-banner-content a[data-action='cookie-close'] {
+  position: absolute;
+  right: 0;
+  top: 1em;
+}
+.cookie-banner .cookie-banner-content {
+  width: 90%;
+  margin: 0 auto;
   position: relative;
-  float: right;
 }
-.tyto-header .tyto-header-content .tyto-logo .tyto-wing {
-  position: absolute;
-  width: 8px;
-  height: 18px;
-  top: 16px;
-  left: 34px;
-  background-color: #945925;
-  transform-origin: top center 0;
-  -webkit-transform-origin: top center 0;
-}
-.tyto-header .tyto-header-content .tyto-logo.flap .tyto-wing {
-  animation: flap 1s;
-  -webkit-animation: flap 1s;
-}
-@keyframes flap {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(-45deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-@-webkit-keyframes flap {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  50% {
-    -webkit-transform: rotate(-45deg);
-  }
-  100% {
-    -webkit-transform: rotate(0deg);
-  }
+.cookie-banner .image,
+.cookie-banner .blurb {
+  display: inline-block;
+  vertical-align: top;
 }
 #tytoInfoModal img.modal-tyto-logo {
   height: 150px;
 }
 #tytoInfoModal .modal-dialog {
   width: 465px;
+  text-align: center;
 }
 img.modal-tyto-logo {
-  float: left;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
@@ -77,114 +110,89 @@ img.modal-tyto-logo {
 #tytoIntroModal .modal-dialog {
   width: 740px;
 }
-#tytoIntroModal .modal-dialog .modal-content .modal-body p {
-  margin: 6px 6px 6px 6px;
+#tytoIntroModal ul li * {
+  display: inline-block;
+  vertical-align: top;
 }
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadconfig p,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns p,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select,
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loaddefault p {
-  float: left;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .loadcolumns select {
-  margin: 6px 0px 6px 0px;
-}
-#tytoIntroModal .modal-dialog .modal-content .modal-body .info {
-  margin: 10px 0px 10px 0px;
-}
-#forkongithub a {
-  background: #ebebeb;
-  color: #000000;
-  text-decoration: none;
-  font-family: arial, sans-serif;
-  text-align: center;
-  font-weight: bold;
-  padding: 5px 40px;
-  font-size: 1rem;
-  line-height: 2rem;
-  position: relative;
-  transition: 0.5s;
-}
-#forkongithub a:hover {
-  background: #800080;
-  color: #ffffff;
-}
-#forkongithub a::before,
-#forkongithub a::after {
-  content: "";
-  width: 100%;
-  display: block;
-  position: absolute;
-  top: 1px;
-  left: 0;
-  height: 1px;
-  background: #555555;
-}
-#forkongithub a::after {
-  bottom: 1px;
-  top: auto;
+#tytoIntroModal ul button,
+#tytoIntroModal ul select {
+  margin: 0 0.5em;
 }
 @media screen and (min-width: 0px) {
   #forkongithub {
     position: absolute;
-    display: block;
-    top: 0;
-    right: 0;
-    width: 130px;
-    overflow: hidden;
-    height: 130px;
+    top: 12em;
+    right: -2.5em;
+    border-radius: 0.5em;
+    padding: 0.25em;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    background-color: #ECF0F1;
+    border: thin solid #999;
+    font-weight: 300;
+    font-size: 0.85em;
   }
-  #forkongithub a {
-    width: 190px;
-    position: absolute;
-    top: 20px;
-    right: -60px;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
+  #forkongithub i {
+    margin: 0 0.25em;
+  }
+  #forkongithub:hover {
+    color: #FFF;
+    background-color: #8E44AD;
+    border: thin solid #FFF;
   }
 }
 .tyto-item-content {
-  min-height: 100px;
+  min-height: 50px;
+  margin: 10px 0 0 0;
   text-align: center;
-  padding: 10px 10px 10px 10px;
+  font-size: 0.85em;
+  color: #777;
   overflow: hidden;
 }
-.tyto-item .tyto-item-structure {
+.tyto-item .tyto-item-header {
   position: relative;
-}
-.tyto-item-holder .tyto-item {
-  width: 90%;
-  margin: 0 auto 5px;
 }
 .tyto-item {
-  min-height: 100px;
-  background-color: #ffffd5;
+  width: 90%;
+  padding: 10px 10px 10px 10px;
+  margin: 0 auto 1em;
+  font-size: 0.85em;
   box-shadow: #ebebeb 0px 5px 5px;
-  cursor: move;
+  background-color: #ffffd5;
 }
-.tyto-item .tyto-item-content[contenteditable] {
-  cursor: text;
+.tyto-item-header h6 {
+  margin: 0 22% 0 0;
+  font-size: 1.25em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
-.edit {
-  border: 1px #333 dashed;
-  background-color: yellow;
+.tyto-item .tyto-item-header .action-icons {
+  position: absolute;
+  top: -4px;
+  right: 0;
 }
-#barn .column .tyto-item-holder .tyto-item .close {
-  top: 2px;
+.tyto-item .action-icons i:not(:last-of-type) {
+  margin-right: 4px;
 }
 .actions {
-  padding: 4px 4px 4px 4px;
+  padding: 2em 1em 0 1em;
 }
 .actions button {
-  width: 160px;
-  margin: 2px 2px 2px 2px;
-  position: relative;
-  height: 36px;
+  margin-right: 0.5em;
 }
-.actions button .icon {
+.actions button i {
+  margin: 0 0 0 0.25em;
+}
+.dropdown-menu i {
   position: absolute;
-  top: 30%;
-  right: 10px;
+  right: 0;
+  margin: 0.25em;
+  width: 3em;
+  text-align: center;
+}
+.btn-group ul.dropdown-menu {
+  margin-top: 0 !important;
 }
 #barn {
   border: thin solid black;
@@ -193,26 +201,27 @@ img.modal-tyto-logo {
   min-height: 320px;
   height: 600px;
   /*fallback*/
-  height: calc(100% - 100px);
-  height: -webkit-calc(100% - 100px);
+  height: calc(100% - 125px);
+  height: -webkit-calc(100% - 125px);
   width: 90%;
-  padding: 40px 40px 40px 40px;
+  padding: 1em 3em;
   margin: 0 auto 0 auto;
+  overflow: hidden;
 }
 #barn .column {
-  height: 100%;
-  float: left;
-  padding-bottom: 25px;
+  height: 85%;
+  height: calc(100% - 60px);
+  height: -webkit-calc(100% - 60px);
+  display: inline-block;
   position: relative;
 }
 #barn .column .column-title {
-  border-bottom: thin solid black;
-  font-size: 16px;
-  font-weight: bold;
-  margin: 0 auto;
-  margin-bottom: 25px;
+  height: 26px;
+  text-overflow: ellipsis;
+  overflow: hidden;
   text-align: center;
-  width: 70%;
+  text-decoration: underline;
+  margin: 0 0 0.5em 0;
 }
 #barn .column .tyto-item-holder {
   height: 100%;
@@ -220,30 +229,117 @@ img.modal-tyto-logo {
   overflow: auto;
 }
 #barn .column .tyto-item-holder.over {
-  border: 2px dashed #000;
+  border: 2px dashed #999;
 }
-#barn .column .close {
-  color: #333;
-  font-weight: normal;
-  font-size: 12px;
+#barn i.fa.fa-plus.addcolumn[data-action] {
   position: absolute;
-  right: 2px;
-  top: -20px;
-  cursor: pointer;
+  margin: 0.1em;
+  top: 0;
+  right: 0;
 }
-#barn .column .additem {
-  color: #333;
-  font-weight: normal;
-  font-size: 11px;
-  position: absolute;
-  right: 14px;
-  top: -20px;
-  cursor: pointer;
+#barn .column .icon-holder {
+  text-align: right;
+}
+#barn .column .icon-holder .column-mover {
+  margin: 0 4px 0 0;
+}
+#barn .column .items {
+  padding: 0 0 1em 0;
+}
+#barn .column .tyto-item-holder .icon-holder {
+  text-align: center;
+}
+#barn i {
   opacity: 0.2;
+  font-size: 14px;
+  cursor: pointer;
 }
-#barn .column .additem:hover,
-#barn .column .additem:focus {
-  opacity: 0.5;
+#barn i.fa.fa-plus[data-action] {
+  font-size: 1em;
+}
+#barn i:hover {
+  opacity: 0.8;
+}
+.viewport-message {
+  text-align: center;
+}
+.tyto-notification {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0.25em 0.25em 0.25em 0.25em;
+  background-color: #FFF;
+  padding: 0.25em 0.25em 0.25em 0.25em;
+  border: thin solid black;
+  border-radius: 0.25em 0.25em 0.25em 0.25em;
+  transition: opacity 1s ease 0s;
+  -webkit-transition: opacity 1s ease 0s;
+}
+.notify[data-tyto-notify="0"] {
+  animation: notify 0s;
+  -webkit-animation: notify 0s;
+}
+.notify[data-tyto-notify="1"] {
+  animation: notify 1s;
+  -webkit-animation: notify 1s;
+}
+.notify[data-tyto-notify="2"] {
+  animation: notify 2s;
+  -webkit-animation: notify 2s;
+}
+.notify[data-tyto-notify="3"] {
+  animation: notify 3s;
+  -webkit-animation: notify 3s;
+}
+.notify[data-tyto-notify="4"] {
+  animation: notify 4s;
+  -webkit-animation: notify 4s;
+}
+.notify[data-tyto-notify="5"] {
+  animation: notify 5s;
+  -webkit-animation: notify 5s;
+}
+.notify[data-tyto-notify="6"] {
+  animation: notify 6s;
+  -webkit-animation: notify 6s;
+}
+.notify[data-tyto-notify="7"] {
+  animation: notify 7s;
+  -webkit-animation: notify 7s;
+}
+.notify[data-tyto-notify="8"] {
+  animation: notify 8s;
+  -webkit-animation: notify 8s;
+}
+.notify[data-tyto-notify="9"] {
+  animation: notify 9s;
+  -webkit-animation: notify 9s;
+}
+.notify[data-tyto-notify="10"] {
+  animation: notify 10s;
+  -webkit-animation: notify 10s;
+}
+@keyframes notify {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes notify {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 .tab {
   position: absolute;
