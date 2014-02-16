@@ -71,12 +71,13 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
         return tyto._movedItemIndex = columnList.indexOf($(ui.item)[0]);
       },
       stop: function(event, ui) {
-        return tyto.element.trigger({
+        tyto.element.trigger({
           type: 'tyto:action',
           name: 'move-column',
           DOMcolumn: tyto._movedItem,
           itemIndex: tyto._movedItemIndex
         });
+        return tyto.notify('column moved', 2000);
       }
     });
   };
@@ -193,13 +194,14 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
         return tyto._movedItemIndex = itemList.indexOf($(ui.item)[0]);
       },
       stop: function(event, ui) {
-        return tyto.element.trigger({
+        tyto.element.trigger({
           type: 'tyto:action',
           name: 'move-item',
           DOMcolumn: tyto._movedItemOrigin,
           DOMitem: tyto._movedItem,
           itemIndex: tyto._movedItemIndex
         });
+        return tyto.notify('item moved', 2000);
       }
     });
     $column.find('[data-action="removecolumn"]').on('click', function(e) {
@@ -372,23 +374,25 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
       return tyto._preEditItemContent = this.innerHTML.toString().trim();
     });
     $item.find('.tyto-item-title').on('blur', function(e) {
-      return tyto.element.trigger({
+      tyto.element.trigger({
         type: 'tyto:action',
         name: 'edit-item-title',
         DOMitem: $item,
         content: tyto._preEditItemContent
       });
+      return tyto.notify('item title edited', 2000);
     });
     $item.find('.tyto-item-content').on('click', function(event) {
       return tyto._preEditItemContent = this.innerHTML.toString().trim();
     });
     return $item.find('.tyto-item-content').on('blur', function(e) {
-      return tyto.element.trigger({
+      tyto.element.trigger({
         type: 'tyto:action',
         name: 'edit-item-content',
         DOMitem: $item,
         content: tyto._preEditItemContent
       });
+      return tyto.notify('item content edited', 2000);
     });
   };
   tyto.prototype.saveBarn = function() {

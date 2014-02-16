@@ -28,28 +28,31 @@
 						h4
 							|items
 						p
-							|Items are draggable pieces of content that can be moved around in different columns, you can add more by using the action button or using the icon at the bottom of each column. You can remove an item by hitting the icon on the item.
+							|Items are draggable pieces of content that can be moved around to different columns on the board, you can add more by using the action button or using the icon at the bottom of each column. You can remove an item by hitting the icon on the item.
 						p
 							|To edit an item;
 						ul
 							li
-								|first put it into edit mode by double clicking it.
+								|edit an items title by clicking it and then modifying its content.
 							li
-								|then click it again to place where you want to begin editing.
+								|edit an items content by clicking its content and modifying the content.
+						p
+							|to move an item
+						ul
 							li
-								|edit away
-							li
-								|once you are done, simply double click again or click off the item. The item will then become draggable again.
+								|drag it by dragging the move icon next to the item title.
 					.help-section.columns.hide(data-tyto-help-section = "columns")
 						h4
 							|columns
 						p
 							|columns simply store your items, you can edit the title of a column by simply clicking on its title. You can add new columns by using the menu and remove columns by simply clicking the icon at the top of the column you wish to remove.
+						p
+							|you can also drag columns and resorting them by dragging the move icon.	
 					.help-section.menu.hide(data-tyto-help-section = "menu")
 						h4
 							|menu
 						p
-							|the menu can be used to add new columns and items. But it can also be used to save your current board and also load a board if you have a valid config file available. Lastly, you can use the menu to email your current board and using the config set up, the recipient and subject header can be configured.
+							|the menu can be used to add new columns and items. But it can also be used to save your current board and also load a board if you have a valid config file available. You can also use the menu to email your current board, wipe your board etc.
 			.modal-footer
 				button.btn.btn-primary(data-dismiss = "modal", aria-hidden = "true")
 					|close help.

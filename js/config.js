@@ -16,32 +16,42 @@ define([], function() {
         title: 'A column',
         items: [
           {
-            content: "I'm your first item, and just like all items I am draggable between columns.",
-            collapsed: true,
-            title: "Sweet little item."
+            content: "I'm your first item, and just like all items I am draggable between columns by using the move icon.",
+            collapsed: false,
+            title: "Item header."
           }, {
             collapsed: false,
             content: 'there are actions available above for you to add columns and items, export your board, load a board etc.',
-            title: "non collapsed"
+            title: "Click to edit me!"
           }
         ]
       }, {
         title: 'Another column',
-        items: []
+        items: [
+          {
+            collapsed: false,
+            content: "You can also collapse/expand items by clicking the plus/minus icon.",
+            title: "collapsible"
+          }
+        ]
       }, {
         title: 'Click me to edit',
         items: [
           {
+            collapsed: false,
+            title: "edit me",
+            content: 'you can click an item to enter edit mode and edit it.'
+          }, {
             collapsed: true,
-            title: "collapsed",
-            content: 'you can double-click an item to enter edit mode'
+            content: "I was collapsed.",
+            title: "collapsed"
           }
         ]
       }, {
         title: 'Done',
         items: [
           {
-            content: 'then click to edit and when you are done click elsewhere or double click the item again and it then becomes draggable'
+            content: 'You can also drag columns to resort their ordering using the move icon at the top next to the remove icon.'
           }
         ]
       }

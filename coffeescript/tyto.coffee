@@ -54,6 +54,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 				tyto._movedItemIndex = columnList.indexOf $(ui.item)[0]
 			stop: (event, ui) ->
 				tyto.element.trigger {type: 'tyto:action', name: 'move-column', DOMcolumn: tyto._movedItem, itemIndex: tyto._movedItemIndex}
+				tyto.notify 'column moved', 2000
 	tyto::_buildDOM = (config) ->
 		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
@@ -133,6 +134,7 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 				tyto._movedItemIndex = itemList.indexOf $(ui.item)[0]
 			stop: (event, ui) ->
 				tyto.element.trigger {type: 'tyto:action', name: 'move-item', DOMcolumn: tyto._movedItemOrigin, DOMitem: tyto._movedItem, itemIndex: tyto._movedItemIndex}
+				tyto.notify 'item moved', 2000
 		$column.find('[data-action="removecolumn"]').on 'click', (e) ->
 			tyto.removeColumn $column
 		$column.find('[data-action="additem"]').on 'click', (e) ->
@@ -237,10 +239,12 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			tyto._preEditItemContent = this.innerHTML.toString().trim();
 		$item.find('.tyto-item-title').on 'blur', (e) ->
 			tyto.element.trigger {type: 'tyto:action', name: 'edit-item-title', DOMitem: $item, content: tyto._preEditItemContent}
+			tyto.notify 'item title edited', 2000
 		$item.find('.tyto-item-content').on 'click', (event) ->
 			tyto._preEditItemContent = this.innerHTML.toString().trim();
 		$item.find('.tyto-item-content').on 'blur', (e) ->
 			tyto.element.trigger {type: 'tyto:action', name: 'edit-item-content', DOMitem: $item, content: tyto._preEditItemContent}
+			tyto.notify 'item content edited', 2000
 	tyto::saveBarn = ->
 		window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
 		this.notify 'board saved', 2000
