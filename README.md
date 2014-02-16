@@ -16,7 +16,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * __NEW!__ undo action
 * __NEW!__ UI overhaul
 * __NEW!__ Sortable columns and items
-*__NEW!__ Collapsible items
+* __NEW!__ Collapsible items
 * etc.
 
 ![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto6.gif)
@@ -120,7 +120,7 @@ defines the maximum amount of columns that can be created on a board.
 this defines the default columns to be displayed on a board and the default tasks within those columns.
 
 For example;
-        
+```javascript
         [
             {
                 title: 'A column',
@@ -142,7 +142,7 @@ For example;
                 items: []
             }
         ]
-
+```
 ###development
 the beauty of __tyto__ is how easy it is to change things and really customise and extend it to be exactly what you want.
 ####under the hood
