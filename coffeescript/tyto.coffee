@@ -40,12 +40,10 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			tyto.modals.introModal.modal 'hide'
 		tyto.undo = {}
 		$('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
-		# now it can do some magic whereby we edit it somehow so this should be interesting. SO that bit was super easy. Column reordering by dragging the title.
-		#  TODO: change this to icon instead of title.
-		tyto.element.sortable({
+		tyto.element.sortable
 			connectWith: '.column',
-			handle: '.column-title'
-		})
+			handle: '.column-mover'
+			placeholder: 'column-placeholder'
 	tyto::_buildDOM = (config) ->
 		tyto = this
 		if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
@@ -61,12 +59,13 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 				if tyto.element.find('.tyto-item').length > 0
 					$.each tyto.element.find('.tyto-item'), (index, item) ->
 						tyto._binditemEvents $ item
-			if config.theme isnt `undefined` and typeof config.theme is 'string' and config.themePath isnt `undefined` and typeof config.themePath is 'string'
-				try
-					$('head').append $ '<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'
-					tyto.element.addClass config.theme
-				catch e
-					return throw Error 'tyto: could not load theme.'
+			# TODO: remove theming.
+			# if config.theme isnt `undefined` and typeof config.theme is 'string' and config.themePath isnt `undefined` and typeof config.themePath is 'string'
+			# 	try
+			# 		$('head').append $ '<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'
+			# 		tyto.element.addClass config.theme
+			# 	catch e
+			# 		return throw Error 'tyto: could not load theme.'
 	tyto::_createColumn = (columnData) ->
 		template = Handlebars.compile columnHtml
 		Handlebars.registerPartial "item", itemHtml
@@ -107,18 +106,11 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			tyto.undo.itemIndex = event.itemIndex
 			tyto.undo.editContent = event.content
 			$('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass 'btn-default'
-		$('body').on 'click', (event) ->
-			$clicked = $ event.target
-			$clickeditem = if $clicked.hasClass 'item' then $clicked else if $clicked.parents('.tyto-item').length > 0 then $clicked.parents '.tyto-item'
-			$.each $('.tyto-item'), (index, item) ->
-				if !$(item).is $clickeditem
-					$(item).find('.tyto-item-content').removeClass('edit').removeAttr 'contenteditable'
-					$(item).attr 'draggable', true
 	tyto::_bindColumnEvents = ($column) ->
 		tyto = this
 		$column.find('.column-title').on 'keydown', (event) ->
 			columnTitle = this
-			if event.keyCode is 13 or event.charCode is 13
+			if event.keyCode is 13 or event.charCode is 13 or event.keyCode is 27 or event.charCode is 27
 				columnTitle.blur()
 		$column.find('.column-title').on 'click', (event) ->
 			tyto._preEditItemContent = this.innerHTML.toString().trim();
@@ -126,13 +118,15 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 			tyto.element.trigger {type: 'tyto:action', name: 'edit-column-title', DOMcolumn: $column, content: tyto._preEditItemContent}
 		$column.find('.items').sortable
 			connectWith: ".items"
-			handle: ".tyto-item-structure"
+			handle: ".item-mover"
+			placeholder: "item-placeholder"
 		$column.find('[data-action="removecolumn"]').on 'click', (e) ->
 			tyto.removeColumn $column
 		$column.find('[data-action="additem"]').on 'click', (e) ->
 			tyto.addItem $column
 		tyto
 	tyto::undoLast = ->
+		# TODO: revisit this undo stuff.
 		tyto = this
 		if tyto.undo
 			switch tyto.undo.action
@@ -209,52 +203,16 @@ define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
 		tyto.element.trigger {type: 'tyto:action', name: 'add-item', DOMitem: $newitem, DOMcolumn: $column}
 	tyto::_binditemEvents = ($item) ->
 		tyto = this
-		enableEdit = (content) ->
-			content.contentEditable = true
-			$(content).addClass 'edit'
-			$(content).on 'click', (e) ->
-				tyto._preEditItemContent = content.innerHTML.toString().trim();
-			$item.attr 'draggable', false
-		disableEdit = (content) ->
-			content.contentEditable = false
-			$(content).removeAttr 'contenteditable'
-			$(content).removeClass 'edit'
-			$(content).blur()
-			$item.attr 'draggable', true
-		toggleEdit = (content) ->
-			if content.contentEditable isnt 'true'
-				enableEdit(content)
-			else
-				disableEdit(content)
 		$item.find('.close').on 'click', (event) ->
 			if confirm 'are you sure you want to remove this item?'
 				itemList = Array.prototype.slice.call $item.parent('.items').children()
 				tyto.element.trigger {type: 'tyto:action', name: 'remove-item', DOMitem: $item, DOMcolumn: $item.parents('.column'), columnIndex: undefined, itemIndex: itemList.indexOf $item[0]}
 				$item.remove()
 				tyto.notify 'item removed', 2000
-		$item.find('.tyto-item-content').on 'dblclick', -> toggleEdit(this)
-		$item.find('.tyto-item-content').on 'mousedown', ->
-			$($(this)[0]._parent).on 'mousemove', ->
-				$(this).blur()
-		$item.find('.tyto-item-content').on 'blur', ->
-			this.contentEditable = false
-			$(this).removeAttr 'contenteditable'
-			$(this).removeClass 'edit'
-			$item.attr 'draggable', true
-			tyto.element.trigger {type: 'tyto:action', name: 'edit-item', DOMitem: $item, DOMcolumn: $item.parents('.column'), content: tyto._preEditItemContent}
-		$item[0].addEventListener "dragstart", ((event) ->
-			$item.find('-item-content').blur()
-			@style.opacity = "0.4"
-			event.dataTransfer.effectAllowed = "move"
-			event.dataTransfer.setData "text/html", $item[0]
-			tyto._dragItem = $item[0]
-			itemList = Array.prototype.slice.call $item.parent('.items').children()
-			tyto._dragItemIndex = itemList.indexOf $item[0]
-			tyto._dragColumn = $item.parents '.column'
-		), false
-		$item[0].addEventListener "dragend", ((event) ->
-			@style.opacity = "1"
-		), false
+		$item.find('i.collapser').on 'click', (e) ->
+			icon = $ this
+			icon.toggleClass 'fa-minus fa-plus'
+			icon.closest('.tyto-item').find('.tyto-item-content').toggle()
 	tyto::saveBarn = ->
 		window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
 		this.notify 'board saved', 2000

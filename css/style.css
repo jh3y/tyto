@@ -17,6 +17,26 @@ body {
   font-family: tahoma;
   padding: 5px 5px 5px 5px;
 }
+.close {
+  float: none;
+}
+#barn i.fa.fa-arrows {
+  cursor: move;
+}
+.item-placeholder {
+  border: 1px dashed #888;
+  height: 100px;
+  width: 90%;
+  margin: 0em auto 1em auto;
+}
+.column-placeholder {
+  border: 1px dashed #888;
+  display: inline-block;
+  width: 100px;
+  margin: 0 1em;
+  height: 100%;
+  vertical-align: top;
+}
 .tyto-header-content {
   text-align: center;
 }
@@ -122,36 +142,38 @@ img.modal-tyto-logo {
   }
 }
 .tyto-item-content {
-  min-height: 100px;
+  min-height: 50px;
+  margin: 10px 0 0 0;
   text-align: center;
-  padding: 10px 10px 10px 10px;
+  font-size: 0.85em;
+  color: #777;
   overflow: hidden;
 }
-.tyto-item .tyto-item-structure {
+.tyto-item .tyto-item-header {
   position: relative;
 }
-.tyto-item-holder .tyto-item {
-  width: 90%;
-  margin: 0 auto 5px;
-  font-size: 0.85em;
-}
 .tyto-item {
-  min-height: 100px;
-  background-color: #ffffd5;
+  width: 90%;
+  padding: 10px 10px 10px 10px;
+  margin: 0 auto 1em;
+  font-size: 0.85em;
   box-shadow: #ebebeb 0px 5px 5px;
-  cursor: move;
+  background-color: #ffffd5;
 }
-.tyto-item .tyto-item-content[contenteditable] {
-  cursor: text;
+.tyto-item-header h6 {
+  margin: 0 22% 0 0;
+  font-size: 1.25em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
-.edit {
-  border: 1px #333 dashed;
-  background-color: yellow;
-}
-#barn .column .tyto-item-holder .tyto-item .close {
+.tyto-item .tyto-item-header .action-icons {
   position: absolute;
-  top: 0;
+  top: -4px;
   right: 0;
+}
+.tyto-item .action-icons i:not(:last-of-type) {
+  margin-right: 4px;
 }
 .actions {
   padding: 2em 1em 0 1em;
@@ -192,7 +214,6 @@ img.modal-tyto-logo {
   height: -webkit-calc(100% - 60px);
   display: inline-block;
   position: relative;
-  padding: 1em 0 0 0;
 }
 #barn .column .column-title {
   height: 26px;
@@ -200,6 +221,7 @@ img.modal-tyto-logo {
   overflow: hidden;
   text-align: center;
   text-decoration: underline;
+  margin: 0 0 0.5em 0;
 }
 #barn .column .tyto-item-holder {
   height: 100%;
@@ -211,20 +233,29 @@ img.modal-tyto-logo {
 }
 #barn i.fa.fa-plus.addcolumn[data-action] {
   position: absolute;
-  margin: 0.5em;
+  margin: 0.1em;
   top: 0;
   right: 0;
 }
 #barn .column .icon-holder {
   text-align: right;
 }
+#barn .column .icon-holder .column-mover {
+  margin: 0 4px 0 0;
+}
+#barn .column .items {
+  padding: 0 0 1em 0;
+}
 #barn .column .tyto-item-holder .icon-holder {
   text-align: center;
 }
 #barn i {
   opacity: 0.2;
-  font-size: 0.85em;
+  font-size: 14px;
   cursor: pointer;
+}
+#barn i.fa.fa-plus[data-action] {
+  font-size: 1em;
 }
 #barn i:hover {
   opacity: 0.8;

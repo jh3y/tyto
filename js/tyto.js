@@ -58,11 +58,12 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
     $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
     return tyto.element.sortable({
       connectWith: '.column',
-      handle: '.column-title'
+      handle: '.column-mover',
+      placeholder: 'column-placeholder'
     });
   };
   tyto.prototype._buildDOM = function(config) {
-    var e, i;
+    var i;
     tyto = this;
     if (config.DOMElementSelector !== undefined || config.DOMId !== undefined) {
       tyto.element = config.DOMId !== undefined ? $('#' + config.DOMId) : $(config.DOMElementSelector);
@@ -76,18 +77,9 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
         }
         tyto._resizeColumns();
         if (tyto.element.find('.tyto-item').length > 0) {
-          $.each(tyto.element.find('.tyto-item'), function(index, item) {
+          return $.each(tyto.element.find('.tyto-item'), function(index, item) {
             return tyto._binditemEvents($(item));
           });
-        }
-      }
-      if (config.theme !== undefined && typeof config.theme === 'string' && config.themePath !== undefined && typeof config.themePath === 'string') {
-        try {
-          $('head').append($('<link type="text/css" rel="stylesheet" href="' + config.themePath + '"></link>'));
-          return tyto.element.addClass(config.theme);
-        } catch (_error) {
-          e = _error;
-          throw Error('tyto: could not load theme.');
         }
       }
     }
@@ -138,7 +130,7 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
         return tyto.saveBarn();
       });
     }
-    $('body').on('tyto:action', function(event) {
+    return $('body').on('tyto:action', function(event) {
       tyto.undo.action = event.name;
       tyto.undo.column = event.DOMcolumn;
       tyto.undo.item = event.DOMitem;
@@ -147,24 +139,13 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
       tyto.undo.editContent = event.content;
       return $('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass('btn-default');
     });
-    return $('body').on('click', function(event) {
-      var $clicked, $clickeditem;
-      $clicked = $(event.target);
-      $clickeditem = $clicked.hasClass('item') ? $clicked : $clicked.parents('.tyto-item').length > 0 ? $clicked.parents('.tyto-item') : void 0;
-      return $.each($('.tyto-item'), function(index, item) {
-        if (!$(item).is($clickeditem)) {
-          $(item).find('.tyto-item-content').removeClass('edit').removeAttr('contenteditable');
-          return $(item).attr('draggable', true);
-        }
-      });
-    });
   };
   tyto.prototype._bindColumnEvents = function($column) {
     tyto = this;
     $column.find('.column-title').on('keydown', function(event) {
       var columnTitle;
       columnTitle = this;
-      if (event.keyCode === 13 || event.charCode === 13) {
+      if (event.keyCode === 13 || event.charCode === 13 || event.keyCode === 27 || event.charCode === 27) {
         return columnTitle.blur();
       }
     });
@@ -181,7 +162,8 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
     });
     $column.find('.items').sortable({
       connectWith: ".items",
-      handle: ".tyto-item-structure"
+      handle: ".item-mover",
+      placeholder: "item-placeholder"
     });
     $column.find('[data-action="removecolumn"]').on('click', function(e) {
       return tyto.removeColumn($column);
@@ -313,30 +295,7 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
     });
   };
   tyto.prototype._binditemEvents = function($item) {
-    var disableEdit, enableEdit, toggleEdit;
     tyto = this;
-    enableEdit = function(content) {
-      content.contentEditable = true;
-      $(content).addClass('edit');
-      $(content).on('click', function(e) {
-        return tyto._preEditItemContent = content.innerHTML.toString().trim();
-      });
-      return $item.attr('draggable', false);
-    };
-    disableEdit = function(content) {
-      content.contentEditable = false;
-      $(content).removeAttr('contenteditable');
-      $(content).removeClass('edit');
-      $(content).blur();
-      return $item.attr('draggable', true);
-    };
-    toggleEdit = function(content) {
-      if (content.contentEditable !== 'true') {
-        return enableEdit(content);
-      } else {
-        return disableEdit(content);
-      }
-    };
     $item.find('.close').on('click', function(event) {
       var itemList;
       if (confirm('are you sure you want to remove this item?')) {
@@ -353,41 +312,12 @@ define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/colum
         return tyto.notify('item removed', 2000);
       }
     });
-    $item.find('.tyto-item-content').on('dblclick', function() {
-      return toggleEdit(this);
+    return $item.find('i.collapser').on('click', function(e) {
+      var icon;
+      icon = $(this);
+      icon.toggleClass('fa-minus fa-plus');
+      return icon.closest('.tyto-item').find('.tyto-item-content').toggle();
     });
-    $item.find('.tyto-item-content').on('mousedown', function() {
-      return $($(this)[0]._parent).on('mousemove', function() {
-        return $(this).blur();
-      });
-    });
-    $item.find('.tyto-item-content').on('blur', function() {
-      this.contentEditable = false;
-      $(this).removeAttr('contenteditable');
-      $(this).removeClass('edit');
-      $item.attr('draggable', true);
-      return tyto.element.trigger({
-        type: 'tyto:action',
-        name: 'edit-item',
-        DOMitem: $item,
-        DOMcolumn: $item.parents('.column'),
-        content: tyto._preEditItemContent
-      });
-    });
-    $item[0].addEventListener("dragstart", (function(event) {
-      var itemList;
-      $item.find('-item-content').blur();
-      this.style.opacity = "0.4";
-      event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("text/html", $item[0]);
-      tyto._dragItem = $item[0];
-      itemList = Array.prototype.slice.call($item.parent('.items').children());
-      tyto._dragItemIndex = itemList.indexOf($item[0]);
-      return tyto._dragColumn = $item.parents('.column');
-    }), false);
-    return $item[0].addEventListener("dragend", (function(event) {
-      return this.style.opacity = "1";
-    }), false);
   };
   tyto.prototype.saveBarn = function() {
     window.localStorage.setItem('tyto', JSON.stringify(tyto._createBarnJSON()));
