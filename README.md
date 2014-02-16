@@ -1,7 +1,7 @@
 tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/images/tyto.png)
 ==
 __tyto__ is a completely configurable, extensible and customizable management and organisation tool (wow that's a mouthful!)
-###demo
+###demo/site
 just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 
 ![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto1.png)
@@ -15,9 +15,12 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * __NEW!__ localStorage persistence
 * __NEW!__ undo action
 * __NEW!__ UI overhaul
+* __NEW!__ Sortable columns and items
+*__NEW!__ Collapsible items
 * etc.
 
-###tyto has had a big overhaul after the great feedback it received previously on HN. New features have also been updated that people were keen on.
+###tyto has had a big overhaul
+after the great feedback it received previously on HN. New features have been added that people requested.
 
 ###what's been happening.
 * __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
@@ -25,6 +28,8 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * __22/12/13__: After a congested couple of weeks, finally have sat down and taken notes from the HN discussion in order to compile a nice little issues list of what needs doing. The summary can be seen [here](https://github.com/jh3y/tyto/blob/master/docs/HNnotes.md)
 * __12/02/14__: Wahey! Happy NY and finally after some time working on other little things I'm getting under way picking up issues again.
 * __14/02/14__: V1.1.0 released with plenty of new features that were raised in the first showing.
+* __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
+
 ###why tyto? what's it for?
 To be honest __tyto__ arose from my own and other members of my then team desiring something easy to organise and manage your own daily workflow. This could be something simple like the current development tasks on your plate or maybe the meetings you have scheduled in the current week coming. The ability to also share this is important.
 
@@ -44,11 +49,16 @@ However, why have this restriction? It doesn't really make sense. As __tyto__ ca
 Examples:
 * the plan for the week ahead.
 * ingredient lists.
+* priority lists etc.
 * managing your xmas shopping
 
 To be honest, __tyto__ is in its very infant stages and is being shared to see if it gathers enough interest. It is also assumed that while it is being shared new uses will be discovered and features will be proposed as with any piece of tech.
 ###using tyto
 the nice thing about __tyto__ is that you can use it however you want to and it's easy to do so. If you just want to simply use it and try it out for a bit then simply do that by visiting [jh3y.github.io/tyto](http://jh3y.github.io/tyto), the beauty of 'no accounts necessary'.
+
+Your data will be persisted in the browser using localStorage so you can close the tab browser etc. and you won't lose anything. 
+
+If you want to move to a different browser or machine, simply use the __export__ action to export a json file which can be loaded in wherever you use __tyto__. 
 ####using tyto in your own environment to develop against, extend, etc.
 alternatively, if you want to use __tyto__ in your own environment or want to start hacking away at it and extending, configuring it etc. it's very easy!
 #####prerequisites
@@ -76,6 +86,8 @@ in most cases and ideally you will want to configure __tyto__ to your own needs 
 
 ####configuration
 a nice feature of __tyto__ is how easily configurable it is. It handles this by having a config file that is shimmed for use with requireJS. This file is a javascript file that simply defines a block of json which is the configuration or options.
+#####autoSave
+sets whether __tyto__ should auto save actions
 #####showIntroModalOnLoad: bool
 sets whether to show the intro modal on page load.
 #####introModalId: string
@@ -84,10 +96,6 @@ provides the string of the intro modal id for jQuery to use.
 provides the string of the help modal id for jQuery to use.
 #####infoModalId: string
 provides the string of the info modal id for jQuery to use.
-#####theme: string
-defines the name of a theme to be used for the board. using `false` or leaving blank or deleting the property disables themes.
-#####themePath: string
-the path to a theme css file. example; 'css/themes/theme.css'
 #####DOMId: string
 provides the DOM id for the board component for use with jQuery.
 #####DOMElementSelector: string
@@ -110,9 +118,13 @@ For example;
                 title: 'A column',
                     items: [
                         {
+                            collapsed: false,
+                            title: 'An item',
                             content: 'im your first item.'
                         },
                         {
+                            collapsed: true,
+                            title: 'A collapsed item',
                             content: ' im another item.'
                         }
                     ]
@@ -122,32 +134,18 @@ For example;
                 items: []
             }
         ]
-####themes
-another feature of tyto is the ability to add css themes on top of what is currently there as default. using the correct options(`theme` and `themePath`) within the config and creating a css theme file this can be easily accomplished.
-
-there is a really simple theme included in the source but is switched off by default.
-
-        .barn.themed .column .tyto-item-holder .tyto-item {
-            background-color: red;
-        }
-        
-as you can see this theme is really simple and all it does is change the default color of items to red.
-
-note that this theme is using `themed` as a class. When you define a theme in your config, that theme name is added as a class to the DOM element being used to create the board. so with the default config you get `.barn.themed`.
-
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto4.png)
 
 ###development
 the beauty of __tyto__ is how easy it is to change things and really customise and extend it to be exactly what you want.
 ####under the hood
 there are a range of technologies being used under the hood to achieve this.
 * jQuery
+* jQuery UI
 * requireJS
 * bootstrap
 * Font Awesome
 * Handlebars.js
 * CSS3
-* HTML5 drag and drop
 * jade
 * less
 * coffeescript
