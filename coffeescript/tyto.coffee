@@ -1,4 +1,4 @@
-define ['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, jqueryUI, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) ->
+define ['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], ($, jqueryUI, jqueryUItouchpunch, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) ->
 	tyto = (options) ->
 		return new tyto() unless this instanceof tyto
 		config = if options isnt `undefined` then options else config

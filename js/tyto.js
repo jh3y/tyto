@@ -1,4 +1,4 @@
-define(['jquery', 'jqueryUI', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, jqueryUI, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) {
+define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, jqueryUI, jqueryUItouchpunch, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) {
   var tyto;
   tyto = function(options) {
     if (!(this instanceof tyto)) {
