@@ -92,6 +92,9 @@ h2.tyto-title {
   display: inline-block;
   vertical-align: top;
 }
+.cookie-banner .blurb .small {
+  margin-right: 60px;
+}
 #tytoInfoModal img.modal-tyto-logo {
   height: 150px;
 }
@@ -122,7 +125,7 @@ img.modal-tyto-logo {
   #forkongithub {
     position: absolute;
     top: 12em;
-    right: -2.5em;
+    right: -3.5em;
     border-radius: 0.5em;
     padding: 0.25em;
     transform: rotate(90deg);
@@ -177,6 +180,7 @@ img.modal-tyto-logo {
 }
 .actions {
   padding: 2em 1em 0 1em;
+  min-width: 550px;
 }
 .actions button {
   margin-right: 0.5em;
@@ -204,6 +208,7 @@ img.modal-tyto-logo {
   height: calc(100% - 125px);
   height: -webkit-calc(100% - 125px);
   width: 90%;
+  min-width: 610px;
   padding: 1em 3em;
   margin: 0 auto 0 auto;
   overflow: hidden;
