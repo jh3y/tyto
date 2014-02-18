@@ -92,6 +92,9 @@ h2.tyto-title {
   display: inline-block;
   vertical-align: top;
 }
+.cookie-banner .blurb .small {
+  margin-right: 60px;
+}
 #tytoInfoModal img.modal-tyto-logo {
   height: 150px;
 }
