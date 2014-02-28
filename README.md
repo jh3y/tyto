@@ -12,11 +12,8 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * easy to use
 * easy to configure
 * easy to extend and develop
-* __NEW!__ localStorage persistence
-* __NEW!__ undo action
-* __NEW!__ UI overhaul
-* __NEW!__ Sortable columns and items
-* __NEW!__ Collapsible items
+* localStorage persistence
+* sortable columns and items
 * etc.
 
 ![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto6.gif)
@@ -26,9 +23,6 @@ after the great feedback it received previously on HN. New features have been ad
 
 ###what's been happening.
 * __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
-* __11-22/12/13__: Been really busy and ill but been able to reply here and there to issues when I can.
-* __22/12/13__: After a congested couple of weeks, finally have sat down and taken notes from the HN discussion in order to compile a nice little issues list of what needs doing. The summary can be seen [here](https://github.com/jh3y/tyto/blob/master/docs/HNnotes.md)
-* __12/02/14__: Wahey! Happy NY and finally after some time working on other little things I'm getting under way picking up issues again.
 * __14/02/14__: V1.1.0 released with plenty of new features that were raised in the first showing.
 * __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
 
@@ -58,6 +52,8 @@ Examples:
 * managing your xmas shopping
 
 To be honest, __tyto__ is in its very infant stages and is being shared to see if it gathers enough interest. It is also assumed that while it is being shared new uses will be discovered and features will be proposed as with any piece of tech.
+
+
 ###using tyto
 the nice thing about __tyto__ is that you can use it however you want to and it's easy to do so. If you just want to simply use it and try it out for a bit then simply do that by visiting [jh3y.github.io/tyto](http://jh3y.github.io/tyto), the beauty of 'no accounts necessary'.
 
@@ -66,6 +62,10 @@ Your data will be persisted in the browser using localStorage so you can close t
 If you want to move to a different browser or machine, simply use the __export__ action to export a json file which can be loaded in wherever you use __tyto__. 
 
 ![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto7.gif)
+
+As for a nice persistent workflow across devices, I haven't implemented accounts and it's not something I am keen on doing to be honest as I believe it takes away from __tyto__. 
+
+However, you can easily integrate with something like Google Drive or Dropbox using their respective desktop features to keep track of your tasks by exporting and loading your task file to a shared folder on your machine. This works for me going between machines.
 
 ####using tyto in your own environment to develop against, extend, etc.
 alternatively, if you want to use __tyto__ in your own environment or want to start hacking away at it and extending, configuring it etc. it's very easy!
@@ -173,20 +173,16 @@ using the text plugin for requireJS, __tyto__ pulls in templates and then using 
 * mobile support for touch events such as drag and swipe possibly using hammer.js
 * __tyto__ is being shared in a very early age stage to get feedback primarily on how bad or maybe good it is or how it could be improved or approached differently. this is afterall my own little personal project.
 * online persistence if there was demand. this does however mean accounts which isn't cool but maybe the notion of guest accounts and persistent accounts whereby multiple boards could be saved.
-* better responsive design for various devices in general (consider moving over to using bootstrap for a lot of the responsive lifting).
+* better responsive design for various devices in general.
 
 
 ![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto5.png)
 
 
-###discuss
-i have yet to work my way through the feedback and insight left on Hacker News to create an issue list etc. so feel free to join the discussion [here](https://news.ycombinator.com/item?id=6886834).
 
-Alternatively, email me or leave a comment on my site.
-
-It would be really appreciated!  :)
 ###contributing
 if you feel __tyto__ would be something you'd like to contribute ideas to or enhancements please don't hesitate to get in touch or fork the repo and submit a pull request. i know __tyto__ has many flaws so I welcome the criticism to be honest as any publicity is good publicity.
+
 ###license
 
 MIT
