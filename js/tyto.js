@@ -338,11 +338,13 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     if ($column.find('.tyto-item').length > 0) {
       if (confirm('are you sure you want to remove this column? doing so will lose all items within it.')) {
         removeColumn();
+        tyto.notify('column removed', 2000);
       }
     } else {
       removeColumn();
+      tyto.notify('column removed', 2000);
     }
-    return tyto.notify('column removed', 2000);
+    return tyto;
   };
   tyto.prototype.addItem = function($column, content) {
     if ($column == null) {
