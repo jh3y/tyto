@@ -33,6 +33,10 @@ define([], function() {
             collapsed: false,
             content: "You can also collapse/expand items by clicking the plus/minus icon.",
             title: "collapsible"
+          }, {
+            collapsed: false,
+            content: "If you want to just get started you can wipe the board using the menu above.",
+            title: "Wipe"
           }
         ]
       }, {
@@ -53,6 +57,10 @@ define([], function() {
         items: [
           {
             content: 'You can also drag columns to resort their ordering using the move icon at the top next to the remove icon.'
+          }, {
+            title: "saving",
+            content: "As long as you've accepted the use of cookies all your tasks are saved in the browser so no worries about losing everything.",
+            collapsed: true
           }
         ]
       }
