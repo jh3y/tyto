@@ -342,12 +342,29 @@ define ['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
 			itemboardJSON.columns.push title: columnTitle, items: items
 		itemboardJSON
 	tyto::_loadBarnJSON = (json) ->
+		tyto = this
 		tyto._buildDOM json
+	tyto::_escapes =
+		'#': "@tyto-hash"
+	tyto::_encodeJSON = (jsonString) ->
+		tyto = this
+		if jsonString isnt `undefined`
+			for escape of tyto._escapes
+				regex = new RegExp escape, 'g'
+				jsonString = jsonString.replace regex, tyto._escapes[escape]
+		jsonString
+	tyto::_decodeJSON = (jsonString) ->
+		tyto = this
+		if jsonString isnt `undefined`
+			for escape of tyto._escapes
+				regex = new RegExp tyto._escapes[escape], 'g'
+				jsonString = jsonString.replace regex, escape
+		jsonString
 	tyto::exportBarn = ->
 		tyto = this
 		saveAnchor = $ '#savetyto'
 		filename = if tyto.config.saveFilename isnt `undefined` then tyto.config.saveFilename + '.json' else 'itemboard.json'
-		content = 'data:text/plain,' + JSON.stringify tyto._createBarnJSON()
+		content = 'data:text/plain,' + tyto._encodeJSON JSON.stringify(tyto._createBarnJSON())
 		saveAnchor[0].setAttribute 'download', filename
 		saveAnchor[0].setAttribute 'href', content
 		saveAnchor[0].click()
@@ -363,7 +380,7 @@ define ['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
 			if (f.type.match 'application/json') or (f.name.indexOf '.json' isnt -1)
 				reader = new FileReader()
 				reader.onloadend = (event) ->
-					result = JSON.parse this.result
+					result = JSON.parse tyto._decodeJSON(this.result)
 					if result.columns isnt `undefined` and (result.DOMId isnt `undefined` or result.DOMElementSelector isnt `undefined`)
 						tyto._loadBarnJSON result
 					else 
