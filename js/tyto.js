@@ -338,11 +338,13 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     if ($column.find('.tyto-item').length > 0) {
       if (confirm('are you sure you want to remove this column? doing so will lose all items within it.')) {
         removeColumn();
+        tyto.notify('column removed', 2000);
       }
     } else {
       removeColumn();
+      tyto.notify('column removed', 2000);
     }
-    return tyto.notify('column removed', 2000);
+    return tyto;
   };
   tyto.prototype.addItem = function($column, content) {
     if ($column == null) {
@@ -525,14 +527,40 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     return itemboardJSON;
   };
   tyto.prototype._loadBarnJSON = function(json) {
+    tyto = this;
     return tyto._buildDOM(json);
+  };
+  tyto.prototype._escapes = {
+    '#': "@tyto-hash"
+  };
+  tyto.prototype._encodeJSON = function(jsonString) {
+    var escape, regex;
+    tyto = this;
+    if (jsonString !== undefined) {
+      for (escape in tyto._escapes) {
+        regex = new RegExp(escape, 'g');
+        jsonString = jsonString.replace(regex, tyto._escapes[escape]);
+      }
+    }
+    return jsonString;
+  };
+  tyto.prototype._decodeJSON = function(jsonString) {
+    var escape, regex;
+    tyto = this;
+    if (jsonString !== undefined) {
+      for (escape in tyto._escapes) {
+        regex = new RegExp(tyto._escapes[escape], 'g');
+        jsonString = jsonString.replace(regex, escape);
+      }
+    }
+    return jsonString;
   };
   tyto.prototype.exportBarn = function() {
     var content, filename, saveAnchor;
     tyto = this;
     saveAnchor = $('#savetyto');
     filename = tyto.config.saveFilename !== undefined ? tyto.config.saveFilename + '.json' : 'itemboard.json';
-    content = 'data:text/plain,' + JSON.stringify(tyto._createBarnJSON());
+    content = 'data:text/plain,' + tyto._encodeJSON(JSON.stringify(tyto._createBarnJSON()));
     saveAnchor[0].setAttribute('download', filename);
     saveAnchor[0].setAttribute('href', content);
     return saveAnchor[0].click();
@@ -553,7 +581,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
         reader = new FileReader();
         reader.onloadend = function(event) {
           var result;
-          result = JSON.parse(this.result);
+          result = JSON.parse(tyto._decodeJSON(this.result));
           if (result.columns !== undefined && (result.DOMId !== undefined || result.DOMElementSelector !== undefined)) {
             return tyto._loadBarnJSON(result);
           } else {
