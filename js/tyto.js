@@ -1,63 +1,114 @@
-/*
-tyto - http://jh3y.github.io/tyto
-Licensed under the MIT license
+(function() {
+  var tyto, tyto_config;
 
-Jhey Tompkins (c) 2014.
+  tyto_config = {
+    autoSave: true,
+    helpModalId: 'tytoHelpModal',
+    infoModalId: 'tytoInfoModal',
+    DOMId: 'barn',
+    DOMElementSelector: '.barn',
+    emailSubject: 'my current items',
+    emailRecipient: 'you@me.com',
+    saveFilename: 'barn',
+    maxColumns: 10,
+    columns: [
+      {
+        title: 'A column',
+        items: [
+          {
+            content: "I'm your first item, and just like all items I am draggable between columns by using the move icon.",
+            collapsed: false,
+            title: "Item header."
+          }, {
+            collapsed: false,
+            content: 'there are actions available above for you to add columns and items, export your board, load a board etc.',
+            title: "Click to edit me!"
+          }
+        ]
+      }, {
+        title: 'Another column',
+        items: [
+          {
+            collapsed: false,
+            content: "You can also collapse/expand items by clicking the plus/minus icon.",
+            title: "collapsible"
+          }, {
+            collapsed: false,
+            content: "If you want to just get started you can wipe the board using the menu above.",
+            title: "Wipe"
+          }
+        ]
+      }, {
+        title: 'Click me to edit',
+        items: [
+          {
+            collapsed: false,
+            title: "edit me",
+            content: 'you can click an item to enter edit mode and edit it.'
+          }, {
+            collapsed: true,
+            content: "I was collapsed.",
+            title: "collapsed"
+          }
+        ]
+      }, {
+        title: 'Done',
+        items: [
+          {
+            content: 'You can also drag columns to resort their ordering using the move icon at the top next to the remove icon.'
+          }, {
+            title: "saving",
+            content: "As long as you've accepted the use of cookies all your tasks are saved in the browser so no worries about losing everything.",
+            collapsed: true
+          }
+        ]
+      }
+    ]
+  };
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  /*
+  tyto - http://jh3y.github.io/tyto
+  Licensed under the MIT license
+  
+  Jhey Tompkins (c) 2014.
+  
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'text!templates/tyto/column.html', 'text!templates/tyto/item.html', 'text!templates/tyto/actions.html', 'text!templates/tyto/email.html'], function($, jqueryUI, jqueryUItouchpunch, config, Handlebars, columnHtml, itemHtml, actionsHtml, emailHtml) {
-  var tyto;
-  tyto = function(options) {
+  window.tyto = tyto = function() {
     if (!(this instanceof tyto)) {
       return new tyto();
     }
-    config = options !== undefined ? options : config;
-    this.config = window.localStorage.tyto !== undefined ? JSON.parse(window.localStorage.tyto) : config;
+    this.config = window.localStorage.tyto !== undefined ? JSON.parse(window.localStorage.tyto) : tyto_config;
     this.modals = {};
     this.undo = {};
     this._autoSave = this.config.autoSave;
     this._bindPageEvents();
-    if (config.showIntroModalOnLoad && config.introModalId) {
-      this.modals.introModal = $('#' + config.introModalId);
-      this._bindIntroModalEvents();
-      this.modals.introModal.modal({
-        backdrop: 'static'
-      });
-    } else {
-      this._createBarn(this.config);
-    }
+    this._loadTemplates();
     return this;
   };
-  tyto.prototype._bindIntroModalEvents = function() {
+
+  tyto.prototype._init = function() {
     tyto = this;
-    tyto.modals.introModal.find('.loadtytodefaultconfig').on('click', function(e) {
-      return tyto._createBarn(tyto.config);
-    });
-    tyto.modals.introModal.find('.loadtytocolumns').on('click', function(e) {
-      var columns, i, numberOfCols;
-      columns = [];
-      numberOfCols = parseInt(tyto.modals.introModal.find('.tytonumberofcols').val());
-      i = 0;
-      while (i < numberOfCols) {
-        columns.push({
-          title: "column",
-          tasks: []
-        });
-        i++;
-      }
-      tyto.config.columns = columns;
-      return tyto._createBarn(tyto.config);
-    });
-    return tyto.modals.introModal.find('.tytoloadconfig').on('click', function(e) {
-      return tyto.loadBarn();
+    tyto._createBarn(tyto.config);
+    return tyto;
+  };
+
+  tyto.prototype._loadTemplates = function() {
+    tyto = this;
+    return $.when($.get("templates/column.html"), $.get("templates/item.html"), $.get("templates/email.html")).done(function(t1, t2, t3, t4) {
+      tyto.columnHtml = t1[0];
+      tyto.itemHtml = t2[0];
+      tyto.emailHtml = t3[0];
+      return tyto._init();
     });
   };
+
   tyto.prototype._createBarn = function(config) {
     tyto = this;
     tyto._buildDOM(config);
@@ -65,10 +116,8 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return tyto.addColumn();
     });
     tyto._bindActions();
-    if (tyto.modals.introModal !== undefined) {
-      tyto.modals.introModal.modal('hide');
-    }
     tyto.undo = {};
+    tyto;
     $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
     return tyto.element.sortable({
       connectWith: '.column',
@@ -95,6 +144,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       }
     });
   };
+
   tyto.prototype._buildDOM = function(config) {
     var i;
     tyto = this;
@@ -120,10 +170,12 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       }
     }
   };
+
   tyto.prototype._createColumn = function(columnData) {
     var $newColumn, template;
-    template = Handlebars.compile(columnHtml);
-    Handlebars.registerPartial("item", itemHtml);
+    tyto = this;
+    template = Handlebars.compile(tyto.columnHtml);
+    Handlebars.registerPartial("item", tyto.itemHtml);
     $newColumn = $(template(columnData));
     this._bindColumnEvents($newColumn);
     this.element.append($newColumn);
@@ -134,6 +186,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       DOMitem: void 0
     });
   };
+
   tyto.prototype._bindPageEvents = function() {
     var inThrottle, setUpLS, throttle;
     tyto = this;
@@ -176,6 +229,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return $('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass('btn-default');
     });
   };
+
   tyto.prototype._bindColumnEvents = function($column) {
     tyto = this;
     $column.find('.column-title').on('keydown', function(event) {
@@ -229,6 +283,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     });
     return tyto;
   };
+
   tyto.prototype.undoLast = function() {
     tyto = this;
     if (tyto.undo) {
@@ -295,6 +350,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return tyto.notify('undone', 2000);
     }
   };
+
   tyto.prototype.addColumn = function() {
     tyto = this;
     if (tyto.element.find('.column').length < tyto.config.maxColumns) {
@@ -305,6 +361,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return alert("whoah, it's getting busy and you've reached the maximum amount of columns. You can however increase the amount of maximum columns via the config.");
     }
   };
+
   tyto.prototype.removeColumn = function($column) {
     var calculateIndex, removeColumn;
     if ($column == null) {
@@ -346,6 +403,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     }
     return tyto;
   };
+
   tyto.prototype.addItem = function($column, content) {
     if ($column == null) {
       $column = this.element.find('.column').first();
@@ -353,10 +411,11 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     this._createItem($column, content);
     return this.notify('item added', 2000);
   };
+
   tyto.prototype._createItem = function($column, content) {
     var $newitem, template;
     tyto = this;
-    template = Handlebars.compile(itemHtml);
+    template = Handlebars.compile(tyto.itemHtml);
     $newitem = $(template({}));
     tyto._binditemEvents($newitem);
     $column.find('.tyto-item-holder .items').append($newitem);
@@ -367,6 +426,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       DOMcolumn: $column
     });
   };
+
   tyto.prototype._binditemEvents = function($item) {
     tyto = this;
     $item.find('.close').on('click', function(event) {
@@ -423,14 +483,17 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return tyto.notify('item content edited', 2000);
     });
   };
+
   tyto.prototype.saveBarn = function() {
     window.localStorage.setItem('tyto', JSON.stringify(tyto._createBarnJSON()));
     return this.notify('board saved', 2000);
   };
+
   tyto.prototype.deleteSave = function() {
     window.localStorage.removeItem('tyto');
     return this.notify('save deleted', 2000);
   };
+
   tyto.prototype._bindActions = function() {
     var action, actionMap;
     tyto = this;
@@ -454,6 +517,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return tyto[actionMap[action]]();
     });
   };
+
   tyto.prototype.wipeBoard = function() {
     var boardContent;
     if (confirm('are you really sure you wish to wipe your entire board?')) {
@@ -467,6 +531,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return tyto.notify('board wiped', 2000);
     }
   };
+
   tyto.prototype.toggleAutoSave = function() {
     $('[data-action="toggleautosave"] i').toggleClass('fa-check-square-o fa-square-o');
     tyto._autoSave = !tyto._autoSave;
@@ -477,6 +542,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     }
     return window.localStorage.setItem('tyto', JSON.stringify(tyto._createBarnJSON()));
   };
+
   tyto.prototype._resizeColumns = function() {
     var correctWidth;
     tyto = this;
@@ -487,13 +553,12 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       });
     }
   };
+
   tyto.prototype._createBarnJSON = function() {
     var columns, itemboardJSON;
     tyto = this;
     itemboardJSON = {
       autoSave: tyto._autoSave,
-      showIntroModalOnLoad: tyto.config.showIntroModalOnLoad,
-      introModalId: tyto.config.introModalId,
       helpModalId: tyto.config.helpModalId,
       infoModalId: tyto.config.infoModalId,
       emailSubject: tyto.config.emailSubject,
@@ -506,8 +571,9 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     };
     columns = tyto.element.find('.column');
     $.each(columns, function(index, column) {
-      var columnTitle, columnitems, items;
-      columnTitle = $(column).find('.column-title')[0].innerHTML.toString().trim();
+      var columnTitle, columnitems, items, regex;
+      regex = new RegExp("<br>", 'g');
+      columnTitle = $(column).find('.column-title')[0].innerHTML.toString().replace(regex, '');
       items = [];
       columnitems = $(column).find('.tyto-item');
       $.each(columnitems, function(index, item) {
@@ -526,13 +592,16 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     });
     return itemboardJSON;
   };
+
   tyto.prototype._loadBarnJSON = function(json) {
     tyto = this;
     return tyto._buildDOM(json);
   };
+
   tyto.prototype._escapes = {
     '#': "@tyto-hash"
   };
+
   tyto.prototype._encodeJSON = function(jsonString) {
     var escape, regex;
     tyto = this;
@@ -544,6 +613,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     }
     return jsonString;
   };
+
   tyto.prototype._decodeJSON = function(jsonString) {
     var escape, regex;
     tyto = this;
@@ -555,6 +625,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     }
     return jsonString;
   };
+
   tyto.prototype.exportBarn = function() {
     var content, filename, saveAnchor;
     tyto = this;
@@ -565,6 +636,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     saveAnchor[0].setAttribute('href', content);
     return saveAnchor[0].click();
   };
+
   tyto.prototype.loadBarn = function() {
     var $files;
     tyto = this;
@@ -594,12 +666,13 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       }
     });
   };
+
   tyto.prototype._getEmailContent = function() {
     var $email, contentString, itemboardJSON, regex, template;
     tyto = this;
     contentString = '';
     itemboardJSON = tyto._createBarnJSON();
-    template = Handlebars.compile(emailHtml);
+    template = Handlebars.compile(tyto.emailHtml);
     $email = $(template(itemboardJSON));
     regex = new RegExp('&lt;br&gt;', 'gi');
     if ($email.html().trim() === "Here are your current items.") {
@@ -608,6 +681,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return $email.html().replace(regex, '').trim();
     }
   };
+
   tyto.prototype.emailBarn = function() {
     var content, d, mailto, mailtoString, recipient, subject;
     tyto = this;
@@ -621,6 +695,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
     $('#tytoemail').attr('href', mailtoString);
     return $('#tytoemail')[0].click();
   };
+
   tyto.prototype.notify = function(message, duration) {
     var $message;
     $message = $('<div class= "tyto-notification notify" data-tyto-notify=" ' + (duration / 1000) + ' ">' + message + '</div>');
@@ -629,6 +704,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return $message.remove();
     }, duration);
   };
+
   tyto.prototype.showHelp = function() {
     tyto = this;
     if (tyto.config.helpModalId) {
@@ -636,6 +712,7 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return tyto.modals.helpModal.modal();
     }
   };
+
   tyto.prototype.showInfo = function() {
     tyto = this;
     if (tyto.config.infoModalId) {
@@ -643,5 +720,5 @@ define(['jquery', 'jqueryUI', 'jqueryUItouchpunch', 'config', 'handlebars', 'tex
       return tyto.modals.infoModal.modal();
     }
   };
-  return tyto;
-});
+
+}).call(this);
