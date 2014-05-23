@@ -1,7 +1,5 @@
 tyto_config =
   autoSave: true
-  showIntroModalOnLoad: false
-  introModalId: 'tytoIntroModal'
   helpModalId: 'tytoHelpModal'
   infoModalId: 'tytoInfoModal'
   DOMId: 'barn'

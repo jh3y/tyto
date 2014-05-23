@@ -57,8 +57,17 @@
         button.btn.btn-primary(data-dismiss = "modal", aria-hidden = "true")
           |close help.
       script.
-        $('#tytoHelpModal a.help-link').on('click', function () {
-          var $this = $(this);
-          $('[data-tyto-help-section]').addClass('hide');
-          $('[data-tyto-help-section=' + $this.attr('data-tyto-help-show') + ']').removeClass('hide');
+        var helpModal = document.querySelector('#tytoHelpModal'),
+          helpSections = helpModal.querySelectorAll('[data-tyto-help-section]'),
+          sectionToShow;
+        helpModal.addEventListener('click', function(event) {
+          if (event.target && event.target.nodeName === "A" && event.target.className.indexOf('help-link') !== -1) {
+            [].forEach.call(helpSections, function(key, value) {
+              if (key.className.indexOf('hide') === -1) {
+                key.className += 'hide';
+              }
+            });
+            sectionToShow = helpModal.querySelector('[data-tyto-help-section=' + event.target.getAttribute('data-tyto-help-show') + ']');
+            sectionToShow.className = sectionToShow.className.replace('hide', '');
+          }
         });

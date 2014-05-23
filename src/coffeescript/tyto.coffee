@@ -10,7 +10,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ###
-tyto = () ->
+window.tyto = tyto = () ->
   return new tyto() unless this instanceof tyto
   this.config = if window.localStorage.tyto isnt `undefined` then JSON.parse window.localStorage.tyto else tyto_config
   this.modals = {}
@@ -21,53 +21,27 @@ tyto = () ->
   this
 tyto::_init = () ->
   tyto = this
-  if tyto.config.showIntroModalOnLoad and tyto.config.introModalId
-    tyto.modals.introModal = $ '#' + tyto.config.introModalId
-    tyto._bindIntroModalEvents()
-    tyto.modals.introModal.modal backdrop: 'static'
-  else
-    tyto._createBarn(tyto.config)
+  tyto._createBarn(tyto.config)
   tyto
 tyto::_loadTemplates = ->
   tyto = this
   $.when(
       $.get("templates/column.html"),
       $.get("templates/item.html"),
-      $.get("templates/actions.html"),
       $.get("templates/email.html")
     ).done (t1, t2, t3, t4) ->
       tyto.columnHtml = t1[0]
       tyto.itemHtml = t2[0]
-      tyto.actionsHtml = t3[0]
-      tyto.emailsHtml = t4[0]
-      # console.log t1[0], t2[0], t3[0], t4[0]
+      tyto.emailHtml = t3[0]
       tyto._init()
-tyto::_bindIntroModalEvents = ->
-  tyto = this
-  tyto.modals.introModal.find('.loadtytodefaultconfig').on 'click', (e) ->
-    tyto._createBarn tyto.config
-  tyto.modals.introModal.find('.loadtytocolumns').on 'click', (e) ->
-    columns = []
-    numberOfCols = parseInt(tyto.modals.introModal.find('.tytonumberofcols').val())
-    i = 0
-    while i < numberOfCols
-      columns.push
-        title: "column"
-        tasks: []
-      i++
-    tyto.config.columns = columns
-    tyto._createBarn tyto.config
-  tyto.modals.introModal.find('.tytoloadconfig').on 'click', (e) ->
-    tyto.loadBarn()
 tyto::_createBarn = (config) ->
   tyto = this
   tyto._buildDOM config
   tyto.element.find('[data-action="addcolumn"]').on 'click', (e) ->
       tyto.addColumn()
   tyto._bindActions();
-  if tyto.modals.introModal isnt `undefined`
-    tyto.modals.introModal.modal 'hide'
   tyto.undo = {}
+  tyto
   $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
   tyto.element.sortable
     connectWith: '.column',
@@ -334,8 +308,6 @@ tyto::_createBarnJSON = ->
   tyto = this
   itemboardJSON =
     autoSave: tyto._autoSave
-    showIntroModalOnLoad: tyto.config.showIntroModalOnLoad
-    introModalId: tyto.config.introModalId
     helpModalId: tyto.config.helpModalId
     infoModalId: tyto.config.infoModalId
     emailSubject: tyto.config.emailSubject
@@ -347,7 +319,8 @@ tyto::_createBarnJSON = ->
     columns: []
   columns = tyto.element.find '.column'
   $.each columns, (index, column) ->
-    columnTitle = $(column).find('.column-title')[0].innerHTML.toString().trim()
+    regex = new RegExp "<br>", 'g'
+    columnTitle = $(column).find('.column-title')[0].innerHTML.toString().replace regex, ''
     items = []
     columnitems = $(column).find('.tyto-item')
     $.each columnitems, (index, item) ->
@@ -359,12 +332,29 @@ tyto::_createBarnJSON = ->
     itemboardJSON.columns.push title: columnTitle, items: items
   itemboardJSON
 tyto::_loadBarnJSON = (json) ->
+  tyto = this
   tyto._buildDOM json
+tyto::_escapes =
+  '#': "@tyto-hash"
+tyto::_encodeJSON = (jsonString) ->
+  tyto = this
+  if jsonString isnt `undefined`
+    for escape of tyto._escapes
+      regex = new RegExp escape, 'g'
+      jsonString = jsonString.replace regex, tyto._escapes[escape]
+  jsonString
+tyto::_decodeJSON = (jsonString) ->
+  tyto = this
+  if jsonString isnt `undefined`
+    for escape of tyto._escapes
+      regex = new RegExp tyto._escapes[escape], 'g'
+      jsonString = jsonString.replace regex, escape
+  jsonString
 tyto::exportBarn = ->
   tyto = this
   saveAnchor = $ '#savetyto'
   filename = if tyto.config.saveFilename isnt `undefined` then tyto.config.saveFilename + '.json' else 'itemboard.json'
-  content = 'data:text/plain,' + JSON.stringify tyto._createBarnJSON()
+  content = 'data:text/plain,' + tyto._encodeJSON JSON.stringify(tyto._createBarnJSON())
   saveAnchor[0].setAttribute 'download', filename
   saveAnchor[0].setAttribute 'href', content
   saveAnchor[0].click()
@@ -380,7 +370,7 @@ tyto::loadBarn = ->
     if (f.type.match 'application/json') or (f.name.indexOf '.json' isnt -1)
       reader = new FileReader()
       reader.onloadend = (event) ->
-        result = JSON.parse this.result
+        result = JSON.parse tyto._decodeJSON(this.result)
         if result.columns isnt `undefined` and (result.DOMId isnt `undefined` or result.DOMElementSelector isnt `undefined`)
           tyto._loadBarnJSON result
         else
@@ -392,7 +382,7 @@ tyto::_getEmailContent = ->
   tyto = this;
   contentString = ''
   itemboardJSON = tyto._createBarnJSON()
-  template = Handlebars.compile emailHtml
+  template = Handlebars.compile tyto.emailHtml
   $email = $ template itemboardJSON
   regex = new RegExp '&lt;br&gt;', 'gi'
   if $email.html().trim() is "Here are your current items." then "You have no items on your plate so go grab a glass and fill up a drink! :)" else $email.html().replace(regex, '').trim()
@@ -423,5 +413,3 @@ tyto::showInfo = ->
   if tyto.config.infoModalId
     tyto.modals.infoModal = $ '#' + tyto.config.infoModalId
     tyto.modals.infoModal.modal()
-tyto
-new tyto()

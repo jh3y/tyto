@@ -62,19 +62,35 @@ module.exports = function(grunt) {
     },
     less: {
       development: {
+        options: {
+          compress: true
+        },
         files: {
-          "out/css/style.css": "src/less/style.less"
+          "out/css/style.css": [
+            "src/less/actions.less",
+            "src/less/barn.less",
+            "src/less/cookiebanner.less",
+            "src/less/header.less",
+            "src/less/item.less",
+            "src/less/modals.less",
+            "src/less/notification.less",
+            "src/less/tyto.less"
+          ]
         }
       }
     },
     watch: {
       scripts: {
-        files: [
-            "src/templates/**/*.jade",
-            "src/less/**/*.less",
-            "src/coffeescript/**/*.coffee",
-        ],
-        tasks: ['jade', 'less', 'coffee']
+        files: ["src/coffeescript/**/*.coffee"],
+        tasks: ['coffee']
+      },
+      styles: {
+        files: ["src/less/**/*.less"],
+        tasks: ['less']
+      },
+      templates: {
+        files: ["src/templates/**/*.jade"],
+        tasks: ['jade']
       }
     }
   });
