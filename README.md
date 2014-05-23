@@ -1,4 +1,4 @@
-tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/images/tyto.png)
+tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/images/tyto.png)
 ==
 __tyto__ is a completely configurable, extensible and customizable management and organisation tool (wow that's a mouthful!)
 ###demo/site
