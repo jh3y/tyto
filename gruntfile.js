@@ -25,6 +25,16 @@ module.exports = function(grunt) {
             dest: "out/images/"
           }
         ]
+      },
+      vendor_fonts: {
+        files: [
+          {
+            flatten: true,
+            expand: true,
+            src: "vendor/fontawesome/fonts/*.*",
+            dest: "out/fonts/"
+          }
+        ]
       }
     },
     coffee: {
@@ -79,6 +89,29 @@ module.exports = function(grunt) {
         }
       }
     },
+    concat: {
+      options: {
+        seperator: ';'
+      },
+      scripts: {
+        src: [
+          "vendor/jquery/dist/jquery.min.js",
+          "vendor/jquery-ui/ui/minified/jquery-ui.min.js",
+          "vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js",
+          "vendor/bootstrap/dist/js/bootstrap.min.js",
+          "vendor/handlebars/handlebars.min.js"
+        ],
+        dest: "out/js/vendor.js"
+      },
+      styles: {
+        src: [
+          "vendor/normalize.css/normalize.css",
+          "vendor/bootstrap/dist/css/bootstrap.min.css",
+          "vendor/fontawesome/css/font-awesome.min.css"
+        ],
+        dest: "out/css/vendor.css"
+      }
+    },
     watch: {
       scripts: {
         files: ["src/coffeescript/**/*.coffee"],
@@ -100,6 +133,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.registerTask('default', ['connect', 'copy', 'watch']);
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.registerTask('default', ['connect', 'concat', 'jade', 'less', 'coffee', 'copy', 'watch']);
 
 };

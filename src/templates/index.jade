@@ -14,9 +14,7 @@ head
     |tyto: manage and organise.
   meta(name="description", content="manage and organise things with the tool you take over. tyto is an open source task management and organisation tool.")
   meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0")
-  link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css')
-  link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
-  link(rel='stylesheet', href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css")
+  link(rel="stylesheet", href="css/vendor.css")
   link(rel='stylesheet', href='css/style.css')
 body
   include layout/cookiebanner
@@ -25,12 +23,7 @@ body
   include layout/main
   include layout/helpmodal
   include layout/infomodal
-  script(src = "http://code.jquery.com/jquery-2.1.0.min.js")
-  script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
-  script(src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js")
-  script(src="//code.jquery.com/ui/1.10.4/jquery-ui.js")
-  script(src="//cdn.jsdelivr.net/jquery.ui.touch-punch/0.2.2/jquery.ui.touch-punch.min.js")
-  script(src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js")
+  script(src = "js/vendor.js")
   script(src="js/tyto.js")
   script.
     var myTyto = new tyto();

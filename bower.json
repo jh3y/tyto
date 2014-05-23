@@ -1,0 +1,13 @@
+{
+    "name": "tyto",
+    "version": "1.4.0",
+    "dependencies": {
+        "jquery": "latest",
+        "bootstrap": "latest",
+        "jquery-ui": "latest",
+        "jqueryui-touch-punch": "latest",
+        "handlebars": "latest",
+        "normalize.css": "latest",
+        "fontawesome":"latest"
+    }
+}
