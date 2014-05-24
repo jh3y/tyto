@@ -35,6 +35,28 @@ module.exports = function(grunt) {
             dest: "out/fonts/"
           }
         ]
+      },
+      test_assets: {
+        files: [
+          {
+            flatten: true,
+            expand: true,
+            src: "vendor/mocha/mocha.js",
+            dest: "out/js/test/"
+          },
+          {
+            flatten: true,
+            expand: true,
+            src: "vendor/mocha/mocha.css",
+            dest: "out/css/test/"
+          },
+          {
+            flatten: true,
+            expand: true,
+            src: "vendor/chai/chai.js",
+            dest: "out/js/test/"
+          }
+        ]
       }
     },
     coffee: {
@@ -47,6 +69,9 @@ module.exports = function(grunt) {
           {
             "out/js/tyto.js": ["src/coffeescript/config.coffee",
               "src/coffeescript/tyto.coffee"]
+          },
+          {
+            "out/js/test/test.js": "src/coffeescript/test.coffee"
           }
         ]
       }
@@ -59,6 +84,9 @@ module.exports = function(grunt) {
           },
           {
             "out/cookies.html": "src/templates/cookies.jade"
+          },
+          {
+            "out/test/index.html": "src/templates/test.jade"
           },
           {
             expand: true,

@@ -8,6 +8,8 @@
         "jqueryui-touch-punch": "latest",
         "handlebars": "latest",
         "normalize.css": "latest",
-        "fontawesome":"latest"
+        "fontawesome":"latest",
+        "mocha": "latest",
+        "chai": "latest"
     }
 }
