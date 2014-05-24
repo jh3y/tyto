@@ -6,6 +6,7 @@ install:
   - npm install -g mocha-phantomjs
   - npm install -g grunt-cli
   - npm install -g bower
+  - npm install
   - bower install
 before_script:
   - phantomjs --version
