@@ -25,9 +25,7 @@ window.tyto = tyto = () ->
 
 tyto::_init = () ->
   tyto = this
-  tyto._buildBarn tyto.config
-  tyto._createBarn tyto.config
-  tyto._bindActionHandling()
+  tyto._buildBarn()
   tyto._bindActions()
   tyto
 
@@ -42,46 +40,31 @@ tyto::_loadTemplates = ->
       tyto.itemHtml = t2[0]
       tyto.emailHtml = t3[0]
 
-tyto::_createBarn = (config) ->
+tyto::_buildBarn = () ->
   tyto = this
-  tyto.element.find('[data-action="addcolumn"]').on 'click', (e) ->
-      tyto.addColumn()
   tyto.undo = {}
-  $('[data-action="undolast"]')
-    .removeClass('btn-info')
-    .addClass('btn-disabled')
-    .attr 'disabled', true
-  tyto.element.sortable
-    connectWith: '.column',
-    handle: '.column-mover'
-    placeholder: 'column-placeholder'
-    axis: "x"
-    containment: "#barn"
-    opacity: 0.8
-    start: (event, ui) ->
-      tyto._movedItem = $ ui.item
-      tyto._movedItemOrigin = $ event.currentTarget
-      columnList = Array.prototype.slice.call tyto.element.children '.column'
-      tyto._movedItemIndex = columnList.indexOf $(ui.item)[0]
-    stop: (event, ui) ->
-      tyto.element.trigger
-        type: 'tyto:action',
-        name: 'move-column',
-        DOMcolumn: tyto._movedItem,
-        itemIndex: tyto._movedItemIndex
-      tyto.notify 'column moved', 2000
-
-tyto::_buildBarn = (config) ->
-  tyto = this
-  if tyto._autoSave is false or tyto._autoSave is undefined
-    $('.actions [data-action="toggleautosave"] i')
-      .toggleClass 'fa-check-square-o fa-square-o'
+  config = tyto.config
+  # dont build unless
   if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
     if config.DOMId isnt `undefined`
       tyto.element = $ '#' + config.DOMId
     else
       tyto.element = $ config.DOMElementSelector
     tyto.element.attr 'data-tyto', 'true'
+    tyto.element.find('[data-action="addcolumn"]').on 'click', (e) ->
+        tyto.addColumn()
+    if window.localStorage and window.localStorage.tyto
+      tyto._setUpLocalStorageAutoSave()
+    else if window.localStorage
+      $('#cookie-banner')
+        .removeClass('hide')
+        .find('[data-action="cookie-close"]')
+        .on 'click', (e)->
+          tyto._setUpLocalStorageAutoSave()
+          $('.cookie-banner').remove()
+    if tyto._autoSave is false or tyto._autoSave is undefined
+      $('.actions [data-action="toggleautosave"] i')
+        .toggleClass 'fa-check-square-o fa-square-o'
     if config.columns isnt `undefined` and config.columns.length > 0
       tyto.element.find('.column').remove()
       i = 0
@@ -92,6 +75,37 @@ tyto::_buildBarn = (config) ->
       if tyto.element.find('.tyto-item').length > 0
         $.each tyto.element.find('.tyto-item'), (index, item) ->
           tyto._binditemEvents $ item
+    # added in as actions are fired on load
+    $('[data-action="undolast"]')
+      .removeClass('btn-info')
+      .addClass('btn-disabled')
+      .attr 'disabled', true
+    # initiate jquery sortable on columns
+    tyto.element.sortable
+      connectWith: '.column',
+      handle: '.column-mover'
+      placeholder: 'column-placeholder'
+      axis: "x"
+      containment: "#barn"
+      opacity: 0.8
+      start: (event, ui) ->
+        tyto._movedItem = $ ui.item
+        tyto._movedItemOrigin = $ event.currentTarget
+        columnList = Array.prototype.slice.call tyto.element.children '.column'
+        tyto._movedItemIndex = columnList.indexOf $(ui.item)[0]
+      stop: (event, ui) ->
+        columnList = Array.prototype.slice.call tyto.element.children '.column'
+        newPosition = columnList.indexOf $(ui.item)[0]
+        if newPosition < tyto._movedItemIndex
+          tyto._movedItemIndex += 1
+        tyto.element.trigger
+          type: 'tyto:action',
+          name: 'move-column',
+          DOMcolumn: tyto._movedItem,
+          itemIndex: tyto._movedItemIndex
+        tyto.notify 'column moved', 2000
+      tyto = this
+  tyto
 
 tyto::_createColumn = (columnData) ->
   tyto = this
@@ -122,30 +136,6 @@ tyto::_setUpLocalStorageAutoSave = ->
         tyto.saveBarn()
       , 5000)
   tyto
-
-tyto::_bindActionHandling = ->
-  tyto = this
-  if window.localStorage and window.localStorage.tyto
-    tyto._setUpLocalStorageAutoSave()
-  else if window.localStorage
-    $('#cookie-banner')
-      .removeClass('hide')
-      .find('[data-action="cookie-close"]')
-      .on 'click', (e)->
-        tyto._setUpLocalStorageAutoSave()
-        $('.cookie-banner').remove()
-  # set up action event listener for tracking actions to undo
-  $('body').on 'tyto:action', (event) ->
-    tyto.undo.action = event.name
-    tyto.undo.column = event.DOMcolumn
-    tyto.undo.item = event.DOMitem
-    tyto.undo.columnIndex = event.columnIndex
-    tyto.undo.itemIndex = event.itemIndex
-    tyto.undo.editContent = event.content
-    $('[data-action="undolast"]')
-      .removeAttr('disabled')
-      .removeClass('btn-disabled')
-      .addClass 'btn-default'
 
 tyto::_bindColumnEvents = ($column) ->
   tyto = this
@@ -384,6 +374,18 @@ tyto::_bindActions = ->
   $('.actions').on 'click', '[data-action]', (e) ->
     action = e.target.dataset.action
     tyto[actionMap[action]]()
+  # set up action event listener for tracking actions to undo
+  $('body').on 'tyto:action', (event) ->
+    tyto.undo.action = event.name
+    tyto.undo.column = event.DOMcolumn
+    tyto.undo.item = event.DOMitem
+    tyto.undo.columnIndex = event.columnIndex
+    tyto.undo.itemIndex = event.itemIndex
+    tyto.undo.editContent = event.content
+    $('[data-action="undolast"]')
+      .removeAttr('disabled')
+      .removeClass('btn-disabled')
+      .addClass 'btn-default'
 
 tyto::wipeBoard = ->
   if confirm 'are you really sure you wish to wipe your entire board?'
