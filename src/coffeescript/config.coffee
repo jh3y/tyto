@@ -1,4 +1,4 @@
-tyto_config =
+window.tytoConfig = tytoConfig=
   autoSave: true
   helpModalId: 'tytoHelpModal'
   infoModalId: 'tytoInfoModal'

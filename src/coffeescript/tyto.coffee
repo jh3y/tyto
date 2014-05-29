@@ -10,19 +10,27 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ###
+
 window.tyto = tyto = () ->
   return new tyto() unless this instanceof tyto
-  this.config = if window.localStorage.tyto isnt `undefined` then JSON.parse window.localStorage.tyto else tyto_config
-  this.modals = {}
-  this.undo = {}
-  this._autoSave = this.config.autoSave
-  this._bindPageEvents()
-  this._loadTemplates()
-  this
+  newTyto = this
+  newTyto.config = if window.localStorage.tyto isnt `undefined` then JSON.parse window.localStorage.tyto else tytoConfig
+  newTyto.modals = {}
+  newTyto._autoSave = newTyto.config.autoSave
+  $.when(
+    newTyto._loadTemplates()
+  ).done ->
+    newTyto._init()
+  newTyto
+
 tyto::_init = () ->
   tyto = this
-  tyto._createBarn(tyto.config)
+  tyto._buildBarn tyto.config
+  tyto._createBarn tyto.config
+  tyto._bindActionHandling()
+  tyto._bindActions()
   tyto
+
 tyto::_loadTemplates = ->
   tyto = this
   $.when(
@@ -33,16 +41,16 @@ tyto::_loadTemplates = ->
       tyto.columnHtml = t1[0]
       tyto.itemHtml = t2[0]
       tyto.emailHtml = t3[0]
-      tyto._init()
+
 tyto::_createBarn = (config) ->
   tyto = this
-  tyto._buildDOM config
   tyto.element.find('[data-action="addcolumn"]').on 'click', (e) ->
       tyto.addColumn()
-  tyto._bindActions();
   tyto.undo = {}
-  tyto
-  $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
+  $('[data-action="undolast"]')
+    .removeClass('btn-info')
+    .addClass('btn-disabled')
+    .attr 'disabled', true
   tyto.element.sortable
     connectWith: '.column',
     handle: '.column-mover'
@@ -56,14 +64,23 @@ tyto::_createBarn = (config) ->
       columnList = Array.prototype.slice.call tyto.element.children '.column'
       tyto._movedItemIndex = columnList.indexOf $(ui.item)[0]
     stop: (event, ui) ->
-      tyto.element.trigger {type: 'tyto:action', name: 'move-column', DOMcolumn: tyto._movedItem, itemIndex: tyto._movedItemIndex}
+      tyto.element.trigger
+        type: 'tyto:action',
+        name: 'move-column',
+        DOMcolumn: tyto._movedItem,
+        itemIndex: tyto._movedItemIndex
       tyto.notify 'column moved', 2000
-tyto::_buildDOM = (config) ->
+
+tyto::_buildBarn = (config) ->
   tyto = this
   if tyto._autoSave is false or tyto._autoSave is undefined
-    $('.actions [data-action="toggleautosave"] i').toggleClass 'fa-check-square-o fa-square-o'
+    $('.actions [data-action="toggleautosave"] i')
+      .toggleClass 'fa-check-square-o fa-square-o'
   if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
-    tyto.element = if config.DOMId isnt `undefined` then $ '#' + config.DOMId else $ config.DOMElementSelector
+    if config.DOMId isnt `undefined`
+      tyto.element = $ '#' + config.DOMId
+    else
+      tyto.element = $ config.DOMElementSelector
     tyto.element.attr 'data-tyto', 'true'
     if config.columns isnt `undefined` and config.columns.length > 0
       tyto.element.find('.column').remove()
@@ -75,15 +92,21 @@ tyto::_buildDOM = (config) ->
       if tyto.element.find('.tyto-item').length > 0
         $.each tyto.element.find('.tyto-item'), (index, item) ->
           tyto._binditemEvents $ item
+
 tyto::_createColumn = (columnData) ->
   tyto = this
   template = Handlebars.compile tyto.columnHtml
   Handlebars.registerPartial "item", tyto.itemHtml
   $newColumn = $ template columnData
-  this._bindColumnEvents $newColumn
   this.element.append $newColumn
-  tyto.element.trigger {type: 'tyto:action', name: 'add-column', DOMcolumn: $newColumn, DOMitem: undefined}
-tyto::_bindPageEvents = ->
+  this._bindColumnEvents $newColumn
+  tyto.element.trigger
+    type: 'tyto:action',
+    name: 'add-column',
+    DOMcolumn: $newColumn,
+    DOMitem: undefined
+
+tyto::_setUpLocalStorageAutoSave = ->
   tyto = this
   inThrottle = undefined
   throttle = (func, delay) ->
@@ -93,20 +116,25 @@ tyto::_bindPageEvents = ->
       func.apply()
       tyto
     , delay)
-  setUpLS = () ->
-    $('body').on 'tyto:action', (event)->
-      if tyto._autoSave
-        throttle(->
-          tyto.saveBarn()
-        , 5000)
+  $('body').on 'tyto:action', (event)->
+    if tyto._autoSave
+      throttle(->
+        tyto.saveBarn()
+      , 5000)
+  tyto
+
+tyto::_bindActionHandling = ->
+  tyto = this
   if window.localStorage and window.localStorage.tyto
-    setUpLS()
+    tyto._setUpLocalStorageAutoSave()
   else if window.localStorage
-    $('#cookie-banner').removeClass('hide').find('[data-action="cookie-close"]').on 'click', (e)->
-      setUpLS()
-      $('.cookie-banner').remove()
-      $('#forkongithub').removeClass 'hide'
-      tyto.saveBarn()
+    $('#cookie-banner')
+      .removeClass('hide')
+      .find('[data-action="cookie-close"]')
+      .on 'click', (e)->
+        tyto._setUpLocalStorageAutoSave()
+        $('.cookie-banner').remove()
+  # set up action event listener for tracking actions to undo
   $('body').on 'tyto:action', (event) ->
     tyto.undo.action = event.name
     tyto.undo.column = event.DOMcolumn
@@ -114,17 +142,26 @@ tyto::_bindPageEvents = ->
     tyto.undo.columnIndex = event.columnIndex
     tyto.undo.itemIndex = event.itemIndex
     tyto.undo.editContent = event.content
-    $('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass 'btn-default'
+    $('[data-action="undolast"]')
+      .removeAttr('disabled')
+      .removeClass('btn-disabled')
+      .addClass 'btn-default'
+
 tyto::_bindColumnEvents = ($column) ->
   tyto = this
-  $column.find('.column-title').on 'keydown', (event) ->
+  $column.find('.column-title').on 'keydown', (e) ->
     columnTitle = this
-    if event.keyCode is 13 or event.charCode is 13 or event.keyCode is 27 or event.charCode is 27
-      columnTitle.blur()
-  $column.find('.column-title').on 'click', (event) ->
+    if (e.keyCode is 13 or e.charCode is 13 or
+      e.keyCode is 27 or e.charCode is 27)
+        columnTitle.blur()
+  $column.find('.column-title').on 'click', (e) ->
     tyto._preEditItemContent = this.innerHTML.toString().trim();
   $column.find('.column-title').on 'blur', (e) ->
-    tyto.element.trigger {type: 'tyto:action', name: 'edit-column-title', DOMcolumn: $column, content: tyto._preEditItemContent}
+    tyto.element.trigger
+      type: 'tyto:action',
+      name: 'edit-column-title',
+      DOMcolumn: $column,
+      content: tyto._preEditItemContent
   $column.find('.items').sortable
     connectWith: ".items"
     handle: ".item-mover"
@@ -135,16 +172,27 @@ tyto::_bindColumnEvents = ($column) ->
     start: (event, ui) ->
       tyto._movedItem = $ ui.item
       tyto._movedItemOrigin = $ event.currentTarget
-      itemList = Array.prototype.slice.call $column.find('.items').children('.tyto-item')
+      itemList = Array.prototype.slice.call(
+        $column.find('.items')
+          .children '.tyto-item'
+      )
       tyto._movedItemIndex = itemList.indexOf $(ui.item)[0]
     stop: (event, ui) ->
-      tyto.element.trigger {type: 'tyto:action', name: 'move-item', DOMcolumn: tyto._movedItemOrigin, DOMitem: tyto._movedItem, itemIndex: tyto._movedItemIndex}
+      tyto.element.trigger
+        type: 'tyto:action',
+        name: 'move-item',
+        DOMcolumn: tyto._movedItemOrigin,
+        DOMitem: tyto._movedItem,
+        itemIndex: tyto._movedItemIndex
       tyto.notify 'item moved', 2000
-  $column.find('[data-action="removecolumn"]').on 'click', (e) ->
-    tyto.removeColumn $column
-  $column.find('[data-action="additem"]').on 'click', (e) ->
-    tyto.addItem $column
+  $column.find('[data-action="removecolumn"]')
+    .on 'click', (e) ->
+      tyto.removeColumn $column
+  $column.find('[data-action="additem"]')
+    .on 'click', (e) ->
+      tyto.addItem $column
   tyto
+
 tyto::undoLast = ->
   tyto = this
   if tyto.undo
@@ -158,30 +206,43 @@ tyto::undoLast = ->
         if tyto.undo.columnIndex > tyto.element.find('.column').length - 1
           tyto.element.append tyto.undo.column
         else
-          $(tyto.element.find('.column')[tyto.undo.columnIndex]).before tyto.undo.column
+          $(tyto.element.find('.column')[tyto.undo.columnIndex])
+            .before tyto.undo.column
         tyto._bindColumnEvents tyto.undo.column
         $.each tyto.undo.column.find('[data-tyto-item]'), () ->
           tyto._binditemEvents $ this
         tyto._resizeColumns()
       when 'remove-item'
-        if tyto.undo.itemIndex > tyto.undo.column.find('[data-tyto-item]').length - 1
-          tyto.undo.column.find('.items').append tyto.undo.item
+        if (tyto.undo.itemIndex >
+          tyto.undo.column.find('[data-tyto-item]').length - 1)
+            tyto.undo.column.find('.items').append tyto.undo.item
         else
-          $(tyto.element.find(tyto.undo.column).find('[data-tyto-item]')[tyto.undo.itemIndex]).before tyto.undo.item
+          $(tyto.element
+            .find(tyto.undo.column)
+            .find('[data-tyto-item]')[tyto.undo.itemIndex]
+          ).before tyto.undo.item
         tyto._binditemEvents tyto.undo.item
       when 'move-item'
-        if tyto.undo.itemIndex is 0 or tyto.undo.itemIndex is tyto.undo.column.children('.tyto-item').length
-          tyto.undo.column.append tyto.undo.item
+        if (tyto.undo.itemIndex is 0 or
+          tyto.undo.itemIndex is tyto.undo.column.children('.tyto-item').length)
+            tyto.undo.column.append tyto.undo.item
         else
-          $(tyto.undo.column.children('.tyto-item')[tyto.undo.itemIndex]).before tyto.undo.item
+          $(tyto.undo.column.
+            children('.tyto-item')[tyto.undo.itemIndex]
+          ).before tyto.undo.item
       when 'move-column'
-        $(tyto.element.children('.column')[tyto.undo.itemIndex]).before tyto.undo.column
+        $(tyto.element
+          .children('.column')[tyto.undo.itemIndex]
+        ).before tyto.undo.column
       when 'edit-item-title'
-        tyto.undo.item.find('.tyto-item-title')[0].innerHTML = tyto.undo.editContent
+        tyto.undo.item
+          .find('.tyto-item-title')[0].innerHTML = tyto.undo.editContent
       when 'edit-item-content'
-        tyto.undo.item.find('.tyto-item-content')[0].innerHTML = tyto.undo.editContent
+        tyto.undo.item
+          .find('.tyto-item-content')[0].innerHTML = tyto.undo.editContent
       when 'edit-column-title'
-        tyto.undo.column.find('.column-title')[0].innerHTML = tyto.undo.editContent
+        tyto.undo.column
+          .find('.column-title')[0].innerHTML = tyto.undo.editContent
       when 'wipe-board'
         tyto.element.append tyto.undo.item
         $.each tyto.element.find('.tyto-item'), (key, $item) ->
@@ -190,8 +251,12 @@ tyto::undoLast = ->
           tyto._bindColumnEvents $ $column
       else
         console.log "tyto: no luck, you don't seem to be able to undo that"
-    $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr 'disabled', true
+    $('[data-action="undolast"]')
+      .removeClass('btn-info')
+      .addClass('btn-disabled')
+      .attr 'disabled', true
     tyto.notify 'undone', 2000
+
 tyto::addColumn = ->
   tyto = this
   if tyto.element.find('.column').length < tyto.config.maxColumns
@@ -199,7 +264,10 @@ tyto::addColumn = ->
     tyto._resizeColumns()
     tyto.notify 'column added', 2000
   else
-    alert "whoah, it's getting busy and you've reached the maximum amount of columns. You can however increase the amount of maximum columns via the config."
+    alert """whoah, it's getting busy and you've reached the maximum amount of
+      columns. You can however increase the amount of maximum columns via the
+      config."""
+
 tyto::removeColumn = ($column = this.element.find('.column').last()) ->
   tyto = this
   calculateIndex = ->
@@ -210,34 +278,56 @@ tyto::removeColumn = ($column = this.element.find('.column').last()) ->
         return false
     colIndex
   removeColumn = ->
-    columnList = Array.prototype.slice.call $column.parent('[data-tyto]').children('.column')
-    tyto.element.trigger {type: 'tyto:action', name: 'remove-column', DOMitem: undefined, DOMcolumn: $column, columnIndex: columnList.indexOf $column[0]}
+    columnList = Array.prototype.slice.call(
+      $column.parent('[data-tyto]')
+        .children '.column'
+    )
+    tyto.element.trigger
+      type: 'tyto:action',
+      name: 'remove-column',
+      DOMitem: undefined,
+      DOMcolumn: $column,
+      columnIndex: columnList.indexOf $column[0]
     $column.remove()
     tyto._resizeColumns()
   if $column.find('.tyto-item').length > 0
-    if confirm 'are you sure you want to remove this column? doing so will lose all items within it.'
+    if confirm """are you sure you want to remove this column?
+      doing so will lose all items within it."""
       removeColumn()
       tyto.notify 'column removed', 2000
   else
     removeColumn()
     tyto.notify 'column removed', 2000
   tyto
+
 tyto::addItem = ($column = this.element.find('.column').first(), content) ->
   this._createItem $column, content
   this.notify 'item added', 2000
+
 tyto::_createItem = ($column, content) ->
   tyto = this
   template = Handlebars.compile tyto.itemHtml
   $newitem = $ template {}
   tyto._binditemEvents $newitem
   $column.find('.tyto-item-holder .items').append $newitem
-  tyto.element.trigger {type: 'tyto:action', name: 'add-item', DOMitem: $newitem, DOMcolumn: $column}
+  tyto.element.trigger
+    type: 'tyto:action',
+    name: 'add-item',
+    DOMitem: $newitem,
+    DOMcolumn: $column
+
 tyto::_binditemEvents = ($item) ->
   tyto = this
   $item.find('.close').on 'click', (event) ->
     if confirm 'are you sure you want to remove this item?'
       itemList = Array.prototype.slice.call $item.parent('.items').children()
-      tyto.element.trigger {type: 'tyto:action', name: 'remove-item', DOMitem: $item, DOMcolumn: $item.parents('.column'), columnIndex: undefined, itemIndex: itemList.indexOf $item[0]}
+      tyto.element.trigger
+        type: 'tyto:action',
+        name: 'remove-item',
+        DOMitem: $item,
+        DOMcolumn: $item.parents('.column'),
+        columnIndex: undefined,
+        itemIndex: itemList.indexOf $item[0]
       $item.remove()
       tyto.notify 'item removed', 2000
   $item.find('i.collapser').on 'click', (e) ->
@@ -251,19 +341,30 @@ tyto::_binditemEvents = ($item) ->
   $item.find('.tyto-item-title').on 'click', (event) ->
     tyto._preEditItemContent = this.innerHTML.toString().trim();
   $item.find('.tyto-item-title').on 'blur', (e) ->
-    tyto.element.trigger {type: 'tyto:action', name: 'edit-item-title', DOMitem: $item, content: tyto._preEditItemContent}
+    tyto.element.trigger
+      type: 'tyto:action',
+      name: 'edit-item-title',
+      DOMitem: $item,
+      content: tyto._preEditItemContent
     tyto.notify 'item title edited', 2000
   $item.find('.tyto-item-content').on 'click', (event) ->
     tyto._preEditItemContent = this.innerHTML.toString().trim();
   $item.find('.tyto-item-content').on 'blur', (e) ->
-    tyto.element.trigger {type: 'tyto:action', name: 'edit-item-content', DOMitem: $item, content: tyto._preEditItemContent}
+    tyto.element.trigger
+      type: 'tyto:action',
+      name: 'edit-item-content',
+      DOMitem: $item,
+      content: tyto._preEditItemContent
     tyto.notify 'item content edited', 2000
-tyto::saveBarn = ->
+
+tyto::saveBarn = (jsonString) ->
   window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
   this.notify 'board saved', 2000
+
 tyto::deleteSave = ->
   window.localStorage.removeItem 'tyto'
   this.notify 'save deleted', 2000
+
 tyto::_bindActions = ->
   tyto = this
   actionMap =
@@ -279,31 +380,38 @@ tyto::_bindActions = ->
     deletesave: 'deleteSave'
     wipeboard: 'wipeBoard'
     toggleautosave: 'toggleAutoSave'
-
   action = ""
-
   $('.actions').on 'click', '[data-action]', (e) ->
     action = e.target.dataset.action
     tyto[actionMap[action]]()
+
 tyto::wipeBoard = ->
   if confirm 'are you really sure you wish to wipe your entire board?'
     boardContent = tyto.element[0].innerHTML
     tyto.element[0].innerHTML = '';
-    tyto.element.trigger {type: 'tyto:action', name: 'wipe-board', DOMitem: $ boardContent}
+    tyto.element.trigger
+      type: 'tyto:action',
+      name: 'wipe-board',
+      DOMitem: $ boardContent
     tyto.notify 'board wiped', 2000
+
 tyto::toggleAutoSave = ->
-  $('[data-action="toggleautosave"] i').toggleClass 'fa-check-square-o fa-square-o'
+  $('[data-action="toggleautosave"] i')
+    .toggleClass 'fa-check-square-o fa-square-o'
   tyto._autoSave = !tyto._autoSave
   if tyto._autoSave
     tyto.notify 'auto-save: ON', 2000
   else
     tyto.notify 'auto-save: OFF', 2000
   window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
+
 tyto::_resizeColumns = ->
   tyto = this
   if tyto.element.find('.column').length > 0
     correctWidth = 100 / tyto.element.find('.column').length
-    tyto.element.find('.column').css({'width': correctWidth + '%'})
+    tyto.element.find('.column')
+      .css({'width': correctWidth + '%'})
+
 tyto::_createBarnJSON = ->
   tyto = this
   itemboardJSON =
@@ -320,22 +428,32 @@ tyto::_createBarnJSON = ->
   columns = tyto.element.find '.column'
   $.each columns, (index, column) ->
     regex = new RegExp "<br>", 'g'
-    columnTitle = $(column).find('.column-title')[0].innerHTML.toString().replace regex, ''
+    columnTitle = $(column).find('.column-title')[0]
+      .innerHTML.toString()
+      .replace regex, ''
     items = []
     columnitems = $(column).find('.tyto-item')
     $.each columnitems, (index, item) ->
-      isCollapsed = if item.querySelector('.action-icons .collapser').className.indexOf('plus') isnt -1 then true else false
+      isCollapsed = if item.querySelector('.action-icons .collapser')
+        .className.indexOf('plus') isnt -1 then true else false
       items.push
-        content: item.querySelector('.tyto-item-content').innerHTML.toString().trim()
-        title: item.querySelector('.tyto-item-title').innerHTML.toString().trim()
+        content: (item.querySelector('.tyto-item-content')
+          .innerHTML.toString().trim())
+        title: (item.querySelector('.tyto-item-title')
+          .innerHTML.toString().trim())
         collapsed: isCollapsed
-    itemboardJSON.columns.push title: columnTitle, items: items
+    itemboardJSON.columns.push
+      title: columnTitle,
+      items: items
   itemboardJSON
+
 tyto::_loadBarnJSON = (json) ->
   tyto = this
-  tyto._buildDOM json
+  tyto._buildBarn json
+
 tyto::_escapes =
   '#': "@tyto-hash"
+
 tyto::_encodeJSON = (jsonString) ->
   tyto = this
   if jsonString isnt `undefined`
@@ -343,6 +461,7 @@ tyto::_encodeJSON = (jsonString) ->
       regex = new RegExp escape, 'g'
       jsonString = jsonString.replace regex, tyto._escapes[escape]
   jsonString
+
 tyto::_decodeJSON = (jsonString) ->
   tyto = this
   if jsonString isnt `undefined`
@@ -350,14 +469,18 @@ tyto::_decodeJSON = (jsonString) ->
       regex = new RegExp tyto._escapes[escape], 'g'
       jsonString = jsonString.replace regex, escape
   jsonString
+
 tyto::exportBarn = ->
   tyto = this
   saveAnchor = $ '#savetyto'
-  filename = if tyto.config.saveFilename isnt `undefined` then tyto.config.saveFilename + '.json' else 'itemboard.json'
-  content = 'data:text/plain,' + tyto._encodeJSON JSON.stringify(tyto._createBarnJSON())
+  filename = (if tyto.config.saveFilename isnt `undefined`
+  then tyto.config.saveFilename + '.json' else 'itemboard.json')
+  content = ('data:text/plain,' +
+    tyto._encodeJSON JSON.stringify(tyto._createBarnJSON()))
   saveAnchor[0].setAttribute 'download', filename
   saveAnchor[0].setAttribute 'href', content
   saveAnchor[0].click()
+
 tyto::loadBarn = ->
   tyto = this
   $files = $ '#tytofiles'
@@ -371,13 +494,16 @@ tyto::loadBarn = ->
       reader = new FileReader()
       reader.onloadend = (event) ->
         result = JSON.parse tyto._decodeJSON(this.result)
-        if result.columns isnt `undefined` and (result.DOMId isnt `undefined` or result.DOMElementSelector isnt `undefined`)
+        if result.columns isnt `undefined` and
+        (result.DOMId isnt `undefined` or
+        result.DOMElementSelector isnt `undefined`)
           tyto._loadBarnJSON result
         else
           alert 'tyto: incorrect json'
       reader.readAsText f
     else
       alert 'tyto: only load a valid itemboard json file'
+
 tyto::_getEmailContent = ->
   tyto = this;
   contentString = ''
@@ -385,29 +511,41 @@ tyto::_getEmailContent = ->
   template = Handlebars.compile tyto.emailHtml
   $email = $ template itemboardJSON
   regex = new RegExp '&lt;br&gt;', 'gi'
-  if $email.html().trim() is "Here are your current items." then "You have no items on your plate so go grab a glass and fill up a drink! :)" else $email.html().replace(regex, '').trim()
+  if $email.html().trim() is "Here are your current items."
+  then return "You have no items on your plate so go grab a drink! :)"
+  else return $email.html().replace(regex, '').trim()
+
 tyto::emailBarn = ->
   tyto = this
   mailto = 'mailto:'
-  recipient = if tyto.config.emailRecipient then tyto.config.emailRecipient else 'someone@somewhere.com'
+  recipient = if tyto.config.emailRecipient
+  then tyto.config.emailRecipient
+  else 'someone@somewhere.com'
   d = new Date()
-  subject = if tyto.config.emailSubject then tyto.config.emailSubject else 'items as of ' + d.toString()
+  subject = if tyto.config.emailSubject
+  then tyto.config.emailSubject
+  else 'items as of ' + d.toString()
   content = tyto._getEmailContent()
   content = encodeURIComponent content
-  mailtoString = mailto + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content;
+  mailtoString = mailto + recipient + '?subject=' +
+    encodeURIComponent(subject.trim()) + '&body=' + content
   $('#tytoemail').attr 'href', mailtoString
   $('#tytoemail')[0].click()
+
 tyto::notify = (message, duration) ->
-  $message = $ '<div class= "tyto-notification notify" data-tyto-notify=" ' + (duration / 1000) + ' ">' + message + '</div>'
+  $message = $ '<div class= "tyto-notification notify" data-tyto-notify=" ' +
+    (duration / 1000) + ' ">' + message + '</div>'
   $('body').prepend $message
   setTimeout(->
     $message.remove()
   , duration)
+
 tyto::showHelp = ->
   tyto = this
   if tyto.config.helpModalId
     tyto.modals.helpModal = $ '#' + tyto.config.helpModalId
     tyto.modals.helpModal.modal()
+
 tyto::showInfo = ->
   tyto = this
   if tyto.config.infoModalId

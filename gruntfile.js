@@ -67,8 +67,10 @@ module.exports = function(grunt) {
         },
         files: [
           {
-            "out/js/tyto.js": ["src/coffeescript/config.coffee",
-              "src/coffeescript/tyto.coffee"]
+            "out/js/tyto.js": "src/coffeescript/tyto.coffee"
+          },
+          {
+            "out/js/config.js": "src/coffeescript/config.coffee"
           },
           {
             "out/js/test/test.js": "src/coffeescript/test.coffee"
