@@ -10,5 +10,12 @@ describe "tyto", ->
       tyto.prototype.deleteSave()
       expect(typeof(window.localStorage.tyto)).to.equal "undefined"
       return
+    it "should add tyto data to localStorage using saveBarn", ->
+      tytoData =
+        dummy: "yes"
+        name: "test"
+      tyto.prototype.saveBarn JSON.stringify tytoData
+      expect(window.localStorage.tyto).to.equal JSON.stringify tytoData
+      return
     return
   return
