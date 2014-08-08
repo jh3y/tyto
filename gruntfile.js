@@ -126,7 +126,7 @@ module.exports = function(grunt) {
       scripts: {
         src: [
           "vendor/jquery/dist/jquery.min.js",
-          "vendor/jquery-ui/ui/minified/jquery-ui.min.js",
+          "vendor/jquery-ui/jquery-ui.min.js",
           "vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js",
           "vendor/bootstrap/dist/js/bootstrap.min.js",
           "vendor/handlebars/handlebars.min.js"
