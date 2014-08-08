@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       },
       livereload: {
         options: {
-          open: true
+          open: false
         }
       }
     },
@@ -164,6 +164,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.registerTask('deploy:test', ['concat', 'jade', 'less', 'coffee', 'copy']);
   grunt.registerTask('default', ['connect', 'concat', 'jade', 'less', 'coffee', 'copy', 'watch']);
 
 };

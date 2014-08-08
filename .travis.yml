@@ -11,7 +11,7 @@ install:
 before_script:
   - phantomjs --version
   - mocha-phantomjs --version
-  - grunt &
+  - grunt deploy:test &
   - sleep 5 # give grunt background task some time to execute.
 script:
   - mocha-phantomjs out/test/index.html
