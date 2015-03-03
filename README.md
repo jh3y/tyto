@@ -28,6 +28,13 @@ after the great feedback it received previously on HN. New features have been ad
 * __14/02/14__: V1.1.0 released with plenty of new features that were raised in the first showing.
 * __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
 * __23/05/14__: V1.4.0 major overhaul of code as it's been some time. Moving away from requireJS and introducing bower instead for piling sources together via grunt.
+* __02/03/15__: It's now 2015. And the issues have gone untouched and I've started adding new ones! So it looks like it's going to be a good time soon to make some progress on them. Looking to add:
+  * DB Support (Mongo)
+  * Ability to modify notes using custom markup
+  * Multiple boards
+  * Better mobile view; One column at a time.
+  * Huge refactor to get rid of annoyances such as load time template loading.
+  * Add tracking for both tasks and time!
 
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto8.gif)
