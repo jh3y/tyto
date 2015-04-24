@@ -50,22 +50,19 @@ module.exports = {
       ],
       vendor: {
         js: [
-          "src/vendor/jquery/dist/jquery.js",
-          "src/vendor/jquery-ui/jquery-ui.js",
-          "src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js",
-          "src/vendor/bootstrap/dist/js/bootstrap.min.js",
-          "src/vendor/handlebars/handlebars.min.js"
+          'src/vendor/jquery/dist/jquery.js',
+          'src/vendor/underscore/underscore.js',
+          'src/vendor/backbone/backbone.js',
+          'src/vendor/marionette/lib/backbone.marionette.js',
+          'src/vendor/Backbone.localStorage/backbone.localStorage.js'
+          // "src/vendor/jquery-ui/jquery-ui.js",
+          // "src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js",
+          // "src/vendor/bootstrap/dist/js/bootstrap.min.js",
+          // "src/vendor/handlebars/handlebars.min.js"
         ],
-        css: [
-          "src/vendor/normalize.css/normalize.css",
-          "src/vendor/bootstrap/dist/css/bootstrap.min.css",
-          "src/vendor/fontawesome/css/font-awesome.min.css"
-        ],
-        fonts: [
-          'src/vendor/fontawesome/fonts/**/*.*'
-        ]
+        css: [],
+        fonts: []
       },
-      images: 'src/images/**/*.*',
       jade: 'src/jade/*.jade',
       templates: 'src/jade/templates/**/*.jade',
       less: 'src/less/**/*.less',
