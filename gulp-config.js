@@ -24,12 +24,12 @@ module.exports = {
     },
     order: [
       'templates/**/*.js',
+      '*.js',
       'models/**/*.js',
       'collections/**/*.js',
       'views/**/*.js',
       'routers/**/*.js',
-      '*.js',
-      'app.js'
+      'layout/**/*.js'
     ],
     prefix: [
       'last 3 versions',
@@ -37,7 +37,7 @@ module.exports = {
       'Android 3',
       'Android 4'
     ],
-    wrap: '(function() { <%= contents %> }());',
+    wrap: '(function() { <%= contents %> Tyto.start();}());',
     load: {
       rename: {
         'gulp-gh-pages'             : 'deploy',

@@ -41,11 +41,11 @@ gulp.task('coffee:compile', ['tmpl:compile'], function() {
     .pipe(plugins.wrap(pluginOpts.wrap))
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
     .pipe(isDeploy ? plugins.gUtil.noop(): gulp.dest(isDist ? destinations.dist: destinations.js))
-    .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
     .pipe(plugins.uglify())
     .pipe(plugins.rename({
       suffix: '.min'
     }))
+    .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
     .pipe(gulp.dest(isDist ? destinations.dist: destinations.js));
 });
