@@ -5,7 +5,7 @@ module.exports = {
   },
   pluginOpts: {
     jade: {
-      pretty: false
+      pretty: true
     },
     coffee: {
       bare: true
@@ -23,8 +23,13 @@ module.exports = {
       suffix: '.min'
     },
     order: [
-      'config.js',
-      'tyto.js'
+      'templates/**/*.js',
+      'models/**/*.js',
+      'collections/**/*.js',
+      'views/**/*.js',
+      'routers/**/*.js',
+      '*.js',
+      'app.js'
     ],
     prefix: [
       'last 3 versions',
@@ -38,7 +43,8 @@ module.exports = {
         'gulp-gh-pages'             : 'deploy',
         'gulp-util'                 : 'gUtil',
         'gulp-minify-css'           : 'minify',
-        'gulp-autoprefixer'         : 'prefix'
+        'gulp-autoprefixer'         : 'prefix',
+        'gulp-template-store'       : 'template'
       }
     }
   },
@@ -59,28 +65,25 @@ module.exports = {
           // "src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js",
           // "src/vendor/bootstrap/dist/js/bootstrap.min.js",
           // "src/vendor/handlebars/handlebars.min.js"
-        ],
-        css: [],
-        fonts: []
+        ]
       },
-      jade: 'src/jade/*.jade',
+      jade: [
+        'src/jade/*.jade',
+        'src/jade/layout-blocks/**/*.jade'
+      ],
+      docs: 'src/jade/*.jade',
       templates: 'src/jade/templates/**/*.jade',
-      less: 'src/less/**/*.less',
+      stylus: 'src/stylus/**/*.stylus',
       overwatch: 'out/**/*.{html,js,css}'
     },
     destinations: {
-      testing: {
-        screenshots: './testing/screenshots'
-      },
-      dist: './dist',
-      build: '',
-      js: env + 'js/',
       html: env,
-      fonts: env + 'fonts/',
-      images: env + 'images/',
+      js: env + 'js/',
       css: env + 'css/',
+      templates: 'src/coffee/templates/',
+      build: '',
+      dist: './dist',
       test: 'testEnv/',
-      templates: env + 'templates/'
     }
   }
 };
