@@ -1,0 +1,11 @@
+ul.tyto-actions
+  li
+    button#add-board Add new board
+  |<% if (items.length > 0) { %>
+  li
+    select#board-selector
+      option --select a board--
+      |<% _.each(items, function(i){ %>
+      option <%= i.title %>
+      |<% }) %>
+  |<% } %>

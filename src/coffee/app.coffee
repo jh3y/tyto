@@ -6,6 +6,7 @@ App = Marionette.Application.extend
   initialize: (opts) ->
     console.log 'Hey! you are making an application.'
   setRootLayout: ->
+    console.log 'Setting Root Layout now'
     this.root = new Tyto.Layout.Root()
 
 window.Tyto = new App()
