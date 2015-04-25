@@ -12,13 +12,18 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     # Spec out UI elements to interact with.
     ui:
       add: '#add-board'
+      boardSelector: '#board-selector'
     events:
-      'click @ui.add': 'addBoard'
+      'click @ui.add': 'addBoard',
+      'change @ui.boardSelector': 'showBoard'
     collectionEvents:
       'all': 'render'
     addBoard: ->
       this.collection.create
         title: 'MY NEW BOARD'
+    showBoard: ->
+      App.navigate 'boards/' + this.ui.boardSelector.val(),
+        trigger: true
 
 
   Layout.Board = Backbone.Marionette.ItemView.extend
@@ -28,11 +33,6 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       delete: '#delete-board'
     events:
       'click @ui.delete': 'deleteBoard'
-    collectionEvents:
-      'all': 'render'
-    render: ->
-      console.log 'rendering this view now because I want a board.'
-      console.log this.collection
     deleteBoard: ->
       this.collection.create
         title: 'MY NEW BOARD'

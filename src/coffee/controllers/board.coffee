@@ -1,34 +1,50 @@
 Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
   BoardList.Router = Marionette.AppRouter.extend
     appRoutes:
-      'boards/:board': 'showBoard',
-      '*path': 'someFunc'
+      'boards/:board': 'showBoard'
   BoardList.Controller = Marionette.Controller.extend
     initialize: ->
-      this.boardList = new App.Boards.BoardList()
+      this.boardList = App.boardList
     someFunc: ->
       console.info 'awesome'
     start: ->
       that = this
       this.showMenu this.boardList
-      this.boardList.fetch
-        success: (collection, response, options) ->
-          if collection.length > 0
-            that.router.navigate '#/boards/' + collection.first().get 'id'
+      if this.boardList.length > 0 and window.location.hash is ''
+        Tyto.vent.on 'history:started', ->
+          console.info 'I want to do something please!!'
+          id = that.boardList.first().get 'id'
+          App.navigate 'boards/' + id,
+            trigger: true
 
     showMenu: (boards) ->
       menu = new App.Layout.Menu
         collection: boards
-      App.root.showChildView 'menu', menu
+      Tyto.root.showChildView 'menu', menu
+      return
 
-    showBoard: (board) ->
-      ###
-        get a board and display it using the board view.
-      ###
-      console.info 'time to display', board
+    showBoard: (id) ->
+      console.log 'display', id
+      model = this.boardList.get id
+      board = new App.Layout.Board
+        model: model
+      App.root.showChildView 'content', board
 
   App.on 'start', ->
-    controller = new BoardList.Controller()
-    controller.router = new BoardList.Router
-      controller: controller
-    controller.start()
+    console.log 'ctrl'
+    this.controller = new BoardList.Controller()
+    this.controller.router = new BoardList.Router
+      controller: this.controller
+    this.controller.start()
+    return
+
+  return
+
+
+Tyto.on 'start', ->
+  Backbone.history.start()
+  Tyto.vent.trigger 'history:started'
+
+Tyto.boardList = new Tyto.Boards.BoardList()
+Tyto.boardList.fetch().done (data) ->
+  Tyto.start()

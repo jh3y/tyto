@@ -6,6 +6,6 @@ ul.tyto-actions
     select#board-selector
       option --select a board--
       |<% _.each(items, function(i){ %>
-      option <%= i.title %>
+      option(value!="<%= i.id %>") <%= i.title %>
       |<% }) %>
   |<% } %>

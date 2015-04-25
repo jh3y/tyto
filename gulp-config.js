@@ -37,7 +37,7 @@ module.exports = {
       'Android 3',
       'Android 4'
     ],
-    wrap: '(function() { <%= contents %> Tyto.start();}());',
+    wrap: '(function() { <%= contents %> }());',
     load: {
       rename: {
         'gulp-gh-pages'             : 'deploy',

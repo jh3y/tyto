@@ -1,16 +1,14 @@
-App = Marionette.Application.extend
-  ###TODO
-    Here is where you are passing in your options and this could be a brilliant
-    place to pass in the tyto config realistically.
-  ###
+TytoApp = Marionette.Application.extend
   initialize: (opts) ->
     console.log 'Hey! you are making an application.'
+  navigate: (route, opts) ->
+    Backbone.history.navigate route, opts
   setRootLayout: ->
     console.log 'Setting Root Layout now'
     this.root = new Tyto.Layout.Root()
 
-window.Tyto = new App()
+window.Tyto = new TytoApp()
 
-Tyto.on 'start', ->
+
+Tyto.on 'before:start', ->
   Tyto.setRootLayout()
-  Backbone.history.start()
