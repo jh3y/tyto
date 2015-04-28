@@ -27,16 +27,25 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       return
 
 
-  Layout.Board = Backbone.Marionette.ItemView.extend
+  Layout.Column = Backbone.Marionette.CompositeView.extend
+    tagName: 'column'
+    template: tytoTmpl.column
+
+  Layout.Board = Backbone.Marionette.CompositeView.extend
     template: tytoTmpl.board
+    childView: Layout.Column
     ui:
       addColumn: '#add-column'
     events:
       'click @ui.addColumn': 'addColumn'
     initialize: ->
       this.model.on 'all', this.render
+    onBeforeRenderCollection: ->
+      this.collection = this.model.get 'columns'
+      console.info this.collection.length
+    onRender: ->
+      console.info 'renderrring', this.collection.length
     addColumn: ->
-      this.model.get('columns').add new Tyto.Columns.Column()
+      this.model.get('columns').create new Tyto.Columns.Column()
       this.model.save()
-      console.log this.model.get('columns').length
       return

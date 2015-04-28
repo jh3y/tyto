@@ -11,7 +11,6 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
       this.showMenu this.boardList
       if this.boardList.length > 0 and window.location.hash is ''
         Tyto.vent.on 'history:started', ->
-          console.info 'I want to do something please!!'
           id = that.boardList.first().get 'id'
           App.navigate 'boards/' + id,
             trigger: true
@@ -34,11 +33,11 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
       # debugger
       board = new App.Layout.Board
         model: model
+        collection: model.get('columns')
       App.root.showChildView 'content', board
       return
 
   App.on 'start', ->
-    console.log 'ctrl'
     this.controller = new BoardList.Controller()
     this.controller.router = new BoardList.Router
       controller: this.controller
