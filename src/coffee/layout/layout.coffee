@@ -33,8 +33,10 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       addColumn: '#add-column'
     events:
       'click @ui.addColumn': 'addColumn'
+    initialize: ->
+      this.model.on 'all', this.render
     addColumn: ->
-      console.log 'adding column', new Date()
-      this.model.get('columns').add()
+      this.model.get('columns').add new Tyto.Columns.Column()
       this.model.save()
+      console.log this.model.get('columns').length
       return
