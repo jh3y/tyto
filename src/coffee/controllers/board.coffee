@@ -5,8 +5,7 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
   BoardList.Controller = Marionette.Controller.extend
     initialize: ->
       this.boardList = App.boardList
-    someFunc: ->
-      console.info 'awesome'
+      return
     start: ->
       that = this
       this.showMenu this.boardList
@@ -16,6 +15,7 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
           id = that.boardList.first().get 'id'
           App.navigate 'boards/' + id,
             trigger: true
+      return
 
     showMenu: (boards) ->
       menu = new App.Layout.Menu
@@ -24,11 +24,18 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
       return
 
     showBoard: (id) ->
-      console.log 'display', id
       model = this.boardList.get id
+      # TODO : I reckon in here is where you worry about your columns
+      ###
+        Or you could almost work on this like an angular project and build a service like module that will return the correct data wrapped in a promise which would work nicely I guess.
+
+        The only problem with this is sending the binding back up on UI changes.
+      ###
+      # debugger
       board = new App.Layout.Board
         model: model
       App.root.showChildView 'content', board
+      return
 
   App.on 'start', ->
     console.log 'ctrl'
@@ -44,7 +51,9 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
 Tyto.on 'start', ->
   Backbone.history.start()
   Tyto.vent.trigger 'history:started'
+  return
 
 Tyto.boardList = new Tyto.Boards.BoardList()
 Tyto.boardList.fetch().done (data) ->
   Tyto.start()
+  return

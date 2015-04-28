@@ -1,3 +1,7 @@
 .board
-  p.
-    I am an awesome board and my name is <%= id %>
+  button#add-column Add a column
+  p I am an awesome board and my name is <%= id %>.
+  |<% if (typeof columns !== "undefined" && columns.length > 0) { %>
+  p I have <%= columns.length %> columns.
+  |<% } %>
+  p My name is <%= title %>
