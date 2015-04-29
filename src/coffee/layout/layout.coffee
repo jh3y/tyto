@@ -36,8 +36,9 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     deleteColumn: ->
       this.trigger 'destroy:column', this.model
     initialize: ->
+      # Will listen to vent calls to flush out views
       this.listenTo Tyto.vent, 'flush', (d) ->
-        console.log d, this
+        console.log d, this,'GETTING HERE'
         this.model.destroy()
         this.destroy()
 
@@ -59,6 +60,8 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       'click @ui.saveBoard': 'saveBoard'
       'click @ui.deleteBoard': 'deleteBoard'
     initialize: ->
+      this.newCols = []
+      this.deletedCols = []
       console.info 'created board viw'
       this.on 'childview:destroy:column', (d) ->
         this.collection.remove d.model
@@ -77,18 +80,19 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       if this.newCols.length > 0
         _.forEach this.newCols, (col) ->
           col.save()
+        this.newCols = []
       this.model.save()
       ## Need to clean up deleted columns on save from localStorage.
       if this.deletedCols.length > 0
         _.forEach this.deletedCols, (col) ->
           col.model.destroy()
+        this.deletedCols = []
       this.collection = this.model.get 'columns'
       this.render()
     deleteBoard: ->
       Tyto.vent.trigger 'flush', this.model.get 'id'
-      # _.forEach this.model.get('columns').models, (col) ->
-      #   console.log col.get 'id'
-      #   col.destroy()
+      this.newCols = []
+      this.deletedCols = []
       this.model.destroy()
       this.destroy()
       Tyto.navigate '/',
