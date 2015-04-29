@@ -17,6 +17,7 @@
 
 Tyto.module 'Columns', (Columns, App, Backbone) ->
   Columns.Column = Backbone.Model.extend
+    localStorage: new Backbone.LocalStorage 'tyto--col'
     defaults:
       title: 'New Column'
     initialize: ->
@@ -24,7 +25,6 @@ Tyto.module 'Columns', (Columns, App, Backbone) ->
 
   Columns.ColumnList = Backbone.Collection.extend
     model: Columns.Column
-    localStorage: new Backbone.LocalStorage 'tyto--col'
     initialize: ->
       console.info 'new columns collection created.'
 
@@ -42,8 +42,8 @@ Tyto.module 'Boards', (Boards, App, Backbone) ->
         columns: new Tyto.Columns.ColumnList response.columns
 
   Boards.BoardList = Backbone.Collection.extend
-    model: Boards.Board
     localStorage: new Backbone.LocalStorage 'tyto'
+    model: Boards.Board
     initialize: ->
       console.info 'new boards collection created'
 
