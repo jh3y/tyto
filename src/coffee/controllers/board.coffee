@@ -24,13 +24,6 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
 
     showBoard: (id) ->
       model = this.boardList.get id
-      # TODO : I reckon in here is where you worry about your columns
-      ###
-        Or you could almost work on this like an angular project and build a service like module that will return the correct data wrapped in a promise which would work nicely I guess.
-
-        The only problem with this is sending the binding back up on UI changes.
-      ###
-      # debugger
       board = new App.Layout.Board
         model: model
         collection: model.get('columns')
