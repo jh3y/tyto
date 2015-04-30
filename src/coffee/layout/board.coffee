@@ -1,29 +1,34 @@
+Tyto.module 'Layout', (Layout, App, Backbone) ->
+  Layout.Todo = Backbone.Marionette.ItemView.extend
+    template: tytoTmpl.todo
+
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Column = Backbone.Marionette.CompositeView.extend
     template: tytoTmpl.column
     ui:
       deleteColumn: '#delete-column'
+      addTask: '#add-todo'
+    childView: Layout.Todo
+    childViewContainer: '.tasks'
     events:
       'click @ui.deleteColumn': 'deleteColumn'
+      'click @ui.addTask': 'addTask'
+    initialize: ->
+      todos = this.model.get 'todos'
+      this.collection = new Tyto.Todos.TodoList todos
+    addTask: ->
+      console.log 'creating a task'
+      newTask = new Tyto.Todos.Todo()
+      this.collection.add newTask
     deleteColumn: ->
       this.trigger 'destroy:column', this.model
-    initialize: ->
-      # Will listen to vent calls to flush out views
-      this.listenTo Tyto.vent, 'flush', (d) ->
-        console.log d, this,'GETTING HERE'
-        this.model.destroy()
-        this.destroy()
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Board = Backbone.Marionette.CompositeView.extend
     template: tytoTmpl.board
     childView: Layout.Column
     childViewContainer: '.columns'
-    deletedCols: []
-    newCols: []
-    modelEvents:
-      'destroy': 'render'
     ui:
       addColumn: '#add-column'
       saveBoard: '#save-board'
@@ -33,39 +38,17 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       'click @ui.saveBoard': 'saveBoard'
       'click @ui.deleteBoard': 'deleteBoard'
     initialize: ->
-      this.newCols = []
-      this.deletedCols = []
-      console.info 'created board viw'
+      cols = this.model.get 'columns'
+      this.collection = new Tyto.Columns.ColumnList cols
       this.on 'childview:destroy:column', (d) ->
         this.collection.remove d.model
-        this.deletedCols.push d
-        this.render()
-    onRender: ->
-      console.info 'renderrring', this.collection.length
     addColumn: ->
       newCol = new Tyto.Columns.Column()
-      this.model.get('columns').add newCol
-      this.newCols.push newCol
-      this.collection = this.model.get 'columns'
-      this.render()
-      return
+      this.collection.add newCol
     saveBoard: ->
-      if this.newCols.length > 0
-        _.forEach this.newCols, (col) ->
-          col.save()
-        this.newCols = []
+      this.model.set 'columns', this.collection
       this.model.save()
-      ## Need to clean up deleted columns on save from localStorage.
-      if this.deletedCols.length > 0
-        _.forEach this.deletedCols, (col) ->
-          col.model.destroy()
-        this.deletedCols = []
-      this.collection = this.model.get 'columns'
-      this.render()
     deleteBoard: ->
-      Tyto.vent.trigger 'flush', this.model.get 'id'
-      this.newCols = []
-      this.deletedCols = []
       this.model.destroy()
       this.destroy()
       Tyto.navigate '/',

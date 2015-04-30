@@ -1,14 +1,30 @@
+Tyto.module 'Todos', (Todos, App, Backbone) ->
+  Todos.Todo = Backbone.Model.extend
+    defaults:
+      title: 'New Todo'
+      description: 'Make this work!'
+
+  Todos.TodoList = Backbone.Collection.extend
+    localStorage: new Backbone.LocalStorage 'tyto--todo'
+    model: Todos.Todo
+
 Tyto.module 'Columns', (Columns, App, Backbone) ->
   Columns.Column = Backbone.Model.extend
-    localStorage: new Backbone.LocalStorage 'tyto--col'
     defaults:
       title: 'New Column'
-    initialize: ->
-      console.info 'created a new column'
+      todos: []
 
   Columns.ColumnList = Backbone.Collection.extend
+    localStorage: new Backbone.LocalStorage 'tyto--col'
     model: Columns.Column
-    initialize: ->
-      console.info 'new columns collection created.'
 
-  return
+
+Tyto.module 'Boards', (Boards, App, Backbone) ->
+  Boards.Board = Backbone.Model.extend
+    defaults:
+      title: 'New Board'
+      columns: []
+
+  Boards.BoardList = Backbone.Collection.extend
+    localStorage: new Backbone.LocalStorage 'tyto--board'
+    model: Boards.Board

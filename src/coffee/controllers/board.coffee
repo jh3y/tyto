@@ -17,17 +17,17 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
       return
 
     showMenu: (boards) ->
-      menu = new App.Layout.Menu
+      Tyto.menuView = new App.Layout.Menu
         collection: boards
-      Tyto.root.showChildView 'menu', menu
+      Tyto.root.showChildView 'menu', Tyto.menuView
       return
 
     showBoard: (id) ->
       model = this.boardList.get id
-      board = new App.Layout.Board
+      Tyto.boardView = new App.Layout.Board
         model: model
-        collection: model.get('columns')
-      App.root.showChildView 'content', board
+        # collection: model.get('columns')
+      App.root.showChildView 'content', Tyto.boardView
       return
 
   App.on 'start', ->
