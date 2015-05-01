@@ -1,6 +1,16 @@
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Todo = Backbone.Marionette.ItemView.extend
     template: tytoTmpl.todo
+    templateHelpers: ->
+      view = this
+      boardId = view.getOption('board').get 'id'
+      boardId: boardId
+    ui:
+      deleteTodo: '#delete-todo'
+    events:
+      'click @ui.deleteTodo': 'deleteTodo'
+    deleteTodo: ->
+      this.trigger 'destroy:todo', this.model
 
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->
@@ -11,15 +21,20 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       addTask: '#add-todo'
     childView: Layout.Todo
     childViewContainer: '.tasks'
+    childViewOptions: ->
+      board: this.getOption 'board'
     events:
       'click @ui.deleteColumn': 'deleteColumn'
       'click @ui.addTask': 'addTask'
     initialize: ->
       todos = this.model.get 'todos'
       this.collection = new Tyto.Todos.TodoList todos
+      this.model.set 'todos', this.collection
+      this.on 'childview:destroy:todo', (d) ->
+        this.collection.remove d.model
     addTask: ->
-      console.log 'creating a task'
-      newTask = new Tyto.Todos.Todo()
+      newTask = new Tyto.Todos.Todo
+        id: _.uniqueId()
       this.collection.add newTask
     deleteColumn: ->
       this.trigger 'destroy:column', this.model
@@ -29,6 +44,8 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     template: tytoTmpl.board
     childView: Layout.Column
     childViewContainer: '.columns'
+    childViewOptions: ->
+      board: this.model
     ui:
       addColumn: '#add-column'
       saveBoard: '#save-board'
@@ -50,6 +67,5 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       this.model.save()
     deleteBoard: ->
       this.model.destroy()
-      this.destroy()
       Tyto.navigate '/',
         trigger: true

@@ -10,8 +10,10 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     collectionEvents:
       'all': 'render'
     addBoard: ->
-      this.collection.create
-        title: 'MY NEW BOARD'
+      this.collection.create {},
+        wait: true
+        success: ->
+          console.info 'created new board...'
       return
     showBoard: ->
       App.navigate 'boards/' + this.ui.boardSelector.val(),
