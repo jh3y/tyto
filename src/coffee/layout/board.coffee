@@ -40,6 +40,12 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       this.trigger 'destroy:column', this.model
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->
+  Layout.Edit = Backbone.Marionette.ItemView.extend
+    template: tytoTmpl.edit
+    # templateHelpers: ->
+    #   boardId: this.boardId
+
+Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Board = Backbone.Marionette.CompositeView.extend
     template: tytoTmpl.board
     childView: Layout.Column

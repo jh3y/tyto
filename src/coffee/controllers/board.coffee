@@ -1,7 +1,8 @@
 Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
   BoardList.Router = Marionette.AppRouter.extend
     appRoutes:
-      'boards/:board': 'showBoard'
+      'boards/:board'           : 'showBoard'
+      'boards/:board/todo/:todo': 'editTodo'
   BoardList.Controller = Marionette.Controller.extend
     initialize: ->
       this.boardList = App.boardList
@@ -28,6 +29,18 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
         model: model
         # collection: model.get('columns')
       App.root.showChildView 'content', Tyto.boardView
+      return
+    editTodo: (bId, tId) ->
+      result = `undefined`
+      board = this.boardList.get bId
+      _.forEach board.get('columns'), (col) ->
+        result = _.findWhere col.todos,
+          id: '25'
+        result isnt `undefined`
+      this.editModel = new Tyto.Todos.Todo result
+      Tyto.editView = new App.Layout.Edit
+        model: this.editModel
+      App.root.showChildView 'content', Tyto.editView
       return
 
   App.on 'start', ->
