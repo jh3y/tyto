@@ -21,6 +21,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     ui:
       deleteColumn: '#delete-column'
       addTask: '#add-todo'
+      columnName: '#column-name'
     childView: Layout.Todo
     childViewContainer: '.tasks'
     childViewOptions: ->
@@ -28,6 +29,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     events:
       'click @ui.deleteColumn': 'deleteColumn'
       'click @ui.addTask': 'addTask'
+      'blur @ui.columnName': 'updateName'
     initialize: ->
       todos = this.model.get 'todos'
       this.collection = new Tyto.Todos.TodoList todos
@@ -40,6 +42,8 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         width: newWidth
       this.$el.css
         width: newWidth
+    updateName: ->
+      this.model.set 'title', @ui.columnName.text().trim()
     addTask: ->
       newTask = new Tyto.Todos.Todo
         id: _.uniqueId()
@@ -67,11 +71,13 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       saveBoard: '#save-board'
       deleteBoard: '#delete-board'
       wipeBoard: '#wipe-board'
+      boardName: '#board-name'
     events:
       'click @ui.addColumn': 'addColumn'
       'click @ui.saveBoard': 'saveBoard'
       'click @ui.deleteBoard': 'deleteBoard'
       'click @ui.wipeBoard': 'wipeBoard'
+      'blur @ui.boardName': 'updateName'
     initialize: ->
       cols = this.model.get 'columns'
       this.collection = new Tyto.Columns.ColumnList cols
@@ -83,6 +89,8 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     saveBoard: ->
       this.model.set 'columns', this.collection
       this.model.save()
+    updateName: ->
+      this.model.set 'title', @ui.boardName.text().trim()
     deleteBoard: ->
       this.model.destroy()
       this.destroy()
