@@ -7,10 +7,14 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       boardId: boardId
     ui:
       deleteTodo: '#delete-todo'
+      description: '#todo-description'
     events:
       'click @ui.deleteTodo': 'deleteTodo'
+      'blur @ui.description': 'updateTodo'
     deleteTodo: ->
       this.trigger 'destroy:todo', this.model
+    updateTodo: ->
+      this.model.set 'description', this.ui.description.text().trim()
 
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->

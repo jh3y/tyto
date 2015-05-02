@@ -1,3 +1,4 @@
 .todo
   button#delete-todo Delete MEE
   a(href!='#boards/<%= boardId %>/todo/<%= id %>') Edit todo.
+  div#todo-description(contenteditable="true") <%= description %>
