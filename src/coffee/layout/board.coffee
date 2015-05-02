@@ -66,10 +66,12 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       addColumn: '#add-column'
       saveBoard: '#save-board'
       deleteBoard: '#delete-board'
+      wipeBoard: '#wipe-board'
     events:
       'click @ui.addColumn': 'addColumn'
       'click @ui.saveBoard': 'saveBoard'
       'click @ui.deleteBoard': 'deleteBoard'
+      'click @ui.wipeBoard': 'wipeBoard'
     initialize: ->
       cols = this.model.get 'columns'
       this.collection = new Tyto.Columns.ColumnList cols
@@ -86,3 +88,6 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       this.destroy()
       Tyto.navigate '/',
         trigger: true
+    wipeBoard: ->
+      this.collection.reset()
+      return
