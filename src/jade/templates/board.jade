@@ -3,5 +3,12 @@
   button#add-column Add a column
   button#delete-board Delete Board
   button#wipe-board Wipe Board
+  |<% if (columns.length > 0) { %>
+  select#column-selector
+    option --select a column--
+    |<% _.each(columns, function(i){ %>
+    option(value!="<%= i.id %>") <%= i.title %>
+    |<% }) %>
+  |<% } %>
   div#board-name(contenteditable="true")<%= title %>
   .columns

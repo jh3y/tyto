@@ -30,6 +30,8 @@
     "backbone": "~1.1.2",
     "Backbone.localStorage": "~1.1.16",
     "marionette": "~2.4.1",
-    "yap": "jh3y/yap#~0.1.2"
+    "yap": "jh3y/yap#~0.1.2",
+    "jquery-ui": "~1.11.4",
+    "jqueryui-touch-punch": "*"
   }
 }

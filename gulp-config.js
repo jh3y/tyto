@@ -62,11 +62,9 @@ module.exports = {
           'src/vendor/Backbone.localStorage/backbone.localStorage.js',
           'src/vendor/backbone.relational/backbone-relational.js',
           'src/vendor/marionette/lib/backbone.marionette.js',
-          'src/vendor/yap/dist/yap.min.js'
-          // "src/vendor/jquery-ui/jquery-ui.js",
-          // "src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js",
-          // "src/vendor/bootstrap/dist/js/bootstrap.min.js",
-          // "src/vendor/handlebars/handlebars.min.js"
+          'src/vendor/yap/dist/yap.min.js',
+          'src/vendor/jquery-ui/jquery-ui.js',
+          'src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js'
         ]
       },
       jade: [
