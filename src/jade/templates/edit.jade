@@ -1,2 +1,8 @@
 .edit-mode
-  h1 editing a todo
+  h1 editing a todo <%= description %>
+  p <%= boardId %>
+  |<% if (isNew == true) { %>
+  p I am new!!!
+  |<% } else { %>
+  p I am old :((
+  |<% } %>

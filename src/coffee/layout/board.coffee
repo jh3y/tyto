@@ -15,6 +15,8 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Column = Backbone.Marionette.CompositeView.extend
+    tagName: 'div'
+    className: 'column'
     template: tytoTmpl.column
     ui:
       deleteColumn: '#delete-column'
@@ -32,6 +34,12 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       this.model.set 'todos', this.collection
       this.on 'childview:destroy:todo', (d) ->
         this.collection.remove d.model
+    onBeforeRender: ->
+      newWidth = (100 / this.options.siblings.length) + '%'
+      $('.column').css
+        width: newWidth
+      this.$el.css
+        width: newWidth
     addTask: ->
       newTask = new Tyto.Todos.Todo
         id: _.uniqueId()
@@ -42,8 +50,9 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Edit = Backbone.Marionette.ItemView.extend
     template: tytoTmpl.edit
-    # templateHelpers: ->
-    #   boardId: this.boardId
+    templateHelpers: ->
+      boardId: this.options.boardId
+      isNew: this.options.isNew
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Board = Backbone.Marionette.CompositeView.extend
@@ -52,6 +61,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     childViewContainer: '.columns'
     childViewOptions: ->
       board: this.model
+      siblings: this.collection
     ui:
       addColumn: '#add-column'
       saveBoard: '#save-board'
@@ -73,5 +83,6 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       this.model.save()
     deleteBoard: ->
       this.model.destroy()
+      this.destroy()
       Tyto.navigate '/',
         trigger: true
