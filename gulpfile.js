@@ -96,8 +96,13 @@ gulp.task('tmpl:watch', function() {
 
 
 gulp.task('vendor:scripts:publish', function() {
+  var yapFilter = plugins.filter([
+    '**/*.js',
+    '!**/yap.min.js'
+  ]);
   return gulp.src(sources.vendor.js)
     .pipe(plugins.plumber())
+    .pipe(isDist ? yapFilter: plugins.gUtil.noop())
     .pipe(plugins.concat('vendor.js'))
     .pipe(gulp.dest(destinations.js))
     .pipe(plugins.uglify())

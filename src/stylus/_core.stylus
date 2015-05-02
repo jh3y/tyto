@@ -5,10 +5,3 @@ body
   margin     0
   padding    0
   overflow-y scroll
-
-
-.column
-  width 300px
-  padding 20px
-  border 1px black solid
-  margin 10px
