@@ -6,10 +6,8 @@
   height 600px /*fallback*/
   height calc(100% - 125px)
   height -webkit-calc(100% - 125px)
-  width 90%
   min-width 610px
   padding 10px 40px
-  margin 0 auto
   overflow hidden
 
 .board .column
@@ -19,6 +17,25 @@
   display inline-block
   vertical-align top
   position relative
+  border 1px solid black
+
+.column-placeholder
+  border 1px dashed #888
+  display inline-block
+  width 100px
+  margin 0 1em
+  height 100%
+  vertical-align top
+
+.item-placeholder
+  border 1px dashed #888
+  height 100px
+  width 90%
+  margin 0em auto 1em auto
+
+.todo
+  padding 10px
+  border 1px solid red
 
 // #barn .column .column-title {
 //   font-size: 1.25em;
