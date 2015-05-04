@@ -10,14 +10,17 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     collectionEvents:
       'all': 'render'
     addBoard: ->
-      newBoard = this.collection.create {},
-        wait: true
-        success: (response) ->
-          id = response.get 'id'
-          Tyto.navigate 'boards/' + id,
-            trigger: true
-          return
-    showBoard: ->
-      App.navigate 'boards/' + this.ui.boardSelector.val(),
+      newBoard = new Tyto.Boards.Board
+        id: _.uniqueId()
+      Tyto.boardList.add newBoard
+        # wait: true
+        # success: (response) ->
+        # # id = response.get 'id'
+      this.showBoard newBoard.get('id')
+      return
+    showBoard: (id) ->
+      if typeof id isnt 'string'
+        id = this.ui.boardSelector.val()
+      App.navigate 'boards/' + id,
         trigger: true
       return

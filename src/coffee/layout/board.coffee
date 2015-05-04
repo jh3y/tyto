@@ -24,6 +24,9 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Column = Backbone.Marionette.CompositeView.extend
     tagName: 'div'
     className: 'column'
+    attributes: ->
+      id = this.model.get 'id'
+      'data-col-id': id
     template: tytoTmpl.column
     ui:
       deleteColumn: '#delete-column'

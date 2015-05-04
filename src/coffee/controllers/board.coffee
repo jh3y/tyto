@@ -26,10 +26,13 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
 
     showBoard: (id) ->
       model = this.boardList.get id
-      Tyto.boardView = new App.Layout.Board
-        model: model
-      App.root.showChildView 'content', Tyto.boardView
-      return
+      if model isnt `undefined`
+        Tyto.boardView = new App.Layout.Board
+          model: model
+        App.root.showChildView 'content', Tyto.boardView
+        return
+      else
+        App.navigate '/'
     editTodo: (bId, tId, isNew) ->
       result = `undefined`
       board = this.boardList.get bId
