@@ -1,5 +1,7 @@
 Tyto.module 'Todos', (Todos, App, Backbone) ->
   Todos.Todo = Backbone.Model.extend
+    initialize: ->
+      yap 'creating a todo for some reason...'
     defaults:
       title: 'New Todo'
       description: 'Make this work!'

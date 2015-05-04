@@ -11,7 +11,10 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     events:
       'click @ui.deleteTodo': 'deleteTodo'
       'blur @ui.description': 'updateTodo'
+    onRender: ->
+      yap 'rendering task'
     deleteTodo: ->
+      yap 'removing todo'
       this.trigger 'destroy:todo', this.model
     updateTodo: ->
       this.model.set 'description', this.ui.description.text().trim()
@@ -24,29 +27,33 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     template: tytoTmpl.column
     ui:
       deleteColumn: '#delete-column'
-      addTask: '#add-todo'
+      addTask: '.add-todo'
       columnName: '#column-name'
     childView: Layout.Todo
     childViewContainer: '.tasks'
     childViewOptions: ->
       board: this.getOption 'board'
+
     events:
       'click @ui.deleteColumn': 'deleteColumn'
       'click @ui.addTask': 'addTask'
       'blur @ui.columnName': 'updateName'
+
     initialize: ->
       todos = this.model.get 'todos'
       this.collection = new Tyto.Todos.TodoList todos
       this.model.set 'todos', this.collection
       this.on 'childview:destroy:todo', (d) ->
+        yap 'removing todo'
         this.collection.remove d.model
+
     onBeforeRender: ->
       newWidth = (100 / this.options.siblings.length) + '%'
-      $('.column').css
-        width: newWidth
       this.$el.css
         width: newWidth
+
     onRender: ->
+      yap 'rendering column'
       this.$el.find('.tasks').sortable
         connectWith: '.tasks'
         handle: ".todo--mover"
@@ -56,30 +63,23 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         revert: true
         start: (event, ui) ->
           yap 'moving item'
-          # tyto._movedItem = $ ui.item
-          # tyto._movedItemOrigin = $ event.currentTarget
-          # itemList = Array.prototype.slice.call(
-          #   $column.find('.items')
-          #     .children '.tyto-item'
-          # )
-          # tyto._movedItemIndex = itemList.indexOf $(ui.item)[0]
         stop: (event, ui) ->
           yap 'item moved'
-          # tyto.element.trigger
-          #   type: 'tyto:action',
-          #   name: 'move-item',
-          #   DOMcolumn: tyto._movedItemOrigin,
-          #   DOMitem: tyto._movedItem,
-          #   itemIndex: tyto._movedItemIndex
-          # tyto.notify 'item moved', 2000
+      return
+
     updateName: ->
       this.model.set 'title', @ui.columnName.text().trim()
+
     addTask: ->
+      yap 'adding a task?'
       newTask = new Tyto.Todos.Todo
         id: _.uniqueId()
       this.collection.add newTask
+
     deleteColumn: ->
-      this.trigger 'destroy:column', this.model
+      id = parseInt this.model.get('id'), 10
+      this.trigger 'destroy:column', id
+      return
 
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Edit = Backbone.Marionette.ItemView.extend
@@ -110,14 +110,25 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       'click @ui.deleteBoard': 'deleteBoard'
       'click @ui.wipeBoard': 'wipeBoard'
       'blur @ui.boardName': 'updateName'
+
     initialize: ->
-      cols = this.model.get 'columns'
-      this.collection = new Tyto.Columns.ColumnList cols
-      this.on 'childview:destroy:column', (d) ->
-        this.collection.remove d.model
-      # this.setUpColumnInteraction()
+      yap 'running this again???'
+      board = this
+      cols = board.model.get 'columns'
+      board.collection = new Tyto.Columns.ColumnList cols
+      board.on 'childview:destroy:column', (id, y) ->
+        board.collection.remove y
+        ###
+          Have a go at working out newWidth here and broadcasting it down instead?
+        ###
+        newWidth = (100 / board.collection.length) + '%'
+        $('.column').css
+          width: newWidth
+        yap board.collection
+        return
+
     onRender: ->
-      yap 'rendering'
+      yap 'rendering board'
       this.bindColumns()
     bindColumns: ->
       this.$el.find('.columns').sortable
@@ -131,19 +142,29 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
           yap 'starting'
         stop: (event, ui) ->
           yap 'stopping'
+
     addColumn: ->
-      newCol = new Tyto.Columns.Column()
+      newCol = new Tyto.Columns.Column
+        id: _.uniqueId()
       this.collection.add newCol
+      newWidth = (100 / this.collection.length) + '%'
+      yap newWidth
+      $('.column').css
+        width: newWidth
+
     saveBoard: ->
       this.model.set 'columns', this.collection
       this.model.save()
+
     updateName: ->
       this.model.set 'title', @ui.boardName.text().trim()
+
     deleteBoard: ->
       this.model.destroy()
       this.destroy()
       Tyto.navigate '/',
         trigger: true
+
     wipeBoard: ->
       this.collection.reset()
       return

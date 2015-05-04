@@ -1,6 +1,8 @@
 .column-items
-  a.column--mover Move Column
-  button#add-todo Add todo
-  button#delete-column Delete Column
-  div#column-name(contenteditable="true") <%= title %>
-  .tasks
+  .column-actions
+    a.column--mover Move Column
+    button.add-todo Add todo
+    button#delete-column Delete Column
+  h6#column-name(contenteditable="true") <%= title %>
+  .tasks-holder
+    .tasks

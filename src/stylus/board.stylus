@@ -19,6 +19,9 @@
   position relative
   border 1px solid black
 
+.tasks
+  min-height 50px
+
 .column-placeholder
   border 1px dashed #888
   display inline-block
