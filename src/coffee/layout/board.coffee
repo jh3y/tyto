@@ -1,97 +1,4 @@
 Tyto.module 'Layout', (Layout, App, Backbone) ->
-  Layout.Todo = Backbone.Marionette.ItemView.extend
-    template: tytoTmpl.todo
-    templateHelpers: ->
-      view = this
-      boardId = view.getOption('board').get 'id'
-      boardId: boardId
-    ui:
-      deleteTodo: '#delete-todo'
-      description: '#todo-description'
-    events:
-      'click @ui.deleteTodo': 'deleteTodo'
-      'blur @ui.description': 'updateTodo'
-    onRender: ->
-      yap 'rendering task'
-    deleteTodo: ->
-      yap 'removing todo'
-      this.trigger 'destroy:todo', this.model
-    updateTodo: ->
-      this.model.set 'description', this.ui.description.text().trim()
-
-
-Tyto.module 'Layout', (Layout, App, Backbone) ->
-  Layout.Column = Backbone.Marionette.CompositeView.extend
-    tagName: 'div'
-    className: 'column'
-    attributes: ->
-      id = this.model.get 'id'
-      'data-col-id': id
-    template: tytoTmpl.column
-    ui:
-      deleteColumn: '#delete-column'
-      addTask: '.add-todo'
-      columnName: '#column-name'
-    childView: Layout.Todo
-    childViewContainer: '.tasks'
-    childViewOptions: ->
-      board: this.getOption 'board'
-
-    events:
-      'click @ui.deleteColumn': 'deleteColumn'
-      'click @ui.addTask': 'addTask'
-      'blur @ui.columnName': 'updateName'
-
-    initialize: ->
-      todos = this.model.get 'todos'
-      this.collection = new Tyto.Todos.TodoList todos
-      this.model.set 'todos', this.collection
-      this.on 'childview:destroy:todo', (d) ->
-        yap 'removing todo'
-        this.collection.remove d.model
-
-    onBeforeRender: ->
-      newWidth = (100 / this.options.siblings.length) + '%'
-      this.$el.css
-        width: newWidth
-
-    onRender: ->
-      yap 'rendering column'
-      this.$el.find('.tasks').sortable
-        connectWith: '.tasks'
-        handle: ".todo--mover"
-        placeholder: "item-placeholder"
-        containment: '.columns'
-        opacity: 0.8
-        revert: true
-        start: (event, ui) ->
-          yap 'moving item'
-        stop: (event, ui) ->
-          yap 'item moved'
-      return
-
-    updateName: ->
-      this.model.set 'title', @ui.columnName.text().trim()
-
-    addTask: ->
-      yap 'adding a task?'
-      newTask = new Tyto.Todos.Todo
-        id: _.uniqueId()
-      this.collection.add newTask
-
-    deleteColumn: ->
-      id = parseInt this.model.get('id'), 10
-      this.trigger 'destroy:column', id
-      return
-
-Tyto.module 'Layout', (Layout, App, Backbone) ->
-  Layout.Edit = Backbone.Marionette.ItemView.extend
-    template: tytoTmpl.edit
-    templateHelpers: ->
-      boardId: this.options.boardId
-      isNew: this.options.isNew
-
-Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Board = Backbone.Marionette.CompositeView.extend
     tagName: 'div'
     className: 'board'
@@ -117,7 +24,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     initialize: ->
       yap 'running this again???'
       board = this
-      cols = board.model.get 'columns'
+      cols = _.sortBy board.model.get('columns'), 'ordinal'
       board.collection = new Tyto.Columns.ColumnList cols
 
       this.listenTo Tyto.vent, 'setup:localStorage', ->
@@ -137,6 +44,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         this.ui.saveBoard.attr 'disabled', true
       this.bindColumns()
     bindColumns: ->
+      self = this
       this.$el.find('.columns').sortable
         connectWith: '.column',
         handle: '.column--mover'
@@ -147,11 +55,53 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         start: (event, ui) ->
           yap 'starting'
         stop: (event, ui) ->
+          mover = ui.item[0]
           yap 'stopping'
+          #calculate the position where it is going and update all the other columns somehow....
+          colModel = self.collection.get ui.item.attr('data-col-id')
+          columnList = Array.prototype.slice.call self.$el.find '.column'
+          oldPos = colModel.get 'ordinal'
+          newPos = columnList.indexOf(mover) + 1
+          yap newPos, 'newPOS'
+          yap oldPos, 'oldPos'
+          colModel.set 'ordinal', newPos
+          if newPos isnt oldPos
+            # We need to do all of the updates.
+            colModel.set 'ordinal', newPos
+            if newPos > oldPos
+              _.forEach self.collection.models, (model) ->
+                if model.get('id') isnt colModel.get('id')
+                  curOrd = model.get 'ordinal'
+                  if (curOrd > oldPos and curOrd < newPos) or curOrd is newPos
+                    yap 'increasing ordinal'
+                    model.set 'ordinal', curOrd - 1
+            else
+              _.forEach self.collection.models, (model) ->
+                if model.get('id') isnt colModel.get('id')
+                  curOrd = model.get 'ordinal'
+                  if (curOrd > newPos and curOrd < oldPos) or curOrd is oldPos
+                    yap 'decreasin ordinal'
+                    model.set 'ordinal', curOrd + 1
+          else
+            yap 'no need to do anything...'
+
+
+      # stop: (event, ui) ->
+      #   columnList = Array.prototype.slice.call tyto.element.children '.column'
+      #   newPosition = columnList.indexOf $(ui.item)[0]
+      #   if newPosition < tyto._movedItemIndex
+      #     tyto._movedItemIndex += 1
+      #   tyto.element.trigger
+      #     type: 'tyto:action',
+      #     name: 'move-column',
+      #     DOMcolumn: tyto._movedItem,
+      #     itemIndex: tyto._movedItemIndex
+      #   tyto.notify 'column moved', 2000
 
     addColumn: ->
       newCol = new Tyto.Columns.Column
         id: _.uniqueId()
+        ordinal: this.collection.length + 1
       this.collection.add newCol
       newWidth = (100 / this.collection.length) + '%'
       yap newWidth
