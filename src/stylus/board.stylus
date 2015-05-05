@@ -1,3 +1,5 @@
+.loading
+  background-color red
 .board
   border thin solid black
   position relative

@@ -90,5 +90,6 @@ Tyto.on 'start', ->
 
 Tyto.boardList = new Tyto.Boards.BoardList()
 Tyto.boardList.fetch().done (data) ->
+  document.body.className = ''
   Tyto.start()
   return
