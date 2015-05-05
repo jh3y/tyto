@@ -11,12 +11,36 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
     start: ->
       that = this
       this.showMenu this.boardList
+      this.showCookieBanner()
+
+      this.listenTo Tyto.vent, 'setup:localStorage', ->
+        yap 'setting up local storage...'
+        window.localStorage.setItem 'tyto', true
+        Tyto.CookieBannerView.destroy()
+        Tyto.root.removeRegion 'cookie'
+        $('#cookie-banner').remove()
+        this.setUpAutoSave()
+
+
       if this.boardList.length > 0 and window.location.hash is ''
         Tyto.vent.on 'history:started', ->
           id = that.boardList.first().get 'id'
           App.navigate 'boards/' + id,
             trigger: true
       return
+    showCookieBanner: ->
+      if window.localStorage and !window.localStorage.tyto
+        yap 'show the banner'
+        Tyto.root.getRegion('header').$el.prepend $('<div id="cookie-banner"></div>')
+        Tyto.root.addRegion 'cookie', '#cookie-banner'
+        Tyto.CookieBannerView = new App.Layout.CookieBanner()
+        Tyto.root.showChildView 'cookie', Tyto.CookieBannerView
+        return
+      else
+        this.setUpAutoSave()
+
+    setUpAutoSave: ->
+      yap 'setting up the autosavzzzz'
 
     showMenu: (boards) ->
       Tyto.menuView = new App.Layout.Menu

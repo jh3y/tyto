@@ -6,10 +6,10 @@ head
   meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0")
   meta(name="description", content="'the tool you take over', a customisable task manager application.")
   link(rel="stylesheet", href="css/tyto.min.css")
-body
+body#tyto-app
   include header
   block content
   script(src="js/vendor.js")
-  script(src="js/tyto.js")
   script.
     yap.muzzle(false);
+  script(src="js/tyto.js")

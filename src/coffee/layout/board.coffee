@@ -119,11 +119,12 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       board = this
       cols = board.model.get 'columns'
       board.collection = new Tyto.Columns.ColumnList cols
+
+      this.listenTo Tyto.vent, 'setup:localStorage', ->
+        this.ui.saveBoard.removeAttr 'disabled'
+
       board.on 'childview:destroy:column', (id, y) ->
         board.collection.remove y
-        ###
-          Have a go at working out newWidth here and broadcasting it down instead?
-        ###
         newWidth = (100 / board.collection.length) + '%'
         $('.column').css
           width: newWidth
@@ -132,6 +133,8 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
 
     onRender: ->
       yap 'rendering board'
+      if window.localStorage and !window.localStorage.tyto
+        this.ui.saveBoard.attr 'disabled', true
       this.bindColumns()
     bindColumns: ->
       this.$el.find('.columns').sortable
