@@ -96,6 +96,7 @@ gulp.task('tmpl:watch', function() {
 });
 
 
+
 gulp.task('vendor:scripts:publish', function() {
   var yapFilter = plugins.filter([
     '**/*.js',
@@ -111,6 +112,13 @@ gulp.task('vendor:scripts:publish', function() {
     .pipe(gulp.dest(destinations.js));
 });
 
+gulp.task('vendor:fonts:publish', function() {
+  return gulp.src(sources.vendor.fonts)
+    .pipe(plugins.plumber())
+    .pipe(gulp.dest(destinations.fonts));
+});
+
+
 gulp.task('vendor:styles:publish', function() {
   return gulp.src(sources.vendor.css)
     .pipe(plugins.plumber())
@@ -124,7 +132,8 @@ gulp.task('vendor:styles:publish', function() {
 
 gulp.task('vendor:publish', [
   'vendor:scripts:publish',
-  'vendor:styles:publish'
+  'vendor:styles:publish',
+  'vendor:fonts:publish'
 ]);
 
 gulp.task('build:complete', [

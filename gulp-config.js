@@ -86,7 +86,11 @@ module.exports = {
           'src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js'
         ],
         css: [
-          'src/vendor/normalize.css/normalize.css'
+          'src/vendor/normalize.css/normalize.css',
+          'src/vendor/fontawesome/css/font-awesome.css'
+        ],
+        fonts: [
+          'src/vendor/fontawesome/fonts/**/*.*'
         ]
       },
       jade: [
@@ -102,10 +106,11 @@ module.exports = {
       html: env,
       js: env + 'js/',
       css: env + 'css/',
+      fonts: env + 'fonts/',
       templates: 'src/coffee/templates/',
       build: '',
       dist: './dist',
-      test: 'testEnv/',
+      test: 'testEnv/'
     }
   }
 };
