@@ -47,22 +47,8 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
           mover = ui.item[0]
           taskModel = self.collection.get ui.item.attr('data-task-id')
           taskList = Array.prototype.slice.call self.$el.find '.task'
-          oldPos = taskModel.get 'ordinal'
-          newPos = taskList.indexOf(mover) + 1
-          if newPos isnt oldPos
-            taskModel.set 'ordinal', newPos
-            if newPos > oldPos
-              _.forEach self.collection.models, (model) ->
-                if model.get('id') isnt taskModel.get('id')
-                  curOrd = model.get 'ordinal'
-                  if (curOrd > oldPos and curOrd < newPos) or curOrd is oldPos or curOrd is newPos
-                    model.set 'ordinal', curOrd - 1
-            else
-              _.forEach self.collection.models, (model) ->
-                if model.get('id') isnt taskModel.get('id')
-                  curOrd = model.get 'ordinal'
-                  if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
-                    model.set 'ordinal', curOrd + 1
+          Tyto.reorder self, mover, taskModel, taskList
+
       return
 
     updateName: ->

@@ -52,28 +52,11 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         axis: "x"
         containment: this.$el.find('.columns')
         opacity: 0.8
-        # start: (event, ui) ->
-        #   yap 'starting'
         stop: (event, ui) ->
           mover = ui.item[0]
-          colModel = self.collection.get ui.item.attr('data-col-id')
+          columnModel = self.collection.get ui.item.attr('data-col-id')
           columnList = Array.prototype.slice.call self.$el.find '.column'
-          oldPos = colModel.get 'ordinal'
-          newPos = columnList.indexOf(mover) + 1
-          if newPos isnt oldPos
-            colModel.set 'ordinal', newPos
-            if newPos > oldPos
-              _.forEach self.collection.models, (model) ->
-                if model.get('id') isnt colModel.get('id')
-                  curOrd = model.get 'ordinal'
-                  if (curOrd > oldPos and curOrd < newPos) or curOrd is oldPos or curOrd is newPos
-                    model.set 'ordinal', curOrd - 1
-            else
-              _.forEach self.collection.models, (model) ->
-                if model.get('id') isnt colModel.get('id')
-                  curOrd = model.get 'ordinal'
-                  if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
-                    model.set 'ordinal', curOrd + 1
+          Tyto.reorder self, mover, columnModel, columnList
 
     addColumn: ->
       newCol = new Tyto.Columns.Column
