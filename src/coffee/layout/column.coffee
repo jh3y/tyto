@@ -8,9 +8,9 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     template: tytoTmpl.column
     ui:
       deleteColumn: '#delete-column'
-      addTask: '.add-todo'
+      addTask: '.add-task'
       columnName: '#column-name'
-    childView: Layout.Todo
+    childView: Layout.Task
     childViewContainer: '.tasks'
     childViewOptions: ->
       board: this.getOption 'board'
@@ -21,12 +21,11 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       'blur @ui.columnName': 'updateName'
 
     initialize: ->
-      todos = _.sortBy this.model.get('todos'), 'ordinal'
-      this.collection = new Tyto.Todos.TodoList todos
-      this.model.set 'todos', this.collection
-      this.on 'childview:destroy:todo', (d) ->
-        yap 'removing todo'
-        this.collection.remove d.model
+      tasks = _.sortBy this.model.get('tasks'), 'ordinal'
+      this.collection = new Tyto.Tasks.TaskList tasks
+      this.model.set 'tasks', this.collection
+      this.on 'childview:destroy:task', (mod, id) ->
+        this.collection.remove id
 
     onBeforeRender: ->
       newWidth = (100 / this.options.siblings.length) + '%'
@@ -38,7 +37,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       self = this
       this.$el.find('.tasks').sortable
         connectWith: '.tasks'
-        handle: ".todo--mover"
+        handle: ".task--mover"
         placeholder: "item-placeholder"
         containment: '.columns'
         opacity: 0.8
@@ -55,8 +54,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       this.model.set 'title', @ui.columnName.text().trim()
 
     addTask: ->
-      yap 'adding a task?'
-      newTask = new Tyto.Todos.Todo
+      newTask = new Tyto.Tasks.Task
         id: _.uniqueId()
         ordinal: this.collection.length + 1
       this.collection.add newTask

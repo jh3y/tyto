@@ -1,9 +1,9 @@
 Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
   BoardList.Router = Marionette.AppRouter.extend
     appRoutes:
-      'boards/:board'           : 'showBoard'
-      'boards/:board/todo/:todo': 'editTodo'
-      'boards/:board/todo/:todo?fresh=:isNew': 'editTodo'
+      'board/:board'           : 'showBoard'
+      'board/:board/task/:task': 'editTask'
+      'board/:board/task/:task?fresh=:isNew': 'editTask'
   BoardList.Controller = Marionette.Controller.extend
     initialize: ->
       this.boardList = App.boardList
@@ -25,7 +25,7 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
       if this.boardList.length > 0 and window.location.hash is ''
         Tyto.vent.on 'history:started', ->
           id = that.boardList.first().get 'id'
-          App.navigate 'boards/' + id,
+          App.navigate 'board/' + id,
             trigger: true
       return
     showCookieBanner: ->
@@ -57,14 +57,14 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
         return
       else
         App.navigate '/'
-    editTodo: (bId, tId, isNew) ->
+    editTask: (bId, tId, isNew) ->
       result = `undefined`
       board = this.boardList.get bId
       _.forEach board.get('columns'), (col) ->
-        result = _.findWhere col.todos,
-          id: '25'
+        result = _.findWhere col.tasks,
+          id: tId
         result isnt `undefined`
-      this.editModel = new Tyto.Todos.Todo result
+      this.editModel = new Tyto.Tasks.Task result
       isNew = if (isNew is null) then false else true
       Tyto.editView = new App.Layout.Edit
         model: this.editModel
@@ -81,15 +81,3 @@ Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
     return
 
   return
-
-
-# Tyto.on 'start', ->
-#   Backbone.history.start()
-#   Tyto.vent.trigger 'history:started'
-#   return
-#
-# Tyto.boardList = new Tyto.Boards.BoardList()
-# Tyto.boardList.fetch().done (data) ->
-#   document.body.className = ''
-#   Tyto.start()
-#   return

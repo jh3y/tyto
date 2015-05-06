@@ -13,25 +13,11 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       newBoard = new Tyto.Boards.Board
         id: _.uniqueId()
       Tyto.boardList.add newBoard
-        # wait: true
-        # success: (response) ->
-        # # id = response.get 'id'
       this.showBoard newBoard.get('id')
       return
     showBoard: (id) ->
       if typeof id isnt 'string'
         id = this.ui.boardSelector.val()
-      App.navigate 'boards/' + id,
+      App.navigate 'board/' + id,
         trigger: true
       return
-
-
-Tyto.module 'Layout', (Layout, App, Backbone) ->
-  Layout.CookieBanner = Backbone.Marionette.ItemView.extend
-    template: tytoTmpl.cookieBanner
-    ui:
-      accept: '#accept-cookies'
-    events:
-      'click @ui.accept': 'acceptCookies'
-    acceptCookies: ->
-      Tyto.vent.trigger 'setup:localStorage'

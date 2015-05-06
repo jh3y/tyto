@@ -1,5 +1,5 @@
 Tyto.module 'Layout', (Layout, App, Backbone) ->
-  Layout.Todo = Backbone.Marionette.ItemView.extend
+  Layout.Task = Backbone.Marionette.ItemView.extend
     tagName: 'div'
     className: 'task'
     attributes: ->
@@ -11,15 +11,14 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       boardId = view.getOption('board').get 'id'
       boardId: boardId
     ui:
-      deleteTodo: '#delete-todo'
-      description: '#todo-description'
+      deleteTask: '#delete-task'
+      description: '#task-description'
     events:
-      'click @ui.deleteTodo': 'deleteTodo'
-      'blur @ui.description': 'updateTodo'
-    onRender: ->
-      yap 'rendering task'
-    deleteTodo: ->
-      yap 'removing todo'
-      this.trigger 'destroy:todo', this.model
-    updateTodo: ->
+      'click @ui.deleteTask': 'deleteTask'
+      'blur @ui.description': 'updateTask'
+
+    deleteTask: ->
+      this.trigger 'destroy:task', this.model.get('id')
+
+    updateTask: ->
       this.model.set 'description', this.ui.description.text().trim()

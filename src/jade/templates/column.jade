@@ -2,8 +2,9 @@
   .position <%= ordinal %>
   .column-actions
     a.column--mover Move Column
-    button.add-todo Add todo
+    button.add-task Add Task
     button#delete-column Delete Column
   h6#column-name(contenteditable="true") <%= title %>
-  .tasks-holder
-    .tasks
+  .tasks
+  .column-action
+    button.add-task Add Task

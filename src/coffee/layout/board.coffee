@@ -22,7 +22,6 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       'blur @ui.boardName': 'updateName'
 
     initialize: ->
-      yap 'running this again???'
       board = this
       cols = _.sortBy board.model.get('columns'), 'ordinal'
       board.collection = new Tyto.Columns.ColumnList cols
@@ -30,19 +29,18 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       this.listenTo Tyto.vent, 'setup:localStorage', ->
         this.ui.saveBoard.removeAttr 'disabled'
 
-      board.on 'childview:destroy:column', (id, y) ->
-        board.collection.remove y
+      board.on 'childview:destroy:column', (mod, id) ->
+        board.collection.remove id
         newWidth = (100 / board.collection.length) + '%'
         $('.column').css
           width: newWidth
-        yap board.collection
         return
 
     onRender: ->
-      yap 'rendering board'
       if window.localStorage and !window.localStorage.tyto
         this.ui.saveBoard.attr 'disabled', true
       this.bindColumns()
+
     bindColumns: ->
       self = this
       this.$el.find('.columns').sortable
@@ -64,7 +62,6 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         ordinal: this.collection.length + 1
       this.collection.add newCol
       newWidth = (100 / this.collection.length) + '%'
-      yap newWidth
       $('.column').css
         width: newWidth
 
