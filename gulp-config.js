@@ -32,7 +32,7 @@ module.exports = {
         I need to explicitly state the order of the layout module pieces until
         I see a better way of refactoring this.
       */
-      'layout/todo.js',
+      'layout/task.js',
       'layout/column.js',
       'layout/board.js',
       'layout/**/*.js',

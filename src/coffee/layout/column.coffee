@@ -21,7 +21,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       'blur @ui.columnName': 'updateName'
 
     initialize: ->
-      todos = this.model.get 'todos'
+      todos = _.sortBy this.model.get('todos'), 'ordinal'
       this.collection = new Tyto.Todos.TodoList todos
       this.model.set 'todos', this.collection
       this.on 'childview:destroy:todo', (d) ->
@@ -35,6 +35,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
 
     onRender: ->
       yap 'rendering column'
+      self = this
       this.$el.find('.tasks').sortable
         connectWith: '.tasks'
         handle: ".todo--mover"
@@ -42,10 +43,26 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         containment: '.columns'
         opacity: 0.8
         revert: true
-        start: (event, ui) ->
-          yap 'moving item'
         stop: (event, ui) ->
-          yap 'item moved'
+          mover = ui.item[0]
+          taskModel = self.collection.get ui.item.attr('data-task-id')
+          taskList = Array.prototype.slice.call self.$el.find '.task'
+          oldPos = taskModel.get 'ordinal'
+          newPos = taskList.indexOf(mover) + 1
+          if newPos isnt oldPos
+            taskModel.set 'ordinal', newPos
+            if newPos > oldPos
+              _.forEach self.collection.models, (model) ->
+                if model.get('id') isnt taskModel.get('id')
+                  curOrd = model.get 'ordinal'
+                  if (curOrd > oldPos and curOrd < newPos) or curOrd is oldPos or curOrd is newPos
+                    model.set 'ordinal', curOrd - 1
+            else
+              _.forEach self.collection.models, (model) ->
+                if model.get('id') isnt taskModel.get('id')
+                  curOrd = model.get 'ordinal'
+                  if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
+                    model.set 'ordinal', curOrd + 1
       return
 
     updateName: ->
@@ -55,6 +72,7 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
       yap 'adding a task?'
       newTask = new Tyto.Todos.Todo
         id: _.uniqueId()
+        ordinal: this.collection.length + 1
       this.collection.add newTask
 
     deleteColumn: ->

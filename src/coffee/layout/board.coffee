@@ -52,51 +52,28 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
         axis: "x"
         containment: this.$el.find('.columns')
         opacity: 0.8
-        start: (event, ui) ->
-          yap 'starting'
+        # start: (event, ui) ->
+        #   yap 'starting'
         stop: (event, ui) ->
           mover = ui.item[0]
-          yap 'stopping'
-          #calculate the position where it is going and update all the other columns somehow....
           colModel = self.collection.get ui.item.attr('data-col-id')
           columnList = Array.prototype.slice.call self.$el.find '.column'
           oldPos = colModel.get 'ordinal'
           newPos = columnList.indexOf(mover) + 1
-          yap newPos, 'newPOS'
-          yap oldPos, 'oldPos'
-          colModel.set 'ordinal', newPos
           if newPos isnt oldPos
-            # We need to do all of the updates.
             colModel.set 'ordinal', newPos
             if newPos > oldPos
               _.forEach self.collection.models, (model) ->
                 if model.get('id') isnt colModel.get('id')
                   curOrd = model.get 'ordinal'
-                  if (curOrd > oldPos and curOrd < newPos) or curOrd is newPos
-                    yap 'increasing ordinal'
+                  if (curOrd > oldPos and curOrd < newPos) or curOrd is oldPos or curOrd is newPos
                     model.set 'ordinal', curOrd - 1
             else
               _.forEach self.collection.models, (model) ->
                 if model.get('id') isnt colModel.get('id')
                   curOrd = model.get 'ordinal'
-                  if (curOrd > newPos and curOrd < oldPos) or curOrd is oldPos
-                    yap 'decreasin ordinal'
+                  if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
                     model.set 'ordinal', curOrd + 1
-          else
-            yap 'no need to do anything...'
-
-
-      # stop: (event, ui) ->
-      #   columnList = Array.prototype.slice.call tyto.element.children '.column'
-      #   newPosition = columnList.indexOf $(ui.item)[0]
-      #   if newPosition < tyto._movedItemIndex
-      #     tyto._movedItemIndex += 1
-      #   tyto.element.trigger
-      #     type: 'tyto:action',
-      #     name: 'move-column',
-      #     DOMcolumn: tyto._movedItem,
-      #     itemIndex: tyto._movedItemIndex
-      #   tyto.notify 'column moved', 2000
 
     addColumn: ->
       newCol = new Tyto.Columns.Column

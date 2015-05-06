@@ -1,6 +1,11 @@
 Tyto.module 'Layout', (Layout, App, Backbone) ->
   Layout.Todo = Backbone.Marionette.ItemView.extend
-    template: tytoTmpl.todo
+    tagName: 'div'
+    className: 'task'
+    attributes: ->
+      id = this.model.get 'id'
+      'data-task-id': id
+    template: tytoTmpl.task
     templateHelpers: ->
       view = this
       boardId = view.getOption('board').get 'id'

@@ -38,7 +38,7 @@
   width 90%
   margin 0em auto 1em auto
 
-.todo
+.task
   padding 10px
   border 1px solid red
 
