@@ -22,26 +22,34 @@ module.exports = {
     rename: {
       suffix: '.min'
     },
-    order: [
-      'templates/**/*.js',
-      'app.js',
-      'models/**/*.js',
-      'controllers/**/*.js',
-      /*
-        Due to the naming convention and the way marionette reacts here,
-        I need to explicitly state the order of the layout module pieces until
-        I see a better way of refactoring this.
-      */
-      'layout/task.js',
-      'layout/column.js',
-      'layout/board.js',
-      'layout/**/*.js',
-      /*
-        Instead of putting our bootstrapping code inside our markup code.
-        We simply use a strapping file to bootstrap the application.
-      */
-      'strap.js'
-    ],
+    order: {
+      js: [
+        'templates/**/*.js',
+        'app.js',
+        'models/**/*.js',
+        'controllers/**/*.js',
+        /*
+          Due to the naming convention and the way marionette reacts here,
+          I need to explicitly state the order of the layout module pieces until
+          I see a better way of refactoring this.
+        */
+        'layout/task.js',
+        'layout/column.js',
+        'layout/board.js',
+        'layout/**/*.js',
+        /*
+          Instead of putting our bootstrapping code inside our markup code.
+          We simply use a strapping file to bootstrap the application.
+        */
+        'strap.js'
+      ],
+      stylus: [
+        '_var.stylus',
+        '_functions.stylus',
+        '_core.stylus',
+        '**/*.stylus'
+      ]
+    },
     prefix: [
       'last 3 versions',
       'Blackberry 10',

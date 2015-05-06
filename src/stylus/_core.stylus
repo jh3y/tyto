@@ -1,5 +1,21 @@
+for key, value in colorPalette
+  .bg--{key}
+    background-color value
+  .tx--{key}
+    color value
+  .bd--{key}
+    border 4px solid value
+  .hv--{key}
+    &:hover
+      color value
+
+
+
 *
   box-sizing border-box
+
+.loading
+  background-color red
 
 body
   margin     0

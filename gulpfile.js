@@ -36,7 +36,7 @@ gulp.task('coffee:compile', ['tmpl:compile'], function() {
     .pipe(noTestFilter)
     .pipe(isMapped ? gulp.dest(destinations.js): plugins.gUtil.noop())
     .pipe(isMapped ? plugins.sourcemaps.init(): plugins.gUtil.noop())
-    .pipe(plugins.order(pluginOpts.order))
+    .pipe(plugins.order(pluginOpts.order.js))
     .pipe(plugins.concat(gConfig.pkg.name + '.js'))
     .pipe(plugins.wrap(pluginOpts.wrap))
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
@@ -55,10 +55,11 @@ gulp.task('coffee:watch', function() {
 
 
 gulp.task('stylus:compile', function() {
-  return gulp.src(sources.stylus)
+  return gulp.src(sources.stylus, {base: 'src/stylus'})
     .pipe(plugins.plumber())
+    .pipe(plugins.order(pluginOpts.order.stylus))
+    .pipe(plugins.concat(gConfig.pkg.name + '.stylus'))
     .pipe(plugins.stylus())
-    .pipe(plugins.concat(gConfig.pkg.name + '.css'))
     .pipe(gulp.dest(destinations.css))
     .pipe(plugins.minify())
     .pipe(plugins.rename(pluginOpts.rename))
