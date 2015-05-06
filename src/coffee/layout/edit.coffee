@@ -4,3 +4,5 @@ Tyto.module 'Layout', (Layout, App, Backbone) ->
     templateHelpers: ->
       boardId: this.options.boardId
       isNew: this.options.isNew
+    initialize: ->
+      yap this.model
