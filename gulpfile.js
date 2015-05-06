@@ -110,8 +110,21 @@ gulp.task('vendor:scripts:publish', function() {
     .pipe(plugins.rename(pluginOpts.rename))
     .pipe(gulp.dest(destinations.js));
 });
+
+gulp.task('vendor:styles:publish', function() {
+  return gulp.src(sources.vendor.css)
+    .pipe(plugins.plumber())
+    .pipe(plugins.concat('vendor.css'))
+    .pipe(gulp.dest(destinations.css))
+    .pipe(plugins.minify())
+    .pipe(plugins.rename(pluginOpts.rename))
+    .pipe(gulp.dest(destinations.css));
+});
+
+
 gulp.task('vendor:publish', [
-  'vendor:scripts:publish'
+  'vendor:scripts:publish',
+  'vendor:styles:publish'
 ]);
 
 gulp.task('build:complete', [

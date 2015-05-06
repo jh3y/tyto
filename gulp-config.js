@@ -46,7 +46,7 @@ module.exports = {
       stylus: [
         '_var.stylus',
         '_functions.stylus',
-        '_core.stylus',
+        'base.stylus',
         '**/*.stylus'
       ]
     },
@@ -84,6 +84,9 @@ module.exports = {
           'src/vendor/yap/dist/yap.min.js',
           'src/vendor/jquery-ui/jquery-ui.js',
           'src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js'
+        ],
+        css: [
+          'src/vendor/normalize.css/normalize.css'
         ]
       },
       jade: [

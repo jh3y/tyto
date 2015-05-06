@@ -8,16 +8,3 @@ for key, value in colorPalette
   .hv--{key}
     &:hover
       color value
-
-
-
-*
-  box-sizing border-box
-
-.loading
-  background-color red
-
-body
-  margin     0
-  padding    0
-  overflow-y scroll
