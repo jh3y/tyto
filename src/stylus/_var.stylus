@@ -21,3 +21,5 @@ colorPalette = {
   asbestos: #7F8C8D
   white: #FFF
 }
+
+paddingSize = 10px

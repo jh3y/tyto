@@ -8,3 +8,7 @@ for key, value in colorPalette
   .hv--{key}
     &:hover
       color value
+
+
+.padd
+  padding paddingSize
