@@ -26,12 +26,9 @@ window.Tyto = new TytoApp()
 Tyto.templateStore = require './templates/templates'
 BoardCtrl = require './controllers/board'
 BoardModel = require './models/boards'
-ColumnModel = require './models/columns'
 TaskModel = require './models/tasks'
+ColumnModel = require './models/columns'
 TytoLayout = require './layout/layout'
-
-Tyto.on 'before:start', ->
-  Tyto.setRootLayout()
 
 Tyto.module 'Boards', BoardModel
 Tyto.module 'Columns', ColumnModel
@@ -39,6 +36,8 @@ Tyto.module 'BoardList', BoardCtrl
 Tyto.module 'Tasks', TaskModel
 Tyto.module 'Layout', TytoLayout
 
+Tyto.on 'before:start', ->
+  Tyto.setRootLayout()
 
 Tyto.on 'start', ->
   Backbone.history.start()
