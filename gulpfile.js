@@ -1,4 +1,7 @@
 var gulp       = require('gulp'),
+  browserify = require('browserify'),
+  source = require('vinyl-source-stream'),
+  buffer = require('vinyl-buffer'),
   browserSync  = require('browser-sync'),
   gConfig      = require('./gulp-config'),
   pluginOpts   = gConfig.pluginOpts,
@@ -18,20 +21,31 @@ gulp.task('serve', ['build:complete'], function() {
 });
 
 
-var browserify = require('browserify'),
-  source = require('vinyl-source-stream');
 
 gulp.task('coffee:compile', ['tmpl:compile'], function () {
 
   var b = browserify({
     entries: './src/coffee/app.coffee',
     transform: 'coffeeify',
-    extensions: '.coffee'
+    extensions: '.coffee',
+    debug: isMapped ? true: false
   });
 
   return b.bundle()
-    .pipe(source('tyto.js'))
-    .pipe(gulp.dest(destinations.js));
+    .pipe(plugins.plumber())
+    .pipe(source(gConfig.pkg.name + '.js'))
+    .pipe(buffer())
+    .pipe(isMapped ? plugins.sourcemaps.init({loadMaps: true}): plugins.gUtil.noop())
+    .pipe(plugins.wrap(pluginOpts.wrap))
+    .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
+    .pipe(gulp.dest(destinations.js))
+    .pipe(plugins.uglify())
+    .pipe(plugins.rename({
+      suffix: '.min'
+    }))
+    .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
+    .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
+    .pipe(gulp.dest(isDist ? destinations.dist: destinations.js));
     // DO SOME OTHER MAGIC HERE TO MAKE IT PRODUCTION READY BLAH BLAH...
 });
 
@@ -52,19 +66,9 @@ gulp.task('coffee:compile', ['tmpl:compile'], function () {
 //     .pipe(coffeeFilter.restore())
 //     .pipe(noTestFilter)
 //     .pipe(isMapped ? gulp.dest(destinations.js): plugins.gUtil.noop())
-//     .pipe(isMapped ? plugins.sourcemaps.init(): plugins.gUtil.noop())
 //     .pipe(plugins.order(pluginOpts.order.js))
 //     .pipe(plugins.concat(gConfig.pkg.name + '.js'))
-//     .pipe(plugins.wrap(pluginOpts.wrap))
-//     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
 //     .pipe(isDeploy ? plugins.gUtil.noop(): gulp.dest(isDist ? destinations.dist: destinations.js))
-//     .pipe(plugins.uglify())
-//     .pipe(plugins.rename({
-//       suffix: '.min'
-//     }))
-//     .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
-//     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
-//     .pipe(gulp.dest(isDist ? destinations.dist: destinations.js));
 // });
 gulp.task('coffee:watch', function() {
   gulp.watch(sources.coffee, ['coffee:compile']);

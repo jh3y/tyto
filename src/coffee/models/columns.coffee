@@ -5,5 +5,4 @@ module.exports = (Columns, App, Backbone) ->
       todos: []
 
   Columns.ColumnList = Backbone.Collection.extend
-    # localStorage: new Backbone.LocalStorage 'tyto--col'
     model: Columns.Column

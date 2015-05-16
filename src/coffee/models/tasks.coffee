@@ -5,5 +5,4 @@ module.exports = (Tasks, App, Backbone) ->
       description: 'Making this work!'
 
   Tasks.TaskList = Backbone.Collection.extend
-    # localStorage: new Backbone.LocalStorage 'tyto--task'
     model: Tasks.Task
