@@ -1,4 +1,4 @@
-Tyto.module 'Tasks', (Tasks, App, Backbone) ->
+module.exports = (Tasks, App, Backbone) ->
   Tasks.Task = Backbone.Model.extend
     defaults:
       title: 'New Todo'

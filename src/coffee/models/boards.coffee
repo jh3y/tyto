@@ -1,4 +1,4 @@
-Tyto.module 'Boards', (Boards, App, Backbone) ->
+module.exports = (Boards, App, Backbone) ->
   Boards.Board = Backbone.Model.extend
     defaults:
       title: 'New Board'

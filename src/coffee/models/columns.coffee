@@ -1,4 +1,4 @@
-Tyto.module 'Columns', (Columns, App, Backbone) ->
+module.exports = (Columns, App, Backbone) ->
   Columns.Column = Backbone.Model.extend
     defaults:
       title: 'New Column'

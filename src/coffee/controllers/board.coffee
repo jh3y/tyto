@@ -1,4 +1,4 @@
-Tyto.module 'BoardList', (BoardList, App, Backbone, Marionette) ->
+module.exports = (BoardList, App, Backbone, Marionette) ->
   BoardList.Router = Marionette.AppRouter.extend
     appRoutes:
       'board/:board'           : 'showBoard'

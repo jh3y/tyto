@@ -23,6 +23,30 @@ TytoApp = Marionette.Application.extend
 
 window.Tyto = new TytoApp()
 
+Tyto.templateStore = require './templates/templates'
+BoardCtrl = require './controllers/board'
+BoardModel = require './models/boards'
+ColumnModel = require './models/columns'
+TaskModel = require './models/tasks'
+TytoLayout = require './layout/layout'
 
 Tyto.on 'before:start', ->
   Tyto.setRootLayout()
+
+Tyto.module 'Boards', BoardModel
+Tyto.module 'Columns', ColumnModel
+Tyto.module 'BoardList', BoardCtrl
+Tyto.module 'Tasks', TaskModel
+Tyto.module 'Layout', TytoLayout
+
+
+Tyto.on 'start', ->
+  Backbone.history.start()
+  Tyto.vent.trigger 'history:started'
+  return
+
+Tyto.boardList = new Tyto.Boards.BoardList()
+Tyto.boardList.fetch().done (data) ->
+  document.body.className = ''
+  Tyto.start()
+  return
