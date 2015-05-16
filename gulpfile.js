@@ -46,30 +46,8 @@ gulp.task('coffee:compile', ['tmpl:compile'], function () {
     .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
     .pipe(gulp.dest(isDist ? destinations.dist: destinations.js));
-    // DO SOME OTHER MAGIC HERE TO MAKE IT PRODUCTION READY BLAH BLAH...
 });
 
-// gulp.task('coffee:compile', ['tmpl:compile'], function() {
-//   var testFilter = plugins.filter('test/**/*.coffee'),
-//     coffeeFilter = plugins.filter('**/*.coffee'),
-//     noTestFilter = plugins.filter([
-//       '**/*.js',
-//       '!test/**/*.js'
-//     ]);
-//   return gulp.src(sources.coffee.concat([destinations.templates + '**/*.*']), {base: 'src/coffee'})
-//     .pipe(plugins.plumber())
-//     .pipe(coffeeFilter)
-//     .pipe(plugins.coffee(pluginOpts.coffee))
-//     .pipe(isTest ? testFilter: plugins.gUtil.noop())
-//     .pipe(isTest ? gulp.dest(destinations.test): plugins.gUtil.noop())
-//     .pipe(isTest ? testFilter.restore(): plugins.gUtil.noop())
-//     .pipe(coffeeFilter.restore())
-//     .pipe(noTestFilter)
-//     .pipe(isMapped ? gulp.dest(destinations.js): plugins.gUtil.noop())
-//     .pipe(plugins.order(pluginOpts.order.js))
-//     .pipe(plugins.concat(gConfig.pkg.name + '.js'))
-//     .pipe(isDeploy ? plugins.gUtil.noop(): gulp.dest(isDist ? destinations.dist: destinations.js))
-// });
 gulp.task('coffee:watch', function() {
   gulp.watch(sources.coffee, ['coffee:compile']);
 });
