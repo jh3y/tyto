@@ -32,8 +32,8 @@ TytoLayout = require './layout/layout'
 
 Tyto.module 'Boards', BoardModel
 Tyto.module 'Columns', ColumnModel
-Tyto.module 'BoardList', BoardCtrl
 Tyto.module 'Tasks', TaskModel
+Tyto.module 'BoardList', BoardCtrl
 Tyto.module 'Layout', TytoLayout
 
 Tyto.on 'before:start', ->
