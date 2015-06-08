@@ -1,5 +1,3 @@
-# Root = require './'
-
 TaskView = require './task'
 BoardView = require './board'
 ColumnView = require './column'

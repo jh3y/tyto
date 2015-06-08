@@ -1,4 +1,4 @@
-var env = 'out/';
+var env = 'public/';
 module.exports = {
   pkg: {
     name: 'tyto'
@@ -16,7 +16,7 @@ module.exports = {
     browserSync: {
       port   : 1987,
       server : {
-        baseDir: env
+        baseDir: './'
       }
     },
     rename: {
@@ -80,7 +80,7 @@ module.exports = {
       docs: 'src/jade/*.jade',
       templates: 'src/jade/templates/**/*.jade',
       stylus: 'src/stylus/**/*.stylus',
-      overwatch: 'out/**/*.{html,js,css}'
+      overwatch: env + '**/*.{html,js,css}'
     },
     destinations: {
       html: env,

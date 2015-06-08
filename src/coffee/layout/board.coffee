@@ -25,7 +25,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   initialize: ->
     board = this
     cols = _.sortBy board.model.get('columns'), 'ordinal'
-    board.collection = new Tyto.Columns.ColumnList cols
+    Tyto.cols = board.collection = new Tyto.Columns.ColumnList cols
 
     this.listenTo Tyto.vent, 'setup:localStorage', ->
       this.ui.saveBoard.removeAttr 'disabled'

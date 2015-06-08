@@ -25,7 +25,9 @@ gulp.task('serve', ['build:complete'], function() {
 gulp.task('coffee:compile', ['tmpl:compile'], function () {
 
   var b = browserify({
-    entries: './src/coffee/app.coffee',
+    entries: [
+      './src/coffee/app.coffee'
+    ],
     transform: 'coffeeify',
     extensions: '.coffee',
     debug: isMapped ? true: false
@@ -46,6 +48,7 @@ gulp.task('coffee:compile', ['tmpl:compile'], function () {
     .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
     .pipe(gulp.dest(isDist ? destinations.dist: destinations.js));
+
 });
 
 gulp.task('coffee:watch', function() {

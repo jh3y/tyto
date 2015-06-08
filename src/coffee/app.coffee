@@ -46,6 +46,6 @@ Tyto.on 'start', ->
 
 Tyto.boardList = new Tyto.Boards.BoardList()
 Tyto.boardList.fetch().done (data) ->
-  document.body.className = ''
+  document.querySelector('.loading').className = ''
   Tyto.start()
   return

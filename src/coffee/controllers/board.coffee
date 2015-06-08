@@ -58,14 +58,19 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       else
         App.navigate '/'
     editTask: (bId, tId, isNew) ->
+      board = this.boardList.get bId
+      board.set 'columns', Tyto.cols
+      board.save()
       newEdit = `undefined`
       this.editModel = `undefined`
-      board = this.boardList.get bId
       _.forEach board.get('columns'), (col) ->
         result = _.findWhere col.tasks,
           id: tId
         if result isnt `undefined`
           newEdit = result
+      # Tyto.cols.forEach (col) ->
+      #   newEdit = col.get('tasks').get(tId)
+
       this.editModel = new Tyto.Tasks.Task newEdit
       isNew = if (isNew is null) then false else true
       Tyto.editView = new App.Layout.Edit
