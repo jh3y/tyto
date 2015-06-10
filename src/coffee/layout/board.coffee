@@ -1,30 +1,32 @@
 Column = require './column'
 
 module.exports = Backbone.Marionette.CompositeView.extend
-  tagName: 'div'
-  className: 'board'
-  template: Tyto.templateStore.board
-  childView: Column
+  tagName           : 'div'
+  className         : 'board'
+  template          : Tyto.templateStore.board
+  childView         : Column
   childViewContainer: '.columns'
   childViewOptions: ->
-    board: this.model
-    siblings: this.collection
+    board      : this.model
+    siblings   : this.collection
   ui:
-    addColumn: '#add-column'
-    saveBoard: '#save-board'
+    addColumn  : '#add-column'
+    saveBoard  : '#save-board'
     deleteBoard: '#delete-board'
-    wipeBoard: '#wipe-board'
-    boardName: '#board-name'
+    wipeBoard  : '#wipe-board'
+    boardName  : '#board-name'
+    superAdd   : '#super-add'
   events:
-    'click @ui.addColumn': 'addColumn'
-    'click @ui.saveBoard': 'saveBoard'
+    'click @ui.addColumn'  : 'addColumn'
+    'click @ui.saveBoard'  : 'saveBoard'
     'click @ui.deleteBoard': 'deleteBoard'
-    'click @ui.wipeBoard': 'wipeBoard'
-    'blur @ui.boardName': 'updateName'
+    'click @ui.wipeBoard'  : 'wipeBoard'
+    'blur @ui.boardName'   : 'updateName'
+    'click @ui.superAdd'   : 'superAddTask'
 
   initialize: ->
-    board = this
-    cols = _.sortBy board.model.get('columns'), 'ordinal'
+    board     = this
+    cols      = _.sortBy board.model.get('columns'), 'ordinal'
     Tyto.cols = board.collection = new Tyto.Columns.ColumnList cols
 
     this.listenTo Tyto.vent, 'setup:localStorage', ->
@@ -46,20 +48,20 @@ module.exports = Backbone.Marionette.CompositeView.extend
     self = this
     this.$el.find('.columns').sortable
       connectWith: '.column',
-      handle: '.column--mover'
+      handle     : '.column--mover'
       placeholder: 'column-placeholder'
-      axis: "x"
+      axis       : "x"
       containment: this.$el.find('.columns')
-      opacity: 0.8
-      stop: (event, ui) ->
-        mover = ui.item[0]
+      opacity    : 0.8
+      stop       : (event, ui) ->
+        mover       = ui.item[0]
         columnModel = self.collection.get ui.item.attr('data-col-id')
-        columnList = Array.prototype.slice.call self.$el.find '.column'
+        columnList  = Array.prototype.slice.call self.$el.find '.column'
         Tyto.reorder self, mover, columnModel, columnList
 
   addColumn: ->
     newCol = new Tyto.Columns.Column
-      id: _.uniqueId()
+      id     : _.uniqueId()
       ordinal: this.collection.length + 1
     this.collection.add newCol
     newWidth = (100 / this.collection.length) + '%'
@@ -72,6 +74,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   updateName: ->
     this.model.set 'title', @ui.boardName.text().trim()
+
+  superAddTask: ->
+    yap 'lets create'
+    newTask = new Tyto.Tasks.Task
+      id     : _.uniqueId()
+      ordinal: this.collection.length + 1
+    Tyto.vent.trigger 'hard-task:add', newTask
 
   deleteBoard: ->
     this.model.destroy()

@@ -1,25 +1,25 @@
 Task = require './task'
 
 module.exports = Backbone.Marionette.CompositeView.extend
-  tagName: 'div'
-  className: 'column'
+  tagName   : 'div'
+  className : 'column'
   attributes: ->
     id = this.model.get 'id'
     'data-col-id': id
-  template: Tyto.templateStore.column
-  ui:
-    deleteColumn: '#delete-column'
-    addTask: '.add-task'
-    columnName: '#column-name'
-  childView: Task
+  template  : Tyto.templateStore.column
+  childView : Task
   childViewContainer: '.tasks'
-  childViewOptions: ->
-    board: this.getOption 'board'
-
-  events:
+  events    :
     'click @ui.deleteColumn': 'deleteColumn'
     'click @ui.addTask': 'addTask'
     'blur @ui.columnName': 'updateName'
+  ui        :
+    deleteColumn: '#delete-column'
+    addTask     : '.add-task'
+    columnName  : '#column-name'
+
+  childViewOptions: ->
+    board: this.getOption 'board'
 
   initialize: ->
     tasks = _.sortBy this.model.get('tasks'), 'ordinal'

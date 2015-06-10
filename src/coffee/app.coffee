@@ -21,20 +21,21 @@ TytoApp = Marionette.Application.extend
             if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
               m.set 'ordinal', curOrd + 1
 
+
 window.Tyto = new TytoApp()
 
 Tyto.templateStore = require './templates/templates'
-BoardCtrl = require './controllers/board'
-BoardModel = require './models/boards'
-TaskModel = require './models/tasks'
-ColumnModel = require './models/columns'
-TytoLayout = require './layout/layout'
+BoardCtrl          = require './controllers/board'
+BoardModel         = require './models/boards'
+TaskModel          = require './models/tasks'
+ColumnModel        = require './models/columns'
+TytoLayout         = require './layout/layout'
 
-Tyto.module 'Boards', BoardModel
-Tyto.module 'Columns', ColumnModel
-Tyto.module 'Tasks', TaskModel
+Tyto.module 'Boards'   , BoardModel
+Tyto.module 'Columns'  , ColumnModel
+Tyto.module 'Tasks'    , TaskModel
 Tyto.module 'BoardList', BoardCtrl
-Tyto.module 'Layout', TytoLayout
+Tyto.module 'Layout'   , TytoLayout
 
 Tyto.on 'before:start', ->
   Tyto.setRootLayout()
@@ -45,6 +46,7 @@ Tyto.on 'start', ->
   return
 
 Tyto.boardList = new Tyto.Boards.BoardList()
+
 Tyto.boardList.fetch().done (data) ->
   document.querySelector('.loading').className = ''
   Tyto.start()

@@ -1,9 +1,10 @@
 module.exports = (BoardList, App, Backbone, Marionette) ->
   BoardList.Router = Marionette.AppRouter.extend
     appRoutes:
-      'board/:board'           : 'showBoard'
-      'board/:board/task/:task': 'editTask'
+      'board/:board'                        : 'showBoard'
+      'board/:board/task/:task'             : 'editTask'
       'board/:board/task/:task?fresh=:isNew': 'editTask'
+
   BoardList.Controller = Marionette.Controller.extend
     initialize: ->
       this.boardList = App.boardList
@@ -14,26 +15,28 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       this.showCookieBanner()
 
       this.listenTo Tyto.vent, 'setup:localStorage', ->
-        yap 'setting up local storage...'
         window.localStorage.setItem 'tyto', true
         Tyto.CookieBannerView.destroy()
         Tyto.root.removeRegion 'cookie'
         $('#cookie-banner').remove()
         this.setUpAutoSave()
 
+      this.listenTo Tyto.vent, 'hard-task:add', (newMod) ->
+        console.info 'create a new task and direct me to it', newMod
 
       if this.boardList.length > 0 and window.location.hash is ''
         Tyto.vent.on 'history:started', ->
           id = that.boardList.first().get 'id'
           App.navigate 'board/' + id,
             trigger: true
+
       return
+
     showCookieBanner: ->
       if window.localStorage and !window.localStorage.tyto
-        yap 'show the banner'
         Tyto.root.getRegion('header').$el.prepend $('<div id="cookie-banner"></div>')
-        Tyto.root.addRegion 'cookie', '#cookie-banner'
         Tyto.CookieBannerView = new App.Layout.CookieBanner()
+        Tyto.root.addRegion 'cookie', '#cookie-banner'
         Tyto.root.showChildView 'cookie', Tyto.CookieBannerView
         return
       else
@@ -57,6 +60,7 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
         return
       else
         App.navigate '/'
+
     editTask: (bId, tId, isNew) ->
       board = this.boardList.get bId
       board.set 'columns', Tyto.cols
@@ -68,8 +72,6 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
           id: tId
         if result isnt `undefined`
           newEdit = result
-      # Tyto.cols.forEach (col) ->
-      #   newEdit = col.get('tasks').get(tId)
 
       this.editModel = new Tyto.Tasks.Task newEdit
       isNew = if (isNew is null) then false else true
