@@ -70,8 +70,6 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
 
     editTask: (bId, tId, isNew) ->
       board = this.boardList.get bId
-      board.set 'columns', Tyto.cols
-      board.save()
       newEdit = `undefined`
       this.editModel = `undefined`
       _.forEach board.get('columns'), (col) ->
@@ -79,18 +77,18 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
           id: tId
         if result isnt `undefined`
           newEdit = result
-
       this.editModel = new Tyto.Tasks.Task newEdit
-      isNew = if (isNew is null) then false else true
-      Tyto.editView = new App.Layout.Edit
-        model: this.editModel
+      isNew          = if (isNew is null) then false else true
+      yap newEdit, this.editModel
+      Tyto.editView  = new App.Layout.Edit
+        model  : this.editModel
         boardId: bId
-        isNew: isNew
+        isNew  : isNew
       App.root.showChildView 'content', Tyto.editView
       return
 
   App.on 'start', ->
-    Tyto.controller = new BoardList.Controller()
+    Tyto.controller        = new BoardList.Controller()
     Tyto.controller.router = new BoardList.Router
       controller: Tyto.controller
     Tyto.controller.start()

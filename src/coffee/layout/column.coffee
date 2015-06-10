@@ -11,19 +11,21 @@ module.exports = Backbone.Marionette.CompositeView.extend
   childViewContainer: '.tasks'
   events    :
     'click @ui.deleteColumn': 'deleteColumn'
-    'click @ui.addTask': 'addTask'
-    'blur @ui.columnName': 'updateName'
+    'click @ui.addTask'     : 'addTask'
+    'blur @ui.columnName'   : 'updateName'
   ui        :
     deleteColumn: '#delete-column'
     addTask     : '.add-task'
     columnName  : '#column-name'
 
   childViewOptions: ->
-    board: this.getOption 'board'
+    board : this.getOption 'board'
+    column: this
 
   initialize: ->
-    tasks = _.sortBy this.model.get('tasks'), 'ordinal'
+    tasks           = _.sortBy this.model.get('tasks'), 'ordinal'
     this.collection = new Tyto.Tasks.TaskList tasks
+
     this.model.set 'tasks', this.collection
     this.on 'childview:destroy:task', (mod, id) ->
       this.collection.remove id
@@ -51,14 +53,14 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   updateName: ->
     this.model.set 'title', @ui.columnName.text().trim()
+    return
 
   addTask: ->
     newTask = new Tyto.Tasks.Task
       id     : _.uniqueId()
       ordinal: this.collection.length + 1
-      owner  : this.model.id
-    yap newTask
     this.collection.add newTask
+    return
 
   deleteColumn: ->
     id = parseInt this.model.get('id'), 10

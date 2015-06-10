@@ -25,9 +25,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.superAdd'   : 'superAddTask'
 
   initialize: ->
-    board     = this
-    cols      = _.sortBy board.model.get('columns'), 'ordinal'
-    Tyto.cols = board.collection = new Tyto.Columns.ColumnList cols
+    board            = this
+    cols             = _.sortBy board.model.get('columns'), 'ordinal'
+    board.collection = new Tyto.Columns.ColumnList cols
 
     this.listenTo Tyto.vent, 'setup:localStorage', ->
       this.ui.saveBoard.removeAttr 'disabled'
