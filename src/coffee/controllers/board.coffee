@@ -34,10 +34,17 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
 
     showCookieBanner: ->
       if window.localStorage and !window.localStorage.tyto
-        Tyto.root.getRegion('header').$el.prepend $('<div id="cookie-banner"></div>')
-        Tyto.CookieBannerView = new App.Layout.CookieBanner()
+        ###
+          Show cookie banner by creating a temporary region and showing
+          the view.
+        ###
+        Tyto.root.getRegion('header')
+          .$el
+          .prepend $('<div id="cookie-banner"></div>')
         Tyto.root.addRegion 'cookie', '#cookie-banner'
+        Tyto.CookieBannerView = new App.Layout.CookieBanner()
         Tyto.root.showChildView 'cookie', Tyto.CookieBannerView
+
         return
       else
         this.setUpAutoSave()

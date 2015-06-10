@@ -7,9 +7,8 @@ head
   meta(name="description", content="'the tool you take over', a customisable task manager application.")
   link(rel="stylesheet", href="css/vendor.min.css")
   link(rel="stylesheet", href="css/tyto.min.css")
-body
-  include header
-  #tyto-app.loading
+  body#tyto-app.loading
+    include header
     block content
   script(src="js/vendor.js")
   script.

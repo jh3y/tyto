@@ -34,19 +34,17 @@ module.exports = Backbone.Marionette.CompositeView.extend
       width: newWidth
 
   onRender: ->
-    yap 'rendering column'
     self = this
     this.$el.find('.tasks').sortable
       connectWith: '.tasks'
-      handle: ".task--mover"
       placeholder: "item-placeholder"
       containment: '.columns'
-      opacity: 0.8
-      revert: true
-      stop: (event, ui) ->
-        mover = ui.item[0]
+      opacity    : 0.8
+      revert     : true
+      stop       : (event, ui) ->
+        mover     = ui.item[0]
         taskModel = self.collection.get ui.item.attr('data-task-id')
-        taskList = Array.prototype.slice.call self.$el.find '.task'
+        taskList  = Array.prototype.slice.call self.$el.find '.task'
         Tyto.reorder self, mover, taskModel, taskList
 
     return
@@ -56,8 +54,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   addTask: ->
     newTask = new Tyto.Tasks.Task
-      id: _.uniqueId()
+      id     : _.uniqueId()
       ordinal: this.collection.length + 1
+      owner  : this.model.id
+    yap newTask
     this.collection.add newTask
 
   deleteColumn: ->
