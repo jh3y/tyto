@@ -1,6 +1,6 @@
 module.exports = Backbone.Marionette.ItemView.extend
   tagName        : 'div'
-  className      : 'tyto--task'
+  className      : 'tyto--task bg--yellow'
   attributes     : ->
     id = this.model.get 'id'
     'data-task-id': id
@@ -33,11 +33,19 @@ module.exports = Backbone.Marionette.ItemView.extend
       saved before doing a full edit on a newly created task.
     ###
     that      = this
-    cols      = that.board.get 'columns'
-    col       = _.findWhere cols,
-      id: that.column.model.id
     taskId    = that.model.get 'id'
     boardId   = that.board.get 'id'
+    cols      = that.board.get('columns')
+    col       = _.findWhere cols,
+      id: that.column.model.id
+    # What if the column isn't saved yet....
+    if col is `undefined`
+      yap 'gotta save the columns first...'
+      trueCols  = that.getOption('boardView').collection
+      that.board.set 'columns', trueCols
+      col = _.findWhere that.board.get('columns').models,
+        id: that.column.model.id
+
     # Only need to save it if it's not already in the model
     if !_.findWhere(col.tasks, { id: taskId })
       tasks     = that.column.model.get 'tasks'

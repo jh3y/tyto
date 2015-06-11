@@ -7,6 +7,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: ->
+    boardView  : this
     board      : this.model
     siblings   : this.collection
   ui:
