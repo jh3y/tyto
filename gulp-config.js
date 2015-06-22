@@ -56,7 +56,7 @@ module.exports = {
       vendor: {
         js: [
           'src/vendor/jquery/dist/jquery.js',
-          'src/vendor/underscore/underscore.js',
+          'src/vendor/lodash/lodash.js',
           'src/vendor/backbone/backbone.js',
           'src/vendor/Backbone.localStorage/backbone.localStorage.js',
           'src/vendor/backbone.relational/backbone-relational.js',
