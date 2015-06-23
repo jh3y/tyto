@@ -2,59 +2,81 @@ module.exports =  Backbone.Marionette.ItemView.extend
   template: Tyto.templateStore.menu
   ui:
     add          : '#add-board'
-    export       : '#export-data'
-    exportAnchor : '#exporter'
-    loader       : '#load-data'
-    loadAnchor   : '#loader'
+    exportBtn    : '#export-data'
+    loadBtn      : '#load-data'
+    importBtn    : '#import-data'
+    exporter     : '#exporter'
+    importer     : '#importer'
     boardSelector: '#board-selector'
   events:
     'click @ui.add'           : 'addBoard',
     'change @ui.boardSelector': 'showBoard',
-    'click @ui.export'        : 'exportData'
-    'change @ui.loadAnchor'   : 'grab'
-    'click @ui.loader'        : 'importData'
+    'click @ui.exportBtn'     : 'exportData'
+    'click @ui.loadBtn'       : 'initLoad'
+    'click @ui.importBtn'     : 'initLoad'
+    'change @ui.importer'     : 'handleFile'
   collectionEvents:
     'all': 'render'
 
   initialize: ->
     menuView        = this
     menuView.reader = reader = new FileReader()
-    reader.onload   = (e) ->
-      data = e.target.result
-      menuView.importIt data
+    reader.onloadend   = (e) ->
+      data = JSON.parse e.target.result
+      if menuView.activeImporter.id is 'load-data'
+        menuView.loadData data
+      else
+        menuView.importData data
 
-  grab: (e) ->
+  handleFile: (e) ->
     menu = this
-    f = e.target.files[0]
+    f    = e.target.files[0]
     if (f.type.match 'application/json') or (f.name.indexOf '.json' isnt -1)
       menu.reader.readAsText f
     else
       alert '[tyto] only valid json files allowed'
     return
 
-  importIt: (d) ->
-    # debugger
-    # result = JSON.parse this.result
+  importData: (d) ->
+    ###
+      When we do an "import", we want to retain the current boards.
+    ###
     console.info d
-    # if result.columns isnt `undefined` and
-    # (result.DOMId isnt `undefined` or
-    # result.DOMElementSelector isnt `undefined`)
-    #   tyto._loadBarnJSON result
-    # else
-    #   alert '[tyto] incorrect json'
+  loadData: (d) ->
+    ###
+      When we do a "load", we want to wipe the current set up and load in new.
+    ###
+    Tyto.boardList.reset()
+    # wipe the localStorage
+    _.forOwn window.localStorage, (val, key) ->
+      if key.indexOf('tyto') isnt -1
+        window.localStorage.removeItem key
+    # repopulate localStorage
+    _.forOwn d, (val, key) ->
+      window.localStorage.setItem key, val
+      # If we have a board we need to populate it into the boardList
+      if key.indexOf('tyto--board-') isnt -1
+        loadBoard = JSON.parse val
+        Tyto.boardList.add loadBoard
 
-  addBoard: ->
-    console.log 'egreg'
-    newBoard = new Tyto.Boards.Board
-      id: _.uniqueId()
-    Tyto.boardList.add newBoard
-    this.showBoard newBoard.get('id')
-    return
+    # Need to empty out the current boardView to make way for whatever is chose.
+    Tyto.root.getRegion('content').empty()
+    Tyto.navigate '/', true
 
+
+
+
+  initLoad: (e) ->
+    this.activeImporter = e.target
+    anchor              = this.ui.importer[0]
+    if window.File and window.FileReader and window.FileList and window.Blob
+      anchor.click()
+    else
+      alert '[tyto] Unfortunately the file APIs are not fully supported in your browser'
 
   exportData: ->
     # Iterate over localStorage and write file with all keys containing "tyto"
-    anchor     = this.ui.exportAnchor[0]
+    anchor     = this.ui.exporter[0]
     exportable = {}
     _.forOwn window.localStorage, (val, key) ->
       if key.indexOf('tyto') isnt -1
@@ -67,13 +89,12 @@ module.exports =  Backbone.Marionette.ItemView.extend
     anchor.click()
     return
 
-  importData: ->
-    # Here need to wipe current localStorage object and import JSON.
-    anchor = this.ui.loadAnchor[0]
-    if window.File and window.FileReader and window.FileList and window.Blob
-      anchor.click()
-    else
-      alert '[tyto] Unfortunately the file APIs are not fully supported in your browser'
+  addBoard: ->
+    newBoard = new Tyto.Boards.Board
+      id: _.uniqueId()
+    Tyto.boardList.add newBoard
+    this.showBoard newBoard.get('id')
+    return
 
   showBoard: (id) ->
     if typeof id isnt 'string'
