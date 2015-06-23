@@ -40,8 +40,29 @@ module.exports =  Backbone.Marionette.ItemView.extend
   importData: (d) ->
     ###
       When we do an "import", we want to retain the current boards.
+
+      We essentially do the same as load but check IDs so that if there
+      are going to be duplicate, we make sure there aren't.
+
+      We also don't have to clear out localStorage.
     ###
-    console.info d
+    delete d.tyto
+    delete d['tyto--board']
+
+    boardIds = window.localStorage['tyto--board'].split ','
+    _.forOwn d, (val, key) ->
+      console.info key, boardIds
+      importBoard = JSON.parse val
+      if boardIds.indexOf(importBoard.id) isnt -1
+        # If board ID already exists, need to set up new ID for board.
+        newId = _.uniqueId()
+        importBoard.id = newId
+        boardIds.push newId
+      window.localStorage['tyto--board-' + importBoard.id] = JSON.stringify importBoard
+      Tyto.boardList.add importBoard
+
+    window.localStorage['tyto--board'] = boardIds.toString()
+
   loadData: (d) ->
     ###
       When we do a "load", we want to wipe the current set up and load in new.
