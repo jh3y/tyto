@@ -18,6 +18,7 @@ Tyto.module 'Layout'   , TytoLayout
 
 Tyto.on 'before:start', ->
   Tyto.setRootLayout()
+  Tyto.setUndoListener()
 
 Tyto.on 'start', ->
   Backbone.history.start()

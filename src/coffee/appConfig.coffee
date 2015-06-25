@@ -20,6 +20,25 @@ appConfig = Marionette.Application.extend
             curOrd = m.get 'ordinal'
             if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
               m.set 'ordinal', curOrd + 1
+
+
+  registerAction: (d) ->
+    Tyto.vent.trigger 'tyto:action', d
+    return
+
+  undoables: new Backbone.Collection(),
+
+  undo: ->
+    if Tyto.undoables.length > 0
+      debugger
+
+  setUndoListener: ->
+    Tyto.vent.on 'tyto:action', (e) ->
+      Tyto.undoables.add e
+      console.log Tyto.undoables
+    console.info '[tyto] listening for actions...'
+    return
+
   importData: (d) ->
     ###
       When we do an "import", we want to retain the current boards.

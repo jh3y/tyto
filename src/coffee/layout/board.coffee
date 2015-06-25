@@ -69,6 +69,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
     $('.column').css
       width: newWidth
 
+    Tyto.registerAction
+      model : newCol
+      action: 'ADD'
+
   saveBoard: ->
     this.model.set 'columns', this.collection
     this.model.save()

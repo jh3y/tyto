@@ -1,7 +1,10 @@
 module.exports =  Backbone.Marionette.ItemView.extend
   template: Tyto.templateStore.menu
+  templateHelpers: ->
+    undoables: Tyto.undoables
   ui:
     add          : '#add-board'
+    undoBtn      : '#undo'
     exportBtn    : '#export-data'
     loadBtn      : '#load-data'
     importBtn    : '#import-data'
@@ -10,6 +13,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
     boardSelector: '#board-selector'
   events:
     'click @ui.add'           : 'addBoard',
+    'click @ui.undoBtn'       : 'undoLastAction'
     'change @ui.boardSelector': 'showBoard',
     'click @ui.exportBtn'     : 'export'
     'click @ui.loadBtn'       : 'initLoad'
@@ -27,6 +31,15 @@ module.exports =  Backbone.Marionette.ItemView.extend
         Tyto.loadData data
       else
         Tyto.importData data
+
+    # This is needed to ensure that our undo button displays correctly
+    Tyto.undoables.on 'all', this.render
+
+  onRender: ->
+    console.info 'doing render now'
+
+  undoLastAction: ->
+    Tyto.undo()
 
   handleFile: (e) ->
     menu = this

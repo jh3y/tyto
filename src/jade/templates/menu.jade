@@ -1,6 +1,6 @@
 ul.tyto-actions
   li
-    button#add-board Add new board
+    button#add-board Add new board <%= items.length %>
   |<% if (items.length > 0) { %>
   li
     select#board-selector
@@ -18,4 +18,11 @@ ul.tyto-actions
     button#import-data Import data
   li
     button#load-data Load data
+  li
+    | <% if (undoables.length > 0) { %>
+    button#undo Undo <%= undoables.length %>
+    | <% } else { %>
+    button#undo(disabled) Undo <%= undoables.length %>
+    | <% } %>
   input#importer(type="file")
+    
