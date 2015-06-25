@@ -69,7 +69,7 @@ module.exports = {
       jade: 'src/jade/*.jade',
       templates: 'src/jade/templates/**/*.jade',
       less: 'src/less/**/*.less',
-      overwatch: 'out/**/*.{html,js,css}'
+      overwatch: env + '**/*.*'
     },
     destinations: {
       testing: {

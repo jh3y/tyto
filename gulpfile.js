@@ -124,6 +124,11 @@ gulp.task('vendor:publish', [
   'vendor:fonts:publish'
 ]);
 
+gulp.task('deploy', ['build:complete'], function () {
+  return gulp.src(sources.overwatch)
+    .pipe(plugins.deploy());
+});
+
 gulp.task('build:complete', [
   'jade:compile',
   'tmpl:compile',
