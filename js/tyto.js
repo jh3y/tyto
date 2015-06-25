@@ -80,13 +80,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  */
 var tyto;
 
-window.tyto = tyto = function() {
+window.tyto = tyto = function(opts) {
   var newTyto;
   if (!(this instanceof tyto)) {
-    return new tyto();
+    return new tyto(opts);
   }
   newTyto = this;
-  newTyto.config = window.localStorage.tyto !== undefined ? JSON.parse(window.localStorage.tyto) : tytoConfig;
+  if (window.localStorage.tyto !== undefined) {
+    newTyto.config = JSON.parse(window.localStorage.tyto);
+  } else if (opts !== undefined) {
+    newTyto.config = opts;
+  } else {
+    newTyto.config = tytoConfig;
+  }
   newTyto.modals = {};
   newTyto._autoSave = newTyto.config.autoSave;
   $.when(newTyto._loadTemplates()).done(function() {
@@ -119,8 +125,10 @@ tyto.prototype._buildBarn = function() {
   if (config.DOMElementSelector !== undefined || config.DOMId !== undefined) {
     if (config.DOMId !== undefined) {
       tyto.element = $('#' + config.DOMId);
+      tyto.id = config.DOMId;
     } else {
       tyto.element = $(config.DOMElementSelector);
+      tyto.id = "barn";
     }
     tyto.element.attr('data-tyto', 'true');
     tyto.element.find('[data-action="addcolumn"]').on('click', function(e) {
@@ -157,7 +165,7 @@ tyto.prototype._buildBarn = function() {
       handle: '.column-mover',
       placeholder: 'column-placeholder',
       axis: "x",
-      containment: "#barn",
+      containment: "#" + tyto.id,
       opacity: 0.8,
       start: function(event, ui) {
         var columnList;
@@ -218,7 +226,7 @@ tyto.prototype._setUpLocalStorageAutoSave = function() {
   $('body').on('tyto:action', function(event) {
     if (tyto._autoSave) {
       return throttle(function() {
-        return tyto.saveBarn();
+        return tyto.saveBarn(JSON.stringify(tyto._createBarnJSON()));
       }, 5000);
     }
   });
@@ -249,7 +257,7 @@ tyto.prototype._bindColumnEvents = function($column) {
     connectWith: ".items",
     handle: ".item-mover",
     placeholder: "item-placeholder",
-    containment: "#barn",
+    containment: "#" + tyto.id,
     opacity: 0.8,
     revert: true,
     start: function(event, ui) {
@@ -311,7 +319,7 @@ tyto.prototype.undoLast = function() {
         tyto._binditemEvents(tyto.undo.item);
         break;
       case 'move-item':
-        if (tyto.undo.itemIndex === 0 || tyto.undo.itemIndex === tyto.undo.column.children('.tyto-item').length) {
+        if (tyto.undo.itemIndex === 0 && tyto.undo.column.children('.tyto-item').length === 0) {
           tyto.undo.column.append(tyto.undo.item);
         } else {
           $(tyto.undo.column.children('.tyto-item')[tyto.undo.itemIndex]).before(tyto.undo.item);
@@ -341,7 +349,7 @@ tyto.prototype.undoLast = function() {
       default:
         console.log("tyto: no luck, you don't seem to be able to undo that");
     }
-    $('[data-action="undolast"]').removeClass('btn-info').addClass('btn-disabled').attr('disabled', true);
+    $('[data-action="undolast"]').removeClass('btn-info btn-default').addClass('btn-disabled').attr('disabled', true);
     return tyto.notify('undone', 2000);
   }
 };
@@ -480,46 +488,16 @@ tyto.prototype._binditemEvents = function($item) {
 };
 
 tyto.prototype.saveBarn = function(jsonString) {
-  window.localStorage.setItem('tyto', JSON.stringify(tyto._createBarnJSON()));
+  if (jsonString == null) {
+    jsonString = JSON.stringify(this._createBarnJSON());
+  }
+  window.localStorage.setItem('tyto', jsonString);
   return this.notify('board saved', 2000);
 };
 
 tyto.prototype.deleteSave = function() {
   window.localStorage.removeItem('tyto');
   return this.notify('save deleted', 2000);
-};
-
-tyto.prototype._bindActions = function() {
-  var action, actionMap;
-  tyto = this;
-  actionMap = {
-    additem: 'addItem',
-    addcolumn: 'addColumn',
-    exportbarn: 'exportBarn',
-    loadbarn: 'loadBarn',
-    emailbarn: 'emailBarn',
-    helpbarn: 'showHelp',
-    infobarn: 'showInfo',
-    undolast: 'undoLast',
-    savebarn: 'saveBarn',
-    deletesave: 'deleteSave',
-    wipeboard: 'wipeBoard',
-    toggleautosave: 'toggleAutoSave'
-  };
-  action = "";
-  $('.actions').on('click', '[data-action]', function(e) {
-    action = e.target.dataset.action;
-    return tyto[actionMap[action]]();
-  });
-  return $('body').on('tyto:action', function(event) {
-    tyto.undo.action = event.name;
-    tyto.undo.column = event.DOMcolumn;
-    tyto.undo.item = event.DOMitem;
-    tyto.undo.columnIndex = event.columnIndex;
-    tyto.undo.itemIndex = event.itemIndex;
-    tyto.undo.editContent = event.content;
-    return $('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass('btn-default');
-  });
 };
 
 tyto.prototype.wipeBoard = function() {
@@ -544,7 +522,7 @@ tyto.prototype.toggleAutoSave = function() {
   } else {
     tyto.notify('auto-save: OFF', 2000);
   }
-  return window.localStorage.setItem('tyto', JSON.stringify(tyto._createBarnJSON()));
+  return tyto.saveBarn(JSON.stringify(tyto._createBarnJSON()));
 };
 
 tyto.prototype._resizeColumns = function() {
@@ -723,5 +701,39 @@ tyto.prototype.showInfo = function() {
     tyto.modals.infoModal = $('#' + tyto.config.infoModalId);
     return tyto.modals.infoModal.modal();
   }
+};
+
+tyto.prototype._bindActions = function() {
+  var action, actionMap;
+  tyto = this;
+  actionMap = {
+    additem: 'addItem',
+    addcolumn: 'addColumn',
+    exportbarn: 'exportBarn',
+    loadbarn: 'loadBarn',
+    emailbarn: 'emailBarn',
+    helpbarn: 'showHelp',
+    infobarn: 'showInfo',
+    undolast: 'undoLast',
+    savebarn: 'saveBarn',
+    deletesave: 'deleteSave',
+    wipeboard: 'wipeBoard',
+    toggleautosave: 'toggleAutoSave'
+  };
+  action = "";
+  $('.actions').on('click', '[data-action]', function(e) {
+    action = e.target.dataset.action;
+    return tyto[actionMap[action]]();
+  });
+  $('body').on('tyto:action', function(event) {
+    tyto.undo.action = event.name;
+    tyto.undo.column = event.DOMcolumn;
+    tyto.undo.item = event.DOMitem;
+    tyto.undo.columnIndex = event.columnIndex;
+    tyto.undo.itemIndex = event.itemIndex;
+    tyto.undo.editContent = event.content;
+    return $('[data-action="undolast"]').removeAttr('disabled').removeClass('btn-disabled').addClass('btn-default');
+  });
+  return tyto;
 };
  }());

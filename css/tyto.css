@@ -132,7 +132,7 @@
 }
 .tyto-header {
   width: 90%;
-  margin: 0 auto 0 auto;
+  margin: 10px auto 0 auto;
   padding: 0.5em 0;
 }
 h2.tyto-title {
@@ -173,6 +173,7 @@ h2.tyto-title {
 .tyto-item-header h6 {
   margin: 0 50px 0 0;
   font-size: 1.25em;
+  height: 1.25em;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
@@ -206,57 +207,58 @@ img.modal-tyto-logo {
   position: absolute;
   right: 0;
   top: 0;
+  z-index: 1;
   margin: 0.25em 0.25em 0.25em 0.25em;
   background-color: #FFF;
   padding: 0.25em 0.25em 0.25em 0.25em;
   border: thin solid black;
   border-radius: 0.25em 0.25em 0.25em 0.25em;
-  transition: opacity 1s ease 0s;
-  -webkit-transition: opacity 1s ease 0s;
+  transition: all 1s ease 0s;
+  -webkit-transition: all 1s ease 0s;
 }
 .notify[data-tyto-notify="0"] {
-  animation: notify 0s;
-  -webkit-animation: notify 0s;
+  animation-name: notify 0s;
+  -webkit-animation-name: notify 0s;
 }
 .notify[data-tyto-notify="1"] {
-  animation: notify 1s;
-  -webkit-animation: notify 1s;
+  animation-name: notify 1s;
+  -webkit-animation-name: notify 1s;
 }
 .notify[data-tyto-notify="2"] {
-  animation: notify 2s;
-  -webkit-animation: notify 2s;
+  animation-name: notify 2s;
+  -webkit-animation-name: notify 2s;
 }
 .notify[data-tyto-notify="3"] {
-  animation: notify 3s;
-  -webkit-animation: notify 3s;
+  animation-name: notify 3s;
+  -webkit-animation-name: notify 3s;
 }
 .notify[data-tyto-notify="4"] {
-  animation: notify 4s;
-  -webkit-animation: notify 4s;
+  animation-name: notify 4s;
+  -webkit-animation-name: notify 4s;
 }
 .notify[data-tyto-notify="5"] {
-  animation: notify 5s;
-  -webkit-animation: notify 5s;
+  animation-name: notify 5s;
+  -webkit-animation-name: notify 5s;
 }
 .notify[data-tyto-notify="6"] {
-  animation: notify 6s;
-  -webkit-animation: notify 6s;
+  animation-name: notify 6s;
+  -webkit-animation-name: notify 6s;
 }
 .notify[data-tyto-notify="7"] {
-  animation: notify 7s;
-  -webkit-animation: notify 7s;
+  animation-name: notify 7s;
+  -webkit-animation-name: notify 7s;
 }
 .notify[data-tyto-notify="8"] {
-  animation: notify 8s;
-  -webkit-animation: notify 8s;
+  animation-name: notify 8s;
+  -webkit-animation-name: notify 8s;
 }
 .notify[data-tyto-notify="9"] {
-  animation: notify 9s;
-  -webkit-animation: notify 9s;
+  animation-name: notify 9s;
+  -webkit-animation-name: notify 9s;
 }
 .notify[data-tyto-notify="10"] {
-  animation: notify 10s;
-  -webkit-animation: notify 10s;
+  animation-name: notify 10s;
+  -webkit-animation-name: notify 10s;
 }
 @keyframes notify {
   0% {
