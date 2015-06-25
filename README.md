@@ -28,6 +28,13 @@ after the great feedback it received previously on HN. New features have been ad
 * __14/02/14__: V1.1.0 released with plenty of new features that were raised in the first showing.
 * __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
 * __23/05/14__: V1.4.0 major overhaul of code as it's been some time. Moving away from requireJS and introducing bower instead for piling sources together via grunt.
+* __02/03/15__: It's now 2015. And the issues have gone untouched and I've started adding new ones! So it looks like it's going to be a good time soon to make some progress on them. Looking to add:
+  * DB Support (Mongo)
+  * Ability to modify notes using custom markup
+  * Multiple boards
+  * Better mobile view; One column at a time.
+  * Huge refactor to get rid of annoyances such as load time template loading.
+  * Add tracking for both tasks and time!
 
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto8.gif)
@@ -189,13 +196,4 @@ if you do wish to use __tyto__ please star the repo or fork it, it helps it get 
 tyto - http://jh3y.github.io/tyto
 Licensed under the MIT license
 
-[Jhey Tompkins](https://github.com/jh3y) (c) 2014.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-@jh3y
+[jh3y](https://github.com/jh3y) (c) 2014.

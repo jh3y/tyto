@@ -2,19 +2,20 @@
   position: absolute;
   right: 0;
   top: 0;
+  z-index: 1;
   margin: 0.25em 0.25em 0.25em 0.25em;
   background-color: #FFF;
   padding: 0.25em 0.25em 0.25em 0.25em;
   border: thin solid black;
   border-radius: 0.25em 0.25em 0.25em 0.25em;
-  transition: opacity 1s ease 0s;
-  -webkit-transition: opacity 1s ease 0s;
+  transition: all 1s ease 0s;
+  -webkit-transition: all 1s ease 0s;
 }
 
 .generate-notifier(@n, @i: 0) when (@i <= @n) {
   .notify[data-tyto-notify="@{i}"] {
-    animation: notify (@i * 1s);
-    -webkit-animation: notify (@i * 1s);
+    animation-name: notify (@i * 1s);
+    -webkit-animation-name: notify (@i * 1s);
   }
   .generate-notifier(@n, (@i + 1));
 }

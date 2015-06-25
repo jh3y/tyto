@@ -11,10 +11,15 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ###
 
-window.tyto = tyto = () ->
-  return new tyto() unless this instanceof tyto
+window.tyto = tyto = (opts) ->
+  return new tyto(opts) unless this instanceof tyto
   newTyto = this
-  newTyto.config = if window.localStorage.tyto isnt `undefined` then JSON.parse window.localStorage.tyto else tytoConfig
+  if window.localStorage.tyto isnt `undefined`
+    newTyto.config = JSON.parse window.localStorage.tyto
+  else if opts isnt `undefined`
+    newTyto.config = opts
+  else
+    newTyto.config = tytoConfig
   newTyto.modals = {}
   newTyto._autoSave = newTyto.config.autoSave
   $.when(
@@ -48,8 +53,10 @@ tyto::_buildBarn = () ->
   if config.DOMElementSelector isnt `undefined` or config.DOMId isnt `undefined`
     if config.DOMId isnt `undefined`
       tyto.element = $ '#' + config.DOMId
+      tyto.id = config.DOMId
     else
       tyto.element = $ config.DOMElementSelector
+      tyto.id = "barn"
     tyto.element.attr 'data-tyto', 'true'
     tyto.element.find('[data-action="addcolumn"]').on 'click', (e) ->
         tyto.addColumn()
@@ -86,7 +93,7 @@ tyto::_buildBarn = () ->
       handle: '.column-mover'
       placeholder: 'column-placeholder'
       axis: "x"
-      containment: "#barn"
+      containment: "#" + tyto.id
       opacity: 0.8
       start: (event, ui) ->
         tyto._movedItem = $ ui.item
@@ -133,7 +140,7 @@ tyto::_setUpLocalStorageAutoSave = ->
   $('body').on 'tyto:action', (event)->
     if tyto._autoSave
       throttle(->
-        tyto.saveBarn()
+        tyto.saveBarn JSON.stringify tyto._createBarnJSON()
       , 5000)
   tyto
 
@@ -156,7 +163,7 @@ tyto::_bindColumnEvents = ($column) ->
     connectWith: ".items"
     handle: ".item-mover"
     placeholder: "item-placeholder"
-    containment: "#barn"
+    containment: "#" + tyto.id
     opacity: 0.8
     revert: true
     start: (event, ui) ->
@@ -213,9 +220,9 @@ tyto::undoLast = ->
           ).before tyto.undo.item
         tyto._binditemEvents tyto.undo.item
       when 'move-item'
-        if (tyto.undo.itemIndex is 0 or
-          tyto.undo.itemIndex is tyto.undo.column.children('.tyto-item').length)
-            tyto.undo.column.append tyto.undo.item
+        if (tyto.undo.itemIndex is 0 and
+        tyto.undo.column.children('.tyto-item').length is 0)
+          tyto.undo.column.append tyto.undo.item
         else
           $(tyto.undo.column.
             children('.tyto-item')[tyto.undo.itemIndex]
@@ -242,7 +249,7 @@ tyto::undoLast = ->
       else
         console.log "tyto: no luck, you don't seem to be able to undo that"
     $('[data-action="undolast"]')
-      .removeClass('btn-info')
+      .removeClass('btn-info btn-default')
       .addClass('btn-disabled')
       .attr 'disabled', true
     tyto.notify 'undone', 2000
@@ -347,45 +354,14 @@ tyto::_binditemEvents = ($item) ->
       content: tyto._preEditItemContent
     tyto.notify 'item content edited', 2000
 
-tyto::saveBarn = (jsonString) ->
-  window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
+tyto::saveBarn = (jsonString = JSON.stringify(this._createBarnJSON())) ->
+  window.localStorage.setItem 'tyto', jsonString
   this.notify 'board saved', 2000
 
 tyto::deleteSave = ->
   window.localStorage.removeItem 'tyto'
   this.notify 'save deleted', 2000
 
-tyto::_bindActions = ->
-  tyto = this
-  actionMap =
-    additem: 'addItem'
-    addcolumn: 'addColumn'
-    exportbarn: 'exportBarn'
-    loadbarn: 'loadBarn'
-    emailbarn: 'emailBarn'
-    helpbarn: 'showHelp'
-    infobarn: 'showInfo'
-    undolast: 'undoLast'
-    savebarn: 'saveBarn'
-    deletesave: 'deleteSave'
-    wipeboard: 'wipeBoard'
-    toggleautosave: 'toggleAutoSave'
-  action = ""
-  $('.actions').on 'click', '[data-action]', (e) ->
-    action = e.target.dataset.action
-    tyto[actionMap[action]]()
-  # set up action event listener for tracking actions to undo
-  $('body').on 'tyto:action', (event) ->
-    tyto.undo.action = event.name
-    tyto.undo.column = event.DOMcolumn
-    tyto.undo.item = event.DOMitem
-    tyto.undo.columnIndex = event.columnIndex
-    tyto.undo.itemIndex = event.itemIndex
-    tyto.undo.editContent = event.content
-    $('[data-action="undolast"]')
-      .removeAttr('disabled')
-      .removeClass('btn-disabled')
-      .addClass 'btn-default'
 
 tyto::wipeBoard = ->
   if confirm 'are you really sure you wish to wipe your entire board?'
@@ -405,7 +381,7 @@ tyto::toggleAutoSave = ->
     tyto.notify 'auto-save: ON', 2000
   else
     tyto.notify 'auto-save: OFF', 2000
-  window.localStorage.setItem 'tyto', JSON.stringify tyto._createBarnJSON()
+  tyto.saveBarn JSON.stringify tyto._createBarnJSON()
 
 tyto::_resizeColumns = ->
   tyto = this
@@ -553,3 +529,36 @@ tyto::showInfo = ->
   if tyto.config.infoModalId
     tyto.modals.infoModal = $ '#' + tyto.config.infoModalId
     tyto.modals.infoModal.modal()
+
+tyto::_bindActions = ->
+  tyto = this
+  actionMap =
+    additem: 'addItem'
+    addcolumn: 'addColumn'
+    exportbarn: 'exportBarn'
+    loadbarn: 'loadBarn'
+    emailbarn: 'emailBarn'
+    helpbarn: 'showHelp'
+    infobarn: 'showInfo'
+    undolast: 'undoLast'
+    savebarn: 'saveBarn'
+    deletesave: 'deleteSave'
+    wipeboard: 'wipeBoard'
+    toggleautosave: 'toggleAutoSave'
+  action = ""
+  $('.actions').on 'click', '[data-action]', (e) ->
+    action = e.target.dataset.action
+    tyto[actionMap[action]]()
+  # set up action event listener for tracking actions to undo
+  $('body').on 'tyto:action', (event) ->
+    tyto.undo.action = event.name
+    tyto.undo.column = event.DOMcolumn
+    tyto.undo.item = event.DOMitem
+    tyto.undo.columnIndex = event.columnIndex
+    tyto.undo.itemIndex = event.itemIndex
+    tyto.undo.editContent = event.content
+    $('[data-action="undolast"]')
+      .removeAttr('disabled')
+      .removeClass('btn-disabled')
+      .addClass 'btn-default'
+  tyto
