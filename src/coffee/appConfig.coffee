@@ -28,14 +28,37 @@ appConfig = Marionette.Application.extend
 
   undoables: new Backbone.Collection(),
 
+  undone: (action) ->
+    ###
+
+      ??? Should all undone actions trigger an auto save??
+
+    ###
+
+    removeCol = (action) ->
+      Tyto.boardView.collection.remove action.model.id
+    actionsMap =
+      'ADD-COLUMN': removeCol
+
+    if actionsMap[action.action]
+      actionsMap[action.action](action)
+      true
+    else
+      false
+
+
   undo: ->
     if Tyto.undoables.length > 0
-      debugger
+      # Get the last collection item.
+      actionToUndo = Tyto.undoables.last()
+      # Undo it
+      if Tyto.undone actionToUndo.attributes
+        # Remove it from the collection
+        Tyto.undoables.pop()
 
   setUndoListener: ->
     Tyto.vent.on 'tyto:action', (e) ->
-      Tyto.undoables.add e
-      console.log Tyto.undoables
+      console.log Tyto.undoables.add e
     console.info '[tyto] listening for actions...'
     return
 

@@ -5,6 +5,13 @@ button#super-add Add a hard task
 button#delete-board Delete Board
 button#wipe-board Wipe Board
 button#email-board Email Board
+
+| <% if (undoables.length > 0) { %>
+button#undo Undo <%= undoables.length %>
+| <% } else { %>
+button#undo(disabled) Undo <%= undoables.length %>
+| <% } %>
+
 |<% if (columns.length > 0) { %>
 select#column-selector
   option --select a column--

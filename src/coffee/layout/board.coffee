@@ -4,6 +4,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
   tagName           : 'div'
   className         : 'board'
   template          : Tyto.templateStore.board
+  templateHelpers   : ->
+    undoables: Tyto.undoables
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: ->
@@ -17,6 +19,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     wipeBoard  : '#wipe-board'
     boardName  : '#board-name'
     superAdd   : '#super-add'
+    undoBtn    : '#undo'
+
   events:
     'click @ui.addColumn'  : 'addColumn'
     'click @ui.saveBoard'  : 'saveBoard'
@@ -24,6 +28,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.wipeBoard'  : 'wipeBoard'
     'blur @ui.boardName'   : 'updateName'
     'click @ui.superAdd'   : 'superAddTask'
+    'click @ui.undoBtn'    : 'undoLastAction'
+
+  undoLastAction: ->
+    Tyto.undo()
 
   initialize: ->
     board            = this
@@ -39,6 +47,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
       $('.column').css
         width: newWidth
       return
+
+    # This is needed to ensure that our undo button displays correctly
+    Tyto.undoables.on 'all', this.render
 
   onRender: ->
     if window.localStorage and !window.localStorage.tyto
@@ -71,7 +82,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
     Tyto.registerAction
       model : newCol
-      action: 'ADD'
+      action: 'ADD-COLUMN'
 
   saveBoard: ->
     this.model.set 'columns', this.collection
