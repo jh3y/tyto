@@ -1,12 +1,12 @@
 ![alt tag](https://travis-ci.org/jh3y/tyto.svg)
 
-tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/images/tyto.png)
+tyto ![alt tag](https://raw.github.com/jh3y/pics/master/src/images/tyto.png)
 ==
 __tyto__ is a completely configurable, extensible and customizable management and organisation tool (wow that's a mouthful!)
 ###demo/site
 just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto1.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto1.png)
 
 ###features
 * nice simple user interface for managing and organising
@@ -18,7 +18,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * sortable columns and items
 * etc.
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto6.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto6.gif)
 
 ###tyto has had a big overhaul
 after the great feedback it received previously on HN. New features have been added that people requested.
@@ -30,7 +30,7 @@ after the great feedback it received previously on HN. New features have been ad
 * __23/05/14__: V1.4.0 major overhaul of code as it's been some time. Moving away from requireJS and introducing bower instead for piling sources together via grunt.
 
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto8.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto8.gif)
 
 ###why tyto? what's it for?
 To be honest __tyto__ arose from my own and other members of my then team desiring something easy to organise and manage your own daily workflow. This could be something simple like the current development tasks on your plate or maybe the meetings you have scheduled in the current week coming. The ability to also share this is important.
@@ -39,7 +39,7 @@ It is true that most organisations have some form of tool for this exact problem
 
 This is why __tyto__ came about. It's simple to use, no accounts needed, you can configure it how you want, theme it and the source code isn't hard to grasp as the tech under the bonnet makes it very easy to understand therefore making it also easily extensible and customizable.
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto2.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto2.png)
 
 ###who 's it for?
 Initially, __tyto__ was intended for developers and project managers as an easy way to share current tasks and project progression.
@@ -64,7 +64,7 @@ Your data will be persisted in the browser using localStorage so you can close t
 
 If you want to move to a different browser or machine, simply use the __export__ action to export a json file which can be loaded in wherever you use __tyto__.
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto7.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto7.gif)
 
 As for a nice persistent workflow across devices, I haven't implemented accounts and it's not something I am keen on doing to be honest as I believe it takes away from __tyto__.
 
@@ -94,7 +94,7 @@ if you simply wish to host __tyto__ in your own environment you can do. I would 
 
 in most cases and ideally you will want to configure __tyto__ to your own needs and tweak it accordingly whether it be with styles and themes or you want to change the branding, html etc. To do this, the best way is to follow the instructions for developing against __tyto__ and then taking the output from this and pushing it to a desired environment or server.
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto3.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto3.png)
 
 ####configuration
 a nice feature of __tyto__ is how easily configurable it is. It handles this by having a config file that is shimmed for use with requireJS. This file is a javascript file that simply defines a block of json which is the configuration or options.
@@ -162,7 +162,7 @@ of course, the use of jade, less and coffeescript or any of the technology being
 ####templating
 using jade and handlebars has made it very easy to template html for __tyto__. this makes it also easy to extend or customize in a desirable way.
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto9.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto9.gif)
 
 ###roadmap and known needs
 * the documentation isn't great and in some ways not clear. this does mean that there are probably ways the implementation could be made simpler.
@@ -172,7 +172,7 @@ using jade and handlebars has made it very easy to template html for __tyto__. t
 * better responsive design for various devices in general.
 
 
-![alt tag](https://raw.github.com/jh3y/tyto/master/screenshots/tyto5.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/screenshots/tyto5.png)
 
 
 
