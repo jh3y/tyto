@@ -24,6 +24,15 @@ module.exports = Backbone.Marionette.ItemView.extend
     that.board  = that.getOption 'board'
     that.column = that.getOption 'column'
 
+    this.model.on 'change:description', (mod, newVal, opts) ->
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action  : 'EDIT-TASK'
+          model   : mod
+          property: 'description'
+          val     : that.oldDescription
+      that.render()
+
   deleteTask: ->
     this.trigger 'destroy:task', this.model.get('id')
 
@@ -60,5 +69,6 @@ module.exports = Backbone.Marionette.ItemView.extend
     this.model.set 'description', this.ui.description.text().trim()
 
   enableEditTask: ->
+    this.oldDescription = this.model.get 'description'
     this.ui.description.attr('contenteditable', true)
       .focus()

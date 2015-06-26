@@ -37,6 +37,7 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
     'RENAME-COLUMN' : resetProperty
     'ADD-TASK'      : removeEntity
     'REMOVE-TASK'   : addEntity
+    'EDIT-TASK'     : resetProperty
 
   undoables = []
 
