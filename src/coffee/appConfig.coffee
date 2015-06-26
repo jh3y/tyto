@@ -64,10 +64,10 @@ appConfig = Marionette.Application.extend
       cols = view.$el.find '.column'
       Tyto.reorder view, action.el, action.model, cols, action.startPos
 
-    renameCol = (action) ->
+    resetProperty = (e) ->
       # Here we simply need to grab the correct model and reset the name
       # The view should hopefully update for us.
-      action.model.set 'title', action.title
+      e.model.set e.property, e.val
 
 
     removeEntity = (e) ->
@@ -77,7 +77,7 @@ appConfig = Marionette.Application.extend
       'ADD-COLUMN'    : removeEntity
       'REMOVE-COLUMN' : addEntity
       'MOVE-COLUMN'   : putBackCol
-      'RENAME-COLUMN' : renameCol
+      'RENAME-COLUMN' : resetProperty
       'ADD-TASK'      : removeEntity
       'REMOVE-TASK'   : addEntity
 

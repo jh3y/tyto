@@ -24,8 +24,17 @@ module.exports = Backbone.Marionette.CompositeView.extend
     column: this
 
   initialize: ->
+    columnView = this
     tasks           = _.sortBy this.model.get('tasks'), 'ordinal'
     this.collection = new Tyto.Tasks.TaskList tasks
+
+    this.model.on 'change:title', (m, n, o) ->
+      Tyto.registerAction
+        action  : 'RENAME-COLUMN'
+        model   : m
+        property: 'title'
+        val     : columnView.oldTitle
+      columnView.render()
 
     this.collection.on 'add', (mod, col) ->
       Tyto.registerAction
@@ -65,15 +74,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
     return
 
   updateName: ->
-    col          = this.model
-    currentTitle = col.get 'title'
+    col           = this.model
+    this.oldTitle = col.get 'title'
     col.set 'title', @ui.columnName.text().trim()
-
-    Tyto.registerAction
-      action: 'RENAME-COLUMN'
-      model : col
-      title : currentTitle
-
     return
 
   addTask: ->
