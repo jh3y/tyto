@@ -37,6 +37,8 @@ appConfig = Marionette.Application.extend
             curOrd = m.get 'ordinal'
             if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
               m.set 'ordinal', curOrd + 1
+          else
+            m.set 'ordinal', newPos + 1
 
 
   importData: (d) ->

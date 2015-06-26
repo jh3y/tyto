@@ -10,29 +10,20 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
       # data objects before they can be rendered.
       a.model.set a.children, a.model.get(a.children).models
     idx = a.model.get('ordinal') - 1
-    col = new Tyto.Columns.Column a.model.attributes
+    col = a.model.clone()
     a.collection.add col,
       at    : idx
       ignore: true
 
-  putBackCol = (action) ->
-    Tyto.reorder action.view, action.mover, action.model, action.list, action.startPos
-    # Here need to reorder the items by their ID attribute.
-    # Reordering DOM elements... yay....
+  putBack = (action) ->
+    if action.destination and action.start and action.start.id isnt action.destination.id
+      # Need to send it home first before anything happens.
+      debugger
 
-    # NOTE this is by no means ideal but gets the job done and steers clear
-    # of hellish child view demons that arise when we call view.render()
+
+    Tyto.reorder action.view, action.mover, action.model, action.list, action.startPos
 
     action.view.reorder()
-
-    # colHolder = Tyto.boardView.$el.find '.columns'
-    # colHolder.empty()
-    # theOrder = action.view.collection.sortBy 'ordinal'
-    # _.forEach theOrder, (entity, order) ->
-    #   window.cV = cV = Tyto.boardView.children.findByModel(entity)
-    #   debugger
-      # colHolder.append cV.el
-      # cV.bindUIElements()
 
   resetProperty = (e) ->
     # Here we simply need to grab the correct model and reset the name
@@ -49,11 +40,12 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
   actionsMap =
     'ADD-COLUMN'    : removeEntity
     'REMOVE-COLUMN' : addEntity
-    'MOVE-COLUMN'   : putBackCol
+    'MOVE-COLUMN'   : putBack
     'RENAME-COLUMN' : resetProperty
     'ADD-TASK'      : removeEntity
     'REMOVE-TASK'   : addEntity
     'EDIT-TASK'     : resetProperty
+    'MOVE-TASK'     : putBack
 
   undoables = []
 
