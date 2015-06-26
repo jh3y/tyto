@@ -41,23 +41,25 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.listenTo Tyto.vent, 'setup:localStorage', ->
       this.ui.saveBoard.removeAttr 'disabled'
 
-    board.collection.on 'remove', (mod, col) ->
+    board.collection.on 'remove', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      Tyto.UndoHandler.register
-        action    : 'REMOVE-COLUMN'
-        model     : mod
-        collection: col
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'REMOVE-COLUMN'
+          model     : mod
+          collection: col
 
-    board.collection.on 'add', (mod, col) ->
+    board.collection.on 'add', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      Tyto.UndoHandler.register
-        action    : 'ADD-COLUMN'
-        id        : mod.id
-        collection: col
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'ADD-COLUMN'
+          id        : mod.id
+          collection: col
 
     board.on 'childview:destroy:column', (mod, id) ->
       board.collection.remove id

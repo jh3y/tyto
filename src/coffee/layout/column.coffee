@@ -29,24 +29,27 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.collection = new Tyto.Tasks.TaskList tasks
 
     this.model.on 'change:title', (m, n, o) ->
-      Tyto.UndoHandler.register
-        action  : 'RENAME-COLUMN'
-        model   : m
-        property: 'title'
-        val     : columnView.oldTitle
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action  : 'RENAME-COLUMN'
+          model   : m
+          property: 'title'
+          val     : columnView.oldTitle
       columnView.render()
 
-    this.collection.on 'add', (mod, col) ->
-      Tyto.UndoHandler.register
-        action    : 'ADD-TASK'
-        id        : mod.id
-        collection: col
+    this.collection.on 'add', (mod, col, opts) ->
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'ADD-TASK'
+          id        : mod.id
+          collection: col
 
-    this.collection.on 'remove', (mod, col) ->
-      Tyto.UndoHandler.register
-        action    : 'REMOVE-TASK'
-        model     : mod
-        collection: col
+    this.collection.on 'remove', (mod, col, opts) ->
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'REMOVE-TASK'
+          model     : mod
+          collection: col
 
     this.model.set 'tasks', this.collection
     this.on 'childview:destroy:task', (mod, id) ->

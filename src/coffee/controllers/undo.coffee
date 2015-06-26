@@ -23,7 +23,8 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
     e.model.set e.property, e.val
 
   removeEntity = (e) ->
-    e.collection.remove e.id
+    e.collection.remove e.id,
+      ignore: true
   # END UNDO OPS
 
 
@@ -39,7 +40,7 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
 
   register = (a) ->
     if actionsMap[a.action]
-      this.undoables.push a
+      undoables.push a
 
   isUndone = (action) ->
     if actionsMap[action.action]
