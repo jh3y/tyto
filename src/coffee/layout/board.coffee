@@ -89,7 +89,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
           action  : 'MOVE-COLUMN'
           startPos: startPos
           model   : columnModel
-          el      : mover
 
   addColumn: ->
     newCol = new Tyto.Columns.Column

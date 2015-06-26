@@ -53,7 +53,15 @@ module.exports = Backbone.Marionette.CompositeView.extend
     return
 
   updateName: ->
-    this.model.set 'title', @ui.columnName.text().trim()
+    col          = this.model
+    currentTitle = col.get 'title'
+    col.set 'title', @ui.columnName.text().trim()
+
+    Tyto.registerAction
+      action: 'RENAME-COLUMN'
+      model : col
+      title : currentTitle
+
     return
 
   addTask: ->
