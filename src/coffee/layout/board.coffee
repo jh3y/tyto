@@ -51,13 +51,21 @@ module.exports = Backbone.Marionette.CompositeView.extend
     # This is needed to ensure that our undo button displays correctly
     Tyto.undoables.on 'all', this.render
 
+  onBeforeRender: ->
+    # This ensures that even after moving a column that when we add
+    # something new that the ordinal property of each column is respected.
+    this.collection.models = this.collection.sortBy 'ordinal'
+
   onRender: ->
     if window.localStorage and !window.localStorage.tyto
       this.ui.saveBoard.attr 'disabled', true
     this.bindColumns()
 
   bindColumns: ->
-    self = this
+    self        = this
+    mover       = `undefined`
+    columnModel = `undefined`
+    columnList  = `undefined`
     this.$el.find('.columns').sortable
       connectWith: '.column',
       handle     : '.column--mover'
@@ -65,9 +73,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
       axis       : "x"
       containment: this.$el.find('.columns')
       opacity    : 0.8
-      stop       : (event, ui) ->
+      start      : (event, ui) ->
         mover       = ui.item[0]
         columnModel = self.collection.get ui.item.attr('data-col-id')
+      stop       : (event, ui) ->
+        # Grab the columm list inside the stop event so that the correct order
+        # is picked up.
         columnList  = Array.prototype.slice.call self.$el.find '.column'
         Tyto.reorder self, mover, columnModel, columnList
 
