@@ -3,9 +3,26 @@ appConfig = Marionette.Application.extend
     Backbone.history.navigate route, opts
   setRootLayout: ->
     this.root = new Tyto.Layout.Root()
-  reorder: (entity, item, model, list) ->
+
+  ###
+
+    @params
+    entity == view
+    item   == DOM element that has been moved
+    model  == the model that has been moved
+    list   == the full DOM list for sortable DOM element
+    newPos == useful for overriding the default behaviour(UNDOING MOVES)
+
+
+    For example; we may have the boardView where a column has been moved.
+    The model will be that associated with the moved column and the list
+    will be the sortable DOM elements, in this case "columns".
+
+  ###
+  reorder: (entity, item, model, list, newPos) ->
     oldPos = model.get 'ordinal'
-    newPos = list.indexOf(item) + 1
+    newPos = if (newPos) then newPos else list.indexOf(item) + 1
+
     if newPos isnt oldPos
       model.set 'ordinal', newPos
       if newPos > oldPos
@@ -43,9 +60,19 @@ appConfig = Marionette.Application.extend
       Tyto.boardView.collection.add action.model,
         at: idx
 
+    putBackCol = (action) ->
+      # The approach here is to make the view collection do the heavy lifting
+      # Therefore, we pass in an override to the reordering functionality that
+      # resets the ordinality of the model to the old starting position.
+      view = Tyto.boardView
+      cols = view.$el.find '.column'
+      Tyto.reorder view, action.el, action.model, cols, action.startPos
+
+
     actionsMap =
       'ADD-COLUMN'   : removeCol
       'REMOVE-COLUMN': addCol
+      'MOVE-COLUMN'  : putBackCol
 
     if actionsMap[action.action]
       actionsMap[action.action](action)

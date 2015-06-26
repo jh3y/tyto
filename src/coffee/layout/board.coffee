@@ -66,6 +66,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     mover       = `undefined`
     columnModel = `undefined`
     columnList  = `undefined`
+    startPos    = `undefined`
     this.$el.find('.columns').sortable
       connectWith: '.column',
       handle     : '.column--mover'
@@ -76,11 +77,19 @@ module.exports = Backbone.Marionette.CompositeView.extend
       start      : (event, ui) ->
         mover       = ui.item[0]
         columnModel = self.collection.get ui.item.attr('data-col-id')
+        startPos    = columnModel.get 'ordinal'
       stop       : (event, ui) ->
         # Grab the columm list inside the stop event so that the correct order
         # is picked up.
         columnList  = Array.prototype.slice.call self.$el.find '.column'
         Tyto.reorder self, mover, columnModel, columnList
+        # On a column move we want to put back in the right place and render.
+        # Either reset all ordinals by looping through the collection with columnList or some other way.
+        Tyto.registerAction
+          action  : 'MOVE-COLUMN'
+          startPos: startPos
+          model   : columnModel
+          el      : mover
 
   addColumn: ->
     newCol = new Tyto.Columns.Column
