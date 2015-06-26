@@ -79,6 +79,7 @@ appConfig = Marionette.Application.extend
       'MOVE-COLUMN'   : putBackCol
       'RENAME-COLUMN' : renameCol
       'ADD-TASK'      : removeEntity
+      'REMOVE-TASK'   : addEntity
 
     if actionsMap[action.action]
       actionsMap[action.action](action)

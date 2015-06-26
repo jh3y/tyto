@@ -33,6 +33,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
         id        : mod.id
         collection: col
 
+    this.collection.on 'remove', (mod, col) ->
+      Tyto.registerAction
+        action    : 'REMOVE-TASK'
+        model     : mod
+        collection: col
+
     this.model.set 'tasks', this.collection
     this.on 'childview:destroy:task', (mod, id) ->
       this.collection.remove id
