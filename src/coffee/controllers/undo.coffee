@@ -17,11 +17,17 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
 
     # NOTE this is by no means ideal but gets the job done and steers clear
     # of hellish child view demons that arise when we call view.render()
-    colHolder = Tyto.boardView.$el.find '.columns'
-    colHolder.empty()
-    theOrder = action.view.collection.sortBy 'ordinal'
-    _.forEach theOrder, (entity, order) ->
-      colHolder.append Tyto.boardView.children.findByModel(entity).el
+
+    action.view.reorder()
+
+    # colHolder = Tyto.boardView.$el.find '.columns'
+    # colHolder.empty()
+    # theOrder = action.view.collection.sortBy 'ordinal'
+    # _.forEach theOrder, (entity, order) ->
+    #   window.cV = cV = Tyto.boardView.children.findByModel(entity)
+    #   debugger
+      # colHolder.append cV.el
+      # cV.bindUIElements()
 
   resetProperty = (e) ->
     # Here we simply need to grab the correct model and reset the name

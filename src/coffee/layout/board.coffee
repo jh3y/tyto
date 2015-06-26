@@ -72,7 +72,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
     # something new that the ordinal property of each column is respected.
-    # debugger
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
