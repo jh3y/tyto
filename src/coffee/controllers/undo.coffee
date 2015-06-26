@@ -7,7 +7,8 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
   addEntity = (a) ->
     idx = a.model.get('ordinal') - 1
     a.collection.add a.model,
-      at: idx
+      at    : idx
+      ignore: true
 
   putBackCol = (action) ->
     # The approach here is to make the view collection do the heavy lifting
@@ -20,7 +21,8 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
   resetProperty = (e) ->
     # Here we simply need to grab the correct model and reset the name
     # The view should hopefully update for us.
-    e.model.set e.property, e.val
+    e.model.set e.property, e.val,
+      ignore: true
 
   removeEntity = (e) ->
     e.collection.remove e.id,
