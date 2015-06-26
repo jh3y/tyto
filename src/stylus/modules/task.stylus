@@ -1,2 +1,6 @@
 .task
   padding 10px
+
+
+.item-placeholder
+  margin 2px dotted black

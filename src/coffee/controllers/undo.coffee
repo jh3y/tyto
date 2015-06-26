@@ -11,12 +11,17 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
       ignore: true
 
   putBackCol = (action) ->
-    # The approach here is to make the view collection do the heavy lifting
-    # Therefore, we pass in an override to the reordering functionality that
-    # resets the ordinality of the model to the old starting position.
-    view = Tyto.boardView
-    cols = view.$el.find '.column'
-    Tyto.reorder view, action.el, action.model, cols, action.startPos
+    Tyto.reorder action.view, action.mover, action.model, action.list, action.startPos
+    # Here need to reorder the items by their ID attribute.
+    # Reordering DOM elements... yay....
+
+    # NOTE this is by no means ideal but gets the job done and steers clear
+    # of hellish child view demons that arise when we call view.render()
+    colHolder = Tyto.boardView.$el.find '.columns'
+    colHolder.empty()
+    theOrder = action.view.collection.sortBy 'ordinal'
+    _.forEach theOrder, (entity, order) ->
+      colHolder.append Tyto.boardView.children.findByModel(entity).el
 
   resetProperty = (e) ->
     # Here we simply need to grab the correct model and reset the name

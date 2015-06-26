@@ -19,10 +19,10 @@ appConfig = Marionette.Application.extend
     will be the sortable DOM elements, in this case "columns".
 
   ###
+
   reorder: (entity, item, model, list, newPos) ->
     oldPos = model.get 'ordinal'
     newPos = if (newPos) then newPos else list.indexOf(item) + 1
-
     if newPos isnt oldPos
       model.set 'ordinal', newPos
       if newPos > oldPos
@@ -37,7 +37,6 @@ appConfig = Marionette.Application.extend
             curOrd = m.get 'ordinal'
             if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
               m.set 'ordinal', curOrd + 1
-    entity.render()
 
 
   importData: (d) ->

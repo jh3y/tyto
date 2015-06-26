@@ -27,6 +27,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
     columnView = this
     tasks           = _.sortBy this.model.get('tasks'), 'ordinal'
     this.collection = new Tyto.Tasks.TaskList tasks
+    this.model.set 'tasks', this.collection
+
+    this.model.on 'change:ordinal', (mod, newVal, opts) ->
+      console.log 'ergerger'
+      columnView.render()
+
 
     this.model.on 'change:title', (model, newVal, opts) ->
       yap opts

@@ -22,6 +22,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     'dblclick @ui.description' : 'enableEditTask'
     'blur @ui.description'     : 'updateTask'
 
+  onBeforeRender: ->
+
   initialize: ->
     that        = this
     that.board  = that.getOption 'board'
@@ -53,6 +55,9 @@ module.exports = Backbone.Marionette.ItemView.extend
       Seems a little long winded but is necessary to ensure board is
       saved before doing a full edit on a newly created task.
     ###
+    # console.log 'brother gonna work it out'
+    # debugger
+    # # Whoah check this out I think....
     that      = this
     taskId    = that.model.get 'id'
     boardId   = that.board.get 'id'

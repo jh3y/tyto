@@ -5,3 +5,5 @@ module.exports = (Columns, App, Backbone) ->
 
   Columns.ColumnList = Backbone.Collection.extend
     model: Columns.Column
+    comparator: (col) ->
+      col.get 'ordinal'

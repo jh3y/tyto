@@ -1,3 +1,22 @@
 .column
   display inline-block
   vertical-align top
+
+
+.column-placeholder
+  margin 2px solid black
+
+
+.item-placeholder
+  border 1px dashed #888
+  height 100px
+  width  90%
+  margin 0em auto 1em auto
+
+.column-placeholder
+  border 1px dashed #888
+  display inline-block
+  width 100px
+  margin 0 1em
+  height 100%
+  vertical-align top

@@ -9,9 +9,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: ->
-    boardView  : this
-    board      : this.model
-    siblings   : this.collection
+    boardView = this
+    boardView  : boardView
+    board      : boardView.model
+    siblings   : boardView.collection
   ui:
     addColumn  : '#add-column'
     saveBoard  : '#save-board'
@@ -71,11 +72,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
     # something new that the ordinal property of each column is respected.
+    # debugger
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
-    if window.localStorage and !window.localStorage.tyto
-      this.ui.saveBoard.attr 'disabled', true
+    # if window.localStorage and !window.localStorage.tyto
+    #   this.ui.saveBoard.attr 'disabled', true
     this.bindColumns()
 
 
@@ -100,13 +102,28 @@ module.exports = Backbone.Marionette.CompositeView.extend
         # Grab the columm list inside the stop event so that the correct order
         # is picked up.
         columnList  = Array.prototype.slice.call self.$el.find '.column'
+        # ::IMPORTANT:: Something buggy about this call. Maybe only call if has been moved???
+        # if columnList.indexOf(mover) isnt (columnModel.get('ordinal') - 1)
+
+        # Can calculate the ordinal right here...
+        # console.log mover, self, columnModel.id, columnList
+        # columnModel.set('ordinal', columnList.indexOf(mover) + 1)
+
         Tyto.reorder self, mover, columnModel, columnList
+
+
+        # this.model.set 'columns', this.collection
+
         # On a column move we want to put back in the right place and render.
         # Either reset all ordinals by looping through the collection with columnList or some other way.
+
         Tyto.UndoHandler.register
           action  : 'MOVE-COLUMN'
           startPos: startPos
+          mover   : mover
           model   : columnModel
+          list: columnList
+          view: self
 
   addColumn: ->
     newCol = new Tyto.Columns.Column
@@ -115,6 +132,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.collection.add newCol
 
   saveBoard: ->
+    # Seems saving the board will be much more complicated than thought...
+    # May have to recurse over the children getting theirs...
     this.model.set 'columns', this.collection
     this.model.save()
 
