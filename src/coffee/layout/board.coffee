@@ -5,7 +5,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   className         : 'board'
   template          : Tyto.templateStore.board
   templateHelpers   : ->
-    undoables: Tyto.undoables
+    undoables: Tyto.UndoHandler.undoables
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: ->
@@ -31,7 +31,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.undoBtn'    : 'undoLastAction'
 
   undoLastAction: ->
-    Tyto.undo()
+    Tyto.UndoHandler.undo()
 
   initialize: ->
     board            = this
@@ -45,7 +45,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      Tyto.registerAction
+      Tyto.UndoHandler.register
         action    : 'REMOVE-COLUMN'
         model     : mod
         collection: col
@@ -54,7 +54,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      Tyto.registerAction
+      Tyto.UndoHandler.register
         action    : 'ADD-COLUMN'
         id        : mod.id
         collection: col
@@ -101,7 +101,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
         Tyto.reorder self, mover, columnModel, columnList
         # On a column move we want to put back in the right place and render.
         # Either reset all ordinals by looping through the collection with columnList or some other way.
-        Tyto.registerAction
+        Tyto.UndoHandler.register
           action  : 'MOVE-COLUMN'
           startPos: startPos
           model   : columnModel
