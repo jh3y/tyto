@@ -37,8 +37,15 @@ appConfig = Marionette.Application.extend
 
     removeCol = (action) ->
       Tyto.boardView.collection.remove action.model.id
+
+    addCol    = (action) ->
+      idx = action.model.get('ordinal') - 1
+      Tyto.boardView.collection.add action.model,
+        at: idx
+
     actionsMap =
-      'ADD-COLUMN': removeCol
+      'ADD-COLUMN'   : removeCol
+      'REMOVE-COLUMN': addCol
 
     if actionsMap[action.action]
       actionsMap[action.action](action)

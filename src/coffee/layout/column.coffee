@@ -64,6 +64,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
     return
 
   deleteColumn: ->
-    id = parseInt this.model.get('id'), 10
+    col = this.model
+    id  = parseInt col.get('id'), 10
     this.trigger 'destroy:column', id
+    Tyto.registerAction
+      action: 'REMOVE-COLUMN'
+      model : col
     return
