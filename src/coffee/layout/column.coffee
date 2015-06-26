@@ -27,6 +27,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
     tasks           = _.sortBy this.model.get('tasks'), 'ordinal'
     this.collection = new Tyto.Tasks.TaskList tasks
 
+    this.collection.on 'add', (mod, col) ->
+      Tyto.registerAction
+        action    : 'ADD-TASK'
+        id        : mod.id
+        collection: col
+
     this.model.set 'tasks', this.collection
     this.on 'childview:destroy:task', (mod, id) ->
       this.collection.remove id
@@ -65,17 +71,15 @@ module.exports = Backbone.Marionette.CompositeView.extend
     return
 
   addTask: ->
+    newId   = _.uniqueId()
     newTask = new Tyto.Tasks.Task
-      id     : _.uniqueId()
+      id     : newId
       ordinal: this.collection.length + 1
+
     this.collection.add newTask
-    return
 
   deleteColumn: ->
     col = this.model
     id  = parseInt col.get('id'), 10
     this.trigger 'destroy:column', id
-    Tyto.registerAction
-      action: 'REMOVE-COLUMN'
-      model : col
     return

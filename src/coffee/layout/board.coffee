@@ -41,15 +41,30 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.listenTo Tyto.vent, 'setup:localStorage', ->
       this.ui.saveBoard.removeAttr 'disabled'
 
-    board.on 'childview:destroy:column', (mod, id) ->
-      board.collection.remove id
+    board.collection.on 'remove', (mod, col) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
+      Tyto.registerAction
+        action    : 'REMOVE-COLUMN'
+        model     : mod
+        collection: col
+
+    board.collection.on 'add', (mod, col) ->
+      newWidth = (100 / board.collection.length) + '%'
+      $('.column').css
+        width: newWidth
+      Tyto.registerAction
+        action    : 'ADD-COLUMN'
+        id        : mod.id
+        collection: col
+
+    board.on 'childview:destroy:column', (mod, id) ->
+      board.collection.remove id
       return
 
     # This is needed to ensure that our undo button displays correctly
-    Tyto.undoables.on 'all', this.render
+    # Tyto.undoables.on 'all', this.render
 
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
@@ -60,6 +75,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     if window.localStorage and !window.localStorage.tyto
       this.ui.saveBoard.attr 'disabled', true
     this.bindColumns()
+
 
   bindColumns: ->
     self        = this
@@ -95,13 +111,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
       id     : _.uniqueId()
       ordinal: this.collection.length + 1
     this.collection.add newCol
-    newWidth = (100 / this.collection.length) + '%'
-    $('.column').css
-      width: newWidth
-
-    Tyto.registerAction
-      model : newCol
-      action: 'ADD-COLUMN'
 
   saveBoard: ->
     this.model.set 'columns', this.collection

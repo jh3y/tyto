@@ -6,8 +6,8 @@ button#delete-board Delete Board
 button#wipe-board Wipe Board
 button#email-board Email Board
 
-| <% if (undoables.length > 0) { %>
 button#undo Undo <%= undoables.length %>
+| <% if (undoables.length > 0) { %>
 | <% } else { %>
 button#undo(disabled) Undo <%= undoables.length %>
 | <% } %>
@@ -19,5 +19,7 @@ select#column-selector
   option(value!="<%= i.id %>") <%= i.title %>
   |<% }) %>
 |<% } %>
+
+
 div#board-name(contenteditable="true")<%= title %>
 .columns

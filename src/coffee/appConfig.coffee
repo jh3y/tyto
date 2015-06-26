@@ -40,10 +40,9 @@ appConfig = Marionette.Application.extend
 
 
   registerAction: (d) ->
-    Tyto.vent.trigger 'tyto:action', d
-    return
+    Tyto.undoables.push d
 
-  undoables: new Backbone.Collection(),
+  undoables: [],
 
   undone: (action) ->
     ###
@@ -52,12 +51,9 @@ appConfig = Marionette.Application.extend
 
     ###
 
-    removeCol = (action) ->
-      Tyto.boardView.collection.remove action.model.id
-
-    addCol    = (action) ->
-      idx = action.model.get('ordinal') - 1
-      Tyto.boardView.collection.add action.model,
+    addEntity    = (e) ->
+      idx = e.model.get('ordinal') - 1
+      e.collection.add e.model,
         at: idx
 
     putBackCol = (action) ->
@@ -74,11 +70,15 @@ appConfig = Marionette.Application.extend
       action.model.set 'title', action.title
 
 
+    removeEntity = (e) ->
+      e.collection.remove e.id
+
     actionsMap =
-      'ADD-COLUMN'    : removeCol
-      'REMOVE-COLUMN' : addCol
+      'ADD-COLUMN'    : removeEntity
+      'REMOVE-COLUMN' : addEntity
       'MOVE-COLUMN'   : putBackCol
       'RENAME-COLUMN' : renameCol
+      'ADD-TASK'      : removeEntity
 
     if actionsMap[action.action]
       actionsMap[action.action](action)
@@ -90,17 +90,12 @@ appConfig = Marionette.Application.extend
   undo: ->
     if Tyto.undoables.length > 0
       # Get the last collection item.
-      actionToUndo = Tyto.undoables.last()
+      actionToUndo = Tyto.undoables[Tyto.undoables.length - 1]
       # Undo it
-      if Tyto.undone actionToUndo.attributes
+      if Tyto.undone actionToUndo
         # Remove it from the collection
         Tyto.undoables.pop()
 
-  setUndoListener: ->
-    Tyto.vent.on 'tyto:action', (e) ->
-      console.log Tyto.undoables.add e
-    console.info '[tyto] listening for actions...'
-    return
 
   importData: (d) ->
     ###
