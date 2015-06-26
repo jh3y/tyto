@@ -1,3 +1,7 @@
 button.delete Delete
 button.edit Edit Task
+div <%= id %>
+|<% if (title) { %>
+div.tyto--task-title       <%= title %>
+|<% } %>
 div.tyto--task-description <%= description %>

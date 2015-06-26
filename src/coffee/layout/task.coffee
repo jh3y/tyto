@@ -13,9 +13,12 @@ module.exports = Backbone.Marionette.ItemView.extend
     deleteTask   : '.delete'
     editTask     : '.edit'
     description  : '.tyto--task-description'
+    title        : '.tyto--task-title'
   events:
     'click @ui.deleteTask'     : 'deleteTask'
     'click @ui.editTask'       : 'saveAndEdit'
+    'dblclick @ui.title'       : 'enableEditTaskTitle'
+    'blur @ui.title'           : 'updateTaskTitle'
     'dblclick @ui.description' : 'enableEditTask'
     'blur @ui.description'     : 'updateTask'
 
@@ -31,6 +34,15 @@ module.exports = Backbone.Marionette.ItemView.extend
           model   : mod
           property: 'description'
           val     : that.oldDescription
+      that.render()
+
+    this.model.on 'change:title', (mod, newVal, opts) ->
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action  : 'EDIT-TASK'
+          model   : mod
+          property: 'title'
+          val     : that.oldTitle
       that.render()
 
   deleteTask: ->
@@ -71,4 +83,13 @@ module.exports = Backbone.Marionette.ItemView.extend
   enableEditTask: ->
     this.oldDescription = this.model.get 'description'
     this.ui.description.attr('contenteditable', true)
+      .focus()
+
+  updateTaskTitle: ->
+    this.ui.title.removeAttr 'contenteditable'
+    this.model.set 'title', this.ui.title.text().trim()
+
+  enableEditTaskTitle: ->
+    this.oldTitle = this.model.get 'title'
+    this.ui.title.attr('contenteditable', true)
       .focus()
