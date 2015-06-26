@@ -51,6 +51,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
           action    : 'REMOVE-COLUMN'
           model     : mod
           collection: col
+          children  : 'tasks'
 
     board.collection.on 'add', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
@@ -75,8 +76,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
-    # if window.localStorage and !window.localStorage.tyto
-    #   this.ui.saveBoard.attr 'disabled', true
+    if window.localStorage and !window.localStorage.tyto
+      this.ui.saveBoard.attr 'disabled', true
     this.bindColumns()
 
 

@@ -30,7 +30,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.model.set 'tasks', this.collection
 
     this.model.on 'change:ordinal', (mod, newVal, opts) ->
-      console.log 'ergerger'
       columnView.render()
 
 
@@ -58,7 +57,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
           model     : mod
           collection: col
 
-    this.model.set 'tasks', this.collection
+
     this.on 'childview:destroy:task', (mod, id) ->
       this.collection.remove id
 

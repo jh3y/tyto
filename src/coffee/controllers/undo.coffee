@@ -5,8 +5,13 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
 
   ###
   addEntity = (a) ->
+    if a.children
+      # Safety catch for child views that need to be casted back to plain
+      # data objects before they can be rendered.
+      a.model.set a.children, a.model.get(a.children).models
     idx = a.model.get('ordinal') - 1
-    a.collection.add a.model,
+    col = new Tyto.Columns.Column a.model.attributes
+    a.collection.add col,
       at    : idx
       ignore: true
 
