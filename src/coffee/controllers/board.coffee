@@ -88,24 +88,24 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
         App.navigate '/'
 
     editTask: (bId, tId, isNew) ->
-      console.log 'do some janky stuff to get the task edit working here.'
-      # board = this.boardList.get bId
-      # newEdit = `undefined`
-      # this.editModel = `undefined`
-      # _.forEach board.get('columns'), (col) ->
-      #   result = _.findWhere col.tasks,
-      #     id: tId
-      #   if result isnt `undefined`
-      #     newEdit = result
-      # this.editModel = new Tyto.Tasks.Task newEdit
-      # isNew          = if (isNew is null) then false else true
-      # yap newEdit, this.editModel
-      # Tyto.editView  = new App.Layout.Edit
-      #   model  : this.editModel
-      #   boardId: bId
-      #   isNew  : isNew
-      # App.root.showChildView 'content', Tyto.editView
-      return
+      board = Tyto.boardList.get bId
+      renderTask = ->
+        task = Tyto.taskList.get tId
+        Tyto.editView  = new App.Layout.Edit
+          model  : task
+          boardId: bId
+          isNew  : isNew
+        debugger
+        App.root.showChildView 'content', Tyto.editView
+
+      Tyto.columnList.fetch().done (d) ->
+        if Tyto.taskList.get(tId) is `undefined`
+          Tyto.taskList.fetch().done ->
+            console.log 'has to fetch first'
+            renderTask()
+        else
+          console.log 'alredy got it'
+          renderTask()
 
   # Here just instantiate controller and start it up
   App.on 'start', ->

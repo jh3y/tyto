@@ -20,33 +20,30 @@ appConfig = Marionette.Application.extend
 
   ###
 
-  reorder: (entity, item, model, list, newPos, calibrate) ->
+  reorder: (entity, item, model, list, newPos) ->
     oldPos = model.get 'ordinal'
     newPos = if (newPos) then newPos else list.indexOf(item) + 1
 
-    # Calibration is necessary due to the awkward nature of tasks that will happily swap in and out of columns etc.
-
-    if calibrate
-      entity.collection.reorder()
-      _.forEach list, (el) ->
-        debugger
-    else if newPos isnt oldPos
+    if newPos isnt oldPos
       model.set 'ordinal', newPos
-      if newPos > oldPos
-        _.forEach entity.collection.models, (m) ->
-          if m.get('id') isnt model.get('id')
-            curOrd = m.get 'ordinal'
-            if (curOrd > oldPos and curOrd < newPos) or curOrd is oldPos or curOrd is newPos
-              m.set 'ordinal', curOrd - 1
-      else
-        _.forEach entity.collection.models, (m) ->
-          if m.get('id') isnt model.get('id')
-            curOrd = m.get 'ordinal'
-            if (curOrd > newPos and curOrd < oldPos) or curOrd is newPos or curOrd is oldPos
-              m.set 'ordinal', curOrd + 1
-          else
-            m.set 'ordinal', newPos + 1
+      model.save()
+      ###
+        Iterate over the sibling models recalibrating them.
 
+        NOTE: In a real world scenario w/ a backend. Posiition calibration of
+        models wouldn't be handled with several AJAX requests using model.save()
+
+      ###
+      _.forEach entity.collection.models, (m) ->
+        if m.id isnt model.get('id')
+          curOrd = m.get 'ordinal'
+          # If moving item from R -> L or B -> T
+          if (newPos < oldPos) and (curOrd > (newPos - 1) and curOrd < oldPos)
+            m.set 'ordinal', curOrd + 1
+          # If moving item from L -> R or T -> B
+          else if (newPos > oldPos) and (curOrd > oldPos and curOrd < (newPos + 1))
+            m.set 'ordinal', curOrd - 1
+          m.save()
 
   importData: (d) ->
     ###

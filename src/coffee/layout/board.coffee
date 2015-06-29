@@ -18,7 +18,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
     siblings   : boardView.collection
   ui:
     addColumn  : '#add-column'
-    saveBoard  : '#save-board'
     deleteBoard: '#delete-board'
     wipeBoard  : '#wipe-board'
     boardName  : '#board-name'
@@ -27,7 +26,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   events:
     'click @ui.addColumn'  : 'addColumn'
-    'click @ui.saveBoard'  : 'saveBoard'
     'click @ui.deleteBoard': 'deleteBoard'
     'click @ui.wipeBoard'  : 'wipeBoard'
     'blur @ui.boardName'   : 'updateName'
@@ -39,14 +37,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   initialize: ->
     board            = this
-    # NOTE this has been moved to being bootstrapped into the controller where
-    #  it should really be
-    #
-    # cols             = _.sortBy board.model.get('columns'), 'ordinal'
-    # board.collection = new Tyto.Columns.ColumnList cols
 
-    this.listenTo Tyto.vent, 'setup:localStorage', ->
-      this.ui.saveBoard.removeAttr 'disabled'
 
     board.collection.on 'remove', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
@@ -78,8 +69,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
-    if window.localStorage and !window.localStorage.tyto
-      this.ui.saveBoard.attr 'disabled', true
     this.bindColumns()
 
 
@@ -101,23 +90,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
         columnModel = self.collection.get ui.item.attr('data-col-id')
         startPos    = columnModel.get 'ordinal'
       stop       : (event, ui) ->
-        # Grab the columm list inside the stop event so that the correct order
-        # is picked up.
         columnList  = Array.prototype.slice.call self.$el.find '.column'
-        # ::IMPORTANT:: Something buggy about this call. Maybe only call if has been moved???
-        # if columnList.indexOf(mover) isnt (columnModel.get('ordinal') - 1)
-
-        # Can calculate the ordinal right here...
-        # console.log mover, self, columnModel.id, columnList
-        # columnModel.set('ordinal', columnList.indexOf(mover) + 1)
 
         Tyto.reorder self, mover, columnModel, columnList
-
-
-        # this.model.set 'columns', this.collection
-
-        # On a column move we want to put back in the right place and render.
-        # Either reset all ordinals by looping through the collection with columnList or some other way.
 
         # Tyto.UndoHandler.register
         #   action  : 'MOVE-COLUMN'
@@ -139,40 +114,34 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
     this.collection.add newCol
 
-  saveBoard: ->
-    # NOTE save board isn't really necessary as the columns and models are
-    # updated as we go along...
-
-    # Seems saving the board will be much more complicated than thought...
-    # May have to recurse over the children getting theirs...
-    # this.model.set 'columns', this.collection
-
-    # Iterate over the collection saving them right?
-    # this.model.save()
-
   updateName: ->
     this.model.set 'title', @ui.boardName.text().trim()
     this.model.save()
 
   superAddTask: ->
-    yap 'lets create'
+    board = this.model
     newTask = new Tyto.Tasks.Task
       id     : _.uniqueId()
       ordinal: this.collection.length + 1
-    Tyto.vent.trigger 'hard-task:add', newTask
+      boardId: board.id
+
+    # NOTE localStorage usage must've been accepted by this point
+    newTask.save()
+
+    Tyto.taskList.add newTask
+
+    Tyto.navigate '#board/' + board.id + '/task/' + newTask.id, true
 
   deleteBoard: ->
     view = this
-    # Needs to be revisited to ensure all things owned by a board are destroyed also. This would normally be handled via a back end yes...
     view.wipeBoard()
-    this.model.destroy()
-    this.destroy()
+    view.model.destroy()
+    view.destroy()
     Tyto.navigate '/',
       trigger: true
 
   wipeBoard: ->
     view = this
-    # I am not sure this really covers it because you need to also destroy those entities.
     if confirm 'are you sure???'
       view.children.forEach (colView) ->
         colView.collection.forEach (taskModel) ->
