@@ -4,31 +4,40 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       'board/:board'                        : 'showBoard'
       'board/:board/task/:task'             : 'editTask'
       'board/:board/task/:task?fresh=:isNew': 'editTask'
+      '*path'                               : 'defaultDrop'
 
   BoardList.Controller = Marionette.Controller.extend
     initialize: ->
       this.boardList = App.boardList
       return
+
+    defaultDrop: ->
+      console.info 'fired me'
+
     start: ->
       that = this
       this.showMenu this.boardList
-      this.showCookieBanner()
 
-      this.listenTo Tyto.vent, 'setup:localStorage', ->
-        window.localStorage.setItem 'tyto', true
-        Tyto.CookieBannerView.destroy()
-        Tyto.root.removeRegion 'cookie'
-        $('#cookie-banner').remove()
-        this.setUpAutoSave()
+      # this.showCookieBanner()
 
-      this.listenTo Tyto.vent, 'hard-task:add', (newMod) ->
-        console.info 'create a new task and direct me to it', newMod
+      # this.listenTo Tyto.vent, 'setup:localStorage', ->
+      #   window.localStorage.setItem 'tyto', true
+      #   Tyto.CookieBannerView.destroy()
+      #   Tyto.root.removeRegion 'cookie'
+      #   $('#cookie-banner').remove()
+      #   this.setUpAutoSave()
+      #
+      # this.listenTo Tyto.vent, 'hard-task:add', (newMod) ->
+      #   console.info 'create a new task and direct me to it', newMod
 
-      if this.boardList.length > 0 and window.location.hash is ''
-        Tyto.vent.on 'history:started', ->
-          id = that.boardList.first().get 'id'
-          App.navigate 'board/' + id,
-            trigger: true
+
+
+      # NOTE THIS PIECE SHOULD BELONG IN THE DEFAULT ROUTE...
+      # if this.boardList.length > 0 and window.location.hash is ''
+      #   Tyto.vent.on 'history:started', ->
+      #     id = that.boardList.first().get 'id'
+      #     App.navigate 'board/' + id,
+      #       trigger: true
 
       return
 
@@ -59,34 +68,46 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       return
 
     showBoard: (id) ->
+      # On a show board. Need to pull in all the columns and tasks for a board
+      # And send them through to the view...
       model = this.boardList.get id
       if model isnt `undefined`
-        Tyto.boardView = new App.Layout.Board
-          model: model
-        App.root.showChildView 'content', Tyto.boardView
-        return
+        Tyto.columnList.fetch().done (d) ->
+          Tyto.taskList.fetch().done (d) ->
+            cols = Tyto.columnList.where
+              boardId: model.id
+            tasks = Tyto.taskList.where
+              boardId: model.id
+            Tyto.boardView = new App.Layout.Board
+              model: model
+              collection: new Tyto.Columns.ColumnList cols
+              options:
+                tasks: new Tyto.Tasks.TaskList tasks
+            App.root.showChildView 'content', Tyto.boardView
       else
         App.navigate '/'
 
     editTask: (bId, tId, isNew) ->
-      board = this.boardList.get bId
-      newEdit = `undefined`
-      this.editModel = `undefined`
-      _.forEach board.get('columns'), (col) ->
-        result = _.findWhere col.tasks,
-          id: tId
-        if result isnt `undefined`
-          newEdit = result
-      this.editModel = new Tyto.Tasks.Task newEdit
-      isNew          = if (isNew is null) then false else true
-      yap newEdit, this.editModel
-      Tyto.editView  = new App.Layout.Edit
-        model  : this.editModel
-        boardId: bId
-        isNew  : isNew
-      App.root.showChildView 'content', Tyto.editView
+      console.log 'do some janky stuff to get the task edit working here.'
+      # board = this.boardList.get bId
+      # newEdit = `undefined`
+      # this.editModel = `undefined`
+      # _.forEach board.get('columns'), (col) ->
+      #   result = _.findWhere col.tasks,
+      #     id: tId
+      #   if result isnt `undefined`
+      #     newEdit = result
+      # this.editModel = new Tyto.Tasks.Task newEdit
+      # isNew          = if (isNew is null) then false else true
+      # yap newEdit, this.editModel
+      # Tyto.editView  = new App.Layout.Edit
+      #   model  : this.editModel
+      #   boardId: bId
+      #   isNew  : isNew
+      # App.root.showChildView 'content', Tyto.editView
       return
 
+  # Here just instantiate controller and start it up
   App.on 'start', ->
     Tyto.controller        = new BoardList.Controller()
     Tyto.controller.router = new BoardList.Router

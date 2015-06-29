@@ -3,6 +3,7 @@ module.exports = (Boards, App, Backbone) ->
     defaults:
       title: 'New Board'
       columns: []
+    localStorage: new Backbone.LocalStorage 'tyto--board'
 
   Boards.BoardList = Backbone.Collection.extend
     localStorage: new Backbone.LocalStorage 'tyto--board'

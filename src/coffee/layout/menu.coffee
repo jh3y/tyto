@@ -63,6 +63,10 @@ module.exports =  Backbone.Marionette.ItemView.extend
   addBoard: ->
     newBoard = new Tyto.Boards.Board
       id: _.uniqueId()
+
+    # Save the board instantly
+    newBoard.save()
+
     Tyto.boardList.add newBoard
     this.showBoard newBoard.get('id')
     return

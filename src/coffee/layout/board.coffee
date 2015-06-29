@@ -8,8 +8,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
     undoables: Tyto.UndoHandler.undoables
   childView         : Column
   childViewContainer: '.columns'
-  childViewOptions: ->
+  childViewOptions: (c) ->
+    colTasks = Tyto.taskList.where
+      columnId: c.id
     boardView = this
+    collection : new Tyto.Tasks.TaskList colTasks
     boardView  : boardView
     board      : boardView.model
     siblings   : boardView.collection
@@ -36,8 +39,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   initialize: ->
     board            = this
-    cols             = _.sortBy board.model.get('columns'), 'ordinal'
-    board.collection = new Tyto.Columns.ColumnList cols
+    # NOTE this has been moved to being bootstrapped into the controller where
+    #  it should really be
+    #
+    # cols             = _.sortBy board.model.get('columns'), 'ordinal'
+    # board.collection = new Tyto.Columns.ColumnList cols
 
     this.listenTo Tyto.vent, 'setup:localStorage', ->
       this.ui.saveBoard.removeAttr 'disabled'
@@ -46,26 +52,22 @@ module.exports = Backbone.Marionette.CompositeView.extend
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'REMOVE-COLUMN'
-          model     : mod
-          collection: col
-          children  : 'tasks'
+      # if !opts.ignore
+      #   Tyto.UndoHandler.register
+      #     action    : 'REMOVE-COLUMN'
+      #     model     : mod
+      #     collection: col
+      #     children  : 'tasks'
 
     board.collection.on 'add', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'ADD-COLUMN'
-          id        : mod.id
-          collection: col
-
-    board.on 'childview:destroy:column', (mod, id) ->
-      board.collection.remove id
-      return
+      # if !opts.ignore
+      #   Tyto.UndoHandler.register
+      #     action    : 'ADD-COLUMN'
+      #     id        : mod.id
+      #     collection: col
 
     # This is needed to ensure that our undo button displays correctly
     # Tyto.undoables.on 'all', this.render
@@ -117,28 +119,40 @@ module.exports = Backbone.Marionette.CompositeView.extend
         # On a column move we want to put back in the right place and render.
         # Either reset all ordinals by looping through the collection with columnList or some other way.
 
-        Tyto.UndoHandler.register
-          action  : 'MOVE-COLUMN'
-          startPos: startPos
-          mover   : mover
-          model   : columnModel
-          list: columnList
-          view: self
+        # Tyto.UndoHandler.register
+        #   action  : 'MOVE-COLUMN'
+        #   startPos: startPos
+        #   mover   : mover
+        #   model   : columnModel
+        #   list: columnList
+        #   view: self
 
   addColumn: ->
+    board = this.model
     newCol = new Tyto.Columns.Column
       id     : _.uniqueId()
+      boardId: board.id
       ordinal: this.collection.length + 1
+
+    # NOTE localStorage use must have been accepted.
+    newCol.save()
+
     this.collection.add newCol
 
   saveBoard: ->
+    # NOTE save board isn't really necessary as the columns and models are
+    # updated as we go along...
+
     # Seems saving the board will be much more complicated than thought...
     # May have to recurse over the children getting theirs...
-    this.model.set 'columns', this.collection
-    this.model.save()
+    # this.model.set 'columns', this.collection
+
+    # Iterate over the collection saving them right?
+    # this.model.save()
 
   updateName: ->
     this.model.set 'title', @ui.boardName.text().trim()
+    this.model.save()
 
   superAddTask: ->
     yap 'lets create'
@@ -148,11 +162,20 @@ module.exports = Backbone.Marionette.CompositeView.extend
     Tyto.vent.trigger 'hard-task:add', newTask
 
   deleteBoard: ->
+    view = this
+    # Needs to be revisited to ensure all things owned by a board are destroyed also. This would normally be handled via a back end yes...
+    view.wipeBoard()
     this.model.destroy()
     this.destroy()
     Tyto.navigate '/',
       trigger: true
 
   wipeBoard: ->
-    this.collection.reset()
+    view = this
+    # I am not sure this really covers it because you need to also destroy those entities.
+    if confirm 'are you sure???'
+      view.children.forEach (colView) ->
+        colView.collection.forEach (taskModel) ->
+          taskModel.destroy()
+        colView.model.destroy()
     return

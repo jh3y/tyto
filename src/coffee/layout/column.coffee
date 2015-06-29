@@ -9,6 +9,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
   template  : Tyto.templateStore.column
   childView : Task
   childViewContainer: '.tasks'
+  collection: ->
+    debugger
   events    :
     'click @ui.deleteColumn': 'deleteColumn'
     'click @ui.addTask'     : 'addTask'
@@ -25,9 +27,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   initialize: ->
     columnView = this
-    tasks           = _.sortBy this.model.get('tasks'), 'ordinal'
-    this.collection = new Tyto.Tasks.TaskList tasks
-    this.model.set 'tasks', this.collection
+    # tasks           = _.sortBy this.model.get('tasks'), 'ordinal'
+    # this.collection = new Tyto.Tasks.TaskList tasks
+    # this.model.set 'tasks', this.collection
 
     this.model.on 'change:ordinal', (mod, newVal, opts) ->
       columnView.render()
@@ -35,34 +37,38 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
     this.model.on 'change:title', (model, newVal, opts) ->
       yap opts
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action  : 'RENAME-COLUMN'
-          model   : model
-          property: 'title'
-          val     : columnView.oldTitle
+      # if !opts.ignore
+      #   Tyto.UndoHandler.register
+      #     action  : 'RENAME-COLUMN'
+      #     model   : model
+      #     property: 'title'
+      #     val     : columnView.oldTitle
       columnView.render()
 
-    this.collection.on 'add', (mod, col, opts) ->
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'ADD-TASK'
-          id        : mod.id
-          collection: col
+    # this.collection.on 'add', (mod, col, opts) ->
+      # if !opts.ignore
+      #   Tyto.UndoHandler.register
+      #     action    : 'ADD-TASK'
+      #     id        : mod.id
+      #     collection: col
+      # columnView.render()
 
-    this.collection.on 'remove', (mod, col, opts) ->
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'REMOVE-TASK'
-          model     : mod
-          collection: col
+    # this.collection.on 'remove', (mod, col, opts) ->
+      # if !opts.ignore
+      #   Tyto.UndoHandler.register
+      #     action    : 'REMOVE-TASK'
+      #     model     : mod
+      #     collection: col
+      # columnView.render()
 
 
     this.on 'childview:destroy:task', (mod, id) ->
       this.collection.remove id
 
   onBeforeRender: ->
-    this.collection.models = this.collection.sortBy 'ordinal'
+    # this.collection.models = this.collection.sortBy 'ordinal'
+
+
     newWidth = (100 / this.options.siblings.length) + '%'
     this.$el.css
       width: newWidth
@@ -88,13 +94,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
         destinationView = self
         # This is long as there are different scenarios. If the destination is a different column then need to do some different stuff else just do as normal...
         newColId = $(mover).parents('[data-col-id]').attr 'data-col-id'
-        Task = taskModel.clone()
         destination = self.getOption('siblings').get newColId
         destinationView = Tyto.boardView.children.findByModel destination
         taskList  = Array.prototype.slice.call destinationView.$el.find '.tyto--task'
         newPos    = taskList.indexOf(mover) + 1
 
-
+        Task = taskModel.clone()
+        Task.set 'ordinal', newPos
 
 
         isNewHome = ->
@@ -110,8 +116,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
           console.log 'staying put thanks...'
 
 
-        debugger
-        Tyto.reorder destinationView, mover, taskModel, taskList, newPos
+        Tyto.reorder destinationView, mover, Task, taskList, newPos, true
 
         Tyto.UndoHandler.register
           action  : 'MOVE-TASK'
@@ -119,7 +124,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
           start: self.model
           destination : destination
           mover   : mover
-          model   : taskModel
+          model   : Task
           list    : taskList
           view    : self
 
@@ -132,15 +137,23 @@ module.exports = Backbone.Marionette.CompositeView.extend
     return
 
   addTask: ->
+    col = this
     newId   = _.uniqueId()
     newTask = new Tyto.Tasks.Task
       id     : newId
+      columnId: col.model.id
+      boardId: col.options.board.id
       ordinal: this.collection.length + 1
+
+    # NOTE shouldn't be possible unless user accepts localStorage use.
+    newTask.save()
 
     this.collection.add newTask
 
   deleteColumn: ->
-    col = this.model
-    id  = parseInt col.get('id'), 10
-    this.trigger 'destroy:column', id
-    return
+    # Here need to iterate over the tasks and destroy them all.
+    if confirm 'are you sure????'
+      this.collection.forEach (task) ->
+        task.destroy()
+      this.model.destroy()
+    

@@ -1,8 +1,12 @@
+# Create app instance
 TytoApp     = require './appConfig'
 window.Tyto = Tyto = new TytoApp()
 
+
+# Define template store for views
 Tyto.templateStore = require './templates/templates'
 
+# Pull in required modules
 BoardCtrl          = require './controllers/board'
 BoardModel         = require './models/boards'
 TaskModel          = require './models/tasks'
@@ -11,9 +15,12 @@ TytoLayout         = require './layout/layout'
 UndoHandler        = require './controllers/undo'
 
 
+# Create entities
 Tyto.module 'Boards'      , BoardModel
 Tyto.module 'Columns'     , ColumnModel
 Tyto.module 'Tasks'       , TaskModel
+
+
 Tyto.module 'BoardList'   , BoardCtrl
 Tyto.module 'Layout'      , TytoLayout
 Tyto.module 'UndoHandler' , UndoHandler
@@ -26,8 +33,19 @@ Tyto.on 'start', ->
   Tyto.vent.trigger 'history:started'
   return
 
-Tyto.boardList = new Tyto.Boards.BoardList()
 
+# Instantiate new controller instance, fetching data for it before starting
+# application.
+
+# Instantiate and cache collections.
+Tyto.boardList  = new Tyto.Boards.BoardList()
+Tyto.columnList = new Tyto.Columns.ColumnList()
+Tyto.taskList   = new Tyto.Tasks.TaskList()
+
+
+# fetch shouldn't really be used to bootstrap the collection but as
+# Backbone.localStorage is being used, it's viable.
+# We only need the boards as we will grab the boards and tasks when needed.
 Tyto.boardList.fetch().done (data) ->
   document.querySelector('.loading').className = ''
   Tyto.start()

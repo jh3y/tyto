@@ -20,10 +20,17 @@ appConfig = Marionette.Application.extend
 
   ###
 
-  reorder: (entity, item, model, list, newPos) ->
+  reorder: (entity, item, model, list, newPos, calibrate) ->
     oldPos = model.get 'ordinal'
     newPos = if (newPos) then newPos else list.indexOf(item) + 1
-    if newPos isnt oldPos
+
+    # Calibration is necessary due to the awkward nature of tasks that will happily swap in and out of columns etc.
+
+    if calibrate
+      entity.collection.reorder()
+      _.forEach list, (el) ->
+        debugger
+    else if newPos isnt oldPos
       model.set 'ordinal', newPos
       if newPos > oldPos
         _.forEach entity.collection.models, (m) ->
