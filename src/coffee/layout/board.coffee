@@ -92,7 +92,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       stop       : (event, ui) ->
         columnList  = Array.prototype.slice.call self.$el.find '.column'
 
-        Tyto.reorder self, mover, columnModel, columnList
+        Tyto.reorder self, columnList, 'data-col-id'
 
         # Tyto.UndoHandler.register
         #   action  : 'MOVE-COLUMN'

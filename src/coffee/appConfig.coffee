@@ -20,30 +20,14 @@ appConfig = Marionette.Application.extend
 
   ###
 
-  reorder: (entity, item, model, list, newPos) ->
-    oldPos = model.get 'ordinal'
-    newPos = if (newPos) then newPos else list.indexOf(item) + 1
-
-    if newPos isnt oldPos
-      model.set 'ordinal', newPos
+  reorder: (entity, list, attr) ->
+    collection = entity.collection
+    _.forEach list, (item, idx) ->
+      id    = item.getAttribute attr
+      model = collection.get id
+      model.set 'ordinal', idx + 1
+      console.log 'setting', id, 'to', idx + 1
       model.save()
-      ###
-        Iterate over the sibling models recalibrating them.
-
-        NOTE: In a real world scenario w/ a backend. Posiition calibration of
-        models wouldn't be handled with several AJAX requests using model.save()
-
-      ###
-      _.forEach entity.collection.models, (m) ->
-        if m.id isnt model.get('id')
-          curOrd = m.get 'ordinal'
-          # If moving item from R -> L or B -> T
-          if (newPos < oldPos) and (curOrd > (newPos - 1) and curOrd < oldPos)
-            m.set 'ordinal', curOrd + 1
-          # If moving item from L -> R or T -> B
-          else if (newPos > oldPos) and (curOrd > oldPos and curOrd < (newPos + 1))
-            m.set 'ordinal', curOrd - 1
-          m.save()
 
   importData: (d) ->
     ###

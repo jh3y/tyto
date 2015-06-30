@@ -27,47 +27,32 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   initialize: ->
     columnView = this
-    # tasks           = _.sortBy this.model.get('tasks'), 'ordinal'
-    # this.collection = new Tyto.Tasks.TaskList tasks
-    # this.model.set 'tasks', this.collection
 
-    this.model.on 'change:ordinal', (mod, newVal, opts) ->
+    this.model.on 'change', (mod, opts) ->
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action  : 'EDIT-COLUMN'
+          model   : mod
+          change  : mod.previousAttributes()
       columnView.render()
 
+    this.collection.on 'add', (mod, col, opts) ->
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'ADD-TASK'
+          model     : mod
+          collection: col
 
-    this.model.on 'change:title', (model, newVal, opts) ->
-      yap opts
-      # if !opts.ignore
-      #   Tyto.UndoHandler.register
-      #     action  : 'RENAME-COLUMN'
-      #     model   : model
-      #     property: 'title'
-      #     val     : columnView.oldTitle
-      columnView.render()
+    this.collection.on 'remove', (mod, col, opts) ->
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'REMOVE-TASK'
+          model     : mod
+          collection: col
 
-    # this.collection.on 'add', (mod, col, opts) ->
-      # if !opts.ignore
-      #   Tyto.UndoHandler.register
-      #     action    : 'ADD-TASK'
-      #     id        : mod.id
-      #     collection: col
-      # columnView.render()
-
-    # this.collection.on 'remove', (mod, col, opts) ->
-      # if !opts.ignore
-      #   Tyto.UndoHandler.register
-      #     action    : 'REMOVE-TASK'
-      #     model     : mod
-      #     collection: col
-      # columnView.render()
-
-
-    this.on 'childview:destroy:task', (mod, id) ->
-      this.collection.remove id
 
   onBeforeRender: ->
-    # this.collection.models = this.collection.sortBy 'ordinal'
-
+    this.collection.models = this.collection.sortBy 'ordinal'
 
     newWidth = (100 / this.options.siblings.length) + '%'
     this.$el.css
@@ -116,24 +101,29 @@ module.exports = Backbone.Marionette.CompositeView.extend
           console.log 'staying put thanks...'
 
 
-        Tyto.reorder destinationView, mover, Task, taskList, newPos, true
+        Tyto.reorder destinationView, taskList, 'data-task-id'
 
-        Tyto.UndoHandler.register
-          action  : 'MOVE-TASK'
-          startPos: startPos
-          start: self.model
-          destination : destination
-          mover   : mover
-          model   : Task
-          list    : taskList
-          view    : self
+        # Tyto.UndoHandler.register
+        #   action  : 'MOVE-TASK'
+        #   startPos: startPos
+        #   start: self.model
+        #   destination : destination
+        #   mover   : mover
+        #   model   : Task
+        #   list    : taskList
+        #   view    : self
 
     return
 
   updateName: ->
-    col           = this.model
-    this.oldTitle = col.get 'title'
+    col      = this.model
+    oldTitle = col.get 'title'
     col.set 'title', @ui.columnName.text().trim()
+    Tyto.UndoHandler.register
+      action   : 'EDIT-COLUMN'
+      model    : col
+      property : 'title'
+      val      : oldTitle
     return
 
   addTask: ->
@@ -156,4 +146,3 @@ module.exports = Backbone.Marionette.CompositeView.extend
       this.collection.forEach (task) ->
         task.destroy()
       this.model.destroy()
-    

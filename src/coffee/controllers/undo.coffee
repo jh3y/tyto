@@ -16,24 +16,25 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
       ignore: true
 
   putBack = (action) ->
-    if action.destination and action.start and action.start.id isnt action.destination.id
-      # Need to send it home first before anything happens.
-      debugger
-
-
-    Tyto.reorder action.view, action.mover, action.model, action.list, action.startPos
-
-    action.view.reorder()
+    # if action.destination and action.start and action.start.id isnt action.destination.id
+    #   # Need to send it home first before anything happens.
+    #   debugger
+    #
+    #
+    # Tyto.reorder action.view, action.mover, action.model, action.list, action.startPos
+    #
+    # action.view.reorder()
 
   resetProperty = (e) ->
     # Here we simply need to grab the correct model and reset the name
     # The view should hopefully update for us.
-    e.model.set e.property, e.val,
+    e.model.set e.change,
       ignore: true
 
   removeEntity = (e) ->
-    e.collection.remove e.id,
-      ignore: true
+    e.model.destroy()
+    # e.collection.remove e.id,
+    #   ignore: true
   # END UNDO OPS
 
 
@@ -41,7 +42,7 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
     'ADD-COLUMN'    : removeEntity
     'REMOVE-COLUMN' : addEntity
     'MOVE-COLUMN'   : putBack
-    'RENAME-COLUMN' : resetProperty
+    'EDIT-COLUMN'   : resetProperty
     'ADD-TASK'      : removeEntity
     'REMOVE-TASK'   : addEntity
     'EDIT-TASK'     : resetProperty
