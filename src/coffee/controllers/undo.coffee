@@ -46,6 +46,7 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
   register = (a) ->
     if actionsMap[a.action]
       undoables.push a
+    console.log undoables.length
 
   isUndone = (action) ->
     if actionsMap[action.action]
@@ -62,6 +63,7 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
       if isUndone actionToUndo
         # Remove it from the collection
         undoables.pop()
+    console.log undoables.length
 
 
   UndoHandler.isUndone  = isUndone

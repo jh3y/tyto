@@ -23,14 +23,25 @@ module.exports = Backbone.Marionette.ItemView.extend
     that.board  = that.getOption 'board'
     that.column = that.getOption 'column'
 
-    that.model.on 'change', (mod, opts) ->
-      console.log 'changing'
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action: 'EDIT-TASK'
-          model : mod
-          change: mod.previousAttributes()
-      that.render()
+    that.model.on 'change:title', (mod, opts) ->
+      if !that.isDestroyed
+        console.log 'changing'
+        if !opts.ignore
+          Tyto.UndoHandler.register
+            action: 'EDIT-TASK'
+            model : mod
+            change: mod.previousAttributes()
+        that.render()
+
+    that.model.on 'change:description', (mod, opts) ->
+      if !that.isDestroyed
+        console.log 'changing'
+        if !opts.ignore
+          Tyto.UndoHandler.register
+            action: 'EDIT-TASK'
+            model : mod
+            change: mod.previousAttributes()
+        that.render()
 
   deleteTask: ->
     this.model.destroy()

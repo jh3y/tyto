@@ -28,7 +28,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
   initialize: ->
     columnView = this
 
-    this.model.on 'change', (mod, opts) ->
+    this.model.on 'change:ordinal', (mod, opts) ->
+      if !columnView.isDestroyed
+        columnView.render()
+
+    this.model.on 'change:title', (mod, opts) ->
       if !opts.ignore
         Tyto.UndoHandler.register
           action  : 'EDIT-COLUMN'
@@ -52,6 +56,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
 
   onBeforeRender: ->
+    console.log 'rendering tasks'
     this.collection.models = this.collection.sortBy 'ordinal'
 
     newWidth = (100 / this.options.siblings.length) + '%'
@@ -72,9 +77,34 @@ module.exports = Backbone.Marionette.CompositeView.extend
         model       = self.collection.get ui.item.attr('data-task-id')
         oldPos      = model.get 'ordinal'
       stop       : (event, ui) ->
-        list        = Array.prototype.slice.call self.$el.find '.tyto--task'
 
+        destinationView = self
+        newColId = $(ui.item).parents('[data-col-id]').attr('data-col-id')
+
+        if newColId isnt model.columnId
+          destination     = Tyto.columnList.get newColId
+          console.log 'ok here'
+          destinationView = Tyto.boardView.children.findByModel destination
+          list            = destinationView.$el.find '.tyto--task'
+
+          model.set 'columnId', newColId
+          model.save()
+
+          self.collection.remove model
+          destinationView.collection.add model
+
+
+          Tyto.reorder destinationView, list, 'data-task-id'
+
+          destinationView.render()
+
+        # destinationView, colID
+
+
+        # Want this part to be generic as possible.
+        list        = self.$el.find '.tyto--task'
         Tyto.reorder self, list, 'data-task-id'
+        self.render()
 
         Tyto.UndoHandler.register
           action  : 'MOVE-TASK'
@@ -84,66 +114,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
           view    : self
           attr    : 'data-task-id'
 
-    # self      = this
-    # mover     = `undefined`
-    # taskModel = `undefined`
-    # taskList  = `undefined`
-    # startPos  = `undefined`
-    #
-    # this.$el.find('.tasks').sortable
-    #   connectWith: '.tasks'
-    #   placeholder: "item-placeholder"
-    #   containment: '.columns'
-    #   opacity    : 0.8
-    #   revert     : true
-    #   start      : (event, ui) ->
-    #     mover     = ui.item[0]
-    #     taskModel = self.collection.get ui.item.attr('data-task-id')
-    #     startPos  = taskModel.get 'ordinal'
-    #   stop       : (event, ui) ->
-    #     destinationView = self
-    #     # This is long as there are different scenarios. If the destination is a different column then need to do some different stuff else just do as normal...
-    #     newColId = $(mover).parents('[data-col-id]').attr 'data-col-id'
-    #     destination = self.getOption('siblings').get newColId
-    #     destinationView = Tyto.boardView.children.findByModel destination
-    #     taskList  = Array.prototype.slice.call destinationView.$el.find '.tyto--task'
-    #     newPos    = taskList.indexOf(mover) + 1
-    #
-    #     Task = taskModel.clone()
-    #     Task.set 'ordinal', newPos
-    #
-    #
-    #     isNewHome = ->
-    #       newColId isnt self.model.id
-    #     # 1st. Let's find out if we have a new home.
-    #     startCol = self.model
-    #     if isNewHome()
-    #       self.collection.remove taskModel
-    #       destination.get('tasks').add Task,
-    #         at: newPos
-    #       console.log 'got a new homeeee'
-    #     else
-    #       console.log 'staying put thanks...'
-    #
-    #
-    #     Tyto.reorder destinationView, taskList, 'data-task-id'
-    #
-    #     # Tyto.UndoHandler.register
-    #     #   action  : 'MOVE-TASK'
-    #     #   startPos: startPos
-    #     #   start: self.model
-    #     #   destination : destination
-    #     #   mover   : mover
-    #     #   model   : Task
-    #     #   list    : taskList
-    #     #   view    : self
-
     return
 
   updateName: ->
     col      = this.model
     oldTitle = col.get 'title'
     col.set 'title', @ui.columnName.text().trim()
+    col.save()
     Tyto.UndoHandler.register
       action   : 'EDIT-COLUMN'
       model    : col

@@ -5,25 +5,16 @@ appConfig = Marionette.Application.extend
     this.root = new Tyto.Layout.Root()
 
   reorder: (entity, list, attr) ->
-    ###
-      Reorders model ordinal based on DOM positioning of elements.
-
-      Where entity = view,
-            list   = DOM list,
-            attr   = attribute to identify model entities.
-
-      What if need to override this?
-
-      If I have a model and a known ordinal to reset to?
-
-    ###
     collection = entity.collection
     _.forEach list, (item, idx) ->
       id    = item.getAttribute attr
       model = collection.get id
-      model.set 'ordinal', idx + 1
-      console.log 'setting', id, 'to', idx + 1
-      model.save()
+      if model
+        model.set 'ordinal', idx + 1
+        console.log 'setting', id, 'to', idx + 1
+        model.save()
+
+
 
   importData: (d) ->
     ###
