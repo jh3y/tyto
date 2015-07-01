@@ -27,6 +27,8 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
       ignore: true
 
   removeEntity = (e) ->
+    e.collection.remove e.model,
+      ignore: true
     e.model.destroy()
   # END UNDO OPS
 
