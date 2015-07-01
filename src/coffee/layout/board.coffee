@@ -73,9 +73,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   bindColumns: ->
     self        = this
-    mover       = `undefined`
-    columnModel = `undefined`
-    columnList  = `undefined`
+    model       = `undefined`
+    list        = `undefined`
     oldPos      = `undefined`
     this.$el.find('.columns').sortable
       connectWith: '.column',
@@ -85,19 +84,18 @@ module.exports = Backbone.Marionette.CompositeView.extend
       containment: this.$el.find('.columns')
       opacity    : 0.8
       start      : (event, ui) ->
-        mover       = ui.item[0]
-        columnModel = self.collection.get ui.item.attr('data-col-id')
-        oldPos      = columnModel.get 'ordinal'
+        model       = self.collection.get ui.item.attr('data-col-id')
+        oldPos      = model.get 'ordinal'
       stop       : (event, ui) ->
-        columnList  = Array.prototype.slice.call self.$el.find '.column'
+        list        = Array.prototype.slice.call self.$el.find '.column'
 
-        Tyto.reorder self, columnList, 'data-col-id'
+        Tyto.reorder self, list, 'data-col-id'
 
         Tyto.UndoHandler.register
           action  : 'MOVE-COLUMN'
           oldPos  : oldPos
-          model   : columnModel
-          list    : columnList
+          model   : model
+          list    : list
           view    : self
           attr    : 'data-col-id'
 
