@@ -59,59 +59,84 @@ module.exports = Backbone.Marionette.CompositeView.extend
       width: newWidth
 
   onRender: ->
-    self      = this
-    mover     = `undefined`
-    taskModel = `undefined`
-    taskList  = `undefined`
-    startPos  = `undefined`
-
+    self        = this
+    model       = `undefined`
+    list        = `undefined`
+    oldPos      = `undefined`
     this.$el.find('.tasks').sortable
-      connectWith: '.tasks'
-      placeholder: "item-placeholder"
+      connectWith: '.tasks',
+      placeholder: 'item-placeholder'
       containment: '.columns'
       opacity    : 0.8
-      revert     : true
       start      : (event, ui) ->
-        mover     = ui.item[0]
-        taskModel = self.collection.get ui.item.attr('data-task-id')
-        startPos  = taskModel.get 'ordinal'
+        model       = self.collection.get ui.item.attr('data-task-id')
+        oldPos      = model.get 'ordinal'
       stop       : (event, ui) ->
-        destinationView = self
-        # This is long as there are different scenarios. If the destination is a different column then need to do some different stuff else just do as normal...
-        newColId = $(mover).parents('[data-col-id]').attr 'data-col-id'
-        destination = self.getOption('siblings').get newColId
-        destinationView = Tyto.boardView.children.findByModel destination
-        taskList  = Array.prototype.slice.call destinationView.$el.find '.tyto--task'
-        newPos    = taskList.indexOf(mover) + 1
+        list        = Array.prototype.slice.call self.$el.find '.tyto--task'
 
-        Task = taskModel.clone()
-        Task.set 'ordinal', newPos
+        Tyto.reorder self, list, 'data-task-id'
 
+        Tyto.UndoHandler.register
+          action  : 'MOVE-TASK'
+          oldPos  : oldPos
+          model   : model
+          list    : list
+          view    : self
+          attr    : 'data-task-id'
 
-        isNewHome = ->
-          newColId isnt self.model.id
-        # 1st. Let's find out if we have a new home.
-        startCol = self.model
-        if isNewHome()
-          self.collection.remove taskModel
-          destination.get('tasks').add Task,
-            at: newPos
-          console.log 'got a new homeeee'
-        else
-          console.log 'staying put thanks...'
-
-
-        Tyto.reorder destinationView, taskList, 'data-task-id'
-
-        # Tyto.UndoHandler.register
-        #   action  : 'MOVE-TASK'
-        #   startPos: startPos
-        #   start: self.model
-        #   destination : destination
-        #   mover   : mover
-        #   model   : Task
-        #   list    : taskList
-        #   view    : self
+    # self      = this
+    # mover     = `undefined`
+    # taskModel = `undefined`
+    # taskList  = `undefined`
+    # startPos  = `undefined`
+    #
+    # this.$el.find('.tasks').sortable
+    #   connectWith: '.tasks'
+    #   placeholder: "item-placeholder"
+    #   containment: '.columns'
+    #   opacity    : 0.8
+    #   revert     : true
+    #   start      : (event, ui) ->
+    #     mover     = ui.item[0]
+    #     taskModel = self.collection.get ui.item.attr('data-task-id')
+    #     startPos  = taskModel.get 'ordinal'
+    #   stop       : (event, ui) ->
+    #     destinationView = self
+    #     # This is long as there are different scenarios. If the destination is a different column then need to do some different stuff else just do as normal...
+    #     newColId = $(mover).parents('[data-col-id]').attr 'data-col-id'
+    #     destination = self.getOption('siblings').get newColId
+    #     destinationView = Tyto.boardView.children.findByModel destination
+    #     taskList  = Array.prototype.slice.call destinationView.$el.find '.tyto--task'
+    #     newPos    = taskList.indexOf(mover) + 1
+    #
+    #     Task = taskModel.clone()
+    #     Task.set 'ordinal', newPos
+    #
+    #
+    #     isNewHome = ->
+    #       newColId isnt self.model.id
+    #     # 1st. Let's find out if we have a new home.
+    #     startCol = self.model
+    #     if isNewHome()
+    #       self.collection.remove taskModel
+    #       destination.get('tasks').add Task,
+    #         at: newPos
+    #       console.log 'got a new homeeee'
+    #     else
+    #       console.log 'staying put thanks...'
+    #
+    #
+    #     Tyto.reorder destinationView, taskList, 'data-task-id'
+    #
+    #     # Tyto.UndoHandler.register
+    #     #   action  : 'MOVE-TASK'
+    #     #   startPos: startPos
+    #     #   start: self.model
+    #     #   destination : destination
+    #     #   mover   : mover
+    #     #   model   : Task
+    #     #   list    : taskList
+    #     #   view    : self
 
     return
 
