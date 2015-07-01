@@ -6,18 +6,19 @@ UndoHandler = (UndoHandler, App, Backbone, Marionette) ->
   ###
 
   putBack = (action) ->
-    # if action.destination and action.start and action.start.id isnt action.destination.id
-    #   # Need to send it home first before anything happens.
-    #   debugger
-    #
-    #
-    # Tyto.reorder action.view, action.mover, action.model, action.list, action.startPos
-    #
-    # action.view.reorder()
+    nP    = action.model.get 'ordinal' - 1
+    oP    = action.oldPos - 1
+    mover = action.list.splice nP, 1
+
+    action.list.splice oP, 0, mover[0]
+    Tyto.reorder action.view, action.list, action.attr
+    action.view.render()
+
 
   resetProperty = (e) ->
     e.model.set e.change,
       ignore: true
+    e.model.save()
 
   addEntity = (e) ->
     e.model.save()

@@ -4,23 +4,19 @@ appConfig = Marionette.Application.extend
   setRootLayout: ->
     this.root = new Tyto.Layout.Root()
 
-  ###
-
-    @params
-    entity == view
-    item   == DOM element that has been moved
-    model  == the model that has been moved
-    list   == the full DOM list for sortable DOM element
-    newPos == useful for overriding the default behaviour(UNDOING MOVES)
-
-
-    For example; we may have the boardView where a column has been moved.
-    The model will be that associated with the moved column and the list
-    will be the sortable DOM elements, in this case "columns".
-
-  ###
-
   reorder: (entity, list, attr) ->
+    ###
+      Reorders model ordinal based on DOM positioning of elements.
+
+      Where entity = view,
+            list   = DOM list,
+            attr   = attribute to identify model entities.
+
+      What if need to override this?
+
+      If I have a model and a known ordinal to reset to?
+
+    ###
     collection = entity.collection
     _.forEach list, (item, idx) ->
       id    = item.getAttribute attr

@@ -76,7 +76,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     mover       = `undefined`
     columnModel = `undefined`
     columnList  = `undefined`
-    startPos    = `undefined`
+    oldPos      = `undefined`
     this.$el.find('.columns').sortable
       connectWith: '.column',
       handle     : '.column--mover'
@@ -87,19 +87,20 @@ module.exports = Backbone.Marionette.CompositeView.extend
       start      : (event, ui) ->
         mover       = ui.item[0]
         columnModel = self.collection.get ui.item.attr('data-col-id')
-        startPos    = columnModel.get 'ordinal'
+        oldPos      = columnModel.get 'ordinal'
       stop       : (event, ui) ->
         columnList  = Array.prototype.slice.call self.$el.find '.column'
 
         Tyto.reorder self, columnList, 'data-col-id'
 
-        # Tyto.UndoHandler.register
-        #   action  : 'MOVE-COLUMN'
-        #   startPos: startPos
-        #   mover   : mover
-        #   model   : columnModel
-        #   list: columnList
-        #   view: self
+        Tyto.UndoHandler.register
+          action  : 'MOVE-COLUMN'
+          oldPos  : oldPos
+          model   : columnModel
+          list    : columnList
+          view    : self
+          attr    : 'data-col-id'
+
 
   addColumn: ->
     board = this.model
