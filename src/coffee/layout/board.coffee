@@ -43,22 +43,21 @@ module.exports = Backbone.Marionette.CompositeView.extend
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      # if !opts.ignore
-      #   Tyto.UndoHandler.register
-      #     action    : 'REMOVE-COLUMN'
-      #     model     : mod
-      #     collection: col
-      #     children  : 'tasks'
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'REMOVE-COLUMN'
+          model     : mod
+          collection: col
 
     board.collection.on 'add', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      # if !opts.ignore
-      #   Tyto.UndoHandler.register
-      #     action    : 'ADD-COLUMN'
-      #     id        : mod.id
-      #     collection: col
+      if !opts.ignore
+        Tyto.UndoHandler.register
+          action    : 'ADD-COLUMN'
+          model     : mod
+          collection: col
 
     # This is needed to ensure that our undo button displays correctly
     # Tyto.undoables.on 'all', this.render
