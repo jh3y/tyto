@@ -6,19 +6,14 @@ button#delete-board Delete Board
 button#wipe-board Wipe Board
 button#email-board Email Board
 
-button#undo Undo <%= undoables.length %>
-| <% if (undoables.length > 0) { %>
-| <% } else { %>
-button#undo(disabled) Undo <%= undoables.length %>
-| <% } %>
-
-|<% if (columns.length > 0) { %>
-select#column-selector
-  option --select a column--
-  |<% _.each(columns, function(i){ %>
-  option(value!="<%= i.id %>") <%= i.title %>
-  |<% }) %>
-|<% } %>
+span <%= columns.length %>
+//- |<% if (items.length > 0) { %>
+//- select#column-selector
+//-   option --select a column--
+//-   |<% _.each(columns, function(i){ %>
+//-   option(value!="<%= i.id %>") <%= i.title %>
+//-   |<% }) %>
+//- |<% } %>
 
 
 div#board-name(contenteditable="true")<%= title %>

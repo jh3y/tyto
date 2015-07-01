@@ -9,8 +9,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
   template  : Tyto.templateStore.column
   childView : Task
   childViewContainer: '.tasks'
-  collection: ->
-    debugger
   events    :
     'click @ui.deleteColumn': 'deleteColumn'
     'click @ui.addTask'     : 'addTask'
@@ -26,37 +24,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     column: this
 
   initialize: ->
-    columnView = this
-
-    this.model.on 'change:ordinal', (mod, opts) ->
-      if !columnView.isDestroyed
-        columnView.render()
-
-    this.model.on 'change:title', (mod, opts) ->
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action  : 'EDIT-COLUMN'
-          model   : mod
-          change  : mod.previousAttributes()
-      columnView.render()
-
-    this.collection.on 'add', (mod, col, opts) ->
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'ADD-TASK'
-          model     : mod
-          collection: col
-
-    this.collection.on 'remove', (mod, col, opts) ->
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'REMOVE-TASK'
-          model     : mod
-          collection: col
-
 
   onBeforeRender: ->
-    console.log 'rendering tasks'
     this.collection.models = this.collection.sortBy 'ordinal'
 
     newWidth = (100 / this.options.siblings.length) + '%'
@@ -81,38 +50,22 @@ module.exports = Backbone.Marionette.CompositeView.extend
         destinationView = self
         newColId = $(ui.item).parents('[data-col-id]').attr('data-col-id')
 
-        if newColId isnt model.columnId
+        if newColId isnt model.get 'columnId'
           destination     = Tyto.columnList.get newColId
-          console.log 'ok here'
           destinationView = Tyto.boardView.children.findByModel destination
           list            = destinationView.$el.find '.tyto--task'
 
           model.set 'columnId', newColId
           model.save()
-
           self.collection.remove model
           destinationView.collection.add model
-
-
           Tyto.reorder destinationView, list, 'data-task-id'
-
           destinationView.render()
-
-        # destinationView, colID
-
 
         # Want this part to be generic as possible.
         list        = self.$el.find '.tyto--task'
         Tyto.reorder self, list, 'data-task-id'
         self.render()
-
-        Tyto.UndoHandler.register
-          action  : 'MOVE-TASK'
-          oldPos  : oldPos
-          model   : model
-          list    : list
-          view    : self
-          attr    : 'data-task-id'
 
     return
 
@@ -145,6 +98,4 @@ module.exports = Backbone.Marionette.CompositeView.extend
   deleteColumn: ->
     # Here need to iterate over the tasks and destroy them all.
     if confirm 'are you sure????'
-      this.collection.forEach (task) ->
-        task.destroy()
       this.model.destroy()

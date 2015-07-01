@@ -12,7 +12,6 @@ BoardModel         = require './models/boards'
 TaskModel          = require './models/tasks'
 ColumnModel        = require './models/columns'
 TytoLayout         = require './layout/layout'
-UndoHandler        = require './controllers/undo'
 
 
 # Create entities
@@ -23,7 +22,6 @@ Tyto.module 'Tasks'       , TaskModel
 
 Tyto.module 'BoardList'   , BoardCtrl
 Tyto.module 'Layout'      , TytoLayout
-Tyto.module 'UndoHandler' , UndoHandler
 
 Tyto.on 'before:start', ->
   Tyto.setRootLayout()

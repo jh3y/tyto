@@ -4,8 +4,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
   tagName           : 'div'
   className         : 'board'
   template          : Tyto.templateStore.board
-  templateHelpers   : ->
-    undoables: Tyto.UndoHandler.undoables
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: (c) ->
@@ -22,7 +20,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
     wipeBoard  : '#wipe-board'
     boardName  : '#board-name'
     superAdd   : '#super-add'
-    undoBtn    : '#undo'
+
+  collectionEvents:
+    'all': 'render'
 
   events:
     'click @ui.addColumn'  : 'addColumn'
@@ -30,41 +30,32 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.wipeBoard'  : 'wipeBoard'
     'blur @ui.boardName'   : 'updateName'
     'click @ui.superAdd'   : 'superAddTask'
-    'click @ui.undoBtn'    : 'undoLastAction'
-
-  undoLastAction: ->
-    Tyto.UndoHandler.undo()
 
   initialize: ->
     board            = this
 
 
+    ###
+      NOTE maybe when we work on the responsive selector.
+      Changes to the collection will trigger some DOM manipulation on
+      a dropdown as it may become a little tricky to get it working like
+      add board...
+    ###
+    board.model.set 'columns', board.collection
     board.collection.on 'remove', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'REMOVE-COLUMN'
-          model     : mod
-          collection: col
 
     board.collection.on 'add', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
         width: newWidth
-      if !opts.ignore
-        Tyto.UndoHandler.register
-          action    : 'ADD-COLUMN'
-          model     : mod
-          collection: col
-
-    # This is needed to ensure that our undo button displays correctly
-    # Tyto.undoables.on 'all', this.render
 
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
     # something new that the ordinal property of each column is respected.
+    console.log 'rendering'
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
@@ -91,13 +82,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
         Tyto.reorder self, list, 'data-col-id'
 
-        Tyto.UndoHandler.register
-          action  : 'MOVE-COLUMN'
-          oldPos  : oldPos
-          model   : model
-          list    : list
-          view    : self
-          attr    : 'data-col-id'
 
 
   addColumn: ->
