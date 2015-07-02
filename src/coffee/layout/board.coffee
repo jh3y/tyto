@@ -33,8 +33,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   initialize: ->
     board            = this
-
-
     ###
       NOTE maybe when we work on the responsive selector.
       Changes to the collection will trigger some DOM manipulation on
@@ -42,16 +40,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
       add board...
     ###
     board.model.set 'columns', board.collection
-
-    board.collection.on 'remove', (mod, col, opts) ->
-      newWidth = (100 / board.collection.length) + '%'
-      $('.column').css
-        width: newWidth
-
-    board.collection.on 'add', (mod, col, opts) ->
-      newWidth = (100 / board.collection.length) + '%'
-      $('.column').css
-        width: newWidth
 
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
@@ -64,7 +52,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   bindColumns: ->
     self        = this
-    list        = `undefined`
     this.$el.find('.columns').sortable
       connectWith: '.column',
       handle     : '.column--mover'
@@ -81,7 +68,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   addColumn: ->
     board   = this.model
     columns = this.collection
-    
+
     columns.add Tyto.columnList.create
       boardId: board.id
       ordinal: columns.length + 1

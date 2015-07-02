@@ -33,46 +33,36 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   onRender: ->
     self        = this
-    model       = `undefined`
-    list        = `undefined`
-    oldPos      = `undefined`
     this.$el.find('.tasks').sortable
       connectWith: '.tasks',
       placeholder: 'item-placeholder'
       containment: '.columns'
       opacity    : 0.8
-      start      : (event, ui) ->
-        model       = self.collection.get ui.item.attr('data-task-id')
-        oldPos      = model.get 'ordinal'
       stop       : (event, ui) ->
-
+        model           = self.collection.get ui.item.attr('data-task-id')
         destinationView = self
-        newColId = $(ui.item).parents('[data-col-id]').attr('data-col-id')
+        newColId        = $(ui.item).parents('[data-col-id]').attr('data-col-id')
 
         if newColId isnt model.get 'columnId'
           destination     = Tyto.columnList.get newColId
           destinationView = Tyto.boardView.children.findByModel destination
           list            = destinationView.$el.find '.tyto--task'
-
-          model.set 'columnId', newColId
-          model.save()
+          model.save
+            columnId: newColId
           self.collection.remove model
           destinationView.collection.add model
-          Tyto.reorder destinationView, list, 'data-task-id'
+          Tyto.Utils.reorder destinationView, list, 'data-task-id'
           destinationView.render()
 
-        # Want this part to be generic as possible.
         list        = self.$el.find '.tyto--task'
-        Tyto.reorder self, list, 'data-task-id'
+        Tyto.Utils.reorder self, list, 'data-task-id'
         self.render()
 
     return
 
   updateName: ->
-    col      = this.model
-    oldTitle = col.get 'title'
-    col.set 'title', @ui.columnName.text().trim()
-    col.save()
+    this.model.save
+      title: this.ui.columnName.text().trim()
 
   addTask: ->
     columnView = this
