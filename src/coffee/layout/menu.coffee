@@ -15,6 +15,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
     'click @ui.loadBtn'       : 'initLoad'
     'click @ui.importBtn'     : 'initLoad'
     'change @ui.importer'     : 'handleFile'
+
   collectionEvents:
     'all': 'render'
 
@@ -24,9 +25,9 @@ module.exports =  Backbone.Marionette.ItemView.extend
     reader.onloadend   = (e) ->
       data = JSON.parse e.target.result
       if menuView.activeImporter.id is 'load-data'
-        Tyto.loadData data
+        Tyto.Utils.loadData data
       else
-        Tyto.importData data
+        Tyto.Utils.importData data
 
   handleFile: (e) ->
     menu = this

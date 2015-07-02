@@ -95,7 +95,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     view = this
     if confirm 'are you sure???'
       view.children.forEach (colView) ->
-        colView.collection.forEach (taskModel) ->
-          taskModel.destroy()
+        while colView.collection.length isnt 0
+          colView.collection.first().destroy()
         colView.model.destroy()
     return
