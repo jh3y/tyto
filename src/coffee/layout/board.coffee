@@ -50,6 +50,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
+    newWidth = (100 / this.collection.length) + '%'
+
+    this.$el.find('.column').css
+      width: newWidth
+
     this.bindColumns()
 
 

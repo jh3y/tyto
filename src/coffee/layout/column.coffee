@@ -26,12 +26,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
-    newWidth = (100 / this.options.siblings.length) + '%'
-
-    this.options.boardView.$el.find('.column').css
-      width: newWidth
-    this.$el.css
-      width: newWidth
+    # newWidth = (100 / this.options.siblings.length) + '%'
+    #
+    # this.options.boardView.$el.find('.column').css
+    #   width: newWidth
+    # this.$el.css
+    #   width: newWidth
 
 
   onRender: ->
