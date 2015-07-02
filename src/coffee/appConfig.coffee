@@ -11,8 +11,9 @@ appConfig = Marionette.Application.extend
       model = collection.get id
       if model
         model.set 'ordinal', idx + 1
-        console.log 'setting', id, 'to', idx + 1
-        model.save()
+        # model.save
+        #   ordinal: idx + 1
+    entity.collection.set collection.models
 
 
 

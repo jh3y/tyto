@@ -20,18 +20,6 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
 
       # this.showCookieBanner()
 
-      # this.listenTo Tyto.vent, 'setup:localStorage', ->
-      #   window.localStorage.setItem 'tyto', true
-      #   Tyto.CookieBannerView.destroy()
-      #   Tyto.root.removeRegion 'cookie'
-      #   $('#cookie-banner').remove()
-      #   this.setUpAutoSave()
-      #
-      # this.listenTo Tyto.vent, 'hard-task:add', (newMod) ->
-      #   console.info 'create a new task and direct me to it', newMod
-
-
-
       # NOTE THIS PIECE SHOULD BELONG IN THE DEFAULT ROUTE...
       # if this.boardList.length > 0 and window.location.hash is ''
       #   Tyto.vent.on 'history:started', ->
