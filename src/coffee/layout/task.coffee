@@ -29,20 +29,18 @@ module.exports = Backbone.Marionette.ItemView.extend
 
   updateTask: ->
     this.ui.description.removeAttr 'contenteditable'
-    this.model.set 'description', this.ui.description.text().trim()
-    this.model.save()
+    this.model.save
+      description: this.ui.description.text().trim()
 
   enableEditTask: ->
-    this.oldDescription = this.model.get 'description'
     this.ui.description.attr('contenteditable', true)
       .focus()
 
   updateTaskTitle: ->
     this.ui.title.removeAttr 'contenteditable'
-    this.model.set 'title', this.ui.title.text().trim()
-    this.model.save()
+    this.model.save
+      title: this.ui.title.text().trim()
 
   enableEditTaskTitle: ->
-    this.oldTitle = this.model.get 'title'
     this.ui.title.attr('contenteditable', true)
       .focus()

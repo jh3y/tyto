@@ -19,7 +19,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
     columnName  : '#column-name'
 
   childViewOptions: ->
-    boardView: this.getOption 'boardView'
     board    : this.getOption 'board'
     column   : this
 

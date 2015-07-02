@@ -4,6 +4,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
   tagName           : 'div'
   className         : 'board'
   template          : Tyto.templateStore.board
+  templateHelpers   : ->
+    columns: this.collection
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: (c) ->
@@ -11,7 +13,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
       columnId: c.id
     boardView = this
     collection : new Tyto.Tasks.TaskList colTasks
-    boardView  : boardView
     board      : boardView.model
     siblings   : boardView.collection
   ui:
@@ -33,13 +34,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   initialize: ->
     board            = this
-    ###
-      NOTE maybe when we work on the responsive selector.
-      Changes to the collection will trigger some DOM manipulation on
-      a dropdown as it may become a little tricky to get it working like
-      add board...
-    ###
-    board.model.set 'columns', board.collection
 
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
