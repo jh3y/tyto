@@ -27,8 +27,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
     newWidth = (100 / this.options.siblings.length) + '%'
+
+    this.options.boardView.$el.find('.column').css
+      width: newWidth
     this.$el.css
       width: newWidth
+
 
   onRender: ->
     self        = this
@@ -72,10 +76,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
       ordinal : columnView.collection.length + 1
 
   deleteColumn: ->
-    # Here need to iterate over the tasks and destroy them all.
     if confirm 'are you sure????'
+      # NOTE w/ a backend we wouldn't be doing the recursive destroy.
       while this.collection.length isnt 0
         this.collection.first().destroy()
-      # this.collection.forEach (taskModel) ->
-      #   taskModel.destroy()
       this.model.destroy()

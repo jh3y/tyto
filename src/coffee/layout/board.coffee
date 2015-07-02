@@ -13,6 +13,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       columnId: c.id
     boardView = this
     collection : new Tyto.Tasks.TaskList colTasks
+    boardView  : boardView
     board      : boardView.model
     siblings   : boardView.collection
   ui:
@@ -23,7 +24,15 @@ module.exports = Backbone.Marionette.CompositeView.extend
     superAdd   : '#super-add'
 
   collectionEvents:
-    'all': 'render'
+    'all': 'handleEvent'
+
+  handleEvent: (e) ->
+    view = this
+    if e is 'add' or e is 'destroy'
+      if e is 'destroy'
+        list = Array.prototype.slice.call view.$el.find '.column'
+        Tyto.Utils.reorder view, list, 'data-col-id'
+      view.render()
 
   events:
     'click @ui.addColumn'  : 'addColumn'
@@ -33,7 +42,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.superAdd'   : 'superAddTask'
 
   initialize: ->
-    board            = this
+    board = this
 
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
