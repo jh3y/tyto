@@ -12,20 +12,21 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       return
 
     defaultDrop: ->
-      console.info 'fired me'
+      # NOTE :: This is required if we wish to auto route user to a board.
 
-    start: ->
-      that = this
-      this.showMenu this.boardList
-
-      # this.showCookieBanner()
-
-      # NOTE THIS PIECE SHOULD BELONG IN THE DEFAULT ROUTE...
       # if this.boardList.length > 0 and window.location.hash is ''
       #   Tyto.vent.on 'history:started', ->
       #     id = that.boardList.first().get 'id'
       #     App.navigate 'board/' + id,
       #       trigger: true
+
+    start: ->
+      that = this
+      this.showMenu this.boardList
+
+      # Cookie banner must be accepted before any functionality is possible.
+      # this.showCookieBanner()
+
 
       return
 
@@ -43,11 +44,6 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
         Tyto.root.showChildView 'cookie', Tyto.CookieBannerView
 
         return
-      else
-        this.setUpAutoSave()
-
-    setUpAutoSave: ->
-      yap 'setting up the autosavzzzz'
 
     showMenu: (boards) ->
       Tyto.menuView = new App.Layout.Menu
@@ -60,33 +56,40 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       # And send them through to the view...
       model = this.boardList.get id
       if model isnt `undefined`
-        Tyto.columnList.fetch().done (d) ->
-          Tyto.taskList.fetch().done (d) ->
+        Tyto.columnList.fetch().done ->
+          Tyto.taskList.fetch().done ->
             cols = Tyto.columnList.where
               boardId: model.id
             tasks = Tyto.taskList.where
               boardId: model.id
+
             Tyto.currentTasks.reset tasks
             Tyto.currentCols.reset cols
+
             Tyto.boardView = new App.Layout.Board
               model     : model
               collection: Tyto.currentCols
               options   :
                 tasks: Tyto.currentTasks
+
             App.root.showChildView 'content', Tyto.boardView
       else
         App.navigate '/'
 
     editTask: (bId, tId, isNew) ->
-      board = Tyto.boardList.get bId
+      board      = Tyto.boardList.get bId
       renderTask = ->
-        task = Tyto.taskList.get tId
+        taskToEdit     = Tyto.taskList.get tId
         Tyto.editView  = new App.Layout.Edit
-          model  : task
+          model  : taskToEdit
           boardId: bId
           isNew  : isNew
         App.root.showChildView 'content', Tyto.editView
-      # Wrapped in an if statement in case user refreshes on an edit view.
+
+      ###
+        Wrapped in case user refreshes on an edit view in which case
+        Tyto.taskList would need to fetch again.
+      ###
       if Tyto.taskList.get(tId) is `undefined`
         Tyto.taskList.fetch().done ->
           renderTask()

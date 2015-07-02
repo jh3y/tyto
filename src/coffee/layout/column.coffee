@@ -20,14 +20,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   childViewOptions: ->
     boardView: this.getOption 'boardView'
-    board : this.getOption 'board'
-    column: this
+    board    : this.getOption 'board'
+    column   : this
 
   initialize: ->
 
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
-
     newWidth = (100 / this.options.siblings.length) + '%'
     this.$el.css
       width: newWidth
@@ -74,28 +73,18 @@ module.exports = Backbone.Marionette.CompositeView.extend
     oldTitle = col.get 'title'
     col.set 'title', @ui.columnName.text().trim()
     col.save()
-    Tyto.UndoHandler.register
-      action   : 'EDIT-COLUMN'
-      model    : col
-      property : 'title'
-      val      : oldTitle
-    return
 
   addTask: ->
-    col = this
-    newId   = _.uniqueId()
-    newTask = new Tyto.Tasks.Task
-      id     : newId
-      columnId: col.model.id
-      boardId: col.options.board.id
-      ordinal: this.collection.length + 1
+    columnView = this
 
-    # NOTE shouldn't be possible unless user accepts localStorage use.
-    newTask.save()
-
-    this.collection.add newTask
+    this.collection.add Tyto.taskList.create
+      columnId: columnView.model.id
+      boardId : columnView.options.board.id
+      ordinal : columnView.collection.length + 1
 
   deleteColumn: ->
     # Here need to iterate over the tasks and destroy them all.
     if confirm 'are you sure????'
+      this.collection.forEach (taskModel) ->
+        taskModel.destroy()
       this.model.destroy()
