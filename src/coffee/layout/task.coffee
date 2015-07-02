@@ -18,13 +18,21 @@ module.exports = Backbone.Marionette.ItemView.extend
     'dblclick @ui.description' : 'enableEditTask'
     'blur @ui.description'     : 'updateTask'
 
+
+  initialize: ->
+    this.$el.on 'animationend', ->
+      $(this).parents('.column').removeClass 'is--adding'
+
   deleteTask: ->
     this.model.destroy()
 
   editTask: ->
     boardId = this.options.board.id
     taskId  = this.model.id
-    Tyto.navigate '#board/' + boardId + '/task/' + taskId, true
+    yap 'Add a nice transition out from the event target.'
+    setTimeout(->
+      Tyto.navigate '#board/' + boardId + '/task/' + taskId, true
+    , 1000)
 
   updateTask: ->
     this.ui.description.removeAttr 'contenteditable'

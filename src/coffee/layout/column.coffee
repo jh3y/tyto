@@ -77,8 +77,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
       title: this.ui.columnName.text().trim()
 
   addTask: ->
-    columnView = this
 
+    columnView = this
+    columnView.$el.addClass 'is--adding'
     this.collection.add Tyto.taskList.create
       columnId: columnView.model.id
       boardId : columnView.options.board.id
