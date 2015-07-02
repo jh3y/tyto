@@ -62,6 +62,7 @@ gulp.task('stylus:compile', function() {
     .pipe(plugins.order(pluginOpts.order.stylus))
     .pipe(plugins.concat(gConfig.pkg.name + '.stylus'))
     .pipe(plugins.stylus())
+    .pipe(plugins.prefix(pluginOpts.prefix))
     .pipe(gulp.dest(destinations.css))
     .pipe(plugins.minify())
     .pipe(plugins.rename(pluginOpts.rename))

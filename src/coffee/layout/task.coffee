@@ -20,7 +20,7 @@ module.exports = Backbone.Marionette.ItemView.extend
 
 
   initialize: ->
-    this.$el.on 'animationend', ->
+    this.$el.on 'animationend webkitAnimationEnd oAnimationEnd', ->
       $(this).parents('.column').removeClass 'is--adding'
 
   deleteTask: ->
