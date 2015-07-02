@@ -28,37 +28,69 @@ Utils = (Utils, App, Backbone, Marionette) ->
     ###
     delete d.tyto
     delete d['tyto--board']
+    delete d['tyto--column']
+    delete d['tyto--task']
 
-    boardIds = window.localStorage['tyto--board'].split ','
+    altered = {}
+
     _.forOwn d, (val, key) ->
-      console.info key, boardIds
-      importBoard = JSON.parse val
-      if boardIds.indexOf(importBoard.id) isnt -1
-        # If board ID already exists, need to set up new ID for board.
-        newId = _.uniqueId()
-        importBoard.id = newId
-        boardIds.push newId
-      window.localStorage['tyto--board-' + importBoard.id] = JSON.stringify importBoard
-      Tyto.boardList.add importBoard
 
-    window.localStorage['tyto--board'] = boardIds.toString()
+      if key.indexOf('tyto--board-') isnt -1
+        entity = JSON.parse val
+        if Tyto.boardList.get(entity.id) isnt `undefined`
+          saveId = entity.id
+          delete entity.id
+        altered[saveId] = Tyto.boardList.create(entity).id
+
+      if key.indexOf('tyto--column-') isnt -1
+        entity = JSON.parse val
+        if altered[entity.boardId]
+          entity.boardId = altered[entity.boardId]
+        if Tyto.columnList.get(entity.id) isnt `undefined`
+          saveId = entity.id
+          delete entity.id
+        altered[saveId] = Tyto.columnList.create(entity).id
+
+      if key.indexOf('tyto--task-') isnt -1
+        entity = JSON.parse val
+        if altered[entity.boardId]
+          entity.boardId = altered[entity.boardId]
+        if altered[entity.columnId]
+          entity.columnId = altered[entity.columnId]
+        if Tyto.taskList.get(entity.id) isnt `undefined`
+          saveId = entity.id
+          delete entity.id
+        altered[saveId] = Tyto.taskList.create(entity).id
+
+
 
   Utils.loadData = (d) ->
-    ###
-      When we do a "load", we want to wipe the current set up and load in new.
-    ###
-    Tyto.boardList.reset()
-    # wipe the localStorage
+    boards = []
+    cols   = []
+    tasks  = []
+
+    # wipe the current localStorage
     _.forOwn window.localStorage, (val, key) ->
       if key.indexOf('tyto') isnt -1
         window.localStorage.removeItem key
+
     # repopulate localStorage
     _.forOwn d, (val, key) ->
       window.localStorage.setItem key, val
       # If we have a board we need to populate it into the boardList
       if key.indexOf('tyto--board-') isnt -1
-        loadBoard = JSON.parse val
-        Tyto.boardList.add loadBoard
+        boards.push JSON.parse val
+      if key.indexOf('tyto--column-') isnt -1
+        cols.push JSON.parse val
+      if key.indexOf('tyto--task-') isnt -1
+        tasks.push JSON.parse val
+
+    ###
+      When we do a "load", we want to wipe the current set up and load in new.
+    ###
+    Tyto.boardList.reset boards
+    Tyto.columnList.reset cols
+    Tyto.taskList.reset tasks
 
     # Need to empty out the current boardView to make way for whatever is chose.
     Tyto.root.getRegion('content').empty()

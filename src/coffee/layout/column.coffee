@@ -74,6 +74,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
   deleteColumn: ->
     # Here need to iterate over the tasks and destroy them all.
     if confirm 'are you sure????'
-      this.collection.forEach (taskModel) ->
-        taskModel.destroy()
+      while this.collection.length isnt 0
+        this.collection.first().destroy()
+      # this.collection.forEach (taskModel) ->
+      #   taskModel.destroy()
       this.model.destroy()

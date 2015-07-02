@@ -56,23 +56,21 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       # And send them through to the view...
       model = this.boardList.get id
       if model isnt `undefined`
-        Tyto.columnList.fetch().done ->
-          Tyto.taskList.fetch().done ->
-            cols = Tyto.columnList.where
-              boardId: model.id
-            tasks = Tyto.taskList.where
-              boardId: model.id
+        cols = Tyto.columnList.where
+          boardId: model.id
+        tasks = Tyto.taskList.where
+          boardId: model.id
 
-            Tyto.currentTasks.reset tasks
-            Tyto.currentCols.reset cols
+        Tyto.currentTasks.reset tasks
+        Tyto.currentCols.reset cols
 
-            Tyto.boardView = new App.Layout.Board
-              model     : model
-              collection: Tyto.currentCols
-              options   :
-                tasks: Tyto.currentTasks
+        Tyto.boardView = new App.Layout.Board
+          model     : model
+          collection: Tyto.currentCols
+          options   :
+            tasks: Tyto.currentTasks
 
-            App.root.showChildView 'content', Tyto.boardView
+        App.root.showChildView 'content', Tyto.boardView
       else
         App.navigate '/'
 

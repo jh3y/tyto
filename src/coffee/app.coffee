@@ -50,6 +50,8 @@ Tyto.currentTasks = new Tyto.Columns.ColumnList()
 # Backbone.localStorage is being used, it's viable.
 # We only need the boards as we will grab the boards and tasks when needed.
 Tyto.boardList.fetch().done (data) ->
-  document.querySelector('.loading').className = ''
-  Tyto.start()
-  return
+  Tyto.columnList.fetch().done (data) ->
+    Tyto.taskList.fetch().done (data) ->
+      document.querySelector('.loading').className = ''
+      Tyto.start()
+      return
