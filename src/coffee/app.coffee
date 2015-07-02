@@ -12,6 +12,7 @@ BoardModel         = require './models/boards'
 TaskModel          = require './models/tasks'
 ColumnModel        = require './models/columns'
 TytoLayout         = require './layout/layout'
+Utils              = require './appUtils'
 
 
 # Create entities
@@ -22,6 +23,7 @@ Tyto.module 'Tasks'       , TaskModel
 
 Tyto.module 'BoardList'   , BoardCtrl
 Tyto.module 'Layout'      , TytoLayout
+Tyto.module 'Utils'       , Utils
 
 Tyto.on 'before:start', ->
   Tyto.setRootLayout()
@@ -36,9 +38,12 @@ Tyto.on 'start', ->
 # application.
 
 # Instantiate and cache collections.
-Tyto.boardList  = new Tyto.Boards.BoardList()
-Tyto.columnList = new Tyto.Columns.ColumnList()
-Tyto.taskList   = new Tyto.Tasks.TaskList()
+Tyto.boardList    = new Tyto.Boards.BoardList()
+Tyto.columnList   = new Tyto.Columns.ColumnList()
+Tyto.taskList     = new Tyto.Tasks.TaskList()
+# Used for cacheing current view entities
+Tyto.currentCols  = new Tyto.Columns.ColumnList()
+Tyto.currentTasks = new Tyto.Columns.ColumnList()
 
 
 # fetch shouldn't really be used to bootstrap the collection but as

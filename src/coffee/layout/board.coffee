@@ -42,6 +42,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       add board...
     ###
     board.model.set 'columns', board.collection
+
     board.collection.on 'remove', (mod, col, opts) ->
       newWidth = (100 / board.collection.length) + '%'
       $('.column').css
@@ -55,7 +56,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
     # something new that the ordinal property of each column is respected.
-    console.log 'rendering'
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
@@ -64,9 +64,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   bindColumns: ->
     self        = this
-    model       = `undefined`
     list        = `undefined`
-    oldPos      = `undefined`
     this.$el.find('.columns').sortable
       connectWith: '.column',
       handle     : '.column--mover'
@@ -74,43 +72,33 @@ module.exports = Backbone.Marionette.CompositeView.extend
       axis       : "x"
       containment: this.$el.find('.columns')
       opacity    : 0.8
-      start      : (event, ui) ->
-        model       = self.collection.get ui.item.attr('data-col-id')
-        oldPos      = model.get 'ordinal'
       stop       : (event, ui) ->
         list        = Array.prototype.slice.call self.$el.find '.column'
-
-        Tyto.reorder self, list, 'data-col-id'
+        Tyto.Utils.reorder self, list, 'data-col-id'
 
 
 
   addColumn: ->
-    board = this.model
-    newCol = new Tyto.Columns.Column
-      id     : _.uniqueId()
+    board   = this.model
+    columns = this.collection
+    
+    columns.add Tyto.columnList.create
       boardId: board.id
-      ordinal: this.collection.length + 1
-
-    # NOTE localStorage use must have been accepted.
-    newCol.save()
-
-    this.collection.add newCol
+      ordinal: columns.length + 1
 
   updateName: ->
-    this.model.set 'title', @ui.boardName.text().trim()
-    this.model.save()
+    this.model.save
+      title: this.ui.boardName.text().trim()
 
   superAddTask: ->
-    board = this.model
-    newTask = new Tyto.Tasks.Task
-      id     : _.uniqueId()
-      ordinal: this.collection.length + 1
+    ###
+      Need to intercept on the edit page if we use history back.
+    ###
+
+    board   = this.model
+
+    newTask = Tyto.taskList.create
       boardId: board.id
-
-    # NOTE localStorage usage must've been accepted by this point
-    newTask.save()
-
-    Tyto.taskList.add newTask
 
     Tyto.navigate '#board/' + board.id + '/task/' + newTask.id, true
 

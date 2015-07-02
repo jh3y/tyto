@@ -66,11 +66,13 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
               boardId: model.id
             tasks = Tyto.taskList.where
               boardId: model.id
+            Tyto.currentTasks.reset tasks
+            Tyto.currentCols.reset cols
             Tyto.boardView = new App.Layout.Board
-              model: model
-              collection: new Tyto.Columns.ColumnList cols
-              options:
-                tasks: new Tyto.Tasks.TaskList tasks
+              model     : model
+              collection: Tyto.currentCols
+              options   :
+                tasks: Tyto.currentTasks
             App.root.showChildView 'content', Tyto.boardView
       else
         App.navigate '/'
@@ -83,17 +85,13 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
           model  : task
           boardId: bId
           isNew  : isNew
-        debugger
         App.root.showChildView 'content', Tyto.editView
-
-      Tyto.columnList.fetch().done (d) ->
-        if Tyto.taskList.get(tId) is `undefined`
-          Tyto.taskList.fetch().done ->
-            console.log 'has to fetch first'
-            renderTask()
-        else
-          console.log 'alredy got it'
+      # Wrapped in an if statement in case user refreshes on an edit view.
+      if Tyto.taskList.get(tId) is `undefined`
+        Tyto.taskList.fetch().done ->
           renderTask()
+      else
+        renderTask()
 
   # Here just instantiate controller and start it up
   App.on 'start', ->
