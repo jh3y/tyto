@@ -13,9 +13,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       columnId: c.id
     boardView = this
     collection : new Tyto.Tasks.TaskList colTasks
-    boardView  : boardView
     board      : boardView.model
-    siblings   : boardView.collection
   ui:
     addColumn  : '#add-column'
     deleteBoard: '#delete-board'

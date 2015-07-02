@@ -18,6 +18,19 @@ module.exports = Backbone.Marionette.CompositeView.extend
     addTask     : '.add-task'
     columnName  : '#column-name'
 
+  collectionEvents:
+    'all': 'handleEvent'
+
+  handleEvent: (e) ->
+    view = this
+    if e is 'add' or e is 'destroy'
+      if e is 'destroy'
+        list = Array.prototype.slice.call view.$el.find '.tyto--task'
+        Tyto.Utils.reorder view, list, 'data-task-id'
+      view.render()
+
+
+
   childViewOptions: ->
     board    : this.getOption 'board'
     column   : this
@@ -26,15 +39,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
-    # newWidth = (100 / this.options.siblings.length) + '%'
-    #
-    # this.options.boardView.$el.find('.column').css
-    #   width: newWidth
-    # this.$el.css
-    #   width: newWidth
 
-
-  onRender: ->
+  bindTasks: ->
     self        = this
     this.$el.find('.tasks').sortable
       connectWith: '.tasks',
@@ -62,6 +68,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
         self.render()
 
     return
+
+  onRender: ->
+    this.bindTasks()
 
   updateName: ->
     this.model.save

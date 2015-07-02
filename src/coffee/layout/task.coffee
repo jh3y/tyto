@@ -12,20 +12,19 @@ module.exports = Backbone.Marionette.ItemView.extend
     title        : '.tyto--task-title'
   events:
     'click @ui.deleteTask'     : 'deleteTask'
-    'click @ui.editTask'       : 'saveAndEdit'
+    'click @ui.editTask'       : 'editTask'
     'dblclick @ui.title'       : 'enableEditTaskTitle'
     'blur @ui.title'           : 'updateTaskTitle'
     'dblclick @ui.description' : 'enableEditTask'
     'blur @ui.description'     : 'updateTask'
 
-  initialize: ->
-
-
   deleteTask: ->
     this.model.destroy()
 
-  saveAndEdit: ->
-    Tyto.navigate '#board/' + this.board.id + '/task/' + this.model.id, true
+  editTask: ->
+    boardId = this.options.board.id
+    taskId  = this.model.id
+    Tyto.navigate '#board/' + boardId + '/task/' + taskId, true
 
   updateTask: ->
     this.ui.description.removeAttr 'contenteditable'
