@@ -2,7 +2,7 @@ Column = require './column'
 
 module.exports = Backbone.Marionette.CompositeView.extend
   tagName           : 'div'
-  className         : 'board'
+  className         : 'tyto--board'
   template          : Tyto.templateStore.board
   templateHelpers   : ->
     columns: this.collection
@@ -16,6 +16,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     collection : new Tyto.Tasks.TaskList colTasks
     board      : boardView.model
   ui:
+    addEntity  : '#add-entity'
     addColumn  : '#add-column'
     deleteBoard: '#delete-board'
     wipeBoard  : '#wipe-board'
@@ -34,11 +35,15 @@ module.exports = Backbone.Marionette.CompositeView.extend
       view.render()
 
   events:
+    'click @ui.addEntity'  : 'toggleAddMenu'
     'click @ui.addColumn'  : 'addColumn'
     'click @ui.deleteBoard': 'deleteBoard'
     'click @ui.wipeBoard'  : 'wipeBoard'
     'blur @ui.boardName'   : 'updateName'
     'click @ui.superAdd'   : 'superAddTask'
+
+  toggleAddMenu: ->
+    yap 'do something'
 
   initialize: ->
     board = this

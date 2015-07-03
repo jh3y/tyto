@@ -4,5 +4,6 @@
   left       -100%
   bottom     0
   transition left .35s ease 0s
+  z-index    3
   &.is__visible
     left   0

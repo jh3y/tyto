@@ -1,6 +1,3 @@
-button#add-board Add a board
-button#add-column Add a column
-button#super-add Add a task
 button#delete-board Delete Board
 button#wipe-board Wipe Board
 button#email-board Email Board
@@ -10,3 +7,16 @@ span <%= columns.length %>
 div#board-name(contenteditable="true")<%= title %>
   span <%= boards %>
 .columns
+
+
+//- Note that the chosen icons for the different actions are by no means ideal.
+.add-entity
+  button#add-entity.bg--red.tx--white.float
+    i.material-icons add
+  div
+    button#add-board.float
+      i.material-icons book
+    button#add-column.float
+      i.material-icons view_column
+    button#super-add.tx--white.bg--red.float
+      i.material-icons note_add
