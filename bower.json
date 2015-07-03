@@ -37,6 +37,7 @@
     "fontawesome": "~4.3.0",
     "mocha": "~2.2.5",
     "chai": "~2.3.0",
-    "lodash": "~3.9.3"
+    "lodash": "~3.9.3",
+    "material-design-icons": "~2.0.0"
   }
 }
