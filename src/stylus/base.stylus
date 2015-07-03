@@ -9,3 +9,7 @@ body
   padding     0
   overflow-y  scroll
   font-family 'Roboto','sans-serif'
+  -webkit-font-smoothing  antialiased
+  text-rendering          optimizeLegibility
+  -moz-osx-font-smoothing grayscale
+  font-feature-settings   'liga'
