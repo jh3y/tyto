@@ -1,8 +1,33 @@
+action-right  = 0
+button-height = 60
+
+
 .tyto--board
   position relative
   padding  10px
 
-  .add-entity
-    position absolute
-    bottom   0
-    right    0
+  .actions--primary
+    &.is__showing_options
+      #add-entity
+        i
+          transform rotate(45deg)
+      .options
+        height 160px
+
+    #add-entity
+      position absolute
+      bottom   0
+      right    action-right
+      z-index 3
+      i
+        transition transform .25s ease 0s
+
+    .options
+      height     0
+      position   absolute
+      overflow   hidden
+      right      action-right
+      bottom     (button-height / 2px)
+      transition height .25s ease 0s
+      button
+        display block

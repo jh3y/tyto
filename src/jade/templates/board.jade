@@ -10,13 +10,11 @@ div#board-name(contenteditable="true")<%= title %>
 
 
 //- Note that the chosen icons for the different actions are by no means ideal.
-.add-entity
+.actions--primary
   button#add-entity.bg--red.tx--white.float
     i.material-icons add
-  div
-    button#add-board.float
-      i.material-icons book
-    button#add-column.float
+  .options
+    button#add-column.float.bg--red.tx--white
       i.material-icons view_column
     button#super-add.tx--white.bg--red.float
       i.material-icons note_add

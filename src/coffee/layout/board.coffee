@@ -16,23 +16,29 @@ module.exports = Backbone.Marionette.CompositeView.extend
     collection : new Tyto.Tasks.TaskList colTasks
     board      : boardView.model
   ui:
-    addEntity  : '#add-entity'
-    addColumn  : '#add-column'
-    deleteBoard: '#delete-board'
-    wipeBoard  : '#wipe-board'
-    boardName  : '#board-name'
-    superAdd   : '#super-add'
+    addEntity     : '#add-entity'
+    primaryActions: '.actions--primary'
+    addColumn     : '#add-column'
+    deleteBoard   : '#delete-board'
+    wipeBoard     : '#wipe-board'
+    boardName     : '#board-name'
+    superAdd      : '#super-add'
 
   collectionEvents:
-    'all': 'handleEvent'
-
+    'add'   : 'updateSelector'
+    'remove': 'updateSelector'
+    'all'   : 'handleEvent'
+  #
   handleEvent: (e) ->
     view = this
-    if e is 'add' or e is 'destroy'
-      if e is 'destroy'
-        list = Array.prototype.slice.call view.$el.find '.column'
-        Tyto.Utils.reorder view, list, 'data-col-id'
-      view.render()
+    list = view.$el.find '.column'
+    # TODO: Need to handle resizing all columns on collection change.
+    if e is 'add' or e is 'remove'
+      newWidth = (100 / view.collection.length) + '%'
+      list.css
+        width: newWidth
+    if e is 'destroy'
+      Tyto.Utils.reorder view, list, 'data-col-id'
 
   events:
     'click @ui.addEntity'  : 'toggleAddMenu'
@@ -43,10 +49,16 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.superAdd'   : 'superAddTask'
 
   toggleAddMenu: ->
-    yap 'do something'
+    this.ui.primaryActions.toggleClass 'is__showing_options'
+
+  updateSelector: ->
+    yap 'whoah there has been a change....'
 
   initialize: ->
     board = this
+    $('body').on 'click', (e) ->
+      if $(e.target).parents('.actions--primary').length is 0 and board.ui.primaryActions.hasClass 'is__showing_options'
+        board.toggleAddMenu()
 
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add
@@ -55,7 +67,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   onRender: ->
     newWidth = (100 / this.collection.length) + '%'
-
+    yap this.collection.length
     this.$el.find('.column').css
       width: newWidth
 
