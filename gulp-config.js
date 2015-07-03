@@ -25,6 +25,7 @@ module.exports = {
     order: {
       stylus: [
         '_var.stylus',
+        '_typography.stylus',
         '_functions.stylus',
         'base.stylus',
         '**/*.stylus'
@@ -70,6 +71,7 @@ module.exports = {
           'src/vendor/fontawesome/css/font-awesome.css'
         ],
         fonts: [
+          'src/vendor/roboto/out/RobotoTTF/Roboto-Regular.ttf',
           'src/vendor/material-design-icons/iconfont/**/*.{eot,ttf,woff,woff2}'
         ]
       },
