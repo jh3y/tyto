@@ -70,7 +70,7 @@ module.exports = {
           'src/vendor/fontawesome/css/font-awesome.css'
         ],
         fonts: [
-          'src/vendor/fontawesome/fonts/**/*.*'
+          'src/vendor/material-design-icons/iconfont/**/*.{eot,ttf,woff,woff2}'
         ]
       },
       jade: [

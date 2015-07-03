@@ -34,7 +34,6 @@
     "jquery-ui": "~1.11.4",
     "jqueryui-touch-punch": "*",
     "normalize.css": "~3.0.3",
-    "fontawesome": "~4.3.0",
     "mocha": "~2.2.5",
     "chai": "~2.3.0",
     "lodash": "~3.9.3",
