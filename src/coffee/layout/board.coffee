@@ -6,6 +6,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   template          : Tyto.templateStore.board
   templateHelpers   : ->
     columns: this.collection
+    boards : Tyto.boardList.length
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: (c) ->

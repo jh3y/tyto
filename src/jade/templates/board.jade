@@ -1,20 +1,12 @@
-//- button#save-board Save board
+button#add-board Add a board
 button#add-column Add a column
-  i.fa.fa-plus
-button#super-add Add a hard task
+button#super-add Add a task
 button#delete-board Delete Board
 button#wipe-board Wipe Board
 button#email-board Email Board
 
 span <%= columns.length %>
-//- |<% if (items.length > 0) { %>
-//- select#column-selector
-//-   option --select a column--
-//-   |<% _.each(columns, function(i){ %>
-//-   option(value!="<%= i.id %>") <%= i.title %>
-//-   |<% }) %>
-//- |<% } %>
-
 
 div#board-name(contenteditable="true")<%= title %>
+  span <%= boards %>
 .columns

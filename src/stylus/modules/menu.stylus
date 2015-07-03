@@ -1,0 +1,8 @@
+.tyto--menu-panel
+  position   fixed
+  top        0
+  left       -100%
+  bottom     0
+  transition left .35s ease 0s
+  &.is__visible
+    left   0

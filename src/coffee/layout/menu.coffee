@@ -2,14 +2,17 @@ module.exports =  Backbone.Marionette.ItemView.extend
   template: Tyto.templateStore.menu
   ui:
     add          : '#add-board'
+    show         : '#show'
     exportBtn    : '#export-data'
     loadBtn      : '#load-data'
     importBtn    : '#import-data'
+    menu         : '.tyto--menu-panel'
     exporter     : '#exporter'
     importer     : '#importer'
     boardSelector: '#board-selector'
   events:
     'click @ui.add'           : 'addBoard',
+    'click @ui.show'          : 'toggleMenu',
     'change @ui.boardSelector': 'showBoard',
     'click @ui.exportBtn'     : 'export'
     'click @ui.loadBtn'       : 'initLoad'
@@ -18,6 +21,9 @@ module.exports =  Backbone.Marionette.ItemView.extend
 
   collectionEvents:
     'all': 'render'
+
+  toggleMenu: ->
+    this.ui.menu.toggleClass 'is__visible'
 
   initialize: ->
     menuView        = this
@@ -28,6 +34,10 @@ module.exports =  Backbone.Marionette.ItemView.extend
         Tyto.Utils.loadData data
       else
         Tyto.Utils.importData data
+
+    $('body').on 'click', (e) ->
+      if $(e.target).parents('#tyto--menu').length is 0 and menuView.ui.menu.hasClass 'is__visible'
+        menuView.toggleMenu()
 
   handleFile: (e) ->
     menu = this
