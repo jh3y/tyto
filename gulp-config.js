@@ -63,10 +63,12 @@ module.exports = {
           'src/vendor/marionette/lib/backbone.marionette.js',
           'src/vendor/yap/dist/yap.min.js',
           'src/vendor/jquery-ui/jquery-ui.js',
-          'src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js'
+          'src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+          'src/vendor/material-design-lite/material.js'
         ],
         css: [
-          'src/vendor/normalize.css/normalize.css'
+          'src/vendor/normalize.css/normalize.css',
+          'src/vendor/material-design-lite/material.css'
         ],
         fonts: [
           'src/vendor/roboto/out/RobotoTTF/Roboto-Regular.ttf',
