@@ -9,9 +9,8 @@ head
   link(rel="stylesheet", href="../src/vendor/material-design-lite/material.css")
   link(rel="stylesheet", href="css/tyto.min.css")
   script(src="../src/vendor/material-design-lite/material.js")
-body#tyto-app.loading
-    include header
-    block content
+body#tyto-app  
+  block content
   script(src="js/vendor.js")
   script.
     yap.muzzle(false);

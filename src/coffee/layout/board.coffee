@@ -63,12 +63,21 @@ module.exports = Backbone.Marionette.CompositeView.extend
     this.collection.models = this.collection.sortBy 'ordinal'
 
   onRender: ->
+
+    # bV = this
+    # window.but = bV.$el.find('#add-entity')[0]
+    #
+    # setTimeout(->
+    #   componentHandler.upgradeElement(but, 'MaterialButton')
+    # , 0)
+
     newWidth = (100 / this.collection.length) + '%'
     yap this.collection.length
     this.$el.find('.column').css
       width: newWidth
 
     this.bindColumns()
+
 
 
   bindColumns: ->

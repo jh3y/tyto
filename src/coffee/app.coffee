@@ -30,6 +30,9 @@ Tyto.on 'before:start', ->
 
 Tyto.on 'start', ->
   Backbone.history.start()
+  $('.ripple').on 'click', (e) ->
+    yap 'no matter what, I am rippling...'
+
   $('body').on 'click', (e) ->
     if $(e.target).parents('.actions--primary').length is 0 and $('.actions--primary').hasClass 'is__showing_options'
       $('.actions--primary').toggleClass 'is__showing_options'
@@ -56,6 +59,5 @@ Tyto.currentTasks = new Tyto.Columns.ColumnList()
 Tyto.boardList.fetch().done (data) ->
   Tyto.columnList.fetch().done (data) ->
     Tyto.taskList.fetch().done (data) ->
-      document.querySelector('.loading').className = ''
       Tyto.start()
       return

@@ -1,24 +1,21 @@
-button#show show menu
-div.tyto--menu-panel.bg--white
-  ul.tyto--actions
-    li
-      button#add-board Add new board <%= items.length %>
-    |<% if (items.length > 0) { %>
-    li
-      select#board-selector
-        option --select a board--
-        |<% _.each(items, function(i){ %>
-        option(value!="<%= i.id %>") <%= i.title %>
-        |<% }) %>
-    |<% } %>
-    li
-      button#delete-save Delete save
-    li
-      button#export-data Export data
-      a#exporter
-    li
-      button#import-data Import data
-    li
-      button#load-data Load data
-    input#importer(type="file")
-      
+ul.tyto--actions
+  li
+    button#add-board Add new board <%= items.length %>
+  |<% if (items.length > 0) { %>
+  li
+    select#board-selector
+      option --select a board--
+      |<% _.each(items, function(i){ %>
+      option(value!="<%= i.id %>") <%= i.title %>
+      |<% }) %>
+  |<% } %>
+  li
+    button#delete-save Delete save
+  li
+    button#export-data Export data
+    a#exporter
+  li
+    button#import-data Import data
+  li
+    button#load-data Load data
+  input#importer(type="file")

@@ -1,5 +1,7 @@
 module.exports =  Backbone.Marionette.ItemView.extend
   template: Tyto.templateStore.menu
+  tagName : 'div'
+  className: ''
   ui:
     add          : '#add-board'
     show         : '#show'
