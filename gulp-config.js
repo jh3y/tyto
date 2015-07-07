@@ -60,15 +60,13 @@ module.exports = {
           'src/vendor/lodash/lodash.js',
           'src/vendor/backbone/backbone.js',
           'src/vendor/Backbone.localStorage/backbone.localStorage.js',
-          'src/vendor/backbone.relational/backbone-relational.js',
           'src/vendor/marionette/lib/backbone.marionette.js',
           'src/vendor/yap/dist/yap.min.js',
           'src/vendor/jquery-ui/jquery-ui.js',
           'src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js'
         ],
         css: [
-          'src/vendor/normalize.css/normalize.css',
-          'src/vendor/fontawesome/css/font-awesome.css'
+          'src/vendor/normalize.css/normalize.css'
         ],
         fonts: [
           'src/vendor/roboto/out/RobotoTTF/Roboto-Regular.ttf',

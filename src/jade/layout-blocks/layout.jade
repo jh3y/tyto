@@ -6,8 +6,10 @@ head
   meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0")
   meta(name="description", content="'the tool you take over', a customisable task manager application.")
   link(rel="stylesheet", href="css/vendor.min.css")
+  link(rel="stylesheet", href="../src/vendor/material-design-lite/material.css")
   link(rel="stylesheet", href="css/tyto.min.css")
-  body#tyto-app.loading
+  script(src="../src/vendor/material-design-lite/material.js")
+body#tyto-app.loading
     include header
     block content
   script(src="js/vendor.js")

@@ -56,9 +56,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   initialize: ->
     board = this
-    $('body').on 'click', (e) ->
-      if $(e.target).parents('.actions--primary').length is 0 and board.ui.primaryActions.hasClass 'is__showing_options'
-        board.toggleAddMenu()
 
   onBeforeRender: ->
     # This ensures that even after moving a column that when we add

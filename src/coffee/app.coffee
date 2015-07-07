@@ -30,6 +30,9 @@ Tyto.on 'before:start', ->
 
 Tyto.on 'start', ->
   Backbone.history.start()
+  $('body').on 'click', (e) ->
+    if $(e.target).parents('.actions--primary').length is 0 and $('.actions--primary').hasClass 'is__showing_options'
+      $('.actions--primary').toggleClass 'is__showing_options'
   Tyto.vent.trigger 'history:started'
   return
 
@@ -41,6 +44,7 @@ Tyto.on 'start', ->
 Tyto.boardList    = new Tyto.Boards.BoardList()
 Tyto.columnList   = new Tyto.Columns.ColumnList()
 Tyto.taskList     = new Tyto.Tasks.TaskList()
+
 # Used for cacheing current view entities
 Tyto.currentCols  = new Tyto.Columns.ColumnList()
 Tyto.currentTasks = new Tyto.Columns.ColumnList()

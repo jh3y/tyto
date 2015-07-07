@@ -10,7 +10,7 @@ button-height = 60
     &.is__showing_options
       #add-entity
         i
-          transform rotate(45deg)
+          transform translate(-12px, -12px) rotate(45deg)
       .options
         height 160px
 
@@ -20,6 +20,7 @@ button-height = 60
       right    action-right
       z-index 3
       i
+        transform-origin center
         transition transform .25s ease 0s
 
     .options

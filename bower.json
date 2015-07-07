@@ -38,6 +38,7 @@
     "chai": "~2.3.0",
     "lodash": "~3.9.3",
     "material-design-icons": "~2.0.0",
-    "roboto": "google/roboto"
+    "roboto": "google/roboto",
+    "material-design-lite": "~1.0.0"
   }
 }
