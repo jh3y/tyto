@@ -1,6 +1,8 @@
+span.mdl-layout-title
+  h1 tyto
 ul.tyto--actions
   li
-    button#add-board Add new board <%= items.length %>
+    button#add-board.mdl-button.mdl-js-button.mdl-js-ripple-effect Add new board <%= items.length %>
   |<% if (items.length > 0) { %>
   li
     select#board-selector
@@ -10,12 +12,12 @@ ul.tyto--actions
       |<% }) %>
   |<% } %>
   li
-    button#delete-save Delete save
+    button#delete-save.mdl-button.mdl-js-button.mdl-js-ripple-effect Delete save
   li
-    button#export-data Export data
+    button#export-data.mdl-button.mdl-js-button.mdl-js-ripple-effect Export data
     a#exporter
   li
-    button#import-data Import data
+    button#import-data.mdl-button.mdl-js-button.mdl-js-ripple-effect Import data
   li
-    button#load-data Load data
+    button#load-data.mdl-button.mdl-js-button.mdl-js-ripple-effect Load data
   input#importer(type="file")
