@@ -1,8 +1,14 @@
-button.delete Delete
-button.edit Edit Task
-.id <%= id %>
-.ordinal <%= ordinal %>
 |<% if (title) { %>
-div.tyto--task-title       <%= title %>
+.mdl-card__title
+  h2.mdl-card__title-text.tyto--task-title <%= title %>
 |<% } %>
-div.tyto--task-description <%= description %>
+.mdl-card__supporting-text.tyto--task-description <%= description %>
+.mdl-extras
+  .ordinal <%= ordinal %>
+  .id      <%= id %>
+.mdl-card__menu
+  button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect(id!="<%= id %>--menu")
+    i.material-icons more_vert
+  ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for!="<%= id %>--menu")
+    li.mdl-menu__item.delete Delete
+    li.mdl-menu__item.edit   Edit

@@ -1,6 +1,6 @@
 module.exports = Backbone.Marionette.ItemView.extend
   tagName        : 'div'
-  className      : 'tyto--task bg--yellow'
+  className      : 'tyto--task bg--yellow mdl-card mdl-shadow--2dp'
   attributes     : ->
     id = this.model.get 'id'
     'data-task-id': id

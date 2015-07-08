@@ -1,5 +1,5 @@
-.task
-  padding 10px
+.tyto--task
+  margin 10px
 
 
 .item-placeholder
