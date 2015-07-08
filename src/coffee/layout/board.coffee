@@ -64,12 +64,15 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   onRender: ->
 
-    # bV = this
-    # window.but = bV.$el.find('#add-entity')[0]
-    #
-    # setTimeout(->
-    #   componentHandler.upgradeElement(but, 'MaterialButton')
-    # , 0)
+    bV = this
+    # menu  = bV.$el.find '#demo-menu-lower-right'
+    # menuM = bV.$el.find '#menumenu'
+    # slider = bV.$el.find '#slider'
+    # componentHandler.upgradeElement slider[0], 'MaterialSlider'
+    # componentHandler.upgradeElement menu[0]  , 'MaterialButton'
+    # componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
+    # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
+    # componentHandler.upgradeDom 'MaterialMenu', 'mdl-menu'
 
     newWidth = (100 / this.collection.length) + '%'
     yap this.collection.length
@@ -121,17 +124,24 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   deleteBoard: ->
     view = this
-    view.wipeBoard()
-    view.model.destroy()
-    view.destroy()
-    Tyto.navigate '/',
-      trigger: true
-
-  wipeBoard: ->
-    view = this
     if confirm 'are you sure???'
+      view.wipeBoard()
+      view.model.destroy()
+      view.destroy()
+      Tyto.navigate '/',
+        trigger: true
+
+  wipeBoard: (dontConfirm) ->
+    view = this
+    wipe = ->
       view.children.forEach (colView) ->
         while colView.collection.length isnt 0
           colView.collection.first().destroy()
         colView.model.destroy()
+    if dontConfirm
+      if confirm 'are you sure???'
+        wipe()
+    else
+        wipe()
+
     return
