@@ -4,7 +4,7 @@ button-height = 60
 
 .tyto--board
   position relative
-  padding  10px
+  // padding  10px
 
   .actions--primary
     &.is__showing_options
@@ -15,7 +15,7 @@ button-height = 60
         height 160px
 
     #add-entity
-      position absolute
+      position fixed
       bottom   0
       right    action-right
       z-index 3
@@ -25,7 +25,7 @@ button-height = 60
 
     .options
       height     0
-      position   absolute
+      position   fixed
       overflow   hidden
       right      action-right
       bottom     (button-height / 2px)
