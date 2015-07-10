@@ -36,6 +36,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     column   : this
 
   initialize: ->
+    this.$el.on 'animationend webkitAnimationEnd oAnimationEnd', ->
+      $(this).parents('.tyto--board').removeClass 'is--adding-column'
 
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
@@ -68,6 +70,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
         self.render()
 
     return
+
+  onShow: ->
+    columns = $('.columns')[0]
+    if columns.scrollWidth > window.outerWidth
+      columns.scrollLeft = columns.scrollWidth
 
   onRender: ->
     this.bindTasks()

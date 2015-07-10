@@ -1,17 +1,17 @@
 .column
   display inline-block
   vertical-align top
+  min-width 320px
 
-
-.column-placeholder
-  margin 2px solid black
-
+.columns
+  display        flex
+  flex-direction row
+  overflow-x     auto
+  overflow-y     hidden
 
 .item-placeholder
-  border 1px dashed #888
-  height 100px
-  width  90%
-  margin 0em auto 1em auto
+  min-height 150px
+  width  100%
 
 .column-placeholder
   border 1px dashed #888
@@ -20,3 +20,15 @@
   margin 0 1em
   height 100%
   vertical-align top
+
+
+.tyto--board.is--adding-column
+  .column
+    &:last-of-type
+      animation fadeIn .5s
+
+@keyframes fadeIn
+  from
+    opacity 0
+  to
+    opacity 1

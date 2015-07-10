@@ -32,11 +32,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
   handleEvent: (e) ->
     view = this
     list = view.$el.find '.column'
-    # TODO: Need to handle resizing all columns on collection change.
-    if e is 'add' or e is 'remove'
-      newWidth = (100 / view.collection.length) + '%'
-      list.css
-        width: newWidth
+    # # TODO: Need to handle resizing all columns on collection change.
+    # if e is 'add' or e is 'remove'
+    #   newWidth = (100 / view.collection.length) + '%'
+    #   list.css
+    #     width: newWidth
     if e is 'destroy'
       Tyto.Utils.reorder view, list, 'data-col-id'
 
@@ -62,22 +62,28 @@ module.exports = Backbone.Marionette.CompositeView.extend
     # something new that the ordinal property of each column is respected.
     this.collection.models = this.collection.sortBy 'ordinal'
 
+  onShow: ->
+    yap 'doing an upgrade'
+    bV = this
+    # componentHandler.upgradeDom()
+    menuM = bV.$el.find '#menumenu'
+    componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
+    # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
+
   onRender: ->
 
     bV = this
     # menu  = bV.$el.find '#demo-menu-lower-right'
-    # menuM = bV.$el.find '#menumenu'
     # slider = bV.$el.find '#slider'
     # componentHandler.upgradeElement slider[0], 'MaterialSlider'
     # componentHandler.upgradeElement menu[0]  , 'MaterialButton'
-    # componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
-    # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
     # componentHandler.upgradeDom 'MaterialMenu', 'mdl-menu'
+    # componentHandler.upgradeDom()
 
-    newWidth = (100 / this.collection.length) + '%'
-    yap this.collection.length
-    this.$el.find('.column').css
-      width: newWidth
+    # newWidth = (100 / this.collection.length) + '%'
+    # yap this.collection.length
+    # this.$el.find('.column').css
+    #   width: newWidth
 
     this.bindColumns()
 
@@ -101,6 +107,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   addColumn: ->
     board   = this.model
     columns = this.collection
+    this.$el.addClass 'is--adding-column'
 
     columns.add Tyto.columnList.create
       boardId: board.id

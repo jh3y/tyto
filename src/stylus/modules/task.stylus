@@ -1,10 +1,3 @@
-.tyto--task
-  margin 10px
-
-
-.item-placeholder
-  margin 2px dotted black
-
 .column.is--adding
   .tyto--task
     &:last-of-type

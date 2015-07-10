@@ -30,12 +30,11 @@ Tyto.on 'before:start', ->
 
 Tyto.on 'start', ->
   Backbone.history.start()
-  $('.ripple').on 'click', (e) ->
-    yap 'no matter what, I am rippling...'
 
   $('body').on 'click', (e) ->
     if $(e.target).parents('.actions--primary').length is 0 and $('.actions--primary').hasClass 'is__showing_options'
       $('.actions--primary').toggleClass 'is__showing_options'
+
   Tyto.vent.trigger 'history:started'
   return
 

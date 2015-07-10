@@ -12,3 +12,14 @@ for key, value in colorPalette
 
 .padd
   padding paddingSize
+
+
+.tyto--task
+  .mdl-button
+    position relative
+    i
+      position absolute
+      top      50%
+      left     50%
+      margin-left -12px
+      margin-top  -12px

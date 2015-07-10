@@ -26,6 +26,13 @@ module.exports = Backbone.Marionette.ItemView.extend
   deleteTask: ->
     this.model.destroy()
 
+  onShow: ->
+    yap 'I am actually running?'
+    # componentHandler.upgradeDom('MaterialMenu', 'mdl-menu')
+    tV = this
+    menu = tV.$el.find '.mdl-menu'
+    componentHandler.upgradeElement menu[0], 'MaterialMenu'
+
   editTask: ->
     boardId = this.options.board.id
     taskId  = this.model.id
