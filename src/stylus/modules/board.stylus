@@ -7,11 +7,12 @@ button-height = 60
   display  flex
   flex-direction column
   position fixed
-  top 100px
+  top 56px
   right 0
   bottom 0
   left 0
-  // padding  10px
+  @media(min-width 852px)
+    top 64px
 
   .actions--primary
     &.is__showing_options
@@ -39,3 +40,24 @@ button-height = 60
       transition height .25s ease 0s
       button
         display block
+
+#demo-menu-lower-right
+  position absolute
+  top 0
+  right 0
+
+#board-name
+  position fixed
+  z-index 2
+  top      0px
+  left     100px
+  font-size 24px
+  height 56px
+  line-height 56px
+  margin 0
+  outline 0
+  &:focus
+    background-color purple
+  @media(min-width 852px)
+    line-height 64px
+    height      64px

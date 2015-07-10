@@ -54,6 +54,9 @@ module.exports = {
       coffee: [
         'src/coffee/**/*.coffee'
       ],
+      img: [
+        'src/img/**/*.*'
+      ],
       vendor: {
         js: [
           'src/vendor/jquery/dist/jquery.js',
@@ -88,6 +91,7 @@ module.exports = {
       html: env,
       js: env + 'js/',
       css: env + 'css/',
+      img: env + 'img/',
       fonts: env + 'fonts/',
       templates: 'src/coffee/templates/',
       build: '',

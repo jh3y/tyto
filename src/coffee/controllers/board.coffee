@@ -48,13 +48,14 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
     showMenu: (boards) ->
       Tyto.menuView = new App.Layout.Menu
         collection: boards
+        model     : Tyto.currentBoard
       Tyto.root.showChildView 'menu', Tyto.menuView
       return
 
     showBoard: (id) ->
       # On a show board. Need to pull in all the columns and tasks for a board
       # And send them through to the view...
-      model = this.boardList.get id
+      Tyto.currentBoard = model = this.boardList.get id
       if model isnt `undefined`
         cols = Tyto.columnList.where
           boardId: model.id
@@ -69,6 +70,8 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
           collection: Tyto.currentCols
           options   :
             tasks: Tyto.currentTasks
+
+        Tyto.vent.trigger 'board:change', Tyto.currentBoard
 
         App.root.showChildView 'content', Tyto.boardView
       else

@@ -41,6 +41,9 @@ module.exports =  Backbone.Marionette.ItemView.extend
       if $(e.target).parents('#tyto--menu').length is 0 and menuView.ui.menu.hasClass 'is__visible'
         menuView.toggleMenu()
 
+    # Tyto.vent.on 'board:change', (a,b,c) ->
+    #   debugger
+
   handleFile: (e) ->
     menu = this
     f    = e.target.files[0]

@@ -28,15 +28,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'add'   : 'updateSelector'
     'remove': 'updateSelector'
     'all'   : 'handleEvent'
-  #
+
   handleEvent: (e) ->
     view = this
     list = view.$el.find '.column'
-    # # TODO: Need to handle resizing all columns on collection change.
-    # if e is 'add' or e is 'remove'
-    #   newWidth = (100 / view.collection.length) + '%'
-    #   list.css
-    #     width: newWidth
     if e is 'destroy'
       Tyto.Utils.reorder view, list, 'data-col-id'
 
@@ -66,28 +61,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
     yap 'doing an upgrade'
     bV = this
     # componentHandler.upgradeDom()
-    # menuM = bV.$el.find '#menumenu'
-    # componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
+    menuM = bV.$el.find '#menumenu'
+    componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
     # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
 
   onRender: ->
-
     bV = this
-    # menu  = bV.$el.find '#demo-menu-lower-right'
-    # slider = bV.$el.find '#slider'
-    # componentHandler.upgradeElement slider[0], 'MaterialSlider'
-    # componentHandler.upgradeElement menu[0]  , 'MaterialButton'
-    # componentHandler.upgradeDom 'MaterialMenu', 'mdl-menu'
-    # componentHandler.upgradeDom()
-
-    # newWidth = (100 / this.collection.length) + '%'
-    # yap this.collection.length
-    # this.$el.find('.column').css
-    #   width: newWidth
-
     this.bindColumns()
-
-
 
   bindColumns: ->
     self        = this

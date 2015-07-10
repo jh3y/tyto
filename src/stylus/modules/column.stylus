@@ -10,7 +10,7 @@
   .column-actions,
   h6
     flex 0 0 auto
-  .tasks-holder
+  .tasks
     flex 1 1 auto
     overflow-y auto
     overflow-x hidden
@@ -20,6 +20,7 @@
   flex-direction row
   overflow-x     auto
   overflow-y     hidden
+  flex           1 1 auto
 
 .item-placeholder
   min-height 150px
@@ -44,3 +45,6 @@
     opacity 0
   to
     opacity 1
+
+.column-action
+  min-height 40px

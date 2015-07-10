@@ -133,10 +133,18 @@ gulp.task('vendor:styles:publish', function() {
 });
 
 
+gulp.task('img:publish', function() {
+  return gulp.src(sources.img)
+    .pipe(plugins.plumber())
+    .pipe(gulp.dest(destinations.img));
+});
+
+
 gulp.task('vendor:publish', [
   'vendor:scripts:publish',
   'vendor:styles:publish',
-  'vendor:fonts:publish'
+  'vendor:fonts:publish',
+  'img:publish'
 ]);
 
 gulp.task('build:complete', [

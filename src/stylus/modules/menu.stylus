@@ -1,0 +1,14 @@
+.app--title
+  background-image    url('../img/tyto.png')
+  background-size     contain
+  background-repeat   no-repeat
+  background-position center center
+  height              100px
+  position            relative
+  padding             20px
+  margin              20px
+
+  h1
+    position       absolute
+    bottom         0
+    text-align     center

@@ -23,3 +23,13 @@ for key, value in colorPalette
       left     50%
       margin-left -12px
       margin-top  -12px
+
+
+.mdl-layout__drawer-button
+  i
+    color black
+.tyto--content
+  overflow visible
+
+header.mdl-layout__header
+  z-index 1
