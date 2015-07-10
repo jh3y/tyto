@@ -23,11 +23,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   handleEvent: (e) ->
     view = this
-    if e is 'add' or e is 'destroy'
-      if e is 'destroy'
-        list = Array.prototype.slice.call view.$el.find '.tyto--task'
-        Tyto.Utils.reorder view, list, 'data-task-id'
-      view.render()
+    # if e is 'add' or e is 'destroy'
+    if e is 'destroy'
+      list = Array.prototype.slice.call view.$el.find '.tyto--task'
+      Tyto.Utils.reorder view, list, 'data-task-id'
+      # view.render()
 
 
 

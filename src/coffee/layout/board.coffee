@@ -66,8 +66,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     yap 'doing an upgrade'
     bV = this
     # componentHandler.upgradeDom()
-    menuM = bV.$el.find '#menumenu'
-    componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
+    # menuM = bV.$el.find '#menumenu'
+    # componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
     # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
 
   onRender: ->
