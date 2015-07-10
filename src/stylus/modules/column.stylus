@@ -1,7 +1,19 @@
 .column
-  display inline-block
-  vertical-align top
-  min-width 320px
+  display flex
+  flex-direction column
+  flex 0 0 320px
+  width 320px
+  max-height 100%
+  box-flex 0
+  h6
+    min-height 50px
+  .column-actions,
+  h6
+    flex 0 0 auto
+  .tasks-holder
+    flex 1 1 auto
+    overflow-y auto
+    overflow-x hidden
 
 .columns
   display        flex

@@ -1,12 +1,11 @@
-.column-items
-  .position <%= ordinal %>
-  .id <%= id %>
-  .column-actions
-    a.column--mover Move Column
-    button.add-task Add Task
-    button#delete-column Delete Column
-  h6#column-name(contenteditable="true") <%= title %>
-  .tasks-holder
-    .tasks
+//- .position <%= ordinal %>
+//- .id <%= id %>
+.column-actions
+  a.column--mover Move Column
+  button.add-task Add Task
+  button#delete-column Delete Column
+h6#column-name(contenteditable="true") <%= title %>
+.tasks-holder
+  .tasks
   .column-action
     button.add-task Add Task

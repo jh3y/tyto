@@ -4,6 +4,13 @@ button-height = 60
 
 .tyto--board
   position relative
+  display  flex
+  flex-direction column
+  position fixed
+  top 0
+  right 0
+  bottom 0
+  left 0
   // padding  10px
 
   .actions--primary
