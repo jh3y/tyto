@@ -6,7 +6,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   template          : Tyto.templateStore.board
   templateHelpers   : ->
     columns: this.collection
-    boards : Tyto.boardList.length
+    boards : Tyto.boardList
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: (c) ->
@@ -62,7 +62,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
     bV = this
     # componentHandler.upgradeDom()
     menuM = bV.$el.find '#menumenu'
+    bNameM = bV.$el.find '#board-name-menu'
     componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
+    componentHandler.upgradeElement bNameM[0] , 'MaterialMenu'
     # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
 
   onRender: ->

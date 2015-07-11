@@ -1,16 +1,25 @@
 button#demo-menu-lower-right.mdl-button.mdl-js-button.mdl-button--icon
   i.material-icons more_vert
-//- 
+
 ul#menumenu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="demo-menu-lower-right")
   li#delete-board.mdl-menu__item Delete board
   li#wipe-board.mdl-menu__item Wipe board
   li#email-board.mdl-menu__item Email board
 
 //- span <%= columns.length %>
-//- 
-h1#board-name(contenteditable="true")<%= title %>
 
-//- span <%= boards %>
+.tyto--board-name
+  h1#board-name(contenteditable="true")<%= title %>
+  |<% if (boards.length > 1) { %>
+  button#board-name-selector.mdl-button.mdl-js-button.mdl-button--icon
+    i.material-icons expand_more
+  ul#board-name-menu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="board-name-selector")
+    |<% _.each(boards.models, function(i){ %>
+    li.mdl-menu__item
+      a(href!="#board/<%= i.attributes.id %>") <%= i.attributes.title %>
+    |<% }) %>
+  |<% } %>
+
 .columns
 
 
