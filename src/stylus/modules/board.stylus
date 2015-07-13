@@ -27,6 +27,7 @@ button-height = 60
       bottom   10px
       right    action-right
       z-index 3
+      animation create .25s
       i
         transform-origin center
         transition transform .25s ease 0s
@@ -35,15 +36,23 @@ button-height = 60
       height     0
       position   fixed
       overflow   hidden
+      width      56px
       right      action-right
       bottom     (button-height / 2px)
       transition height .25s ease 0s
       button
         display block
+        border-radius 50%
+        height 46px
+        margin 10px auto
+        min-width 46px
+        width 46px
+        padding 0
+        overflow hidden
         i.sub
           font-size 16px
-          left 40px
-          top  40px
+          left 35px
+          top  35px
           font-weight 800
 
 

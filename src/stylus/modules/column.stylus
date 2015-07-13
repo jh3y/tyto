@@ -1,7 +1,7 @@
-.column
+.column-content
   display flex
   flex-direction column
-  flex 0 0 320px
+  flex 1 1 auto
   width 320px
   max-height 100%
   box-flex 0
@@ -14,6 +14,15 @@
     flex 1 1 auto
     overflow-y auto
     overflow-x hidden
+
+.column
+  display flex
+  width 320px
+  flex-direction column
+  flex 0 0 320px
+  max-height 100%
+  box-flex 0
+
 
 .columns
   display        flex
@@ -44,8 +53,10 @@
 .tyto--board.is--adding-column
   .column
     &:last-of-type
-      transform-origin center center
-      animation create .5s
+      .column-content
+        transform-origin center center
+        animation-duration .5s
+        animation-name create
 
 @keyframes create
   from
