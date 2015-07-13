@@ -34,6 +34,3 @@
   .tyto--task-description
     width 100%
     outline 0
-    transition background-color .25s
-    &:focus
-      background-color red

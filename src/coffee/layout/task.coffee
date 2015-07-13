@@ -46,6 +46,5 @@ module.exports = Backbone.Marionette.ItemView.extend
       description: this.ui.description.text().trim()
 
   updateTaskTitle: ->
-    this.ui.title.removeAttr 'contenteditable'
     this.model.save
       title: this.ui.title.text().trim()

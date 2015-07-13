@@ -41,3 +41,10 @@ header.mdl-layout__header
   transition opacity .25s
   &:hover
     opacity 1
+
+.input--fade
+  outline 0
+  opacity .6
+  transition opacity .25s
+  &:focus
+    opacity 1
