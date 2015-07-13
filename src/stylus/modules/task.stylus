@@ -7,7 +7,30 @@
 .tyto--task
   margin-bottom 20px
   max-width 100%
-  opacity 1
+  .tyto--task_header
+    position relative
+    text-align center
+    margin 10px 0
+    .tyto--task-title
+      display inline-block
+      max-width 200px
+      margin 0
+      font-size 24px
+      line-height 24px
+    .tyto--task_menu
+      position absolute
+      top 5px
+      right 5px
+      width 24px
+      height 24px
+      border-radius 50%
+      min-width 24px
+      padding 0
+    .task--mover
+      position absolute
+      top 5px
+      left 5px
+
   .tyto--task-description
     width 100%
     outline 0

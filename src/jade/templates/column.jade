@@ -4,9 +4,9 @@
     h6#column-name(contenteditable="true") <%= title %>
     button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.column--menu_btn.does--fade(id!="<%= id %>--menu")
       i.material-icons more_vert
-    ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for!="<%= id %>--menu")
+    ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(id!="<%= id %>--menu_content" for!="<%= id %>--menu")
       li.mdl-menu__item#delete-column Delete
       li.mdl-menu__item.add-task Add task
   .tasks
   .column-action
-    button.add-task Add Task
+    i.material-icons.add-task.does--fade add

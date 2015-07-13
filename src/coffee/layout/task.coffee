@@ -13,9 +13,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   events:
     'click @ui.deleteTask'     : 'deleteTask'
     'click @ui.editTask'       : 'editTask'
-    'dblclick @ui.title'       : 'enableEditTaskTitle'
     'blur @ui.title'           : 'updateTaskTitle'
-    'dblclick @ui.description' : 'enableEditTask'
     'blur @ui.description'     : 'updateTask'
 
 
@@ -44,19 +42,10 @@ module.exports = Backbone.Marionette.ItemView.extend
     , 1000)
 
   updateTask: ->
-    this.ui.description.removeAttr 'contenteditable'
     this.model.save
       description: this.ui.description.text().trim()
-
-  enableEditTask: ->
-    this.ui.description.attr('contenteditable', true)
-      .focus()
 
   updateTaskTitle: ->
     this.ui.title.removeAttr 'contenteditable'
     this.model.save
       title: this.ui.title.text().trim()
-
-  enableEditTaskTitle: ->
-    this.ui.title.attr('contenteditable', true)
-      .focus()

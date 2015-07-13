@@ -1,15 +1,13 @@
 .tyto--task-content
-  |<% if (title) { %>
-  .mdl-card__title
-    h2.mdl-card__title-text.tyto--task-title <%= title %>
-  |<% } %>
-  .mdl-card__supporting-text.tyto--task-description <%= description %>
-  //- .mdl-extras
-  //-   .ordinal <%= ordinal %>
-  //-   .id      <%= id %>
-  .mdl-card__menu
-    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect(id!="<%= id %>--menu")
+  .tyto--task_header
+    i.material-icons.task--mover.does--fade open_with
+    h2.tyto--task-title(contenteditable="true") <%= title %>
+    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.does--fade.tyto--task_menu(id!="<%= id %>--menu")
       i.material-icons more_vert
     ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for!="<%= id %>--menu")
       li.mdl-menu__item.delete Delete
       li.mdl-menu__item.edit   Edit
+  .mdl-card__supporting-text.tyto--task-description(contenteditable="true") <%= description %>
+  //- .mdl-extras
+  //-   .ordinal <%= ordinal %>
+  //-   .id      <%= id %>

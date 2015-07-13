@@ -43,6 +43,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     self        = this
     this.$el.find('.tasks').sortable
       connectWith: '.tasks',
+      handle     : '.task--mover'
       placeholder: 'item-placeholder'
       containment: '.columns'
       opacity    : 0.8
@@ -66,12 +67,30 @@ module.exports = Backbone.Marionette.CompositeView.extend
         Tyto.Utils.reorder self, list, 'data-task-id'
         self.render()
 
+        ###
+          Not the prettiest piece of update code here but in order for the column menu to rebind, having to invoke upgradeDom().
+
+          NOTE:: For some reason grabbing the elements and doing upgradeElement/
+          upgradeDom does not work.
+
+          If this proves too much hassle, could add extra method to view that ensures that on click, the relevant material class is added to the menu content.
+        ###
+        componentHandler.upgradeDom()
+
     return
 
   onShow: ->
     columns = $('.columns')[0]
     if columns.scrollWidth > window.outerWidth
       columns.scrollLeft = columns.scrollWidth
+    this.bindMenu()
+
+  bindMenu: ->
+    cV = this
+    id = this.model.id
+    menu = cV.$el.find '#' + id + '--menu_content'
+    yap menu[0]
+    componentHandler.upgradeDom menu[0], 'MaterialMenu'
 
   onRender: ->
     this.bindTasks()

@@ -9,7 +9,7 @@
   .column--mover
     position absolute
     top 0
-    left 5px
+    left 13px
     flex 0 0 auto
     cursor move
   .column_actions
@@ -86,3 +86,11 @@
 
 .column-action
   min-height 40px
+  text-align center
+  display flex
+  align-items center
+  align-content center
+  i
+    flex 1
+    font-size 32px
+    cursor pointer
