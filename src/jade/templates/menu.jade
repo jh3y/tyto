@@ -4,14 +4,6 @@ span.mdl-layout-title
 ul.tyto--actions
   li
     button#add-board.mdl-button.mdl-js-button.mdl-js-ripple-effect Add new board
-  |<% if (items.length > 0) { %>
-  li
-    select#board-selector
-      option --select a board--
-      |<% _.each(items, function(i){ %>
-      option(value!="<%= i.id %>") <%= i.title %>
-      |<% }) %>
-  |<% } %>
   li
     button#delete-save.mdl-button.mdl-js-button.mdl-js-ripple-effect Delete save
   li

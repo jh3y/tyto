@@ -10,6 +10,7 @@ for key, value in colorPalette
       color value
 
 
+
 .padd
   padding paddingSize
 

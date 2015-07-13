@@ -27,11 +27,13 @@ module.exports = Backbone.Marionette.ItemView.extend
     this.model.destroy()
 
   onShow: ->
-    yap 'I am actually running?'
-    # componentHandler.upgradeDom('MaterialMenu', 'mdl-menu')
-    tV = this
+    tV   = this
     menu = tV.$el.find '.mdl-menu'
     componentHandler.upgradeElement menu[0], 'MaterialMenu'
+    container = tV.$el.parents('.tasks')[0]
+    column    = tV.$el.parents('.column')
+    if container.scrollHeight > container.offsetHeight and column.hasClass('is--adding')
+      container.scrollTop = container.scrollHeight
 
   editTask: ->
     boardId = this.options.board.id

@@ -1,9 +1,12 @@
 .column-content
-  .column-actions
-    a.column--mover Move Column
-    button.add-task Add Task
-    button#delete-column Delete Column
-  h6#column-name(contenteditable="true") <%= title %>
+  .column_actions
+    i.column--mover.material-icons open_with
+    h6#column-name(contenteditable="true") <%= title %>
+    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.column--menu_btn(id!="<%= id %>--menu")
+      i.material-icons more_vert
+    ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for!="<%= id %>--menu")
+      li.mdl-menu__item#delete-column Delete
+      li.mdl-menu__item.add-task Add task
   .tasks
   .column-action
     button.add-task Add Task

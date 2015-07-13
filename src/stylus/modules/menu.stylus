@@ -12,3 +12,8 @@
     position       absolute
     bottom         0
     text-align     center
+
+.tyto--actions
+  list-style none
+  input[type=file]
+    display none

@@ -27,9 +27,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
     if e is 'destroy'
       list = Array.prototype.slice.call view.$el.find '.tyto--task'
       Tyto.Utils.reorder view, list, 'data-task-id'
-      # view.render()
-
-
 
   childViewOptions: ->
     board    : this.getOption 'board'

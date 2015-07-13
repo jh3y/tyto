@@ -76,11 +76,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
     self        = this
     this.$el.find('.columns').sortable
       connectWith: '.column',
+      handle     : '.column_actions'
       handle     : '.column--mover'
       placeholder: 'column-placeholder'
       axis       : "x"
       containment: this.$el.find('.columns')
-      opacity    : 0.8
       stop       : (event, ui) ->
         list        = Array.prototype.slice.call self.$el.find '.column'
         Tyto.Utils.reorder self, list, 'data-col-id'
