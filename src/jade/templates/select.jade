@@ -1,0 +1,14 @@
+|<% if (items.length == 0) { %>
+span To start,
+button Add a board
+|<% } else {%>
+span To start, select one of your boards.
+.selector
+  select#board-selector
+    option --select a board--
+    |<% _.each(items, function(i){ %>
+    option(value!="<%= i.id %>") <%= i.title %>
+    |<% }) %>
+span Alternatively,
+button Add a board
+|<% } %>

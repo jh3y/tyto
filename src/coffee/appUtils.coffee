@@ -62,6 +62,7 @@ Utils = (Utils, App, Backbone, Marionette) ->
           delete entity.id
         altered[saveId] = Tyto.taskList.create(entity).id
 
+    Tyto.navigate '/', true
 
 
   Utils.loadData = (d) ->
@@ -92,8 +93,6 @@ Utils = (Utils, App, Backbone, Marionette) ->
     Tyto.columnList.reset cols
     Tyto.taskList.reset tasks
 
-    # Need to empty out the current boardView to make way for whatever is chose.
-    Tyto.root.getRegion('content').empty()
     Tyto.navigate '/', true
 
 

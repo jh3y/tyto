@@ -54,7 +54,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
     return
 
   initLoad: (e) ->
-    this.activeImporter = e.target
+    this.activeImporter = e.currentTarget
     anchor              = this.ui.importer[0]
     if window.File and window.FileReader and window.FileList and window.Blob
       anchor.click()

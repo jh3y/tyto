@@ -13,7 +13,11 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
 
     defaultDrop: ->
       # NOTE :: This is required if we wish to auto route user to a board.
-
+      yap 'do me', Tyto.boardList.length
+      Tyto.selectView = new App.Layout.Select
+        collection: Tyto.boardList
+      Tyto.root.showChildView 'content', Tyto.selectView
+      return
       # if this.boardList.length > 0 and window.location.hash is ''
       #   Tyto.vent.on 'history:started', ->
       #     id = that.boardList.first().get 'id'

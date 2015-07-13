@@ -64,7 +64,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     menuM = bV.$el.find '#menumenu'
     bNameM = bV.$el.find '#board-name-menu'
     componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
-    componentHandler.upgradeElement bNameM[0] , 'MaterialMenu'
+    if bNameM.length > 0
+      componentHandler.upgradeElement bNameM[0] , 'MaterialMenu'
     # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
 
   onRender: ->
