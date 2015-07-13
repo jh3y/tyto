@@ -1,10 +1,9 @@
 .column.is--adding
   .tyto--task
     &:last-of-type
-      animation fadeIn .5s
+      transform-origin center center
+      animation create .5s
 
-@keyframes fadeIn
-  from
-    opacity 0
-  to
-    opacity 1
+.tyto--task
+  margin-bottom 10px
+  max-width 100%

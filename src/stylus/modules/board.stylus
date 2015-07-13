@@ -1,4 +1,4 @@
-action-right  = 0
+action-right  = 10px
 button-height = 60
 
 
@@ -24,7 +24,7 @@ button-height = 60
 
     #add-entity
       position fixed
-      bottom   0
+      bottom   10px
       right    action-right
       z-index 3
       i
@@ -41,10 +41,18 @@ button-height = 60
       button
         display block
 
-#demo-menu-lower-right
-  position absolute
+
+.tyto--board-options
+  position fixed
+  display flex
+  align-items center
+  z-index 2
   top 0
-  right 0
+  right 10px
+  height 56px
+  @media(min-width 852px)
+    height 64px
+
 
 .tyto--board-name
   position fixed
@@ -53,6 +61,8 @@ button-height = 60
   z-index 2
   top      0px
   left     100px
+  button
+    margin-left 6px
   h1
     font-size 24px
     height 56px

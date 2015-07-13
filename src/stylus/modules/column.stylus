@@ -21,10 +21,16 @@
   overflow-x     auto
   overflow-y     hidden
   flex           1 1 auto
+  padding 10px
 
 .item-placeholder
   min-height 150px
   width  100%
+
+.tasks
+  padding-right 10px
+  &:last-of-type
+    padding 0
 
 .column-placeholder
   border 1px dashed #888
@@ -38,13 +44,14 @@
 .tyto--board.is--adding-column
   .column
     &:last-of-type
-      animation fadeIn .5s
+      transform-origin center center
+      animation create .5s
 
-@keyframes fadeIn
+@keyframes create
   from
-    opacity 0
+    transform scale(0)
   to
-    opacity 1
+    transform scale(1)
 
 .column-action
   min-height 40px
