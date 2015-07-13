@@ -1,8 +1,8 @@
 .column-content
   .column_actions
-    i.column--mover.material-icons open_with
+    i.column--mover.material-icons.does--fade open_with
     h6#column-name(contenteditable="true") <%= title %>
-    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.column--menu_btn(id!="<%= id %>--menu")
+    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.column--menu_btn.does--fade(id!="<%= id %>--menu")
       i.material-icons more_vert
     ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for!="<%= id %>--menu")
       li.mdl-menu__item#delete-column Delete

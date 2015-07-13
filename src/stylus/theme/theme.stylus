@@ -34,3 +34,10 @@ for key, value in colorPalette
 
 header.mdl-layout__header
   z-index 1
+
+
+.does--fade
+  opacity .2
+  transition opacity .25s
+  &:hover
+    opacity 1

@@ -9,12 +9,9 @@
   .column--mover
     position absolute
     top 0
-    opacity .25
     left 5px
     flex 0 0 auto
     cursor move
-    &:hover
-      opacity 1
   .column_actions
     text-align center
     margin 20px 0
