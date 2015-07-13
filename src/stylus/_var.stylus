@@ -1,4 +1,4 @@
-tytoRed    = #f44336
+tytoRed    = #ff5252
 tytoPurple = #673AB7
 tytoNavy   = #3F51B5
 tytoBlue   = #2196F3
@@ -6,7 +6,7 @@ tytoGreen  = #4CAF50
 tytoYellow = #FFEB3B
 tytoOrange = #FF9800
 tytoBlack  = #000
-tytoWhite  = #EEE
+tytoWhite  = #FFF
 
 
 colorPalette = {

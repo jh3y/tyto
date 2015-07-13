@@ -3,10 +3,10 @@ module.exports =  Backbone.Marionette.ItemView.extend
   tagName : 'div'
   className: ''
   ui:
-    # add          : '#add-board',
+    add          : '#add-board',
     boardSelector: '#board-selector'
   events:
-    # 'click @ui.add'           : 'addBoard',
+    'click @ui.add'           : 'addBoard',
     'change @ui.boardSelector': 'showBoard'
 
   collectionEvents:

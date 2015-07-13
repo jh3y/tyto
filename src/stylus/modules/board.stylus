@@ -40,6 +40,11 @@ button-height = 60
       transition height .25s ease 0s
       button
         display block
+        i.sub
+          font-size 16px
+          left 40px
+          top  40px
+          font-weight 800
 
 
 .tyto--board-options
