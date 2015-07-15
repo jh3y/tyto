@@ -17,7 +17,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     board      : boardView.model
   ui:
     addEntity     : '#add-entity'
-    primaryActions: '.actions--primary'
+    primaryActions: '.mdl-button--fab_flinger-container'
     addColumn     : '#add-column'
     deleteBoard   : '#delete-board'
     wipeBoard     : '#wipe-board'
@@ -36,15 +36,30 @@ module.exports = Backbone.Marionette.CompositeView.extend
       Tyto.Utils.reorder view, list, 'data-col-id'
 
   events:
-    'click @ui.addEntity'  : 'toggleAddMenu'
+    'click @ui.addEntity'  : 'showMenu'
     'click @ui.addColumn'  : 'addColumn'
     'click @ui.deleteBoard': 'deleteBoard'
     'click @ui.wipeBoard'  : 'wipeBoard'
     'blur @ui.boardName'   : 'updateName'
     'click @ui.superAdd'   : 'superAddTask'
 
-  toggleAddMenu: ->
-    this.ui.primaryActions.toggleClass 'is__showing_options'
+  cssClasses:
+    VISIBLE_FAB_MENU: 'is-showing-options'
+
+  showMenu: (e) ->
+    bV  = this
+    ctn = this.ui.primaryActions[0]
+    btn = this.ui.addEntity[0]
+    processClick = (evt) ->
+      # Have to check on timeStamp because one event is a jQuery event.
+      if e.timeStamp isnt evt.timeStamp
+        ctn.classList.remove bV.cssClasses.VISIBLE_FAB_MENU
+        ctn.IS_SHOWING_MENU = false
+        document.removeEventListener 'click', processClick
+    if !ctn.IS_SHOWING_MENU
+      ctn.IS_SHOWING_MENU = true
+      ctn.classList.add bV.cssClasses.VISIBLE_FAB_MENU
+      document.addEventListener 'click', processClick
 
   updateSelector: ->
     yap 'whoah there has been a change....'

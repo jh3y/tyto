@@ -31,6 +31,8 @@ Tyto.on 'before:start', ->
 Tyto.on 'start', ->
   Backbone.history.start()
 
+  # TODO: This needs to be moved into the event handling code for clicking the
+  # button. Add a document event listener on click that removes it if the el isn't clicked but is open
   $('body').on 'click', (e) ->
     if $(e.target).parents('.actions--primary').length is 0 and $('.actions--primary').hasClass 'is__showing_options'
       $('.actions--primary').toggleClass 'is__showing_options'

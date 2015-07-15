@@ -48,3 +48,11 @@ header.mdl-layout__header
   transition opacity .25s
   &:focus
     opacity 1
+
+
+/* FAB button sub icon styling */
+.mdl-button--fab
+  i
+    &.sub
+      transform   scale(0.75)
+      font-weight 800
