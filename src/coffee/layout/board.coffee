@@ -72,16 +72,16 @@ module.exports = Backbone.Marionette.CompositeView.extend
     # something new that the ordinal property of each column is respected.
     this.collection.models = this.collection.sortBy 'ordinal'
 
+
+
+
   onShow: ->
-    yap 'doing an upgrade'
     bV = this
-    # componentHandler.upgradeDom()
-    menuM = bV.$el.find '#menumenu'
+    menuM  = bV.$el.find '#menumenu'
     bNameM = bV.$el.find '#board-name-menu'
     componentHandler.upgradeElement menuM[0] , 'MaterialMenu'
     if bNameM.length > 0
       componentHandler.upgradeElement bNameM[0] , 'MaterialMenu'
-    # componentHandler.upgradeDom 'MaterialButton', 'mdl-button'
 
   onRender: ->
     bV = this
