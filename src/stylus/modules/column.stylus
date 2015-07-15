@@ -44,6 +44,13 @@
   flex 0 0 320px
   max-height 100%
   box-flex 0
+  &:hover
+    .column_actions
+      .does--fade
+        opacity 0.2
+  .column_actions
+    .does--fade
+      opacity 0
 
 
 

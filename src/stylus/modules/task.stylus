@@ -30,6 +30,12 @@
       position absolute
       top 5px
       left 5px
+  .does--fade
+    opacity 0
+
+  &:hover
+    .does--fade
+      opacity 0.2
 
   .tyto--task-description
     width 100%

@@ -42,13 +42,6 @@ header.mdl-layout__header
   &:hover
     opacity 1
 
-.input--fade
-  outline 0
-  opacity .6
-  transition opacity .25s
-  &:focus
-    opacity 1
-
 
 /* FAB button sub icon styling */
 .mdl-button--fab
