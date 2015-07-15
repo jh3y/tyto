@@ -46,7 +46,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
       handle     : '.task--mover'
       placeholder: 'item-placeholder'
       containment: '.columns'
-      opacity    : 0.8
       stop       : (event, ui) ->
         model           = self.collection.get ui.item.attr('data-task-id')
         destinationView = self

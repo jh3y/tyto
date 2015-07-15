@@ -45,6 +45,9 @@
   max-height 100%
   box-flex 0
   &:hover
+    .column-action
+      min-height 40px
+      height     40px
     .column_actions
       .does--fade
         opacity 0.2
@@ -63,11 +66,9 @@
   padding 10px
 
 
-.tasks
-
 .column-placeholder
   display inline-block
-  width 320px
+  min-width   320px
   height 100%
 
 .item-placeholder
@@ -92,11 +93,14 @@
     transform scale(1)
 
 .column-action
-  min-height 40px
+  height 0
+  min-height 0
+  overflow hidden
   text-align center
   display flex
   align-items center
   align-content center
+  transition height .25s linear, min-height .25s linear
   i
     flex 1
     font-size 32px
