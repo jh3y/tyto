@@ -15,8 +15,10 @@
     i.material-icons expand_more
   ul#board-name-menu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="board-name-selector")
     |<% _.each(boards.models, function(i){ %>
+    |<% if (i.attributes.id != id) { %>
     li.mdl-menu__item
       a(href!="#board/<%= i.attributes.id %>") <%= i.attributes.title %>
+    |<% } %>
     |<% }) %>
   |<% } %>
 
