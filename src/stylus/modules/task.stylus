@@ -37,7 +37,9 @@
 
   &:hover
     .does--fade
-      opacity 0.2
+      &:hover
+        opacity 1
+      opacity 0.4
 
   .tyto--task-description
     width 100%

@@ -37,7 +37,7 @@ header.mdl-layout__header
 
 
 .does--fade
-  opacity .2
+  opacity .4
   transition opacity .25s
   &:hover
     opacity 1
