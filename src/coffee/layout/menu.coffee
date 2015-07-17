@@ -18,7 +18,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
     'click  @ui.importBtn'    : 'initLoad'
     'change @ui.importer'     : 'handleFile'
 
-  properties:
+  props:
     DOWNLOAD_FILE_NAME: 'barn.json'
 
   initialize: ->
@@ -60,7 +60,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
     _.forOwn window.localStorage, (val, key) ->
       if key.indexOf('tyto') isnt -1
         exportable[key] = val
-    filename   = menuView.properties.DOWNLOAD_FILE_NAME
+    filename   = menuView.props.DOWNLOAD_FILE_NAME
     content    = 'data:text/plain,' + JSON.stringify(exportable)
 
     anchor.setAttribute 'download', filename

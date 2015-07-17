@@ -1,4 +1,7 @@
-module.exports = (BoardList, App, Backbone, Marionette) ->
+###
+  This needs a new name for sure.
+###
+BoardList = (BoardList, App, Backbone, Marionette) ->
   BoardList.Router = Marionette.AppRouter.extend
     appRoutes:
       'board/:board'                        : 'showBoard'
@@ -37,17 +40,15 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
         Tyto.CookieBannerView = new App.Layout.CookieBanner()
         Tyto.root.showChildView 'cookie', Tyto.CookieBannerView
 
-        return
 
     showMenu: ->
       Tyto.menuView = new App.Layout.Menu()
       Tyto.root.showChildView 'menu', Tyto.menuView
-      return
 
     showBoard: (id) ->
       # On a show board. Need to pull in all the columns and tasks for a board
       # And send them through to the view...
-      Tyto.currentBoard = model = this.boardList.get id
+      Tyto.currentBoard = model = Tyto.boardList.get id
       if model isnt `undefined`
         cols = Tyto.columnList.where
           boardId: model.id
@@ -63,38 +64,17 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
           options   :
             tasks: Tyto.currentTasks
 
-        Tyto.vent.trigger 'board:change', Tyto.currentBoard
-
         App.root.showChildView 'content', Tyto.boardView
       else
         App.navigate '/'
 
     editTask: (bId, tId, isNew) ->
       board      = Tyto.boardList.get bId
-      renderTask = ->
-        taskToEdit     = Tyto.taskList.get tId
-        Tyto.editView  = new App.Layout.Edit
-          model  : taskToEdit
-          boardId: bId
-          isNew  : isNew
-        App.root.showChildView 'content', Tyto.editView
+      taskToEdit = Tyto.taskList.get tId
+      Tyto.editView  = new App.Layout.Edit
+        model  : taskToEdit
+        boardId: bId
+        isNew  : isNew
+      App.root.showChildView 'content', Tyto.editView
 
-      ###
-        Wrapped in case user refreshes on an edit view in which case
-        Tyto.taskList would need to fetch again.
-      ###
-      if Tyto.taskList.get(tId) is `undefined`
-        Tyto.taskList.fetch().done ->
-          renderTask()
-      else
-        renderTask()
-
-  # Here just instantiate controller and start it up
-  App.on 'start', ->
-    Tyto.controller        = new BoardList.Controller()
-    Tyto.controller.router = new BoardList.Router
-      controller: Tyto.controller
-    Tyto.controller.start()
-    return
-
-  return
+module.exports = BoardList

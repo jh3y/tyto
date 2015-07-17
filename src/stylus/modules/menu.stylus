@@ -8,6 +8,7 @@
     position            relative
     padding             20px
     margin              20px
+
     h1
       position       absolute
       bottom         0
@@ -15,5 +16,6 @@
 
   .tyto-menu__actions
     list-style none
+
     input[type=file]
       display none

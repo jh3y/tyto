@@ -15,12 +15,10 @@ TytoLayout         = require './layout/layout'
 Utils              = require './appUtils'
 
 
-# Create entities
+# Create Modules
 Tyto.module 'Boards'      , BoardModel
 Tyto.module 'Columns'     , ColumnModel
 Tyto.module 'Tasks'       , TaskModel
-
-
 Tyto.module 'BoardList'   , BoardCtrl
 Tyto.module 'Layout'      , TytoLayout
 Tyto.module 'Utils'       , Utils
@@ -30,19 +28,22 @@ Tyto.module 'Utils'       , Utils
 Tyto.boardList    = new Tyto.Boards.BoardList()
 Tyto.columnList   = new Tyto.Columns.ColumnList()
 Tyto.taskList     = new Tyto.Tasks.TaskList()
-
-# Used for cacheing current view entities
 Tyto.currentBoard = new Tyto.Boards.Board()
 Tyto.currentCols  = new Tyto.Columns.ColumnList()
 Tyto.currentTasks = new Tyto.Tasks.TaskList()
+
 
 Tyto.on 'before:start', ->
   Tyto.setRootLayout()
 
 Tyto.on 'start', ->
+  # Instantiate the app controller and router on start.
+  Tyto.controller        = new Tyto.BoardList.Controller()
+  Tyto.controller.router = new Tyto.BoardList.Router
+    controller: Tyto.controller
+  Tyto.controller.start()
+  # Upon controller/router start, start history.
   Backbone.history.start()
-  Tyto.vent.trigger 'history:started'
-  return
 
 ###
   In a scenario where we are interacting with a live backend, expect to use
@@ -53,7 +54,8 @@ Tyto.on 'start', ->
 
   However, as we are only loading from localStorage, we can reset collections
   based on what is stored in localStorage.
-###
 
+  For this we use a utility function implementing in the Utils module.
+###
 Tyto.Utils.load window.localStorage
 Tyto.start()
