@@ -7,30 +7,26 @@ window.Tyto = Tyto = new TytoApp()
 Tyto.templateStore = require './templates/templates'
 
 # Pull in required modules
-BoardCtrl          = require './controllers/board'
-BoardModel         = require './models/boards'
-TaskModel          = require './models/tasks'
-ColumnModel        = require './models/columns'
-TytoLayout         = require './layout/layout'
+TytoCtrl           = require './controllers/tyto'
+TytoViews          = require './views/tyto'
+TytoModels         = require './models/tyto'
 Utils              = require './appUtils'
 
 
 # Create Modules
-Tyto.module 'Boards'      , BoardModel
-Tyto.module 'Columns'     , ColumnModel
-Tyto.module 'Tasks'       , TaskModel
-Tyto.module 'BoardList'   , BoardCtrl
-Tyto.module 'Layout'      , TytoLayout
+Tyto.module 'Models'      , TytoModels
+Tyto.module 'Ctrl'        , TytoCtrl
+Tyto.module 'Views'       , TytoViews
 Tyto.module 'Utils'       , Utils
 
 
 # Instantiate and cache collections.
-Tyto.boardList    = new Tyto.Boards.BoardList()
-Tyto.columnList   = new Tyto.Columns.ColumnList()
-Tyto.taskList     = new Tyto.Tasks.TaskList()
-Tyto.currentBoard = new Tyto.Boards.Board()
-Tyto.currentCols  = new Tyto.Columns.ColumnList()
-Tyto.currentTasks = new Tyto.Tasks.TaskList()
+Tyto.Boards       = new Tyto.Models.BoardCollection()
+Tyto.Columns      = new Tyto.Models.ColumnCollection()
+Tyto.Tasks        = new Tyto.Models.TaskCollection()
+Tyto.ActiveBoard  = new Tyto.Models.Board()
+Tyto.ActiveCols   = new Tyto.Models.ColumnCollection()
+Tyto.ActiveTasks  = new Tyto.Models.TaskCollection()
 
 
 Tyto.on 'before:start', ->
@@ -38,10 +34,10 @@ Tyto.on 'before:start', ->
 
 Tyto.on 'start', ->
   # Instantiate the app controller and router on start.
-  Tyto.controller        = new Tyto.BoardList.Controller()
-  Tyto.controller.router = new Tyto.BoardList.Router
-    controller: Tyto.controller
-  Tyto.controller.start()
+  Tyto.Controller        = new Tyto.Ctrl.Controller()
+  Tyto.Controller.Router = new Tyto.Ctrl.Router
+    controller: Tyto.Controller
+  Tyto.Controller.start()
   # Upon controller/router start, start history.
   Backbone.history.start()
 

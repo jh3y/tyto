@@ -89,8 +89,8 @@ Utils = (Utils, App, Backbone, Marionette) ->
           tasks.push JSON.parse val
 
     if !importing
-      Tyto.boardList.reset boards
-      Tyto.columnList.reset cols
-      Tyto.taskList.reset tasks
+      Tyto.Boards.reset boards
+      Tyto.Columns.reset cols
+      Tyto.Tasks.reset tasks
 
 module.exports = Utils

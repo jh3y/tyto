@@ -6,14 +6,14 @@ module.exports = Backbone.Marionette.CompositeView.extend
   template          : Tyto.templateStore.board
   templateHelpers   : ->
     columns: this.collection
-    boards : Tyto.boardList
+    boards : Tyto.Boards
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: (c) ->
-    colTasks = Tyto.currentTasks.where
+    colTasks = Tyto.ActiveTasks.where
       columnId: c.id
     boardView = this
-    collection : new Tyto.Tasks.TaskList colTasks
+    collection : new Tyto.Models.TaskCollection colTasks
     board      : boardView.model
   ui:
     addEntity     : '#add-entity'

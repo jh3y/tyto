@@ -29,7 +29,8 @@ for key, value in colorPalette
 .mdl-layout__drawer-button
   i
     color black
-.tyto--content
+
+.tyto-content
   overflow visible
 
 header.mdl-layout__header
