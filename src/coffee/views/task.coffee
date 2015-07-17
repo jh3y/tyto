@@ -1,25 +1,34 @@
 module.exports = Backbone.Marionette.ItemView.extend
   tagName        : 'div'
-  className      : 'tyto--task bg--yellow mdl-card mdl-shadow--2dp'
+
+  className      : ->
+    this.domAttributes.TASK_CLASS
+
   attributes     : ->
-    id = this.model.get 'id'
-    'data-task-id': id
-  template       : Tyto.templateStore.task
+    attr = {}
+    attr[this.domAttributes.TASK_ATTR] = this.model.get 'id'
+    attr
+
+  template       : Tyto.TemplateStore.task
+
   ui:
-    deleteTask   : '.delete'
-    editTask     : '.edit'
-    description  : '.tyto--task-description'
-    title        : '.tyto--task-title'
+    deleteTask   : '.tyto-task__delete-task'
+    editTask     : '.tyto-task__edit-task'
+    description  : '.tyto-task__description'
+    title        : '.tyto-task__title'
   events:
     'click @ui.deleteTask'     : 'deleteTask'
     'click @ui.editTask'       : 'editTask'
     'blur @ui.title'           : 'updateTaskTitle'
     'blur @ui.description'     : 'updateTask'
 
+  domAttributes:
+    TASK_CLASS: 'tyto-task bg--yellow mdl-card mdl-shadow--2dp'
+    TASK_ATTR : 'data-task-id'
 
   initialize: ->
     this.$el.on 'animationend webkitAnimationEnd oAnimationEnd', ->
-      $(this).parents('.column').removeClass 'is--adding'
+      $(this).parents('.tyto-column').removeClass 'is--adding'
 
   deleteTask: ->
     this.model.destroy()
@@ -28,8 +37,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     tV   = this
     menu = tV.$el.find '.mdl-menu'
     componentHandler.upgradeElement menu[0], 'MaterialMenu'
-    container = tV.$el.parents('.tasks')[0]
-    column    = tV.$el.parents('.column')
+    container = tV.$el.parents('.tyto-column__tasks')[0]
+    column    = tV.$el.parents('.tyto-column')
     if container.scrollHeight > container.offsetHeight and column.hasClass('is--adding')
       container.scrollTop = container.scrollHeight
 

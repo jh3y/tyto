@@ -1,12 +1,12 @@
-.column-content
-  .column_actions
-    i.column--mover.material-icons.does--fade open_with
+.tyto-column__content
+  .tyto-column__actions
+    i.tyto-column__mover.material-icons.does--fade open_with
     h6#column-name.input--fade(contenteditable="true") <%= title %>
-    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.column--menu_btn.does--fade(id!="<%= id %>--menu")
+    button.tyto-column__menu-btn.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.column--menu_btn.does--fade(id!="<%= id %>--menu")
       i.material-icons more_vert
-    ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(id!="<%= id %>--menu_content" for!="<%= id %>--menu")
+    ul.tyto-column__menu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(id!="<%= id %>--menu_content" for!="<%= id %>--menu")
       li.mdl-menu__item#delete-column Delete
       li.mdl-menu__item.add-task Add task
-  .tasks
-  .column-action
+  .tyto-column__tasks
+  .tyto-column__action
     i.material-icons.add-task.does--fade add

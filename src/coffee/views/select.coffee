@@ -1,5 +1,5 @@
 module.exports =  Backbone.Marionette.ItemView.extend
-  template: Tyto.templateStore.select
+  template: Tyto.TemplateStore.select
   tagName : 'div'
   className: ''
   ui:

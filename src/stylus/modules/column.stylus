@@ -1,4 +1,4 @@
-.column-content
+.tyto-column__content
   display flex
   flex-direction column
   flex 1 1 auto
@@ -6,19 +6,19 @@
   max-height 100%
   box-flex 0
   padding-right 10px
-  .column--mover
+  .tyto-column__mover
     position absolute
     top 0
     left 13px
     flex 0 0 auto
     cursor move
-  .column_actions
+  .tyto-column__actions
     text-align center
     margin 20px 0
     flex 0 0 auto
     position relative
     align-items center
-    .column--menu_btn
+    .tyto-column__menu-btn
       position absolute
       width 24px
       height 24px
@@ -31,13 +31,13 @@
       max-width 200px
       margin 0
       display inline-block
-  .tasks
+  .tyto-column__tasks
     padding 0 10px
     flex 1 1 auto
     overflow-y auto
     overflow-x hidden
 
-.column
+.tyto-column
   display flex
   width 320px
   flex-direction column
@@ -45,45 +45,27 @@
   max-height 100%
   box-flex 0
   &:hover
-    .column-action
+    .tyto-column__action
       min-height 40px
       height     40px
-    .column_actions
+    .tyto-column__actions
       .does--fade
         &:hover
           opacity 1
         opacity 0.4
-  .column_actions
+  .tyto-column__actions
     .does--fade
       opacity 0
 
-
-
-.columns
-  display        flex
-  flex-direction row
-  overflow-x     auto
-  overflow-y     hidden
-  flex           1 1 auto
-  padding 10px
-
-
-.column-placeholder
+.tyto-column__placeholder
   display inline-block
   min-width   320px
   height 100%
 
-.item-placeholder
-  height: 100px;
-  width: 90%;
-  margin: 0em auto 1em auto;
-
-
-
-.tyto--board.is--adding-column
-  .column
+.tyto-board.is-adding-column
+  .tyto-column
     &:last-of-type
-      .column-content
+      .tyto-column__content
         transform-origin center center
         animation-duration .5s
         animation-name create
@@ -94,7 +76,7 @@
   to
     transform scale(1)
 
-.column-action
+.tyto-column__action
   height 0
   min-height 0
   overflow hidden

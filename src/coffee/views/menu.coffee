@@ -1,5 +1,5 @@
 module.exports =  Backbone.Marionette.ItemView.extend
-  template: Tyto.templateStore.menu
+  template: Tyto.TemplateStore.menu
   tagName : 'div'
   className: 'tyto-menu'
 

@@ -1,19 +1,17 @@
-.tyto--board-options
-  button#demo-menu-lower-right.mdl-button.mdl-js-button.mdl-button--icon
+.tyto-board__options
+  button#tyto-board__menu.mdl-button.mdl-js-button.mdl-button--icon
     i.material-icons more_vert
-  ul#menumenu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="demo-menu-lower-right")
-    li#delete-board.mdl-menu__item Delete board
-    li#wipe-board.mdl-menu__item Wipe board
-    li#email-board.mdl-menu__item Email board
+  ul.tyto-board__menu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="tyto-board__menu")
+    li.tyto-board__delete-board.mdl-menu__item Delete board
+    li.tyto-board__wipe-board.mdl-menu__item Wipe board
+    li.tyto-board__email-board.mdl-menu__item Email board
 
-//- span <%= columns.length %>
-
-.tyto--board-name
-  h1#board-name(contenteditable="true")<%= title %>
+.tyto-board__details
+  h1.tyto-board__name(contenteditable="true")<%= title %>
   |<% if (boards.length > 1) { %>
-  button#board-name-selector.mdl-button.mdl-js-button.mdl-button--icon
+  button#tyto-board__selector.mdl-button.mdl-js-button.mdl-button--icon
     i.material-icons expand_more
-  ul#board-name-menu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="board-name-selector")
+  ul.tyto-board__selector.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="tyto-board__selector")
     |<% _.each(boards.models, function(i){ %>
     |<% if (i.attributes.id != id) { %>
     li.mdl-menu__item
@@ -22,17 +20,15 @@
     |<% }) %>
   |<% } %>
 
-.columns
+.tyto-board__columns
 
-
-//- Note that the chosen icons for the different actions are by no means ideal.
-.mdl-button--fab_flinger-container
-  button#add-entity.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
+.tyto-board__actions.mdl-button--fab_flinger-container
+  button.tyto-board__add-entity.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
     i.material-icons add
   .mdl-button--fab_flinger-options
-    button#super-add.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(title="Add task")
+    button.tyto-board__super-add.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(title="Add task")
       i.material-icons description
       i.material-icons.sub add
-    button#add-column.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(title="Add column")
+    button.tyto-board__add-column.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(title="Add column")
       i.material-icons view_column
       i.material-icons.sub add

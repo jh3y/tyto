@@ -4,7 +4,7 @@ window.Tyto = Tyto = new TytoApp()
 
 
 # Define template store for views
-Tyto.templateStore = require './templates/templates'
+Tyto.TemplateStore = require './templates/templates'
 
 # Pull in required modules
 TytoCtrl           = require './controllers/tyto'

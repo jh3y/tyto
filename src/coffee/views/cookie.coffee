@@ -1,5 +1,5 @@
 module.exports = Backbone.Marionette.ItemView.extend
-  template: Tyto.templateStore.cookieBanner
+  template: Tyto.TemplateStore.cookieBanner
   ui:
     accept: '#accept-cookies'
   events:

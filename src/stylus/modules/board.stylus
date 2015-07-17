@@ -1,8 +1,4 @@
-action-right  = 10px
-button-height = 60
-
-
-.tyto--board
+.tyto-board
   position relative
   display  flex
   flex-direction column
@@ -14,49 +10,7 @@ button-height = 60
   @media(min-width 852px)
     top 64px
 
-  .actions--primary
-    &.is__showing_options
-      #add-entity
-        i
-          transform translate(-12px, -12px) rotate(45deg)
-      .options
-        height 160px
-
-    #add-entity
-      position fixed
-      bottom   10px
-      right    action-right
-      z-index 3
-      animation create .25s
-      i
-        transform-origin center
-        transition transform .25s ease 0s
-
-    .options
-      height     0
-      position   fixed
-      overflow   hidden
-      width      56px
-      right      action-right
-      bottom     (button-height / 2px)
-      transition height .25s ease 0s
-      button
-        display block
-        border-radius 50%
-        height 46px
-        margin 10px auto
-        min-width 46px
-        width 46px
-        padding 0
-        overflow hidden
-        i.sub
-          font-size 16px
-          left 35px
-          top  35px
-          font-weight 800
-
-
-.tyto--board-options
+.tyto-board__options
   position fixed
   display flex
   align-items center
@@ -67,8 +21,16 @@ button-height = 60
   @media(min-width 852px)
     height 64px
 
+.tyto-board__columns
+  display        flex
+  flex-direction row
+  overflow-x     auto
+  overflow-y     hidden
+  flex           1 1 auto
+  padding 10px
 
-.tyto--board-name
+
+.tyto-board__details
   position fixed
   display flex
   align-items center
