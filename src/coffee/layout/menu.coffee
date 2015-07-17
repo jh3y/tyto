@@ -1,54 +1,46 @@
 module.exports =  Backbone.Marionette.ItemView.extend
   template: Tyto.templateStore.menu
   tagName : 'div'
-  className: ''
+  className: 'tyto-menu'
+
   ui:
-    add          : '#add-board'
-    show         : '#show'
+    addBoardBtn  : '#add-board'
     exportBtn    : '#export-data'
     loadBtn      : '#load-data'
     importBtn    : '#import-data'
-    menu         : '.tyto--menu-panel'
     exporter     : '#exporter'
     importer     : '#importer'
-    boardSelector: '#board-selector'
+
   events:
-    'click @ui.add'           : 'addBoard',
-    'click @ui.show'          : 'toggleMenu',
-    'change @ui.boardSelector': 'showBoard',
-    'click @ui.exportBtn'     : 'export'
-    'click @ui.loadBtn'       : 'initLoad'
-    'click @ui.importBtn'     : 'initLoad'
+    'click  @ui.addBoardBtn'  : 'addBoard',
+    'click  @ui.exportBtn'    : 'exportData'
+    'click  @ui.loadBtn'      : 'initLoad'
+    'click  @ui.importBtn'    : 'initLoad'
     'change @ui.importer'     : 'handleFile'
 
-  collectionEvents:
-    'all': 'render'
-
-  toggleMenu: ->
-    this.ui.menu.toggleClass 'is__visible'
+  properties:
+    DOWNLOAD_FILE_NAME: 'barn.json'
 
   initialize: ->
     menuView        = this
-    menuView.reader = reader = new FileReader()
-    reader.onloadend   = (e) ->
+    ###
+      The MenuView of Tyto handles the JSON import and export for the
+      application making use of the 'Utils' modules' 'load' function.
+    ###
+    menuView.reader  = reader = new FileReader()
+    reader.onloadend = (e) ->
       data = JSON.parse e.target.result
-      if menuView.activeImporter.id is 'load-data'
-        Tyto.Utils.loadData data
+      # Check to see whether 'import' or 'load' has been selected.
+      if menuView.activeImporter.id is menuView.ui.loadBtn.attr('id')
+        Tyto.Utils.load data, false, true
       else
-        Tyto.Utils.importData data
-
-    $('body').on 'click', (e) ->
-      if $(e.target).parents('#tyto--menu').length is 0 and menuView.ui.menu.hasClass 'is__visible'
-        menuView.toggleMenu()
-
-    # Tyto.vent.on 'board:change', (a,b,c) ->
-    #   debugger
+        Tyto.Utils.load data, true, false
 
   handleFile: (e) ->
-    menu = this
-    f    = e.target.files[0]
-    if (f.type.match 'application/json') or (f.name.indexOf '.json' isnt -1)
-      menu.reader.readAsText f
+    menuView = this
+    file     = e.target.files[0]
+    if (file.type.match 'application/json') or (file.name.indexOf '.json' isnt -1)
+      menuView.reader.readAsText file
     else
       alert '[tyto] only valid json files allowed'
     return
@@ -61,14 +53,14 @@ module.exports =  Backbone.Marionette.ItemView.extend
     else
       alert '[tyto] Unfortunately the file APIs are not fully supported in your browser'
 
-  export: ->
-    # Iterate over localStorage and write file with all keys containing "tyto"
-    anchor     = this.ui.exporter[0]
+  exportData: ->
+    menuView   = this
+    anchor     = menuView.ui.exporter[0]
     exportable = {}
     _.forOwn window.localStorage, (val, key) ->
       if key.indexOf('tyto') isnt -1
         exportable[key] = val
-    filename   = 'barn.json'
+    filename   = menuView.properties.DOWNLOAD_FILE_NAME
     content    = 'data:text/plain,' + JSON.stringify(exportable)
 
     anchor.setAttribute 'download', filename
@@ -76,15 +68,5 @@ module.exports =  Backbone.Marionette.ItemView.extend
     anchor.click()
     return
 
-  ###
-    Create a new board and show it.
-  ###
   addBoard: ->
-    this.showBoard Tyto.boardList.create().id
-
-  showBoard: (id) ->
-    if typeof id isnt 'string'
-      id = this.ui.boardSelector.val()
-    Tyto.navigate 'board/' + id,
-      trigger: true
-    return
+    Tyto.navigate 'board/' + Tyto.boardList.create().id, true

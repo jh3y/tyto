@@ -4,34 +4,24 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
       'board/:board'                        : 'showBoard'
       'board/:board/task/:task'             : 'editTask'
       'board/:board/task/:task?fresh=:isNew': 'editTask'
-      '*path'                               : 'defaultDrop'
+      '*path'                               : 'selectBoard'
 
   BoardList.Controller = Marionette.Controller.extend
     initialize: ->
       this.boardList = App.boardList
       return
 
-    defaultDrop: ->
-      # NOTE :: This is required if we wish to auto route user to a board.
-      yap 'do me', Tyto.boardList.length
+    selectBoard: ->
       Tyto.selectView = new App.Layout.Select
         collection: Tyto.boardList
       Tyto.root.showChildView 'content', Tyto.selectView
       return
-      # if this.boardList.length > 0 and window.location.hash is ''
-      #   Tyto.vent.on 'history:started', ->
-      #     id = that.boardList.first().get 'id'
-      #     App.navigate 'board/' + id,
-      #       trigger: true
 
     start: ->
       that = this
-      this.showMenu this.boardList
-
+      this.showMenu()
       # Cookie banner must be accepted before any functionality is possible.
       # this.showCookieBanner()
-
-
       return
 
     showCookieBanner: ->
@@ -49,10 +39,8 @@ module.exports = (BoardList, App, Backbone, Marionette) ->
 
         return
 
-    showMenu: (boards) ->
-      Tyto.menuView = new App.Layout.Menu
-        collection: boards
-        model     : Tyto.currentBoard
+    showMenu: ->
+      Tyto.menuView = new App.Layout.Menu()
       Tyto.root.showChildView 'menu', Tyto.menuView
       return
 
