@@ -26,75 +26,71 @@ Utils = (Utils, App, Backbone, Marionette) ->
 
       We also don't have to clear out localStorage.
     ###
-    delete d.tyto
-    delete d['tyto--board']
-    delete d['tyto--column']
-    delete d['tyto--task']
-
-    altered = {}
-
-    _.forOwn d, (val, key) ->
-
-      if key.indexOf('tyto--board-') isnt -1
-        entity = JSON.parse val
-        if Tyto.boardList.get(entity.id) isnt `undefined`
-          saveId = entity.id
-          delete entity.id
-        altered[saveId] = Tyto.boardList.create(entity).id
-
-      if key.indexOf('tyto--column-') isnt -1
-        entity = JSON.parse val
-        if altered[entity.boardId]
-          entity.boardId = altered[entity.boardId]
-        if Tyto.columnList.get(entity.id) isnt `undefined`
-          saveId = entity.id
-          delete entity.id
-        altered[saveId] = Tyto.columnList.create(entity).id
-
-      if key.indexOf('tyto--task-') isnt -1
-        entity = JSON.parse val
-        if altered[entity.boardId]
-          entity.boardId = altered[entity.boardId]
-        if altered[entity.columnId]
-          entity.columnId = altered[entity.columnId]
-        if Tyto.taskList.get(entity.id) isnt `undefined`
-          saveId = entity.id
-          delete entity.id
-        altered[saveId] = Tyto.taskList.create(entity).id
-
+    Tyto.Utils.load d, true, false
     Tyto.navigate '/', true
 
 
   Utils.loadData = (d) ->
-    boards = []
-    cols   = []
-    tasks  = []
-
-    # wipe the current localStorage
-    _.forOwn window.localStorage, (val, key) ->
-      if key.indexOf('tyto') isnt -1
-        window.localStorage.removeItem key
-
-    # repopulate localStorage
-    _.forOwn d, (val, key) ->
-      window.localStorage.setItem key, val
-      # If we have a board we need to populate it into the boardList
-      if key.indexOf('tyto--board-') isnt -1
-        boards.push JSON.parse val
-      if key.indexOf('tyto--column-') isnt -1
-        cols.push JSON.parse val
-      if key.indexOf('tyto--task-') isnt -1
-        tasks.push JSON.parse val
-
-    ###
-      When we do a "load", we want to wipe the current set up and load in new.
-    ###
-    Tyto.boardList.reset boards
-    Tyto.columnList.reset cols
-    Tyto.taskList.reset tasks
-
+    Tyto.Utils.load d, `undefined`, true
     Tyto.navigate '/', true
 
+  Utils.load = (data, importing, wipe) ->
+    boards  = []
+    cols    = []
+    tasks   = []
+    altered = {}
 
+    if importing
+      delete data.tyto
+      delete data['tyto--board']
+      delete data['tyto--column']
+      delete data['tyto--task']
+
+    if wipe
+      _.forOwn window.localStorage, (val, key) ->
+        if key.indexOf('tyto') isnt -1
+          window.localStorage.removeItem key
+
+    _.forOwn data, (val, key) ->
+      if wipe
+        window.localStorage.setItem key, val
+      if key.indexOf('tyto--board-') isnt -1
+        if importing
+          entity = JSON.parse val
+          if Tyto.boardList.get(entity.id) isnt `undefined`
+            saveId = entity.id
+            delete entity.id
+          altered[saveId] = Tyto.boardList.create(entity).id
+        else
+          boards.push JSON.parse val
+      if key.indexOf('tyto--column-') isnt -1
+        if importing
+          entity = JSON.parse val
+          if altered[entity.boardId]
+            entity.boardId = altered[entity.boardId]
+          if Tyto.columnList.get(entity.id) isnt `undefined`
+            saveId = entity.id
+            delete entity.id
+          altered[saveId] = Tyto.columnList.create(entity).id
+        else
+          cols.push JSON.parse val
+      if key.indexOf('tyto--task-') isnt -1
+        if importing
+          entity = JSON.parse val
+          if altered[entity.boardId]
+            entity.boardId = altered[entity.boardId]
+          if altered[entity.columnId]
+            entity.columnId = altered[entity.columnId]
+          if Tyto.taskList.get(entity.id) isnt `undefined`
+            saveId = entity.id
+            delete entity.id
+          altered[saveId] = Tyto.taskList.create(entity).id
+        else
+          tasks.push JSON.parse val
+
+    if !importing
+      Tyto.boardList.reset boards
+      Tyto.columnList.reset cols
+      Tyto.taskList.reset tasks
 
 module.exports = Utils

@@ -10,7 +10,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   childView         : Column
   childViewContainer: '.columns'
   childViewOptions: (c) ->
-    colTasks = Tyto.taskList.where
+    colTasks = Tyto.currentTasks.where
       columnId: c.id
     boardView = this
     collection : new Tyto.Tasks.TaskList colTasks
