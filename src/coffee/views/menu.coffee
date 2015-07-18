@@ -35,6 +35,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
         Tyto.Utils.load data, false, true
       else
         Tyto.Utils.load data, true, false
+      Tyto.navigate '/', true
 
   handleFile: (e) ->
     menuView = this

@@ -3,10 +3,10 @@ Task = require './task'
 module.exports = Backbone.Marionette.CompositeView.extend
   tagName   : 'div'
   className : ->
-    this.domAttributes.COLUMN_CLASS
+    this.domAttributes.VIEW_CLASS
   attributes: ->
     attr = {}
-    attr[this.domAttributes.COLUMN_ATTR] = this.model.get 'id'
+    attr[this.domAttributes.VIEW_ATTR] = this.model.get 'id'
     attr
   template  : Tyto.TemplateStore.column
   childView : Task
@@ -27,12 +27,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'destroy': 'handleTaskRemoval'
 
   domAttributes:
-    COLUMN_CLASS              : 'tyto-column'
-    COLUMN_ATTR               : 'data-col-id'
+    VIEW_CLASS                : 'tyto-column'
+    VIEW_ATTR                 : 'data-col-id'
     PARENT_CONTAINER_CLASS    : '.tyto-board__columns'
     CHILD_VIEW_CONTAINER_CLASS: '.tyto-column__tasks'
     BOARD_CLASS               : '.tyto-board'
-    IS_BEING_ADDED_CLASS      : 'is-adding-column'
+    COLUMN_ADD_CLASS          : 'is--adding-column'
+    TASK_ADD_CLASS            : 'is--adding-task'
     TASK_ATTR                 : 'data-task-id'
     TASK_CLASS                : '.tyto-task'
     TASK_MOVER_CLASS          : '.tyto-task__mover'
@@ -44,15 +45,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
     list = Array.prototype.slice.call view.$el.find attr.TASK_CLASS
     Tyto.Utils.reorder view, list, attr.TASK_ATTR
 
-  childViewOptions: ->
-    board    : this.getOption 'board'
-    column   : this
-
   initialize: ->
     view = this
     attr = view.domAttributes
-    view.$el.on 'animationend webkitAnimationEnd oAnimationEnd', ->
-      $(view).parents(attr.BOARD_CLASS).removeClass attr.IS_BEING_ADDED_CLASS
+    view.$el.on Tyto.ANIMATION_EVENT, ->
+      $(view).parents(attr.BOARD_CLASS).removeClass attr.COLUMN_ADD_CLASS
 
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
@@ -68,7 +65,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       stop       : (event, ui) ->
         model           = view.collection.get ui.item.attr(attr.TASK_ATTR)
         destinationView = view
-        newColId        = $(ui.item).parents('[' + attr.COLUMN_ATTR + ']').attr(attr.COLUMN_ATTR)
+        newColId        = $(ui.item).parents('[' + attr.VIEW_ATTR + ']').attr(attr.VIEW_ATTR)
 
         if newColId isnt model.get 'columnId'
           destination     = Tyto.Columns.get newColId
@@ -97,18 +94,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
     return
 
-
-  ###
-    TODO:::: GO from here downwards/
-  ###
-
   onShow: ->
     view = this
     columns = $(view.domAttributes.PARENT_CONTAINER_CLASS)[0]
     if columns.scrollWidth > window.outerWidth
       columns.scrollLeft = columns.scrollWidth
     this.bindMenu()
-    
+
   onRender: ->
     this.bindTasks()
 
@@ -116,7 +108,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
     view = this
     id   = view.model.id
     menu = view.ui.columnMenu
-    yap menu[0]
     componentHandler.upgradeElement menu[0], 'MaterialMenu'
 
   updateName: ->
@@ -124,13 +115,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
       title: this.ui.columnName.text().trim()
 
   addTask: ->
-
-    columnView = this
-    columnView.$el.addClass 'is--adding'
+    view = this
+    attr = view.domAttributes
+    view.$el.addClass attr.TASK_ADD_CLASS
     this.collection.add Tyto.Tasks.create
-      columnId: columnView.model.id
-      boardId : columnView.options.board.id
-      ordinal : columnView.collection.length + 1
+      columnId: view.model.id
+      boardId : view.options.board.id
+      ordinal : view.collection.length + 1
 
   deleteColumn: ->
     if confirm 'are you sure????'

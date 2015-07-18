@@ -2,11 +2,11 @@ module.exports = Backbone.Marionette.ItemView.extend
   tagName        : 'div'
 
   className      : ->
-    this.domAttributes.TASK_CLASS
+    this.domAttributes.VIEW_CLASS
 
   attributes     : ->
     attr = {}
-    attr[this.domAttributes.TASK_ATTR] = this.model.get 'id'
+    attr[this.domAttributes.VIEW_ATTR] = this.model.get 'id'
     attr
 
   template       : Tyto.TemplateStore.task
@@ -16,44 +16,53 @@ module.exports = Backbone.Marionette.ItemView.extend
     editTask     : '.tyto-task__edit-task'
     description  : '.tyto-task__description'
     title        : '.tyto-task__title'
+    menu         : '.tyto-task__menu'
+
   events:
     'click @ui.deleteTask'     : 'deleteTask'
     'click @ui.editTask'       : 'editTask'
-    'blur @ui.title'           : 'updateTaskTitle'
-    'blur @ui.description'     : 'updateTask'
+    'blur @ui.title'           : 'saveTaskTitle'
+    'blur @ui.description'     : 'saveTaskDescription'
 
   domAttributes:
-    TASK_CLASS: 'tyto-task bg--yellow mdl-card mdl-shadow--2dp'
-    TASK_ATTR : 'data-task-id'
+    VIEW_CLASS          : 'tyto-task bg--yellow mdl-card mdl-shadow--2dp'
+    VIEW_ATTR           : 'data-task-id'
+    IS_BEING_ADDED_CLASS: 'is--adding-task'
+    COLUMN_CLASS        : '.tyto-column'
+    TASK_CONTAINER_CLASS: '.tyto-column__tasks'
 
   initialize: ->
-    this.$el.on 'animationend webkitAnimationEnd oAnimationEnd', ->
-      $(this).parents('.tyto-column').removeClass 'is--adding'
+    view = this
+    attr = view.domAttributes
+    view.$el.on Tyto.ANIMATION_EVENT, ->
+      $(this).parents(attr.COLUMN_CLASS).removeClass attr.IS_BEING_ADDED_CLASS
 
   deleteTask: ->
     this.model.destroy()
 
   onShow: ->
-    tV   = this
-    menu = tV.$el.find '.mdl-menu'
-    componentHandler.upgradeElement menu[0], 'MaterialMenu'
-    container = tV.$el.parents('.tyto-column__tasks')[0]
-    column    = tV.$el.parents('.tyto-column')
-    if container.scrollHeight > container.offsetHeight and column.hasClass('is--adding')
+    view = this
+    attr = view.domAttributes
+    componentHandler.upgradeElement view.ui.menu[0], 'MaterialMenu'
+    # Handles scrolling to the bottom of a column if necessary so user sees
+    # rendering animation on creation.
+    container = view.$el.parents(attr.TASK_CONTAINER_CLASS)[0]
+    column    = view.$el.parents(attr.COLUMN_CLASS)
+    if container.scrollHeight > container.offsetHeight and column.hasClass(attr.IS_BEING_ADDED_CLASS)
       container.scrollTop = container.scrollHeight
 
   editTask: ->
-    boardId = this.options.board.id
+    boardId = this.model.get 'boardId'
     taskId  = this.model.id
     yap 'Add a nice transition out from the event target.'
     setTimeout(->
       Tyto.navigate '#board/' + boardId + '/task/' + taskId, true
-    , 1000)
+    , Tyto.NAVIGATION_DURATION)
 
-  updateTask: ->
+  saveTaskDescription: ->
     this.model.save
       description: this.ui.description.text().trim()
 
-  updateTaskTitle: ->
+  saveTaskTitle: ->
     this.model.save
       title: this.ui.title.text().trim()

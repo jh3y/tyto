@@ -15,25 +15,6 @@ Utils = (Utils, App, Backbone, Marionette) ->
         model.save
           ordinal: idx + 1
 
-
-
-  Utils.importData = (d) ->
-    ###
-      When we do an "import", we want to retain the current boards.
-
-      We essentially do the same as load but check IDs so that if there
-      are going to be duplicate, we make sure there aren't.
-
-      We also don't have to clear out localStorage.
-    ###
-    Tyto.Utils.load d, true, false
-    Tyto.navigate '/', true
-
-
-  Utils.loadData = (d) ->
-    Tyto.Utils.load d, `undefined`, true
-    Tyto.navigate '/', true
-
   Utils.load = (data, importing, wipe) ->
     boards  = []
     cols    = []

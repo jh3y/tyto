@@ -62,7 +62,7 @@
   min-width   320px
   height 100%
 
-.tyto-board.is-adding-column
+.tyto-board.is--adding-column
   .tyto-column
     &:last-of-type
       .tyto-column__content

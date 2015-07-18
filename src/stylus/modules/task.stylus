@@ -1,4 +1,4 @@
-.tyto-column.is--adding
+.tyto-column.is--adding-task
   .tyto-task
     &:last-of-type
       transform-origin center center
@@ -17,7 +17,7 @@
       margin 0
       font-size 24px
       line-height 24px
-    .tyto-task__menu
+    .tyto-task__menu-btn
       position absolute
       top 5px
       right 5px

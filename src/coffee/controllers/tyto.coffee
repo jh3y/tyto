@@ -19,7 +19,7 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
 
     showSelectView: ->
       Tyto.SelectView = new App.Views.Select
-        collection: Tyto.boardList
+        collection: Tyto.Boards
       Tyto.RootView.showChildView 'Content', Tyto.SelectView
 
     showMenu: ->

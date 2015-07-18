@@ -2,9 +2,9 @@
   .tyto-task__header
     i.material-icons.tyto-task__mover.does--fade open_with
     h2.tyto-task__title(contenteditable="true") <%= title %>
-    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.does--fade.tyto-task__menu(id!="<%= id %>--menu")
+    button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect.does--fade.tyto-task__menu-btn(id!="<%= id %>--menu")
       i.material-icons more_vert
-    ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for!="<%= id %>--menu")
+    ul.tyto-task__menu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for!="<%= id %>--menu")
       li.mdl-menu__item.tyto-task__delete-task Delete
       li.mdl-menu__item.tyto-task__edit-task   Edit
   .mdl-card__supporting-text.tyto-task__description(contenteditable="true") <%= description %>

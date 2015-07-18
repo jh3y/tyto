@@ -41,7 +41,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     COLUMN_MOVER_CLASS        : '.tyto-column__mover'
     COLUMN_PLACEHOLDER_CLASS  : 'tyto-column__placeholder'
     FAB_MENU_VISIBLE_CLASS    : 'is-showing-options'
-    ADDING_COLUMN_CLASS       : 'is-adding-column'
+    ADDING_COLUMN_CLASS       : 'is--adding-column'
 
 
   handleColumnRemoval: ->
