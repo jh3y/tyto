@@ -17,9 +17,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.addTask'     : 'addTask'
     'blur @ui.columnName'   : 'updateName'
   ui        :
-    deleteColumn: '#delete-column'
-    addTask      : '.add-task'
-    columnName   : '#column-name'
+    deleteColumn : '.tyto-column__delete-column'
+    addTask      : '.tyto-column__add-task'
+    columnName   : '.tyto-column__name'
     taskContainer: '.tyto-column__tasks'
     columnMenu   : '.tyto-column__menu'
 
@@ -63,6 +63,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
       placeholder: attr.TASK_PLACEHOLDER_CLASS
       containment: view.domAttributes.PARENT_CONTAINER_CLASS
       stop       : (event, ui) ->
+        ###
+          NOTE:: Have to manually upgrade our MDL components here after views
+          have rendered. May be best to write a view function for doing this.
+        ###
         model           = view.collection.get ui.item.attr(attr.TASK_ATTR)
         destinationView = view
         newColId        = $(ui.item).parents('[' + attr.VIEW_ATTR + ']').attr(attr.VIEW_ATTR)
@@ -77,22 +81,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
           destinationView.collection.add model
           Tyto.Utils.reorder destinationView, list, attr.TASK_ATTR
           destinationView.render()
+          componentHandler.upgradeElement destinationView.ui.columnMenu[0], 'MaterialMenu'
+
 
         list        = view.$el.find attr.TASK_CLASS
         Tyto.Utils.reorder view, list, attr.TASK_ATTR
         view.render()
-
-        ###
-          Not the prettiest piece of update code here but in order for the column menu to rebind, having to invoke upgradeDom().
-
-          NOTE:: For some reason grabbing the elements and doing upgradeElement/
-          upgradeDom does not work.
-
-          If this proves too much hassle, could add extra method to view that ensures that on click, the relevant material class is added to the menu content.
-        ###
-        componentHandler.upgradeDom()
-
-    return
+        componentHandler.upgradeElement view.ui.columnMenu[0], 'MaterialMenu'
 
   onShow: ->
     view = this
