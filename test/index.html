@@ -10,10 +10,16 @@
   <link rel="stylesheet" href="../public/css/tyto.min.css">
 </head>
 <body>
-  <div id="tyto-app" style="display: none;" class="loading">
-    <div id="cookie-banner"></div>
-    <div id="tyto-menu"></div>
-    <div id="tyto-content"></div>
+  <div id="tyto-app" style="display: none;">
+    <div id="tyto-layout" class="mdl-layout mdl-js-layout">
+      <header id="tyto-header" class="mdl-layout__header mdl-layout__header--transparent tx--black">
+        <div class="mdl-layout__header-row">
+          <div class="mdl-layout-spacer"></div><img src="img/tyto.png"/>
+        </div>
+      </header>
+      <div id="tyto-menu" class="tyto-menu mdl-layout__drawer"></div>
+      <div id="tyto-content" class="tyto-content mdl-layout__content"></div>
+    </div>
   </div>
   <div id="mocha"></div>
   <script src="../src/vendor/mocha/mocha.js"></script>
