@@ -1,4 +1,8 @@
 Utils = (Utils, App, Backbone, Marionette) ->
+  Utils.upgradeMDL = (map) ->
+    _.forEach map, (upgrade, idx) ->
+      if upgrade.el
+        componentHandler.upgradeElement upgrade.el, upgrade.component
   ###
     Syncs model 'ordinal' property to that of the DOM representation.
 

@@ -21,15 +21,16 @@ module.exports = Backbone.Marionette.CompositeView.extend
     board      : view.model
 
   ui:
-    addEntity     : '.tyto-board__add-entity'
-    primaryActions: '.tyto-board__actions'
-    boardMenu     : '.tyto-board__menu'
-    boardSelect   : '.tyto-board__selector'
-    addColumn     : '.tyto-board__add-column'
-    deleteBoard   : '.tyto-board__delete-board'
-    wipeBoard     : '.tyto-board__wipe-board'
-    boardName     : '.tyto-board__name'
-    superAdd      : '.tyto-board__super-add'
+    addEntity      : '.tyto-board__add-entity'
+    primaryActions : '.tyto-board__actions'
+    boardMenu      : '.tyto-board__menu'
+    boardSelect    : '.tyto-board__selector'
+    addColumn      : '.tyto-board__add-column'
+    deleteBoard    : '.tyto-board__delete-board'
+    wipeBoard      : '.tyto-board__wipe-board'
+    boardName      : '.tyto-board__name'
+    superAdd       : '.tyto-board__super-add'
+    columnContainer: '.tyto-board__columns'
 
   collectionEvents:
     'destroy'   : 'handleColumnRemoval'
@@ -43,6 +44,15 @@ module.exports = Backbone.Marionette.CompositeView.extend
     FAB_MENU_VISIBLE_CLASS    : 'is-showing-options'
     ADDING_COLUMN_CLASS       : 'is--adding-column'
 
+  getMDLMap: ->
+    view = this
+    [
+      el       : view.ui.boardMenu[0]
+      component: 'MaterialMenu'
+    ,
+      el       : view.ui.boardSelect[0]
+      component: 'MaterialMenu'
+    ]
 
   handleColumnRemoval: ->
     view = this
@@ -81,15 +91,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   onShow: ->
     ###
-      Have to upgrade MDL components onShow. Ideally look to make some form
-      of utility for this under the Utils module.
+      Have to upgrade MDL components onShow.
     ###
     view   = this
-    menu   = view.ui.boardMenu
-    select = view.ui.boardSelect
-    componentHandler.upgradeElement menu[0] , 'MaterialMenu'
-    if select.length > 0
-      componentHandler.upgradeElement select[0] , 'MaterialMenu'
+    Tyto.Utils.upgradeMDL view.getMDLMap()
 
   onRender: ->
     ###
@@ -101,7 +106,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
   bindColumns: ->
     view = this
     attr = view.domAttributes
-    view.$childViewContainer.sortable
+    view.ui.columnContainer.sortable
       connectWith: attr.COLUMN_CLASS
       handle     : attr.COLUMN_MOVER_CLASS
       placeholder: attr.COLUMN_PLACEHOLDER_CLASS
@@ -110,8 +115,6 @@ module.exports = Backbone.Marionette.CompositeView.extend
       stop       : (event, ui) ->
         list        = Array.prototype.slice.call view.$el.find attr.COLUMN_CLASS
         Tyto.Utils.reorder view, list, attr.COLUMN_ATTR
-
-
 
   addNewColumn: ->
     view    = this
@@ -154,5 +157,3 @@ module.exports = Backbone.Marionette.CompositeView.extend
         wipe()
     else
         wipe()
-
-    return

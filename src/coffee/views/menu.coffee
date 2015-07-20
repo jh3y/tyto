@@ -1,15 +1,16 @@
 module.exports =  Backbone.Marionette.ItemView.extend
   template: Tyto.TemplateStore.menu
   tagName : 'div'
-  className: 'tyto-menu'
+  className: ->
+    this.domAttributes.VIEW_CLASS
 
   ui:
-    addBoardBtn  : '#add-board'
-    exportBtn    : '#export-data'
-    loadBtn      : '#load-data'
-    importBtn    : '#import-data'
-    exporter     : '#exporter'
-    importer     : '#importer'
+    addBoardBtn  : '.tyto-menu__add-board'
+    exportBtn    : '.tyto-menu__export'
+    loadBtn      : '.tyto-menu__load'
+    importBtn    : '.tyto-menu__import'
+    exporter     : '.tyto-menu__exporter'
+    importer     : '.tyto-menu__importer'
 
   events:
     'click  @ui.addBoardBtn'  : 'addBoard',
@@ -20,6 +21,8 @@ module.exports =  Backbone.Marionette.ItemView.extend
 
   props:
     DOWNLOAD_FILE_NAME: 'barn.json'
+  domAttributes:
+    VIEW_CLASS: 'tyto-menu'
 
   initialize: ->
     menuView        = this
@@ -70,4 +73,4 @@ module.exports =  Backbone.Marionette.ItemView.extend
     return
 
   addBoard: ->
-    Tyto.navigate 'board/' + Tyto.boardList.create().id, true
+    Tyto.navigate 'board/' + Tyto.Boards.create().id, true

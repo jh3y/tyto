@@ -39,6 +39,13 @@ module.exports = Backbone.Marionette.CompositeView.extend
     TASK_MOVER_CLASS          : '.tyto-task__mover'
     TASK_PLACEHOLDER_CLASS    : 'tyto-task__placeholder'
 
+  getMDLMap: ->
+    view = this
+    [
+      el       : view.ui.columnMenu[0]
+      component: 'MaterialMenu'
+    ]
+
   handleTaskRemoval: (e) ->
     view = this
     attr = view.domAttributes
@@ -64,8 +71,20 @@ module.exports = Backbone.Marionette.CompositeView.extend
       containment: view.domAttributes.PARENT_CONTAINER_CLASS
       stop       : (event, ui) ->
         ###
-          NOTE:: Have to manually upgrade our MDL components here after views
-          have rendered. May be best to write a view function for doing this.
+          This is most likely the most complicated piece of code in `tyto`.
+
+          It handles what happens when you move tasks from one column to another.
+
+          There may be a better way of doing this in a future release, but,
+          essentially we work out if the task is going to move column and if it
+          is we grab an instance of the view associated to the column.
+
+          We then have to update the tasks' columnID, remove it from it's current collection and add it to the new column collection.
+
+          Lastly, we need to run our reordering logic to maintain ordinality on page load.
+
+          NOTE:: Also required to manually upgrade our MDL components here
+          after view/s have rendered.
         ###
         model           = view.collection.get ui.item.attr(attr.TASK_ATTR)
         destinationView = view
@@ -81,29 +100,31 @@ module.exports = Backbone.Marionette.CompositeView.extend
           destinationView.collection.add model
           Tyto.Utils.reorder destinationView, list, attr.TASK_ATTR
           destinationView.render()
-          componentHandler.upgradeElement destinationView.ui.columnMenu[0], 'MaterialMenu'
-
+          destinationView.upgradeComponents()
 
         list        = view.$el.find attr.TASK_CLASS
         Tyto.Utils.reorder view, list, attr.TASK_ATTR
         view.render()
-        componentHandler.upgradeElement view.ui.columnMenu[0], 'MaterialMenu'
+        view.upgradeComponents()
 
   onShow: ->
     view = this
+    ###
+      If we are displaying a new column that will be rendered off the page
+      then we need to scroll over in order to see it when it is added.
+    ###
     columns = $(view.domAttributes.PARENT_CONTAINER_CLASS)[0]
     if columns.scrollWidth > window.outerWidth
       columns.scrollLeft = columns.scrollWidth
-    this.bindMenu()
+    # Upgrade the views MDL components.
+    view.upgradeComponents()
 
   onRender: ->
     this.bindTasks()
 
-  bindMenu: ->
+  upgradeComponents: ->
     view = this
-    id   = view.model.id
-    menu = view.ui.columnMenu
-    componentHandler.upgradeElement menu[0], 'MaterialMenu'
+    Tyto.Utils.upgradeMDL view.getMDLMap()
 
   updateName: ->
     this.model.save

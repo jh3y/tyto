@@ -31,6 +31,13 @@ module.exports = Backbone.Marionette.ItemView.extend
     COLUMN_CLASS        : '.tyto-column'
     TASK_CONTAINER_CLASS: '.tyto-column__tasks'
 
+  getMDLMap: ->
+    view = this
+    [
+      el       : view.ui.menu[0]
+      component: 'MaterialMenu'
+    ]
+
   initialize: ->
     view = this
     attr = view.domAttributes
@@ -43,13 +50,14 @@ module.exports = Backbone.Marionette.ItemView.extend
   onShow: ->
     view = this
     attr = view.domAttributes
-    componentHandler.upgradeElement view.ui.menu[0], 'MaterialMenu'
     # Handles scrolling to the bottom of a column if necessary so user sees
     # rendering animation on creation.
     container = view.$el.parents(attr.TASK_CONTAINER_CLASS)[0]
     column    = view.$el.parents(attr.COLUMN_CLASS)
     if container.scrollHeight > container.offsetHeight and column.hasClass(attr.IS_BEING_ADDED_CLASS)
       container.scrollTop = container.scrollHeight
+    # Upgrade MDL components.
+    Tyto.Utils.upgradeMDL view.getMDLMap()
 
   editTask: ->
     boardId = this.model.get 'boardId'
