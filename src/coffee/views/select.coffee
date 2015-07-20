@@ -16,7 +16,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
     sV = this
 
   addBoard: ->
-    this.showBoard Tyto.boardList.create().id
+    this.showBoard Tyto.Boards.create().id
 
   showBoard: (id) ->
     if typeof id isnt 'string'
