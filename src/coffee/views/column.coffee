@@ -49,7 +49,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     view = this
     attr = view.domAttributes
     view.$el.on Tyto.ANIMATION_EVENT, ->
-      $(view).parents(attr.BOARD_CLASS).removeClass attr.COLUMN_ADD_CLASS
+      $(this).parents(attr.BOARD_CLASS).removeClass attr.COLUMN_ADD_CLASS
 
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
