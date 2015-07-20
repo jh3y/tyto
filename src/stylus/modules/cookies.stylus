@@ -10,3 +10,5 @@
   padding         20px
   & > *
     margin        10px
+  & > img
+    min-width     50px
