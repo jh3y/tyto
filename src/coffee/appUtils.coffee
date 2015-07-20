@@ -42,10 +42,10 @@ Utils = (Utils, App, Backbone, Marionette) ->
       if key.indexOf('tyto--board-') isnt -1
         if importing
           entity = JSON.parse val
-          if Tyto.boardList.get(entity.id) isnt `undefined`
+          if Tyto.Boards.get(entity.id) isnt `undefined`
             saveId = entity.id
             delete entity.id
-          altered[saveId] = Tyto.boardList.create(entity).id
+          altered[saveId] = Tyto.Boards.create(entity).id
         else
           boards.push JSON.parse val
       if key.indexOf('tyto--column-') isnt -1
@@ -53,10 +53,10 @@ Utils = (Utils, App, Backbone, Marionette) ->
           entity = JSON.parse val
           if altered[entity.boardId]
             entity.boardId = altered[entity.boardId]
-          if Tyto.columnList.get(entity.id) isnt `undefined`
+          if Tyto.Columns.get(entity.id) isnt `undefined`
             saveId = entity.id
             delete entity.id
-          altered[saveId] = Tyto.columnList.create(entity).id
+          altered[saveId] = Tyto.Columns.create(entity).id
         else
           cols.push JSON.parse val
       if key.indexOf('tyto--task-') isnt -1
@@ -66,10 +66,10 @@ Utils = (Utils, App, Backbone, Marionette) ->
             entity.boardId = altered[entity.boardId]
           if altered[entity.columnId]
             entity.columnId = altered[entity.columnId]
-          if Tyto.taskList.get(entity.id) isnt `undefined`
+          if Tyto.Tasks.get(entity.id) isnt `undefined`
             saveId = entity.id
             delete entity.id
-          altered[saveId] = Tyto.taskList.create(entity).id
+          altered[saveId] = Tyto.Tasks.create(entity).id
         else
           tasks.push JSON.parse val
 

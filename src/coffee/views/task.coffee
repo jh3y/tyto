@@ -69,7 +69,7 @@ module.exports = Backbone.Marionette.ItemView.extend
 
   saveTaskDescription: ->
     this.model.save
-      description: this.ui.description.text().trim()
+      description: this.ui.description.html()
 
   saveTaskTitle: ->
     this.model.save
