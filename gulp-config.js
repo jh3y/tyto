@@ -14,8 +14,9 @@ module.exports = {
       showFiles: true
     },
     browserSync: {
-      port   : 1987,
-      server : {
+      port     : 1987,
+      startPath: '/public',
+      server   : {
         baseDir: './'
       }
     },
