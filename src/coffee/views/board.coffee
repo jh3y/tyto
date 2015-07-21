@@ -138,7 +138,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
 
   deleteBoard: ->
     view = this
-    if confirm 'are you sure???'
+    if view.collection.length is 0 or confirm 'are you sure???'
       view.wipeBoard()
       view.model.destroy()
       view.destroy()
