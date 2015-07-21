@@ -6,7 +6,7 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
     appRoutes:
       'board/:board'                        : 'showBoardView'
       'board/:board/task/:task'             : 'showEditView'
-      'board/:board/task/:task?fresh=:isNew': 'showEditView'
+      'board/:board/task/:task?:params'     : 'showEditView'
       '*path'                               : 'showSelectView'
 
   AppCtrl.Controller = Marionette.Controller.extend
@@ -63,12 +63,20 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
       else
         App.navigate '/'
 
-    showEditView: (bId, tId, isNew) ->
+    showEditView: (bId, tId, params) ->
       board      = Tyto.Boards.get bId
+      columns    = Tyto.Columns.where
+        boardId: bId
       taskToEdit = Tyto.Tasks.get tId
+      isNew      = false
+      if params
+        qS = Tyto.Utils.processQueryString params
+        if qS.isFresh is 'true'
+          isNew = true
       Tyto.EditView  = new App.Views.Edit
         model  : taskToEdit
-        boardId: bId
+        board  : board
+        columns: columns
         isNew  : isNew
       App.RootView.showChildView 'Content', Tyto.EditView
 

@@ -19,6 +19,14 @@ Utils = (Utils, App, Backbone, Marionette) ->
         model.save
           ordinal: idx + 1
 
+  Utils.processQueryString = (params) ->
+    qS = {}
+    pushToQs = (set) ->
+      set = set.split '='
+      qS[set[0]] = set[1]
+    _.map params.split('&'), pushToQs
+    qS
+
   Utils.load = (data, importing, wipe) ->
     boards  = []
     cols    = []

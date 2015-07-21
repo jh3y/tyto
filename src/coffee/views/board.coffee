@@ -134,7 +134,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     board   = this.model
     newTask = Tyto.Tasks.create
       boardId: board.id
-    Tyto.navigate '#board/' + board.id + '/task/' + newTask.id, true
+    Tyto.navigate '#board/' + board.id + '/task/' + newTask.id + '?isFresh=true', true
 
   deleteBoard: ->
     view = this

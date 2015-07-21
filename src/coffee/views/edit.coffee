@@ -1,7 +1,10 @@
-module.exports = Backbone.Marionette.ItemView.extend
+EditView = Backbone.Marionette.ItemView.extend
   template: Tyto.TemplateStore.edit
   templateHelpers: ->
-    boardId: this.options.boardId
+    board  : this.options.board
+    columns: this.options.columns
     isNew  : this.options.isNew
   initialize: ->
     yap this.model
+
+module.exports = EditView

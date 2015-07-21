@@ -1,9 +1,10 @@
-.edit-mode
-  h1 editing a todo <%= description %>
-  p <%= boardId %>
+.tyto-edit
+  h1 editing a todo <%= title %>
+  p <%= board.id %>
+  p <%= columns.length %>
   p <%= id %>
-  |<% if (isNew == true) { %>
-  p I am new!!!
+  |<% if (isNew) { %>
+  button.tyto-edit__cancel Cancel
   |<% } else { %>
-  p I am old :((
+  a.tyto-edit__back(href!="#board/<%= board.id %>") Go back
   |<% } %>
