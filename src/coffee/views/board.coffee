@@ -26,10 +26,10 @@ module.exports = Backbone.Marionette.CompositeView.extend
     boardMenu      : '.tyto-board__menu'
     boardSelect    : '.tyto-board__selector'
     addColumn      : '.tyto-board__add-column'
+    addTask        : '.tyto-board__super-add'
     deleteBoard    : '.tyto-board__delete-board'
     wipeBoard      : '.tyto-board__wipe-board'
     boardName      : '.tyto-board__name'
-    superAdd       : '.tyto-board__super-add'
     columnContainer: '.tyto-board__columns'
 
   collectionEvents:
@@ -62,9 +62,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
   events:
     'click @ui.addEntity'  : 'showPrimaryActions'
     'click @ui.addColumn'  : 'addNewColumn'
+    'click @ui.addTask'    : 'addNewTask'
     'click @ui.deleteBoard': 'deleteBoard'
     'click @ui.wipeBoard'  : 'wipeBoard'
-    'click @ui.superAdd'   : 'addNewTask'
     'blur @ui.boardName'   : 'saveBoardName'
 
 
