@@ -29,6 +29,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
     addTask        : '.tyto-board__super-add'
     deleteBoard    : '.tyto-board__delete-board'
     wipeBoard      : '.tyto-board__wipe-board'
+    emailBoard     : '.tyto-board__email-board'
+    emailer        : '.tyto-board__emailer'
     boardName      : '.tyto-board__name'
     columnContainer: '.tyto-board__columns'
 
@@ -65,6 +67,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'click @ui.addTask'    : 'addNewTask'
     'click @ui.deleteBoard': 'deleteBoard'
     'click @ui.wipeBoard'  : 'wipeBoard'
+    'click @ui.emailBoard' : 'emailBoard'
     'blur @ui.boardName'   : 'saveBoardName'
 
 
@@ -157,3 +160,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
         wipe()
     else
         wipe()
+
+  emailBoard: ->
+    view         = this
+    emailContent = Tyto.Utils.getEmailContent view.model
+    this.ui.emailer.attr 'href', emailContent
+    this.ui.emailer[0].click()
