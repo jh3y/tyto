@@ -135,10 +135,24 @@ module.exports = Backbone.Marionette.CompositeView.extend
       title: this.ui.boardName.text().trim()
 
   addNewTask: ->
-    board   = this.model
+    view    = this
+    board   = view.model
     newTask = Tyto.Tasks.create
       boardId: board.id
-    Tyto.navigate '#board/' + board.id + '/task/' + newTask.id + '?isFresh=true', true
+
+    # boardId = view.model.get 'boardId'
+    # taskId  = view.model.id
+    boomer  = view.ui.boomer[0]
+    # yap 'Add a nice transition out from the event target.'
+    coord   = view.ui.addTask[0].getBoundingClientRect()
+    boomer.style.left = coord.left + (coord.width / 2) + 'px'
+    boomer.style.top  = coord.top + (coord.height / 2) + 'px'
+    boomer.className = 'tyto-board__boomer ' + 'bg--yellow'
+    boomer.classList.add 'is--booming'
+    Tyto.RootView.el.classList.add 'is--showing-boom'
+    setTimeout(->
+      Tyto.navigate '#board/' + board.id + '/task/' + newTask.id + '?isFresh=true', true
+    , Tyto.NAVIGATION_DURATION)
 
   deleteBoard: ->
     view = this

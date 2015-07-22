@@ -61,7 +61,7 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
 
         App.RootView.showChildView 'Content', Tyto.BoardView
       else
-        App.navigate '/'
+        App.navigate '/', true
 
     showEditView: (bId, tId, params) ->
       board      = Tyto.Boards.get bId
@@ -73,11 +73,16 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
         qS = Tyto.Utils.processQueryString params
         if qS.isFresh is 'true'
           isNew = true
-      Tyto.EditView  = new App.Views.Edit
-        model  : taskToEdit
-        board  : board
-        columns: columns
-        isNew  : isNew
-      App.RootView.showChildView 'Content', Tyto.EditView
+      if taskToEdit and board
+        Tyto.EditView  = new App.Views.Edit
+          model  : taskToEdit
+          board  : board
+          columns: columns
+          isNew  : isNew
+        App.RootView.showChildView 'Content', Tyto.EditView
+      else if board
+        Tyto.navigate '/board/' + board.id, true
+      else
+        Tyto.navigate '/', true
 
 module.exports = AppCtrl

@@ -20,8 +20,9 @@ Models = (Models, App, Backbone) ->
 
   Models.Task = Backbone.Model.extend
     defaults:
-      title: 'New Todo'
+      title      : 'New Todo'
       description: 'Making this work!'
+      color      : 'yellow'
     localStorage: new Backbone.LocalStorage 'tyto--task'
 
   Models.TaskCollection = Backbone.Collection.extend

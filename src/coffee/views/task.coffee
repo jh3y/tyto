@@ -2,7 +2,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   tagName        : 'div'
 
   className      : ->
-    this.domAttributes.VIEW_CLASS
+    this.domAttributes.VIEW_CLASS + this.model.attributes.color
 
   attributes     : ->
     attr = {}
@@ -25,7 +25,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     'blur @ui.description'     : 'saveTaskDescription'
 
   domAttributes:
-    VIEW_CLASS          : 'tyto-task bg--yellow mdl-card mdl-shadow--2dp'
+    VIEW_CLASS          : 'tyto-task mdl-card mdl-shadow--2dp bg--'
     VIEW_ATTR           : 'data-task-id'
     IS_BEING_ADDED_CLASS: 'is--adding-task'
     COLUMN_CLASS        : '.tyto-column'
@@ -68,7 +68,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     coord   = view.ui.editTask[0].getBoundingClientRect()
     boomer.style.left = coord.left + (coord.width / 2) + 'px'
     boomer.style.top  = coord.top + (coord.height / 2) + 'px'
-    boomer.className = 'tyto-board__boomer ' + 'bg--yellow'
+    boomer.className = 'tyto-board__boomer ' + 'bg--' + view.model.get('color')
     boomer.classList.add 'is--booming'
     Tyto.RootView.el.classList.add 'is--showing-boom'
     setTimeout(->
