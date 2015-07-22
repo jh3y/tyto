@@ -33,6 +33,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     emailer        : '.tyto-board__emailer'
     boardName      : '.tyto-board__name'
     columnContainer: '.tyto-board__columns'
+    boomer         : '.tyto-board__boomer'
 
   collectionEvents:
     'destroy'   : 'handleColumnRemoval'

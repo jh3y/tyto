@@ -59,10 +59,17 @@ module.exports = Backbone.Marionette.ItemView.extend
     # Upgrade MDL components.
     Tyto.Utils.upgradeMDL view.getMDLMap()
 
-  editTask: ->
-    boardId = this.model.get 'boardId'
-    taskId  = this.model.id
+  editTask: (e) ->
+    view    = this
+    boardId = view.model.get 'boardId'
+    taskId  = view.model.id
+    boomer  = Tyto.BoardView.ui.boomer[0]
     yap 'Add a nice transition out from the event target.'
+    coord   = view.ui.editTask[0].getBoundingClientRect()
+    boomer.style.left = coord.left + (coord.width / 2) + 'px'
+    boomer.style.top  = coord.top + (coord.height / 2) + 'px'
+    boomer.classList.add 'is--booming'
+    Tyto.RootView.el.classList.add 'is--showing-boom'
     setTimeout(->
       Tyto.navigate '#board/' + boardId + '/task/' + taskId, true
     , Tyto.NAVIGATION_DURATION)

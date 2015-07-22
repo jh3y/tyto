@@ -6,6 +6,10 @@ EditView = Backbone.Marionette.ItemView.extend
     isNew  : this.options.isNew
   initialize: ->
     yap this.model
+    Tyto.RootView.el.classList.add 'bg--red'
+    Tyto.RootView.el.classList.remove 'is--showing-boom'
+  onBeforeDestroy: ->
+    Tyto.RootView.el.classList.remove 'bg--red'
   ui:
     cancel: '.tyto-edit__cancel'
   events:
