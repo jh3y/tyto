@@ -68,6 +68,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     coord   = view.ui.editTask[0].getBoundingClientRect()
     boomer.style.left = coord.left + (coord.width / 2) + 'px'
     boomer.style.top  = coord.top + (coord.height / 2) + 'px'
+    boomer.className = 'tyto-board__boomer ' + 'bg--yellow'
     boomer.classList.add 'is--booming'
     Tyto.RootView.el.classList.add 'is--showing-boom'
     setTimeout(->
