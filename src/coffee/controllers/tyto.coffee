@@ -73,8 +73,8 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
         if qS.isFresh is 'true'
           isNew      = true
           taskToEdit = Tyto.TempTask
-        else
-          taskToEdit = Tyto.Tasks.get tId
+      else
+        taskToEdit = Tyto.Tasks.get tId
       if taskToEdit and board
         Tyto.EditView  = new App.Views.Edit
           model  : taskToEdit
