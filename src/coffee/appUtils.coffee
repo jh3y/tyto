@@ -107,7 +107,6 @@ Utils = (Utils, App, Backbone, Marionette) ->
       board  : board.attributes
       columns: Tyto.Columns.where({boardId: board.id})
       tasks  : Tyto.Tasks.where({boardId: board.id})
-    debugger
     content = _.escape $(content).html()
     content = encodeURIComponent content
 
