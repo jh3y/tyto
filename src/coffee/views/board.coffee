@@ -137,8 +137,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
   addNewTask: ->
     view    = this
     board   = view.model
-    newTask = Tyto.Tasks.create
+    newTask = Tyto.TempTask = new Tyto.Models.Task
       boardId: board.id
+      id     : _.uniqueId()
 
     # boardId = view.model.get 'boardId'
     # taskId  = view.model.id

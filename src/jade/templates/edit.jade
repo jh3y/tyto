@@ -5,6 +5,7 @@
   p <%= id %>
   |<% if (isNew) { %>
   button.tyto-edit__cancel Cancel
+  button.tyto-edit__save   Save
   |<% } else { %>
   a.tyto-edit__back(href!="#board/<%= board.id %>") Go back
   |<% } %>

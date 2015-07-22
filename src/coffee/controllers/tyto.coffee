@@ -67,12 +67,14 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
       board      = Tyto.Boards.get bId
       columns    = Tyto.Columns.where
         boardId: bId
-      taskToEdit = Tyto.Tasks.get tId
       isNew      = false
       if params
         qS = Tyto.Utils.processQueryString params
         if qS.isFresh is 'true'
-          isNew = true
+          isNew      = true
+          taskToEdit = Tyto.TempTask
+        else
+          taskToEdit = Tyto.Tasks.get tId
       if taskToEdit and board
         Tyto.EditView  = new App.Views.Edit
           model  : taskToEdit
