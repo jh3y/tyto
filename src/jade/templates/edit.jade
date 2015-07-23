@@ -1,12 +1,14 @@
-h1 editing a todo <%= title %>
-p <%= board.id %>
+.tyto-edit__details
+  h1.tyto-edit__title(contenteditable="true") editing a todo <%= title %>
+  p.tyto-edit__description(contenteditable="true") <%= description %>
 p <%= columns.length %>
-p <%= id %>
+
 select.tyto-edit__color
   option(value="default") -- Select a color --
   |<% _.forEach(colors, function(color) { %>
   option(value!="<%= color %>") <%= color %>
   |<% }); %>
+
 .tyto-edit__nav
   |<% if (isNew) { %>
   button.tyto-edit__cancel Cancel
