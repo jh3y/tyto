@@ -11,15 +11,21 @@ mixin actionMenu(id, icon, className)
   p.tyto-edit__description(contenteditable="true") <%= description %>
 
 .tyto-edit__actions
+  |<% if (columns.length > 0 ) { %>
   +actionMenu('columnSelect', 'view_column', 'tyto-edit__column-select-menu')
-    li.mdl-menu__item.tyto-task__delete-task Delete
-    li.mdl-menu__item.tyto-task__edit-task.tyto-boomer   Edit
+    |<% _.forEach(columns, function(column) { %>
+    li.mdl-menu__item.tyto-edit__column-select-menu-option(data-column-id!="<%= column.id %>") <%= column.attributes.title %>
+    |<% }); %>
+  |<% } %>
   +actionMenu('colorSelect' , 'color_lens', 'tyto-edit__color-select-menu')
     |<% _.forEach(colors, function(color) { %>
     li.mdl-menu__item.tyto-edit__color-select-menu-option(class!="bg--<%= color %> hv--<%= color %>", data-color!="<%= color %>")
     |<% }); %>
 
-p <%= columns.length %>
+.tyto-edit__task-column
+  |<% if (selectedColumn) { %>
+  |<%= selectedColumn.attributes.title %>
+  |<% } %>
 
 .tyto-edit__nav
   |<% if (isNew) { %>
