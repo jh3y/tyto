@@ -1,9 +1,6 @@
 *
   box-sizing border-box
-
-.loading
-  background-color red
-
+  
 body
   overflow-y  scroll
   font-family 'Roboto', 'Helvetica', 'Arial', sans-serif

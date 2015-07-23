@@ -9,12 +9,6 @@ for key, value in colorPalette
     &:hover
       color value
 
-
-
-.padd
-  padding paddingSize
-
-
 .tyto--task
   .mdl-button
     position relative
@@ -35,6 +29,9 @@ for key, value in colorPalette
 
 header.mdl-layout__header
   z-index 1
+
+.tyto-app.is--showing-edit-view
+  transition background-color .5s
 
 .is--showing-boom
   header.mdl-layout__header

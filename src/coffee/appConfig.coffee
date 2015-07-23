@@ -7,7 +7,12 @@ appConfig = Marionette.Application.extend
   TASK_COLORS        : [
     'yellow',
     'red',
-    'blue'
+    'blue',
+    'navy',
+    'green',
+    'purple',
+    'orange',
+    'grey'
   ]
   ANIMATION_EVENT    : 'animationend webkitAnimationEnd oAnimationEnd'
 

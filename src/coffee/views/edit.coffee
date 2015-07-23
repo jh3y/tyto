@@ -34,6 +34,7 @@ EditView = Backbone.Marionette.ItemView.extend
   changeColor: ->
     view = this
     newColor = view.ui.color.val()
+    Tyto.RootView.el.classList.add 'is--showing-edit-view'
     if newColor isnt 'default'
       Tyto.RootView.el.classList.remove 'bg--' + view.model.get('color')
       Tyto.RootView.el.classList.add    'bg--' + newColor
@@ -41,6 +42,7 @@ EditView = Backbone.Marionette.ItemView.extend
   onBeforeDestroy: ->
     view = this
     Tyto.RootView.$el.removeClass 'bg--' + view.model.get('color')
+    Tyto.RootView.$el.removeClass 'is--showing-edit-view'
     view.model.save()
   destroyAndReturn: ->
     view = this

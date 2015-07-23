@@ -36,7 +36,3 @@ alternatePalette = {
   white : tytoGreen
   grey  : tytoGreen
 }
-
-
-
-paddingSize = 10px
