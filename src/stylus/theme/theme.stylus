@@ -7,7 +7,7 @@ for key, value in colorPalette
     border 4px solid value
   .hv--{key}
     &:hover
-      color value
+      background-color value
 
 .tyto--task
   .mdl-button
@@ -19,6 +19,13 @@ for key, value in colorPalette
       margin-left -12px
       margin-top  -12px
 
+.tyto-edit__color-select-menu
+  display flex
+  flex-wrap wrap
+  flex-direction row
+  padding 8px
+.tyto-edit__color-select-menu-option
+  width 50%
 
 .mdl-layout__drawer-button
   i

@@ -1,13 +1,25 @@
+mixin actionMenu(id, icon, className)
+  button.mdl-button.mdl--button--icon.mdl-js-button.mdl-js-ripple-effect(id="#{id}--menu")
+    i.material-icons= icon
+  ul.mdl-menu.mdl-menu--bottom-left.mdl-js-menu.mdl-js-ripple-effect(for!="#{id}--menu", class!=className)
+    if block
+      block
+
+
 .tyto-edit__details
   h1.tyto-edit__title(contenteditable="true") editing a todo <%= title %>
   p.tyto-edit__description(contenteditable="true") <%= description %>
-p <%= columns.length %>
 
-select.tyto-edit__color
-  option(value="default") -- Select a color --
-  |<% _.forEach(colors, function(color) { %>
-  option(value!="<%= color %>") <%= color %>
-  |<% }); %>
+.tyto-edit__actions
+  +actionMenu('columnSelect', 'view_column', 'tyto-edit__column-select-menu')
+    li.mdl-menu__item.tyto-task__delete-task Delete
+    li.mdl-menu__item.tyto-task__edit-task.tyto-boomer   Edit
+  +actionMenu('colorSelect' , 'color_lens', 'tyto-edit__color-select-menu')
+    |<% _.forEach(colors, function(color) { %>
+    li.mdl-menu__item.tyto-edit__color-select-menu-option(class!="bg--<%= color %> hv--<%= color %>", data-color!="<%= color %>")
+    |<% }); %>
+
+p <%= columns.length %>
 
 .tyto-edit__nav
   |<% if (isNew) { %>

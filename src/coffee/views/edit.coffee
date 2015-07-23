@@ -21,12 +21,12 @@ EditView = Backbone.Marionette.ItemView.extend
   ui:
     cancel: '.tyto-edit__cancel'
     save  : '.tyto-edit__save'
-    color : '.tyto-edit__color'
+    color : '.tyto-edit__color-selection'
 
   events:
     'click @ui.cancel': 'destroyAndReturn'
     'click @ui.save'  : 'saveTask'
-    'change @ui.color': 'changeColor'
+    'click @ui.color' : 'changeColor'
 
   saveTask: ->
     view = this
@@ -55,9 +55,10 @@ EditView = Backbone.Marionette.ItemView.extend
       save()
 
 
-  changeColor: ->
+  changeColor: (e) ->
     view = this
-    newColor = view.ui.color.val()
+    newColor = e.target.getAttribute 'data-color'
+    yap newColor, e.target
     Tyto.RootView.el.classList.add 'is--showing-edit-view'
     if newColor isnt 'default'
       Tyto.RootView.el.classList.remove 'bg--' + view.model.get('color')
