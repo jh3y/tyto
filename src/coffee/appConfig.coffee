@@ -4,6 +4,11 @@ appConfig = Marionette.Application.extend
   setRootLayout: ->
     Tyto.RootView = new Tyto.Views.Root()
   NAVIGATION_DURATION: 500
+  TASK_COLORS        : [
+    'yellow',
+    'red',
+    'blue'
+  ]
   ANIMATION_EVENT    : 'animationend webkitAnimationEnd oAnimationEnd'
 
 module.exports = appConfig
