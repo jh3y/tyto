@@ -23,4 +23,20 @@ colorPalette = {
   grey  : tytoGrey
 }
 
+
+alternatePalette = {
+  red   : tytoGreen
+  purple: tytoGreen
+  navy  : tytoGreen
+  blue  : tytoGreen
+  green : tytoGreen
+  yellow: tytoGreen
+  orange: tytoGreen
+  black : tytoGreen
+  white : tytoGreen
+  grey  : tytoGreen
+}
+
+
+
 paddingSize = 10px
