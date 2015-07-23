@@ -27,6 +27,20 @@ Utils = (Utils, App, Backbone, Marionette) ->
     _.map params.split('&'), pushToQs
     qS
 
+  Utils.bloom = (el, color, url) ->
+    $boomer = Tyto.BoardView.ui.boomer
+    boomer  = $boomer[0]
+    coord   = el.getBoundingClientRect()
+    boomer.style.left = coord.left + (coord.width / 2) + 'px'
+    boomer.style.top  = coord.top + (coord.height / 2) + 'px'
+    boomer.className = 'tyto-board__boomer ' + 'bg--' + color
+    boomer.classList.add 'is--booming'
+    Tyto.RootView.el.classList.add 'is--showing-boom'
+    goToEdit = ->
+      $boomer.off Tyto.ANIMATION_EVENT, goToEdit
+      Tyto.navigate url, true
+    $boomer.on Tyto.ANIMATION_EVENT, goToEdit
+
   Utils.load = (data, importing, wipe) ->
     boards  = []
     cols    = []

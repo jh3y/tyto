@@ -63,17 +63,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     view    = this
     boardId = view.model.get 'boardId'
     taskId  = view.model.id
-    boomer  = Tyto.BoardView.ui.boomer[0]
-    yap 'Add a nice transition out from the event target.'
-    coord   = view.ui.editTask[0].getBoundingClientRect()
-    boomer.style.left = coord.left + (coord.width / 2) + 'px'
-    boomer.style.top  = coord.top + (coord.height / 2) + 'px'
-    boomer.className = 'tyto-board__boomer ' + 'bg--' + view.model.get('color')
-    boomer.classList.add 'is--booming'
-    Tyto.RootView.el.classList.add 'is--showing-boom'
-    setTimeout(->
-      Tyto.navigate '#board/' + boardId + '/task/' + taskId, true
-    , Tyto.NAVIGATION_DURATION)
+    editUrl = '#board/' + boardId + '/task/' + taskId
+    Tyto.Utils.bloom view.ui.editTask[0], view.model.get('color'), editUrl
 
   saveTaskDescription: ->
     this.model.save
