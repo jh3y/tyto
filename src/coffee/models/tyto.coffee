@@ -10,7 +10,7 @@ Models = (Models, App, Backbone) ->
 
   Models.Column = Backbone.Model.extend
     defaults:
-      title: 'New Column'
+      title  : 'New Column'
       ordinal: 1
     localStorage: new Backbone.LocalStorage 'tyto--column'
 

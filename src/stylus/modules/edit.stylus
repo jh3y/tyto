@@ -1,15 +1,16 @@
+// 768 992 1200
+
 .tyto-edit
   display flex
   flex-direction column
 .tyto-edit__content
   position relative
-  margin 0 auto
-  max-width 600px
   display flex
   flex    1 1 auto
-  // max-height 100%
   flex-direction column
-  // align-items center
+  @media(min-width 768px)
+    width 600px
+    margin 0 auto
 
 .tyto-edit__color-select-menu
   display flex

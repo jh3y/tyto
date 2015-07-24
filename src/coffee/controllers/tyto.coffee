@@ -76,14 +76,12 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
           taskToEdit = Tyto.TempTask
       else
         taskToEdit = Tyto.Tasks.get tId
-        parentColumn = Tyto.Columns.get taskToEdit.get('columnId')
       if taskToEdit and board
         Tyto.EditView  = new App.Views.Edit
           model  : taskToEdit
           board  : board
           columns: columns
           isNew  : isNew
-          selectedColumn: parentColumn
         App.RootView.showChildView 'Content', Tyto.EditView
       else if board
         Tyto.navigate '/board/' + board.id, true

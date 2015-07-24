@@ -6,7 +6,8 @@ EditView = Backbone.Marionette.ItemView.extend
 
   templateHelpers: ->
     view = this
-    selectedColumn: this.options.selectedColumn
+    selectedColumn: _.findWhere view.options.columns,
+      id: view.model.get 'columnId'
     board         : this.options.board
     columns       : _.sortBy this.options.columns, 'attributes.title'
     isNew         : this.options.isNew
@@ -21,19 +22,19 @@ EditView = Backbone.Marionette.ItemView.extend
     VIEW_CLASS: 'tyto-edit'
 
   ui:
-    save  : '.tyto-edit__save'
-    color : '.tyto-edit__color-select-menu-option'
+    save           : '.tyto-edit__save'
+    color          : '.tyto-edit__color-select-menu-option'
     taskDescription: '.tyto-edit__description'
-    taskTitle: '.tyto-edit__title'
-    column: '.tyto-edit__column-select-menu-option'
-    colorMenu : '.tyto-edit__color-select-menu'
-    columnMenu: '.tyto-edit__column-select-menu'
-    columnLabel: '.tyto-edit__task-column'
+    taskTitle      : '.tyto-edit__title'
+    column         : '.tyto-edit__column-select-menu-option'
+    colorMenu      : '.tyto-edit__color-select-menu'
+    columnMenu     : '.tyto-edit__column-select-menu'
+    columnLabel    : '.tyto-edit__task-column'
 
   events:
-    'click @ui.save'  : 'saveTask'
-    'click @ui.color' : 'changeColor'
-    'click @ui.column': 'changeColumn'
+    'click @ui.save'          : 'saveTask'
+    'click @ui.color'         : 'changeColor'
+    'click @ui.column'        : 'changeColumn'
     'blur @ui.taskDescription': 'updateTask'
     'blur @ui.taskDescription': 'updateTask'
 
@@ -51,6 +52,9 @@ EditView = Backbone.Marionette.ItemView.extend
   onShow: ->
     Tyto.Utils.upgradeMDL this.getMDLMap()
 
+  ###
+    This is a function for handling fresh tasks and saving them on 'DONE'
+  ###
   saveTask: ->
     view = this
     save = ->
@@ -63,10 +67,6 @@ EditView = Backbone.Marionette.ItemView.extend
       # A column must've been selected for our task.
       alert 'whoah, you need to select a column for that new task'
     else if view.options.columns.length isnt 0 and view.selectedColumnId
-      save()
-    else if view.options.columns.length is 1
-      if view.options.columns.length is 1
-        yap 'got a column model so use that'
       save()
     else if view.options.columns.length is 0
       # Need to create a generic column on the board for the task to be added.
@@ -83,16 +83,10 @@ EditView = Backbone.Marionette.ItemView.extend
     if newColumnId isnt view.model.get('columnId')
       newOrdinal  = Tyto.Tasks.where({columnId: newColumnId}).length + 1
       view.ui.columnLabel.text e.target.textContent
-      yap newColumnId
-      yap newOrdinal
-      if view.options.isNew
-        view.selectedColumnId = newColumnId
-        view.model.set 'columnId', newColumnId
-        view.model.set 'ordinal' , newOrdinal
-      else
-        view.model.save
-          columnId: newColumnId
-          ordinal : newOrdinal
+      view.selectedColumnId = newColumnId
+      view.model.set 'columnId', newColumnId
+      view.model.set 'ordinal' , newOrdinal
+
   changeColor: (e) ->
     view = this
     newColor = e.target.getAttribute 'data-color'
@@ -100,11 +94,13 @@ EditView = Backbone.Marionette.ItemView.extend
     if newColor isnt 'default'
       Tyto.RootView.el.classList.remove 'bg--' + view.model.get('color')
       Tyto.RootView.el.classList.add    'bg--' + newColor
-      view.model.save 'color', newColor
+      view.model.set 'color', newColor
 
   onBeforeDestroy: ->
     view = this
     Tyto.RootView.$el.removeClass 'bg--' + view.model.get('color')
     Tyto.RootView.$el.removeClass 'is--showing-edit-view'
+    if !view.options.isNew
+      view.model.save()
 
 module.exports = EditView
