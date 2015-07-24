@@ -6,16 +6,11 @@ EditView = Backbone.Marionette.ItemView.extend
 
   templateHelpers: ->
     view = this
-    byId = (model) ->
-      return model.id is view.model.get 'columnId'
-
-    selectedColumn = this.options.columns.filter(byId)[0]
-
-    selectedColumn: selectedColumn
-    board  : this.options.board
-    columns: this.options.columns
-    isNew  : this.options.isNew
-    colors : Tyto.TASK_COLORS
+    selectedColumn: this.options.selectedColumn
+    board         : this.options.board
+    columns       : _.sortBy this.options.columns, 'attributes.title'
+    isNew         : this.options.isNew
+    colors        : Tyto.TASK_COLORS
 
   initialize: ->
     view = this
@@ -26,19 +21,21 @@ EditView = Backbone.Marionette.ItemView.extend
     VIEW_CLASS: 'tyto-edit'
 
   ui:
-    cancel: '.tyto-edit__cancel'
     save  : '.tyto-edit__save'
     color : '.tyto-edit__color-select-menu-option'
+    taskDescription: '.tyto-edit__description'
+    taskTitle: '.tyto-edit__title'
     column: '.tyto-edit__column-select-menu-option'
     colorMenu : '.tyto-edit__color-select-menu'
     columnMenu: '.tyto-edit__column-select-menu'
     columnLabel: '.tyto-edit__task-column'
 
   events:
-    'click @ui.cancel': 'destroyAndReturn'
     'click @ui.save'  : 'saveTask'
     'click @ui.color' : 'changeColor'
     'click @ui.column': 'changeColumn'
+    'blur @ui.taskDescription': 'updateTask'
+    'blur @ui.taskDescription': 'updateTask'
 
 
   getMDLMap: ->
@@ -109,10 +106,5 @@ EditView = Backbone.Marionette.ItemView.extend
     view = this
     Tyto.RootView.$el.removeClass 'bg--' + view.model.get('color')
     Tyto.RootView.$el.removeClass 'is--showing-edit-view'
-
-  destroyAndReturn: ->
-    view = this
-    view.model.destroy()
-    Tyto.navigate '#board/' + view.options.board.id, true
 
 module.exports = EditView

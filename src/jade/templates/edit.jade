@@ -5,32 +5,30 @@ mixin actionMenu(id, icon, className)
     if block
       block
 
+.tyto-edit__content
+  .tyto-edit__details
+    h1.tyto-edit__title(contenteditable="true") editing a todo <%= title %>
+    p.tyto-edit__description(contenteditable="true") <%= description %>
+    .tyto-edit__task-column
+      |<% if (selectedColumn) { %>
+      |<%= selectedColumn.attributes.title %>
+      |<% } %>
+  .tyto-edit__nav
+    |<% if (isNew) { %>
+    button.tyto-edit__save.mdl-button.mdl-js-button.mdl-js-ripple-effect Done
+    |<% } else { %>
+    a.tyto-edit__back.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<%= board.id %>") Return to board
+    |<% } %>
 
-.tyto-edit__details
-  h1.tyto-edit__title(contenteditable="true") editing a todo <%= title %>
-  p.tyto-edit__description(contenteditable="true") <%= description %>
 
-.tyto-edit__actions
-  |<% if (columns.length > 0 ) { %>
-  +actionMenu('columnSelect', 'view_column', 'tyto-edit__column-select-menu')
-    |<% _.forEach(columns, function(column) { %>
-    li.mdl-menu__item.tyto-edit__column-select-menu-option(data-column-id!="<%= column.id %>") <%= column.attributes.title %>
-    |<% }); %>
-  |<% } %>
-  +actionMenu('colorSelect' , 'color_lens', 'tyto-edit__color-select-menu')
-    |<% _.forEach(colors, function(color) { %>
-    li.mdl-menu__item.tyto-edit__color-select-menu-option(class!="bg--<%= color %> hv--<%= color %>", data-color!="<%= color %>")
-    |<% }); %>
-
-.tyto-edit__task-column
-  |<% if (selectedColumn) { %>
-  |<%= selectedColumn.attributes.title %>
-  |<% } %>
-
-.tyto-edit__nav
-  |<% if (isNew) { %>
-  button.tyto-edit__cancel Cancel
-  button.tyto-edit__save   Save
-  |<% } else { %>
-  a.tyto-edit__back(href!="#board/<%= board.id %>") Go back
-  |<% } %>
+  .tyto-edit__actions
+    |<% if (columns.length > 0 ) { %>
+    +actionMenu('columnSelect', 'view_column', 'tyto-edit__column-select-menu')
+      |<% _.forEach(columns, function(column) { %>
+      li.mdl-menu__item.tyto-edit__column-select-menu-option(data-column-id!="<%= column.id %>") <%= column.attributes.title %>
+      |<% }); %>
+    |<% } %>
+    +actionMenu('colorSelect' , 'color_lens', 'tyto-edit__color-select-menu')
+      |<% _.forEach(colors, function(color) { %>
+      li.mdl-menu__item.tyto-edit__color-select-menu-option(class!="bg--<%= color %> hv--<%= color %>", data-color!="<%= color %>")
+      |<% }); %>

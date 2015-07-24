@@ -19,14 +19,6 @@ for key, value in colorPalette
       margin-left -12px
       margin-top  -12px
 
-.tyto-edit__color-select-menu
-  display flex
-  flex-wrap wrap
-  flex-direction row
-  padding 8px
-.tyto-edit__color-select-menu-option
-  width 50%
-
 .mdl-layout__drawer-button
   i
     color black
@@ -49,7 +41,6 @@ header.mdl-layout__header
   transition opacity .25s
   &:hover
     opacity 1
-
 
 /* FAB button sub icon styling */
 .mdl-button--fab

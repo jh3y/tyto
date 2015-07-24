@@ -1,0 +1,46 @@
+.tyto-edit
+  display flex
+  flex-direction column
+.tyto-edit__content
+  position relative
+  margin 0 auto
+  max-width 600px
+  display flex
+  flex    1 1 auto
+  // max-height 100%
+  flex-direction column
+  // align-items center
+
+.tyto-edit__color-select-menu
+  display flex
+  flex-wrap wrap
+  flex-direction row
+  padding 8px
+
+.tyto-edit__color-select-menu-option
+  width 50%
+
+.tyto-edit__description
+  // overflow auto
+
+.tyto-edit__details
+  flex 1 1 auto
+  display flex
+  flex-direction column
+
+.tyto-edit__description
+  flex 1 1 auto
+  overflow auto
+
+.tyto-edit__title
+.tyto-edit__task-column
+  flex 0 0 auto
+  margin 0 0 30px 0
+.tyto-edit__nav
+  min-height 50px
+  flex 0 0 auto
+
+.tyto-edit__actions
+  position absolute
+  top      0
+  right    0
