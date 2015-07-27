@@ -56,7 +56,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     view = this
     attr = view.domAttributes
     view.$el.on Tyto.ANIMATION_EVENT, ->
-      $(this).parents(attr.BOARD_CLASS).removeClass attr.COLUMN_ADD_CLASS
+      view.$el.parents(attr.BOARD_CLASS).removeClass attr.COLUMN_ADD_CLASS
 
   onBeforeRender: ->
     this.collection.models = this.collection.sortBy 'ordinal'
@@ -108,13 +108,15 @@ module.exports = Backbone.Marionette.CompositeView.extend
         view.upgradeComponents()
 
   onShow: ->
-    view = this
     ###
       If we are displaying a new column that will be rendered off the page
       then we need to scroll over in order to see it when it is added.
     ###
-    columns = $(view.domAttributes.PARENT_CONTAINER_CLASS)[0]
-    if columns.scrollWidth > window.outerWidth
+    view    = this
+    attr    = view.domAttributes
+    columns = $(attr.PARENT_CONTAINER_CLASS)[0]
+    board   = view.$el.parents(attr.BOARD_CLASS)
+    if columns.scrollWidth > window.outerWidth and board.hasClass(attr.COLUMN_ADD_CLASS)
       columns.scrollLeft = columns.scrollWidth
     # Upgrade the views MDL components.
     view.upgradeComponents()
@@ -140,7 +142,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       ordinal : view.collection.length + 1
 
   deleteColumn: ->
-    if this.collection.length is 0 or confirm 'are you sure????' 
+    if this.collection.length is 0 or confirm 'are you sure????'
       # NOTE w/ a backend we wouldn't be doing the recursive destroy.
       while this.collection.length isnt 0
         this.collection.first().destroy()
