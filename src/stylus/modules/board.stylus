@@ -30,22 +30,24 @@
   top         0px
   left        75px
   right       75px
-  button
-    margin-left 6px
-  h1
-    font-size     24px
-    height        56px
-    line-height   56px
-    margin        0
-    outline       0
-    min-width     100px
-    overflow      hidden
-    white-space   nowrap
-    text-overflow ellipsis
-    &:active
-    &:focus
-      overflow    visible
-      white-space normal
-    @media(min-width 852px)
-      line-height 64px
-      height      64px
+
+.tyto-board__selector__menu-btn
+  margin-left 6px
+
+.tyto-board__title
+  font-size     24px
+  height        56px
+  line-height   56px
+  margin        0
+  outline       0
+  min-width     100px
+  overflow      hidden
+  white-space   nowrap
+  text-overflow ellipsis
+  &:active
+  &:focus
+    overflow    visible
+    white-space normal
+  @media(min-width 852px)
+    line-height 64px
+    height      64px
