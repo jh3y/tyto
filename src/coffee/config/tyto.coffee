@@ -15,5 +15,7 @@ appConfig = Marionette.Application.extend
     'pink'
   ]
   ANIMATION_EVENT    : 'animationend webkitAnimationEnd oAnimationEnd'
+  INTRO_JSON_SRC     : 'js/intro.json'
+  LOADING_CLASS      : 'is--loading'
 
 module.exports = appConfig

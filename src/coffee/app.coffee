@@ -1,5 +1,5 @@
 # Create app instance
-TytoApp     = require './appConfig'
+TytoApp     = require './config/tyto'
 window.Tyto = Tyto = new TytoApp()
 
 
@@ -10,7 +10,7 @@ Tyto.TemplateStore = require './templates/templates'
 TytoCtrl           = require './controllers/tyto'
 TytoViews          = require './views/tyto'
 TytoModels         = require './models/tyto'
-Utils              = require './appUtils'
+Utils              = require './utils/tyto'
 
 
 # Create Modules

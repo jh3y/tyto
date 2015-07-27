@@ -30,11 +30,11 @@ module.exports =  Backbone.Marionette.ItemView.extend
 
   loadIntro: ->
     view = this
-    Tyto.RootView.$el.addClass 'is--loading'
-    $.getJSON 'js/intro.json', (d) ->
-      Tyto.RootView.$el.removeClass 'is--loading'
+    id   = `undefined`
+    Tyto.RootView.$el.addClass Tyto.LOADING_CLASS
+    $.getJSON Tyto.INTRO_JSON_SRC, (d) ->
+      Tyto.RootView.$el.removeClass Tyto.LOADING_CLASS
       Tyto.Utils.load d, true, false
-      id = `undefined`
       _.forOwn d, (val, key) ->
         if key.indexOf('tyto--board-') isnt -1
           id = JSON.parse(val).id
