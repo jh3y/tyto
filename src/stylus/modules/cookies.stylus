@@ -12,3 +12,17 @@
     margin        10px
   & > img
     min-width     50px
+
+.tyto-cookies__content
+  display        flex
+  flex-direction column
+  align-items    center
+  padding        50px
+  img
+    height 100px
+    margin 30px
+  h1
+  h2
+    margin 0
+  p
+    max-width 500px
