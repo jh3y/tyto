@@ -45,9 +45,6 @@
   .tyto-task__description
     width 100%
 
-.tyto-task__description
-  display block
-
 .tyto-task
   [contenteditable]
     outline 0
