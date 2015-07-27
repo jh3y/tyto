@@ -4,6 +4,7 @@ include ../mixins/menu.jade
   .tyto-edit__details
     h1.tyto-edit__title(contenteditable="true") <%= title %>
     p.tyto-edit__description(contenteditable="true") <%= description %>
+  .tyto-edit__details-footer
     .tyto-edit__task-column
       |<% if (selectedColumn) { %>
       |<%= selectedColumn.attributes.title %>
@@ -14,16 +15,14 @@ include ../mixins/menu.jade
     |<% } else { %>
     a.tyto-edit__back.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<%= board.id %>") Return to board
     |<% } %>
-
-
   .tyto-edit__actions
     |<% if (columns.length > 0 ) { %>
-    +actionMenu('column-select', 'view_column', 'tyto-edit__column-select')
+    +actionMenu('column-select', 'view_column', 'tyto-edit__column-select', '', 'bottom-right')
       |<% _.forEach(columns, function(column) { %>
-      li.mdl-menu__item.tyto-edit__column-select-menu-option(data-column-id!="<%= column.id %>") <%= column.attributes.title %>
+      li.mdl-menu__item.tyto-edit__column-select__menu-option(data-column-id!="<%= column.id %>") <%= column.attributes.title %>
       |<% }); %>
     |<% } %>
-    +actionMenu('color-select' , 'color_lens', 'tyto-edit__color-select')
+    +actionMenu('color-select' , 'color_lens', 'tyto-edit__color-select', '', 'bottom-right')
       |<% _.forEach(colors, function(color) { %>
-      li.mdl-menu__item.tyto-edit__color-select-menu-option(class!="bg--<%= color %> hv--<%= color %>", data-color!="<%= color %>")
+      li.mdl-menu__item.tyto-edit__color-select__menu-option(class!="bg--<%= color %> hv--<%= color %>", data-color!="<%= color %>")
       |<% }); %>

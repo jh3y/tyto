@@ -50,7 +50,7 @@ header.mdl-layout__header
       font-weight 800
 
 
-.mdl-menu__container
+.tyto-board .mdl-menu__container
   height 0px !important
 
 .tyto-board__boomer
