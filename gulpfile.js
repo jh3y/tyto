@@ -139,12 +139,19 @@ gulp.task('img:publish', function() {
     .pipe(gulp.dest(destinations.img));
 });
 
+gulp.task('json:publish', function() {
+  return gulp.src(sources.json)
+    .pipe(plugins.plumber())
+    .pipe(gulp.dest(destinations.js));
+});
+
 
 gulp.task('vendor:publish', [
   'vendor:scripts:publish',
   'vendor:styles:publish',
   'vendor:fonts:publish',
-  'img:publish'
+  'img:publish',
+  'json:publish'
 ]);
 
 gulp.task('deploy', ['build:complete'], function () {

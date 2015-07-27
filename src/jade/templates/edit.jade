@@ -3,7 +3,7 @@ include ../mixins/menu.jade
 .tyto-edit__content
   .tyto-edit__details
     h1.tyto-edit__title(contenteditable="true") <%= title %>
-    p.tyto-edit__description(contenteditable="true") <%= description %>
+    .tyto-edit__description(contenteditable="true") <%= description %>
   .tyto-edit__details-footer
     .tyto-edit__task-column
       |<% if (selectedColumn) { %>

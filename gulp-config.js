@@ -58,6 +58,9 @@ module.exports = {
       img: [
         'src/img/**/*.*'
       ],
+      json: [
+        'src/json/**/*.json'
+      ],
       vendor: {
         js: [
           'src/vendor/jquery/dist/jquery.js',

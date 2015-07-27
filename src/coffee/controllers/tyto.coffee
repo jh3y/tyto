@@ -13,7 +13,6 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
 
     start: ->
       this.showMenu()
-      # Cookie banner must be accepted before any functionality is possible.
       if window.localStorage and !window.localStorage.tyto
         this.showCookieBanner()
 
@@ -31,7 +30,6 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
         Show cookie banner by creating a temporary region and showing
         the view.
       ###
-      yap 'show the cookie banner'
       Tyto.RootView
         .$el
         .prepend $('<div id="cookie-banner"></div>')

@@ -7,4 +7,4 @@ include ../mixins/menu.jade
     +actionMenu('<%= id %>--menu', 'more_vert', 'tyto-task', 'does--fade', 'bottom-right')
       li.mdl-menu__item.tyto-task__delete-task Delete
       li.mdl-menu__item.tyto-task__edit-task.tyto-boomer   Edit
-  .mdl-card__supporting-text.tyto-task__description(contenteditable="true") <%= description %>
+  span.mdl-card__supporting-text.tyto-task__description(contenteditable="true") <%= description %>

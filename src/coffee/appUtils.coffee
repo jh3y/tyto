@@ -54,7 +54,7 @@ Utils = (Utils, App, Backbone, Marionette) ->
       delete data['tyto--task']
 
     if wipe
-      _.forOwn window.localStorage, (val, key) ->
+      _.forOwn window.localStorageJ, (val, key) ->
         if key.indexOf('tyto') isnt -1
           window.localStorage.removeItem key
 
