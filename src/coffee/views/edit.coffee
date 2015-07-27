@@ -23,12 +23,12 @@ EditView = Backbone.Marionette.ItemView.extend
 
   ui:
     save           : '.tyto-edit__save'
-    color          : '.tyto-edit__color-select-menu-option'
+    color          : '.tyto-edit__color-select__menu-option'
     taskDescription: '.tyto-edit__description'
     taskTitle      : '.tyto-edit__title'
-    column         : '.tyto-edit__column-select-menu-option'
-    colorMenu      : '.tyto-edit__color-select-menu'
-    columnMenu     : '.tyto-edit__column-select-menu'
+    column         : '.tyto-edit__column-select__menu-option'
+    colorMenu      : '.tyto-edit__color-select__menu'
+    columnMenu     : '.tyto-edit__column-select__menu'
     columnLabel    : '.tyto-edit__task-column'
 
   events:

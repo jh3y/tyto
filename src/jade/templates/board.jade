@@ -1,7 +1,7 @@
+include ../mixins/menu.jade
+
 .tyto-board__options
-  button#tyto-board__menu.mdl-button.mdl-js-button.mdl-button--icon
-    i.material-icons more_vert
-  ul.tyto-board__menu.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect(for="tyto-board__menu")
+  +actionMenu('tyto-board__menu', 'more_vert', 'tyto-board')
     li.tyto-board__delete-board.mdl-menu__item Delete board
     li.tyto-board__wipe-board.mdl-menu__item Wipe board
     li.tyto-board__email-board.mdl-menu__item Email board
