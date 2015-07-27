@@ -12,7 +12,7 @@
 .tyto-edit__content
   position relative
   display flex
-  flex    1 1 auto
+  flex    1 0 auto
   flex-direction column
   @media(min-width 768px)
     width 600px
@@ -28,12 +28,12 @@
   width 50%
 
 .tyto-edit__details
-  flex 1 1 auto
+  flex 1 0 auto
   display flex
   flex-direction column
 
 .tyto-edit__description
-  flex 1 1 auto
+  flex 1 0 auto
   overflow auto
 
 .tyto-edit__title

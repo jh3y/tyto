@@ -121,7 +121,7 @@ Utils = (Utils, App, Backbone, Marionette) ->
       board  : board.attributes
       columns: Tyto.Columns.where({boardId: board.id})
       tasks  : Tyto.Tasks.where({boardId: board.id})
-    content = _.escape $(content).html()
+    content = $(content).text()
     content = encodeURIComponent content
 
     mailString + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content
