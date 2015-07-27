@@ -21,30 +21,31 @@ module.exports =  Backbone.Marionette.ItemView.extend
 
   props:
     DOWNLOAD_FILE_NAME: 'barn.json'
+
   domAttributes:
     VIEW_CLASS: 'tyto-menu'
 
-  initialize: ->
-    menuView        = this
+  onShow: ->
+    view        = this
     ###
       The MenuView of Tyto handles the JSON import and export for the
       application making use of the 'Utils' modules' 'load' function.
     ###
-    menuView.reader  = reader = new FileReader()
-    reader.onloadend = (e) ->
+    view.reader           = new FileReader()
+    view.reader.onloadend = (e) ->
       data = JSON.parse e.target.result
       # Check to see whether 'import' or 'load' has been selected.
-      if menuView.activeImporter.id is menuView.ui.loadBtn.attr('id')
+      if view.activeImporter.id is view.ui.loadBtn.attr('id')
         Tyto.Utils.load data, false, true
       else
         Tyto.Utils.load data, true, false
       Tyto.navigate '/', true
 
   handleFile: (e) ->
-    menuView = this
-    file     = e.target.files[0]
+    view = this
+    file = e.target.files[0]
     if (file.type.match 'application/json') or (file.name.indexOf '.json' isnt -1)
-      menuView.reader.readAsText file
+      view.reader.readAsText file
     else
       alert '[tyto] only valid json files allowed'
     return
@@ -58,13 +59,13 @@ module.exports =  Backbone.Marionette.ItemView.extend
       alert '[tyto] Unfortunately the file APIs are not fully supported in your browser'
 
   exportData: ->
-    menuView   = this
-    anchor     = menuView.ui.exporter[0]
+    view       = this
+    anchor     = view.ui.exporter[0]
     exportable = {}
     _.forOwn window.localStorage, (val, key) ->
       if key.indexOf('tyto') isnt -1
         exportable[key] = val
-    filename   = menuView.props.DOWNLOAD_FILE_NAME
+    filename   = view.props.DOWNLOAD_FILE_NAME
     content    = 'data:text/plain,' + JSON.stringify(exportable)
 
     anchor.setAttribute 'download', filename
