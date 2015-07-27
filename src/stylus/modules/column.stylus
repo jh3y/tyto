@@ -1,0 +1,91 @@
+.tyto-column__content
+  display flex
+  flex-direction column
+  flex 1 1 auto
+  width 320px
+  max-height 100%
+  // box-flex 0
+  padding-right 10px
+  .tyto-column__mover
+    position absolute
+    top 0
+    left 13px
+    flex 0 0 auto
+    cursor move
+  .tyto-column__actions
+    text-align center
+    margin 20px 0
+    flex 0 0 auto
+    position relative
+    align-items center
+    .tyto-column__menu-btn
+      position absolute
+      width 24px
+      height 24px
+      border-radius 50%
+      min-width 24px
+      padding 0
+      right 5px
+      top   0
+    h6
+      max-width 200px
+      margin 0
+      display inline-block
+  .tyto-column__tasks
+    padding 0 10px
+    flex 1 1 auto
+    overflow-y auto
+    overflow-x hidden
+
+.tyto-column
+  display flex
+  width 320px
+  flex-direction column
+  flex 0 0 320px
+  max-height 100%
+  // box-flex 0
+  &:hover
+    .tyto-column__action
+      min-height 40px
+      height     40px
+    .tyto-column__actions
+      .does--fade
+        &:hover
+          opacity 1
+        opacity 0.4
+  .tyto-column__actions
+    .does--fade
+      opacity 0
+
+.tyto-column__placeholder
+  display inline-block
+  min-width   320px
+  height 100%
+
+.tyto-board.is--adding-column
+  .tyto-column
+    &:last-of-type
+      .tyto-column__content
+        transform-origin center center
+        animation-duration .5s
+        animation-name create
+
+@keyframes create
+  from
+    transform scale(0)
+  to
+    transform scale(1)
+
+.tyto-column__action
+  height 0
+  min-height 0
+  overflow hidden
+  text-align center
+  display flex
+  align-items center
+  align-content center
+  transition height .25s linear, min-height .25s linear
+  i
+    flex 1
+    font-size 32px
+    cursor pointer

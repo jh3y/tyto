@@ -1,19 +1,12 @@
-.column
-	.icon-holder
-		i.fa.fa-arrows.column-mover(title = "move column")
-		i.fa.fa-trash-o.close(title = "remove column", data-action = "removecolumn")
-	h6.column-title(contenteditable = 'true', title = "edit column title.")
-		|{{#if title }}
-		|{{ title }}
-		|{{ else }}
-		|new column
-		|{{/if}}	
-	.tyto-item-holder
-		.items
-			|{{#if items }}
-			|{{#each items}}
-			|{{> item }}
-			|{{/each}}
-			|{{/if}}
-		.icon-holder
-			i.fa.fa-plus.additem(title = "add item", data-action = "additem")
+include ../mixins/menu.jade
+
+.tyto-column__content
+  .tyto-column__actions
+    i.tyto-column__mover.material-icons.does--fade open_with
+    h6.tyto-column__name.input--fade.bg--white(contenteditable="true") <%= title %>
+    +actionMenu('<%= id %>--menu', 'more_vert', 'tyto-column', 'does--fade', 'bottom-right')
+      li.tyto-column__delete-column.mdl-menu__item Delete
+      li.tyto-column__add-task.mdl-menu__item Add task
+  .tyto-column__tasks
+  .tyto-column__action
+    i.material-icons.tyto-column__add-task.does--fade add

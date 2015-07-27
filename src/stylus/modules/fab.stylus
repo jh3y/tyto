@@ -1,0 +1,39 @@
+positioning = 10px
+transitionD = .1s
+optScale    = 0.8
+
+.mdl-button--fab_flinger-container
+  position fixed
+  bottom   positioning
+  right    positioning
+  z-index  999
+  &.is-showing-options
+    & > button
+      i
+        transition transform transitionD linear
+        transform  translate(-12px, -12px) rotate(45deg)
+    .mdl-button--fab_flinger-options
+      display        flex
+      flex-direction column-reverse
+      button
+        for child in (1..6)
+          &:nth-of-type({child})
+            animation-delay (transitionD * child)
+        display             block
+        animation-name      enter
+        animation-fill-mode forwards
+        animation-duration  transitionD
+        transform-origin    bottom center
+  .mdl-button--fab_flinger-options
+    position      absolute
+    bottom        100%
+    margin-bottom positioning
+    button
+      transform scale(0)
+      display   none
+
+@keyframes enter
+  from
+    transform scale(0)
+  to
+    transform scale(optScale)

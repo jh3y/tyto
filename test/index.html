@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>tyto: manage and organise things</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0">
+  <meta name="description" content="'the tool you take over', a customisable task manager application.">
+  <link rel="stylesheet" href="../src/vendor/mocha/mocha.css">
+  <link rel="stylesheet" href="../public/css/vendor.min.css">
+  <link rel="stylesheet" href="../public/css/tyto.min.css">
+</head>
+<body>
+  <div id="tyto-app" style="display: none;">
+    <div id="tyto-layout" class="mdl-layout mdl-js-layout">
+      <header id="tyto-header" class="mdl-layout__header mdl-layout__header--transparent tx--black">
+        <div class="mdl-layout__header-row">
+          <div class="mdl-layout-spacer"></div><img src="img/tyto.png"/>
+        </div>
+      </header>
+      <div id="tyto-menu" class="tyto-menu mdl-layout__drawer"></div>
+      <div id="tyto-content" class="tyto-content mdl-layout__content"></div>
+    </div>
+  </div>
+  <div id="mocha"></div>
+  <script src="../src/vendor/mocha/mocha.js"></script>
+  <script src="../src/vendor/chai/chai.js"></script>
+  <script>
+    mocha.setup('bdd');
+    expect = chai.expect;
+  </script>
+  <script src="../public/js/vendor.js"></script>
+  <script>yap.muzzle(false);</script>
+  <script src="../public/js/tyto.js"></script>
+  <script src="test.js"></script>
+  <script>
+    if (window.mochaPhantomJS) {
+      mochaPhantomJS.run();
+    } else {
+      mocha.run();
+    }
+  </script>
+</body>

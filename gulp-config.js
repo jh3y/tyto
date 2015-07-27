@@ -1,11 +1,11 @@
-var env = 'out/';
+var env = 'public/';
 module.exports = {
   pkg: {
     name: 'tyto'
   },
   pluginOpts: {
     jade: {
-      pretty: false
+      pretty: true
     },
     coffee: {
       bare: true
@@ -14,18 +14,24 @@ module.exports = {
       showFiles: true
     },
     browserSync: {
-      port   : 1987,
-      server : {
-        baseDir: env
+      port     : 1987,
+      startPath: '/public',
+      server   : {
+        baseDir: './'
       }
     },
     rename: {
       suffix: '.min'
     },
-    order: [
-      'config.js',
-      'tyto.js'
-    ],
+    order: {
+      stylus: [
+        '_var.stylus',
+        '_typography.stylus',
+        '_functions.stylus',
+        'base.stylus',
+        '**/*.stylus'
+      ]
+    },
     prefix: [
       'last 3 versions',
       'Blackberry 10',
@@ -38,7 +44,8 @@ module.exports = {
         'gulp-gh-pages'             : 'deploy',
         'gulp-util'                 : 'gUtil',
         'gulp-minify-css'           : 'minify',
-        'gulp-autoprefixer'         : 'prefix'
+        'gulp-autoprefixer'         : 'prefix',
+        'gulp-template-store'       : 'template'
       }
     }
   },
@@ -48,42 +55,49 @@ module.exports = {
       coffee: [
         'src/coffee/**/*.coffee'
       ],
+      img: [
+        'src/img/**/*.*'
+      ],
       vendor: {
         js: [
-          "src/vendor/jquery/dist/jquery.js",
-          "src/vendor/jquery-ui/jquery-ui.js",
-          "src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js",
-          "src/vendor/bootstrap/dist/js/bootstrap.min.js",
-          "src/vendor/handlebars/handlebars.min.js"
+          'src/vendor/jquery/dist/jquery.js',
+          'src/vendor/lodash/lodash.js',
+          'src/vendor/backbone/backbone.js',
+          'src/vendor/Backbone.localStorage/backbone.localStorage.js',
+          'src/vendor/marionette/lib/backbone.marionette.js',
+          'src/vendor/yap/dist/yap.min.js',
+          'src/vendor/jquery-ui/jquery-ui.js',
+          'src/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+          'src/vendor/material-design-lite/material.js'
         ],
         css: [
-          "src/vendor/normalize.css/normalize.css",
-          "src/vendor/bootstrap/dist/css/bootstrap.min.css",
-          "src/vendor/fontawesome/css/font-awesome.min.css"
+          'src/vendor/normalize.css/normalize.css',
+          'src/vendor/material-design-lite/material.css'
         ],
         fonts: [
-          'src/vendor/fontawesome/fonts/**/*.*'
+          'src/vendor/roboto/out/RobotoTTF/Roboto-Regular.ttf',
+          'src/vendor/material-design-icons/iconfont/**/*.{eot,ttf,woff,woff2}'
         ]
       },
-      images: 'src/images/**/*.*',
-      jade: 'src/jade/*.jade',
+      jade: [
+        'src/jade/*.jade',
+        'src/jade/layout-blocks/**/*.jade'
+      ],
+      docs: 'src/jade/*.jade',
       templates: 'src/jade/templates/**/*.jade',
-      less: 'src/less/**/*.less',
-      overwatch: env + '**/*.*'
+      stylus: 'src/stylus/**/*.stylus',
+      overwatch: env + '**/*.{html,js,css}'
     },
     destinations: {
-      testing: {
-        screenshots: './testing/screenshots'
-      },
-      dist: './dist',
-      build: '',
-      js: env + 'js/',
       html: env,
-      fonts: env + 'fonts/',
-      images: env + 'images/',
+      js: env + 'js/',
       css: env + 'css/',
-      test: 'testEnv/',
-      templates: env + 'templates/'
+      img: env + 'img/',
+      fonts: env + 'fonts/',
+      templates: 'src/coffee/templates/',
+      build: '',
+      dist: './dist',
+      test: 'testEnv/'
     }
   }
 };

@@ -1,3 +1,4 @@
 node_modules/
-out/
-vendor/
+public/
+src/vendor/
+src/coffee/templates/

@@ -1,7 +1,6 @@
-![alt tag](https://travis-ci.org/jh3y/tyto.svg)
 
 tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/images/tyto.png)
-==
+
 __tyto__ is a completely configurable, extensible and customizable management and organisation tool (wow that's a mouthful!)
 ###demo/site
 just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
@@ -197,3 +196,7 @@ tyto - http://jh3y.github.io/tyto
 Licensed under the MIT license
 
 [jh3y](https://github.com/jh3y) (c) 2014.
+=======
+#tyto is undergoing some severely needed maintenance...
+
+@jh3y

@@ -1,0 +1,16 @@
+|<% if (items.length == 0) { %>
+span To start,
+button#add-board.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect Add a board
+span or
+button#add-board.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect Load the intro board
+|<% } else {%>
+span To start, select one of your boards.
+.selector
+  select#board-selector
+    option --select a board--
+    |<% _.each(items, function(i){ %>
+    option(value!="<%= i.id %>") <%= i.title %>
+    |<% }) %>
+span Alternatively,
+button#add-board.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect Add a board
+|<% } %>

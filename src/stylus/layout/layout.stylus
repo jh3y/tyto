@@ -1,0 +1,15 @@
+/***
+  LAYOUT SPECIFIC STYLES
+
+  Used for defining positional relationships.
+
+***/
+.tyto-content
+  & > div
+    position fixed
+    top 56px
+    right 0
+    bottom 0
+    left 0
+    @media(min-width 852px)
+      top 64px
