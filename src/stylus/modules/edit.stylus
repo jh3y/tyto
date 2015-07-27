@@ -4,6 +4,11 @@
   display flex
   flex-direction column
   padding 20px
+  & > *
+    animation-name fadeIn
+    animation-duration .25s
+    animation-timing-function linear
+
 .tyto-edit__content
   position relative
   display flex

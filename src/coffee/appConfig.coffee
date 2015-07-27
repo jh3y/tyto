@@ -12,7 +12,7 @@ appConfig = Marionette.Application.extend
     'green',
     'purple',
     'orange',
-    'grey'
+    'pink'
   ]
   ANIMATION_EVENT    : 'animationend webkitAnimationEnd oAnimationEnd'
 

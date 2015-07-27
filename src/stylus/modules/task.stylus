@@ -48,12 +48,6 @@
 .tyto-task
   [contenteditable]
     outline 0
-for key, value in colorPalette
-  &.bg--{key}
-    [contenteditable]
-      &:active
-      &:focus
-        background-color alternatePalette[key]
 
 .tyto-task__placeholder
   height: 100px;

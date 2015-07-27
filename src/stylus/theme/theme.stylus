@@ -23,6 +23,22 @@ for key, value in colorPalette
   i
     color black
 
+for key, value in colorPalette
+  .bg--{key}
+    [contenteditable]
+      transition background .25s
+      outline               0
+      &:active
+      &:focus
+        background-color alternatePalette[key]
+  [contenteditable]
+    &.bg--{key}
+      transition background .25s
+      outline               0
+      &:active
+      &:focus
+        background-color alternatePalette[key]
+
 .tyto-content
   overflow visible
 
@@ -74,3 +90,9 @@ header.mdl-layout__header
     transform scale(0)
   to
     transform scale(50)
+
+@keyframes fadeIn
+  from
+    opacity 0
+  to
+    opacity 1

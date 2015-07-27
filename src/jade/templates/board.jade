@@ -8,7 +8,7 @@ include ../mixins/menu.jade
     a.tyto-board__emailer(style="display: none;")
 
 .tyto-board__details
-  h1.tyto-board__name(contenteditable="true")<%= title %>
+  h1.tyto-board__name.bg--white(contenteditable="true")<%= title %>
   |<% if (boards.length > 1) { %>
   button#tyto-board__selector.mdl-button.mdl-js-button.mdl-button--icon
     i.material-icons expand_more
