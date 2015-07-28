@@ -5,7 +5,7 @@ __tyto__ is an extensible and customizable management and organisation tool
 
 just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto1.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/app_three_cols.png)
 
 ###Features
 * nice simple minimal UI for managing and organising
@@ -16,7 +16,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * sortable columns and items
 * etc.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto6.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/add_task.gif)
 
 
 ###Timeline
@@ -34,7 +34,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * __01/08/15__: V2.0.0 is live! There are still features to be implemented but there has been a complete overhaul to an MV* architecture using Backbone Marionette. A redesign using the Material Design spec has also been put in place and gives a nicer UI IMO.
 
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto8.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/edit_view.png)
 
 ###Why tyto? What's it for?
 To be honest __tyto__ arose from my own and other members of my then team desiring something easy to organise and manage your own daily workflow. This could be something simple like the current development tasks on your plate or maybe the meetings you have scheduled in the current week coming. The ability to also share this is important.
@@ -43,7 +43,7 @@ It is true that most organisations have some form of tool for this exact problem
 
 This is why __tyto__ came about. It's simple to use, no accounts needed, and the source code isn't too hard to grasp making it also easily extensible and customizable.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto2.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/edit_task.gif)
 
 ###Who's it for?
 Initially, __tyto__ was intended for developers and project managers as an easy way to share current tasks and project progression.
@@ -60,6 +60,8 @@ Examples:
 
 To be honest, __tyto__ is still just a personal pet of mine and is shared to see if it can gather interest or help others. It is also assumed that while it is being shared new uses will be discovered and features will be proposed as with any piece of tech.
 
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/change_color.gif)
+
 
 ###Using tyto
 The nice thing about __tyto__ is that you can use it however you want to and it's easy to do so. If you just want to simply use it and try it out for a bit then simply do that by visiting [jh3y.github.io/tyto](http://jh3y.github.io/tyto), the beauty of 'no accounts necessary'.
@@ -68,7 +70,7 @@ Your data will be persisted in the browser using localStorage so you can close t
 
 If you want to move to a different browser or machine, simply use the __export__ action to export a json file which can be loaded in wherever you use __tyto__.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto7.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/menu.png)
 
 As for a nice persistent workflow across devices, I haven't implemented accounts and it's not something I am keen on doing to be honest as I believe it takes away from __tyto__.
 
@@ -99,10 +101,11 @@ If you simply wish to host __tyto__ in your own environment you can do. I would 
 
 In most cases and ideally you will want to configure __tyto__ to your own needs and tweak it accordingly whether it be with styles and themes or you want to change the branding, html etc. To do this, the best way is to follow the instructions for developing against __tyto__ and then taking the output from this and pushing it to a desired environment or server.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto3.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/speed_dial.gif)
 
 ###Configuration
 Previous versions of __tyto__ offered a means of configuration for defining some board characteristics. However, with the new implementation introduced in version `2.0.0` and the inclusion of Backbone Marionette it didn't seem necessary to keep the configuration object as changes can be made to the `config` module within the app source.
+
 
 ###Development
 The beauty of __tyto__ is how easy it is to change things and really customise and extend it to be exactly what you want.
@@ -125,7 +128,7 @@ The addition of watches with BrowserSyncs' live reload capability is a big plus 
 ####Templating
 Using jade and lodash has made it very easy to template views/markup for __tyto__. Making use of `gulp-template-store` means I can maintain an app wide template store for my application markup that is easily accessed by components of the app.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto9.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/move_task.gif)
 
 ###Roadmap and known needs
 * I always believe that my documentation could do with improvement and as such, I believe there are some things I could explain clearer.
@@ -133,7 +136,7 @@ Using jade and lodash has made it very easy to template views/markup for __tyto_
 * online persistence if there was d̨emand. this does however mean accounts which I'm not overly keen on implementing.
 
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto5.png)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/open_menu.gif)
 
 
 
