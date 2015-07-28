@@ -16,10 +16,16 @@ EditView = Backbone.Marionette.ItemView.extend
   initialize: ->
     view = this
     Tyto.RootView.el.classList.add 'bg--' + view.model.get('color')
-    Tyto.RootView.el.classList.remove 'is--showing-boom'
+    Tyto.RootView.el.classList.remove view.domAttributes.BLOOM_SHOW_CLASS
 
   domAttributes:
-    VIEW_CLASS: 'tyto-edit'
+    VIEW_CLASS      : 'tyto-edit'
+    BLOOM_SHOW_CLASS: 'is--showing-bloom'
+    EDIT_SHOW_CLASS : 'is--showing-edit-view'
+    MODEL_PROP_ATTR : 'data-model-prop'
+
+  props:
+    DEFAULT_COLOR_VALUE: 'default'
 
   ui:
     save           : '.tyto-edit__save'
@@ -36,7 +42,7 @@ EditView = Backbone.Marionette.ItemView.extend
     'click @ui.color'         : 'changeColor'
     'click @ui.column'        : 'changeColumn'
     'blur @ui.taskDescription': 'updateTask'
-    'blur @ui.taskDescription': 'updateTask'
+    'blur @ui.taskTitle'      : 'updateTask'
 
 
   getMDLMap: ->
@@ -48,6 +54,12 @@ EditView = Backbone.Marionette.ItemView.extend
       el       : view.ui.colorMenu[0]
       component: 'MaterialMenu'
     ]
+
+  updateTask: (e)->
+    view = this
+    attr = view.domAttributes
+    el   = e.target
+    view.model.set el.getAttribute(attr.MODEL_PROP_ATTR), el.innerHTML
 
   onShow: ->
     Tyto.Utils.upgradeMDL this.getMDLMap()
@@ -81,6 +93,8 @@ EditView = Backbone.Marionette.ItemView.extend
     view = this
     newColumnId = e.target.getAttribute 'data-column-id'
     if newColumnId isnt view.model.get('columnId')
+      view.ui.column.removeClass Tyto.SELECTED_CLASS
+      e.target.classList.add Tyto.SELECTED_CLASS
       newOrdinal  = Tyto.Tasks.where({columnId: newColumnId}).length + 1
       view.ui.columnLabel.text e.target.textContent
       view.selectedColumnId = newColumnId
@@ -90,8 +104,10 @@ EditView = Backbone.Marionette.ItemView.extend
   changeColor: (e) ->
     view = this
     newColor = e.target.getAttribute 'data-color'
-    Tyto.RootView.el.classList.add 'is--showing-edit-view'
-    if newColor isnt 'default'
+    Tyto.RootView.el.classList.add view.domAttributes.EDIT_SHOW_CLASS
+    if newColor isnt view.props.DEFAULT_COLOR_VALUE
+      view.ui.color.removeClass Tyto.SELECTED_CLASS
+      e.target.classList.add Tyto.SELECTED_CLASS
       Tyto.RootView.el.classList.remove 'bg--' + view.model.get('color')
       Tyto.RootView.el.classList.add    'bg--' + newColor
       view.model.set 'color', newColor
@@ -99,7 +115,7 @@ EditView = Backbone.Marionette.ItemView.extend
   onBeforeDestroy: ->
     view = this
     Tyto.RootView.$el.removeClass 'bg--' + view.model.get('color')
-    Tyto.RootView.$el.removeClass 'is--showing-edit-view'
+    Tyto.RootView.$el.removeClass view.domAttributes.EDIT_SHOW_CLASS
     if !view.options.isNew
       view.model.save()
 

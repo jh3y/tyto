@@ -28,18 +28,18 @@ Utils = (Utils, App, Backbone, Marionette) ->
     qS
 
   Utils.bloom = (el, color, url) ->
-    $boomer = Tyto.BoardView.ui.boomer
-    boomer  = $boomer[0]
+    $bloomer = Tyto.BoardView.ui.bloomer
+    bloomer  = $bloomer[0]
     coord   = el.getBoundingClientRect()
-    boomer.style.left = coord.left + (coord.width / 2) + 'px'
-    boomer.style.top  = coord.top + (coord.height / 2) + 'px'
-    boomer.className = 'tyto-board__boomer ' + 'bg--' + color
-    boomer.classList.add 'is--booming'
-    Tyto.RootView.el.classList.add 'is--showing-boom'
+    bloomer.style.left = coord.left + (coord.width / 2) + 'px'
+    bloomer.style.top  = coord.top + (coord.height / 2) + 'px'
+    bloomer.className = 'tyto-board__bloomer ' + 'bg--' + color
+    bloomer.classList.add 'is--blooming'
+    Tyto.RootView.el.classList.add 'is--showing-bloom'
     goToEdit = ->
-      $boomer.off Tyto.ANIMATION_EVENT, goToEdit
+      $bloomer.off Tyto.ANIMATION_EVENT, goToEdit
       Tyto.navigate url, true
-    $boomer.on Tyto.ANIMATION_EVENT, goToEdit
+    $bloomer.on Tyto.ANIMATION_EVENT, goToEdit
 
   Utils.load = (data, importing, wipe) ->
     boards  = []

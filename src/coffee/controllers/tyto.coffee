@@ -71,7 +71,9 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
         qS = Tyto.Utils.processQueryString params
         if qS.isFresh is 'true'
           isNew      = true
-          taskToEdit = Tyto.TempTask
+          taskToEdit = new Tyto.Models.Task
+            boardId: bId
+            id     : tId
       else
         taskToEdit = Tyto.Tasks.get tId
       if taskToEdit and board

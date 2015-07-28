@@ -15,11 +15,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
   events    :
     'click @ui.deleteColumn': 'deleteColumn'
     'click @ui.addTask'     : 'addTask'
-    'blur @ui.columnName'   : 'updateName'
+    'blur @ui.columnTitle'  : 'updateTitle'
   ui        :
     deleteColumn : '.tyto-column__delete-column'
     addTask      : '.tyto-column__add-task'
-    columnName   : '.tyto-column__name'
+    columnTitle  : '.tyto-column__title'
     taskContainer: '.tyto-column__tasks'
     columnMenu   : '.tyto-column__menu'
 
@@ -128,9 +128,9 @@ module.exports = Backbone.Marionette.CompositeView.extend
     view = this
     Tyto.Utils.upgradeMDL view.getMDLMap()
 
-  updateName: ->
+  updateTitle: ->
     this.model.save
-      title: this.ui.columnName.text().trim()
+      title: this.ui.columnTitle.text()
 
   addTask: ->
     view = this

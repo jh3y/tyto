@@ -1,28 +1,30 @@
 include ../mixins/menu.jade
 
+.tyto-edit__nav
+  |<% if (isNew) { %>
+  button.tyto-edit__save.mdl-button.mdl-js-button.mdl-js-ripple-effect Done
+  |<% } else { %>
+  a.tyto-edit__back.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<%= board.id %>") Return to board
+  |<% } %>
 .tyto-edit__content
-  .tyto-edit__details
-    h1.tyto-edit__title(contenteditable="true") <%= title %>
-    .tyto-edit__description(contenteditable="true") <%= description %>
-  .tyto-edit__details-footer
+  .tyto-edit__details.has--bottom-margin
+    h1.tyto-edit__title(contenteditable="true", data-model-prop="title", title="Task title") <%= title %>
+    .tyto-edit__description(contenteditable="true", data-model-prop="description", title="Task description") <%= description %>
+  .tyto-edit__details-footer.tx--right.has--bottom-margin
     .tyto-edit__task-column
       |<% if (selectedColumn) { %>
       |<%= selectedColumn.attributes.title %>
       |<% } %>
-  .tyto-edit__nav
-    |<% if (isNew) { %>
-    button.tyto-edit__save.mdl-button.mdl-js-button.mdl-js-ripple-effect Done
-    |<% } else { %>
-    a.tyto-edit__back.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<%= board.id %>") Return to board
-    |<% } %>
   .tyto-edit__actions
     |<% if (columns.length > 0 ) { %>
-    +actionMenu('column-select', 'view_column', 'tyto-edit__column-select', '', 'bottom-right')
+    +actionMenu('column-select', 'view_column', 'tyto-edit__column-select', '', 'bottom-right', 'Select column')
       |<% _.forEach(columns, function(column) { %>
-      li.mdl-menu__item.tyto-edit__column-select__menu-option(data-column-id!="<%= column.id %>") <%= column.attributes.title %>
+      |<% if (!isNew) { var activeClass = (column.attributes.id === columnId) ? 'is--selected': '' } %>
+      li.mdl-menu__item.tyto-edit__column-select__menu-option(data-column-id!="<%= column.id %>" class!="<%= activeClass %>") <%= column.attributes.title %>
       |<% }); %>
     |<% } %>
-    +actionMenu('color-select' , 'color_lens', 'tyto-edit__color-select', '', 'bottom-right')
-      |<% _.forEach(colors, function(color) { %>
-      li.mdl-menu__item.tyto-edit__color-select__menu-option(class!="bg--<%= color %> hv--<%= color %>", data-color!="<%= color %>")
+    +actionMenu('color-select' , 'color_lens', 'tyto-edit__color-select', '', 'bottom-right', 'Change color')
+      |<% _.forEach(colors, function(col) { %>
+      |<% var activeColor = (col === color) ? 'is--selected': '' %>
+      li.mdl-menu__item.tyto-edit__color-select__menu-option(class!="bg--<%= col %> hv--<%= col %> <%= activeColor %>", data-color!="<%= col %>", title!="<%= col %>")
       |<% }); %>

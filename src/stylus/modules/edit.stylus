@@ -1,68 +1,59 @@
 // 768 992 1200
 
 .tyto-edit
-  display flex
-  flex-direction column
-  padding 20px
   & > *
-    animation-name fadeIn
+    animation-name     fade__in
     animation-duration .25s
-    animation-timing-function linear
 
 .tyto-edit__content
-  position relative
-  display flex
-  flex    1 0 auto
-  flex-direction column
+  position fixed
+  top      56px
+  right    0
+  bottom   0
+  left     0
+  padding  20px
+  overflow auto
+  @media(min-width 852px)
+    top    64px
   @media(min-width 768px)
-    width 600px
+    width  600px
     margin 0 auto
 
 .tyto-edit__color-select__menu
-  display flex
-  flex-wrap wrap
+  display        flex
+  flex-wrap      wrap
   flex-direction row
-  padding 8px
+  padding        8px
 
 .tyto-edit__color-select__menu-option
   width 50%
 
-.tyto-edit__details
-  flex 1 0 auto
-  display flex
-  flex-direction column
-
-.tyto-edit__description
-  flex 1 0 auto
-  overflow auto
-
 .tyto-edit__title
-  flex 0 0 auto
   margin 0 32px 30px 0
 
 .tyto-edit__nav
 .tyto-edit__details-footer
-  margin 0 0 30px 0
+  margin     0 0 30px 0
   min-height 50px
-  flex 0 0 auto
-
-.tyto-edit__details-footer
-  display flex
-  flex-direction row
-  align-items center
-  justify-content flex-end
 
 .tyto-edit__task-column
-  padding 0 8px
+  padding    0 8px
 
 .tyto-edit__actions
-  position absolute
-  top      0
-  right    0
-  display  flex
+  position       absolute
+  top            20px
+  right          20px
+  display        flex
   flex-direction column
 
 
 .tyto-edit__nav
-  display flex
-  justify-content flex-end
+  position    fixed
+  display     flex
+  align-items center
+  z-index     2
+  top         0
+  left        100px
+  height      56px
+  @media(min-width 852px)
+    height 64px

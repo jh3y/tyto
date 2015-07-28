@@ -121,5 +121,30 @@ describe('tyto', function() {
         expect(tasksCollection.length).to.equal(0);
       });
     });
+    describe('EditView', function() {
+      beforeEach(function() {
+        taskModel = new Tyto.Models.Task({
+          boardId: boardModel.id,
+          id     : _.uniqueId()
+        });
+      });
+      it('Should update correct model property on blur', function() {
+        testView = new Tyto.Views.Edit({
+          model  : taskModel,
+          board  : boardModel,
+          columns: [],
+          isNew  : true
+        });
+        testView.render();
+        // Test out the title field
+        testView.ui.taskTitle.text('Updated title');
+        testView.ui.taskTitle.blur();
+        expect(testView.model.get('title')).to.equal('Updated title');
+        // Test out the description field
+        testView.ui.taskDescription.text('Updated description');
+        testView.ui.taskDescription.blur();
+        expect(testView.model.get('description')).to.equal('Updated description');
+      });
+    });
   });
 });

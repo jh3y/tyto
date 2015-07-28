@@ -1,6 +1,13 @@
-positioning = 10px
+/***
+
+  Floating action button --
+
+  Styles the board FAB for adding columns and tasks. Implementation based on the maximum amount of sub options being six as set out in Material Design spec.
+
+***/
+
+positioning = 20px
 transitionD = .1s
-optScale    = 0.8
 
 .mdl-button--fab_flinger-container
   position fixed
@@ -16,24 +23,32 @@ optScale    = 0.8
       display        flex
       flex-direction column-reverse
       button
+        /*
+          Calculate animation delay of each child by using a loop
+          through finite set up to max children (6).
+        */
         for child in (1..6)
           &:nth-of-type({child})
             animation-delay (transitionD * child)
         display             block
-        animation-name      enter
+        animation-name      fab__enter
         animation-fill-mode forwards
         animation-duration  transitionD
         transform-origin    bottom center
   .mdl-button--fab_flinger-options
     position      absolute
     bottom        100%
-    margin-bottom positioning
+    margin-bottom 10px
     button
       transform scale(0)
       display   none
 
-@keyframes enter
-  from
-    transform scale(0)
-  to
-    transform scale(optScale)
+/*
+  Required for FAB button sub icon styling.
+  In this case, the additional plus icon for column and task icons.
+*/
+.mdl-button--fab
+  i
+    &.sub
+      transform   scale(0.75)
+      font-weight 800

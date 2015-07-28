@@ -33,7 +33,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     emailer        : '.tyto-board__emailer'
     boardName      : '.tyto-board__title'
     columnContainer: '.tyto-board__columns'
-    boomer         : '.tyto-board__boomer'
+    bloomer        : '.tyto-board__bloomer'
 
   collectionEvents:
     'destroy'   : 'handleColumnRemoval'
@@ -137,10 +137,8 @@ module.exports = Backbone.Marionette.CompositeView.extend
   addNewTask: ->
     view    = this
     board   = view.model
-    newTask = Tyto.TempTask = new Tyto.Models.Task
-      boardId: board.id
-      id     : _.uniqueId()
-    addUrl = '#board/' + board.id + '/task/' + newTask.id + '?isFresh=true'
+    id      = _.uniqueId()
+    addUrl = '#board/' + board.id + '/task/' + id + '?isFresh=true'
     Tyto.Utils.bloom view.ui.addTask[0], 'yellow', addUrl
 
   deleteBoard: ->

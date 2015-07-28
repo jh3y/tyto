@@ -1,3 +1,16 @@
+/***
+
+  THEME --
+
+  Contains styling rules for various app wide styles.
+
+***/
+
+
+/*
+  Generates color palette specific styles for background, border, text and
+  hover color
+*/
 for key, value in colorPalette
   .bg--{key}
     background-color value
@@ -8,91 +21,51 @@ for key, value in colorPalette
   .hv--{key}
     &:hover
       background-color value
+/*
+  NOTE: That for [contenteditable] elements with a background color we wish
+  to show an accented color on :focus/:active.
+*/
+for key, value in colorPalette
+  .bg--{key} [contenteditable]
+  [contenteditable].bg--{key}
+      transition background .25s
+      outline               0
+      &:active
+      &:focus
+        background-color alternatePalette[key]
+/*
+  Generates text alignment utility classes.
+*/
+for dir in left right center
+  .tx--{dir}
+    text-align dir
 
-.tyto--task
-  .mdl-button
-    position relative
-    i
-      position absolute
-      top      50%
-      left     50%
-      margin-left -12px
-      margin-top  -12px
 
+/*
+  Utility classes
+*/
+.has--bottom-margin
+  margin-bottom 30px
+
+.does--fade
+  opacity    .4
+  transition opacity .25s
+  &:hover
+    opacity  1
+
+/*
+  tx--black wouldn't work on this set up because it's a generated el.
+*/
 .mdl-layout__drawer-button
   i
     color black
 
-for key, value in colorPalette
-  .bg--{key}
-    [contenteditable]
-      transition background .25s
-      outline               0
-      &:active
-      &:focus
-        background-color alternatePalette[key]
-  [contenteditable]
-    &.bg--{key}
-      transition background .25s
-      outline               0
-      &:active
-      &:focus
-        background-color alternatePalette[key]
+.github-stats
+  margin-top 50px
 
-.tyto-content
-  overflow visible
-
-header.mdl-layout__header
-  z-index 1
-
-.tyto-app.is--showing-edit-view
-  transition background-color .5s
-
-.is--showing-boom
-  header.mdl-layout__header
-    z-index 99999
-
-.does--fade
-  opacity .4
-  transition opacity .25s
-  &:hover
-    opacity 1
-
-/* FAB button sub icon styling */
-.mdl-button--fab
-  i
-    &.sub
-      transform   scale(0.75)
-      font-weight 800
-
-
+/*
+  NOTE: MDL Override FIX to stop MDL menu clipped menus blocking UI
+  interaction.
+*/
 .tyto-board .mdl-menu__container
   height 0px !important
-
-.tyto-board__boomer
-  position fixed
-  height 100px
-  width  100px
-  margin-left -50px
-  margin-top -50px
-  border-radius 100%
-  z-index 9999
-  display  none
-  animation-fill-mode forwards
-  animation-timing-function linear
-  animation-duration .5s
-  &.is--booming
-    display block
-    animation bloom .5s linear
-
-@keyframes bloom
-  from
-    transform scale(0)
-  to
-    transform scale(50)
-
-@keyframes fadeIn
-  from
-    opacity 0
-  to
-    opacity 1

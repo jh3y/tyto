@@ -1,7 +1,7 @@
 include ../mixins/menu.jade
 
 .tyto-board__options
-  +actionMenu('tyto-board__menu', 'more_vert', 'tyto-board', '', 'bottom-right')
+  +actionMenu('tyto-board__menu', 'more_vert', 'tyto-board', '', 'bottom-right', 'Board options')
     li.tyto-board__wipe-board.mdl-menu__item Wipe board
     li.tyto-board__delete-board.mdl-menu__item Delete board
     li.tyto-board__email-board.mdl-menu__item Email board
@@ -10,10 +10,10 @@ include ../mixins/menu.jade
 .tyto-board__details
   h1.tyto-board__title.bg--white(contenteditable="true")<%= title %>
   |<% if (boards.length > 1) { %>
-  +actionMenu('tyto-board__selector', 'expand_more', 'tyto-board__selector', '', 'bottom-right')
+  +actionMenu('tyto-board__selector', 'expand_more', 'tyto-board__selector', '', 'bottom-right', 'Select a board')
     |<% _.each(boards.models, function(i){ %>
     |<% if (i.attributes.id != id) { %>
-    li.mdl-menu__item
+    li.mdl-menu__item.tyto-board__selector-option(title="View board")
       a(href!="#board/<%= i.attributes.id %>") <%= i.attributes.title %>
     |<% } %>
     |<% }) %>
@@ -32,4 +32,4 @@ include ../mixins/menu.jade
       i.material-icons view_column
       i.material-icons.sub add
 
-.tyto-board__boomer
+.tyto-board__bloomer

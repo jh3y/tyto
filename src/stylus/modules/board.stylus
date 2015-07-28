@@ -1,5 +1,5 @@
 .tyto-board
-  display  flex
+  display        flex
   flex-direction column
 
 .tyto-board__options
@@ -11,7 +11,7 @@
   right       10px
   height      56px
   @media(min-width 852px)
-    height 64px
+    height    64px
 
 .tyto-board__columns
   display        flex
@@ -19,7 +19,7 @@
   overflow-x     auto
   overflow-y     hidden
   flex           1 1 auto
-  padding 10px
+  padding        10px
 
 
 .tyto-board__details
@@ -32,7 +32,14 @@
   right       75px
 
 .tyto-board__selector__menu-btn
-  margin-left 6px
+  margin-left   6px
+
+.tyto-board__selector-option
+  padding       0
+  a
+    padding         0 8px
+    display         block
+    text-decoration none
 
 .tyto-board__title
   font-size     24px
@@ -51,3 +58,19 @@
   @media(min-width 852px)
     line-height 64px
     height      64px
+
+.tyto-board__bloomer
+  position      fixed
+  height        100px
+  width         100px
+  margin-left   -50px
+  margin-top    -50px
+  border-radius 100%
+  z-index       9999
+  display       none
+  animation-fill-mode       forwards
+  animation-timing-function linear
+  animation-duration        .5s
+  &.is--blooming
+    display        block
+    animation-name bloom
