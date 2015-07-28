@@ -130,7 +130,7 @@ Using jade and lodash has made it very easy to template views/markup for __tyto_
 ###Roadmap and known needs
 * I always believe that my documentation could do with improvement and as such, I believe there are some things I could explain clearer.
 * Better app wide source commentary.
-* online persistence if there was demand. this does however mean accounts which I'm not overly keen on implementing.
+* online persistence if there was d̨emand. this does however mean accounts which I'm not overly keen on implementing.
 
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/tyto5.png)
