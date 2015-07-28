@@ -14,6 +14,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   ui:
     deleteTask   : '.tyto-task__delete-task'
     editTask     : '.tyto-task__edit-task'
+    trackTask    : '.tyto-task__track-task'
     description  : '.tyto-task__description'
     title        : '.tyto-task__title'
     menu         : '.tyto-task__menu'
@@ -21,6 +22,7 @@ module.exports = Backbone.Marionette.ItemView.extend
   events:
     'click @ui.deleteTask'     : 'deleteTask'
     'click @ui.editTask'       : 'editTask'
+    'click @ui.trackTask'      : 'trackTask'
     'blur @ui.title'           : 'saveTaskTitle'
     'blur @ui.description'     : 'saveTaskDescription'
 
@@ -58,6 +60,9 @@ module.exports = Backbone.Marionette.ItemView.extend
       container.scrollTop = container.scrollHeight
     # Upgrade MDL components.
     Tyto.Utils.upgradeMDL view.getMDLMap()
+
+  trackTask: (e) ->
+    Tyto.Utils.showTimeModal()
 
   editTask: (e) ->
     view    = this

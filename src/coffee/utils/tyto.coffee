@@ -126,4 +126,12 @@ Utils = (Utils, App, Backbone, Marionette) ->
 
     mailString + recipient + '?subject=' + encodeURIComponent(subject.trim()) + '&body=' + content
 
+  Utils.showTimeModal = (model) ->
+    Tyto.RootView
+      .$el
+      .prepend $('<div class="tyto-time-modal__wrapper"></div>')
+    Tyto.RootView.addRegion 'TimeModal', '.tyto-time-modal__wrapper'
+    Tyto.TimeModalView = new App.Views.TimeModal()
+    Tyto.RootView.showChildView 'TimeModal', Tyto.TimeModalView
+
 module.exports = Utils

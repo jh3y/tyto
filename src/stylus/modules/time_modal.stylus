@@ -1,0 +1,13 @@
+.tyto-time-modal__wrapper
+  position fixed
+  top      0
+  right    0
+  bottom   0
+  left     0
+  background-color red
+  z-index  99999
+
+.tyto-time-modal
+  position absolute
+  top 200px
+  left 50%

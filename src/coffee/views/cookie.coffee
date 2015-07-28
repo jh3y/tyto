@@ -6,4 +6,5 @@ module.exports = Backbone.Marionette.ItemView.extend
     'click @ui.closeBtn': 'closeBanner'
   closeBanner: ->
     window.localStorage.setItem 'tyto', true
+    Tyto.RootView.removeRegion 'Cookie'
     this.destroy()

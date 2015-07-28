@@ -6,6 +6,7 @@ RootView         = require './root'
 MenuView         = require './menu'
 SelectView       = require './select'
 CookieBannerView = require './cookie'
+TimeModalView    = require './time'
 
 Views = (Views, App, Backbone) ->
   Views.Root         = RootView
@@ -16,5 +17,6 @@ Views = (Views, App, Backbone) ->
   Views.Menu         = MenuView
   Views.Select       = SelectView
   Views.CookieBanner = CookieBannerView
+  Views.TimeModal    = TimeModalView
 
 module.exports = Views

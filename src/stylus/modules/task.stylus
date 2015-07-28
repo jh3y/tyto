@@ -21,6 +21,7 @@ taskMinHeight = 150px
   margin-bottom 30px
   max-width     100%
   min-height    taskMinHeight
+  overflow      visible
   /* Adds extra drop shadow when task is being lifted/dragged */
   &.ui-sortable-helper
     box-shadow  0 4px 4px 0 rgba(0,0,0,.14),

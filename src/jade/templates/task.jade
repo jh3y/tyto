@@ -6,5 +6,6 @@ include ../mixins/menu.jade
     h2.tyto-task__title(contenteditable="true", title="Task title") <%= title %>
     +actionMenu('<%= id %>--menu', 'more_vert', 'tyto-task', 'does--fade', 'bottom-right', 'Task options')
       li.mdl-menu__item.tyto-task__delete-task(title="Delete task") Delete
-      li.mdl-menu__item.tyto-task__edit-task.tyto-boomer(title="Edit task") Edit
+      li.mdl-menu__item.tyto-task__edit-task(title="Edit task") Edit
+      li.mdl-menu__item.tyto-task__track-task(title="Track task time") Track
   .mdl-card__supporting-text.tyto-task__description(contenteditable="true", title="Task description") <%= description %>
