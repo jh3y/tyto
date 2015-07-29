@@ -108,7 +108,7 @@ describe('tyto', function() {
       beforeEach(function() {
         tasksCollection = new Tyto.Models.TaskCollection();
       });
-      it('Using the delete option destroys the model', function() {
+      it('Quick edit of title/description updates model', function() {
         taskModel = tasksCollection.create();
         testView  = new Tyto.Views.Task(
           {
@@ -116,9 +116,16 @@ describe('tyto', function() {
           }
         );
         testView.render();
-        expect(tasksCollection.length).to.equal(1);
-        testView.ui.deleteTask.click();
-        expect(tasksCollection.length).to.equal(0);
+        var UPDATED_TITLE     = 'Updated title',
+          UPDATED_DESCRIPTION = 'Updated description';
+        // Test out the title field
+        testView.ui.title.text(UPDATED_TITLE);
+        testView.ui.title.blur();
+        expect(testView.model.get('title')).to.equal(UPDATED_TITLE);
+        // Test out the description field
+        testView.ui.description.text(UPDATED_DESCRIPTION);
+        testView.ui.description.blur();
+        expect(testView.model.get('description')).to.equal(UPDATED_DESCRIPTION);
       });
     });
     describe('EditView', function() {
