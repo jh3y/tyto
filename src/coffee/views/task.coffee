@@ -51,7 +51,8 @@ module.exports = Backbone.Marionette.ItemView.extend
       $(this).parents(attr.COLUMN_CLASS).removeClass attr.IS_BEING_ADDED_CLASS
 
   deleteTask: ->
-    this.model.destroy()
+    if confirm Tyto.CONFIRM_MESSAGE
+      this.model.destroy()
 
   onShow: ->
     view = this

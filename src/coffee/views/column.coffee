@@ -142,7 +142,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
       ordinal : view.collection.length + 1
 
   deleteColumn: ->
-    if this.collection.length is 0 or confirm 'are you sure????'
+    if this.collection.length is 0 or confirm Tyto.CONFIRM_MESSAGE
       # NOTE w/ a backend we wouldn't be doing the recursive destroy.
       while this.collection.length isnt 0
         this.collection.first().destroy()

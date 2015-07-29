@@ -2,13 +2,12 @@ Column = require './column'
 
 module.exports = Backbone.Marionette.CompositeView.extend
   tagName           : 'div'
-  className         : 'tyto-board'
+  className         : ->
+    this.domAttributes.VIEW_CLASS
   template          : Tyto.TemplateStore.board
-
   templateHelpers   : ->
     # Required in order to supply drop down select next to board name.
     boards : Tyto.Boards
-
   childView         : Column
   childViewContainer: ->
     this.domAttributes.CHILD_VIEW_CONTAINER_CLASS
@@ -39,6 +38,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
     'destroy'   : 'handleColumnRemoval'
 
   domAttributes:
+    VIEW_CLASS                : 'tyto-board'
     CHILD_VIEW_CONTAINER_CLASS: '.tyto-board__columns'
     COLUMN_CLASS              : '.tyto-column'
     COLUMN_ATTR               : 'data-col-id'
@@ -139,11 +139,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
     board   = view.model
     id      = _.uniqueId()
     addUrl = '#board/' + board.id + '/task/' + id + '?isFresh=true'
-    Tyto.Utils.bloom view.ui.addTask[0], 'yellow', addUrl
+    Tyto.Utils.bloom view.ui.addTask[0], Tyto.DEFAULT_TASK_COLOR, addUrl
 
   deleteBoard: ->
     view = this
-    if view.collection.length is 0 or confirm 'are you sure???'
+    if view.collection.length is 0 or confirm Tyto.CONFIRM_MESSAGE
       view.wipeBoard()
       view.model.destroy()
       view.destroy()
@@ -158,7 +158,7 @@ module.exports = Backbone.Marionette.CompositeView.extend
           colView.collection.first().destroy()
         colView.model.destroy()
     if dontConfirm
-      if confirm 'are you sure???'
+      if confirm '[tyto] are you sure you wish to wipe the board?'
         wipe()
     else
         wipe()
