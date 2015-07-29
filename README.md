@@ -21,9 +21,9 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 
 ###Timeline
 * __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
-* __14/02/14__: V1.1.0 released with plenty of new features that were raised in the first showing.
+* __14/02/14__: V1.1.0 released with plenty of new features that were raised in̨ the first showing.
 * __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
-* __23/05/14__: V1.4.0 major overhaul of code as it's been some time. Moving away from requireJS and introducing bower instead for piling sources together via grunt.
+* __23/05/14__: V1.4.0 major overhaul of code as it's been some time. Moving away from requireJS and introducing bower instead for piling sources together via grunt.̨
 * __02/03/15__: It's now 2015. And the issues have gone untouched and I've started adding new ones! So it looks like it's going to be a good time soon to make some progress on them. Looking to add:
   * DB Support (Mongo)
   * Ability to modify notes using custom markup
@@ -106,6 +106,7 @@ In most cases and ideally you will want to configure __tyto__ to your own needs 
 ###Configuration
 Previous versions of __tyto__ offered a means of configuration for defining some board characteristics. However, with the new implementation introduced in version `2.0.0` and the inclusion of Backbone Marionette it didn't seem necessary to keep the configuration object as changes can be made to the `config` module within the app source.
 
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/time_track.gif)
 
 ###Development
 The beauty of __tyto__ is how easy it is to change things and really customise and extend it to be exactly what you want.
@@ -142,6 +143,8 @@ Using jade and lodash has made it very easy to template views/markup for __tyto_
 
 ###Contributing
 If you feel __tyto__ would be something you'd like to contribute ideas to or enhancements please don't hesitate to get in touch or fork the repo and submit a pull request. I know __tyto__ isn't everyone's cup of tea and my implementation may not be perfectly inline with how you feel things should be done so I welcome any criticism or pointers that may help work towards a better project.
+
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/show_time.png)
 
 ###License
 

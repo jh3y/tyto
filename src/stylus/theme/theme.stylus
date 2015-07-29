@@ -40,7 +40,6 @@ for dir in left right center
   .tx--{dir}
     text-align dir
 
-
 /*
   Utility classes
 */
