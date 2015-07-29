@@ -18,6 +18,9 @@ module.exports = Backbone.Marionette.ItemView.extend
     description  : '.tyto-task__description'
     title        : '.tyto-task__title'
     menu         : '.tyto-task__menu'
+    hours        : '.tyto-task__time-hours'
+    minutes      : '.tyto-task__time-minutes'
+    time         : '.tyto-task__time'
 
   events:
     'click @ui.deleteTask'     : 'deleteTask'
@@ -32,6 +35,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     IS_BEING_ADDED_CLASS: 'is--adding-task'
     COLUMN_CLASS        : '.tyto-column'
     TASK_CONTAINER_CLASS: '.tyto-column__tasks'
+    HIDDEN_UTIL_CLASS   : 'is--hidden'
 
   getMDLMap: ->
     view = this
@@ -61,8 +65,25 @@ module.exports = Backbone.Marionette.ItemView.extend
     # Upgrade MDL components.
     Tyto.Utils.upgradeMDL view.getMDLMap()
 
+  onRender: ->
+    view = this
+    view.renderTime()
+
+  renderTime: ->
+    view = this
+    time = view.model.get 'timeSpent'
+    if time.hours > 0 or time.minutes > 0
+      if view.ui.time.hasClass view.domAttributes.HIDDEN_UTIL_CLASS
+        view.ui.time.removeClass view.domAttributes.HIDDEN_UTIL_CLASS
+      friendly = Tyto.Utils.getRenderFriendlyTime time
+      view.ui.hours.text friendly.hours + 'h'
+      view.ui.minutes.text friendly.minutes + 'm'
+    else
+      if !view.ui.time.hasClass view.domAttributes.HIDDEN_UTIL_CLASS
+        view.ui.time.addClass view.domAttributes.HIDDEN_UTIL_CLASS
+
   trackTask: (e) ->
-    Tyto.Utils.showTimeModal()
+    Tyto.Utils.showTimeModal this.model, this
 
   editTask: (e) ->
     view    = this

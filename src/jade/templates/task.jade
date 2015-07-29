@@ -1,5 +1,5 @@
 include ../mixins/menu.jade
-
+include ../mixins/timeLabel.jade
 .tyto-task__content
   .tyto-task__header.tx--center
     i.material-icons.tyto-task__mover.does--fade(title="Move task") open_with
@@ -9,3 +9,5 @@ include ../mixins/menu.jade
       li.mdl-menu__item.tyto-task__edit-task(title="Edit task") Edit
       li.mdl-menu__item.tyto-task__track-task(title="Track task time") Track
   .mdl-card__supporting-text.tyto-task__description(contenteditable="true", title="Task description") <%= description %>
+  |<% var hidden = (timeSpent.hours > 0 || timeSpent.minutes > 0) ? '': 'is--hidden'; %>
+  +timeLabel('tyto-task__time')

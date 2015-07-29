@@ -1,13 +1,34 @@
 .tyto-time-modal__wrapper
-  position fixed
-  top      0
-  right    0
-  bottom   0
-  left     0
-  background-color red
-  z-index  99999
+  position           fixed
+  top                0
+  right              0
+  bottom             0
+  left               0
+  background-color   rgba(0,0,0,0.5)
+  z-index            99999
+  display            flex
+  flex-direction     column
+  align-items        center
+  justify-content    center
+  animation-duration .25s
+  animation-name     fade__in
 
 .tyto-time-modal
-  position absolute
-  top 200px
-  left 50%
+  max-width          100%
+  flex               0 1 auto
+  animation-duration .25s
+  animation-name     create
+
+.tyto-time-modal__content
+  width              auto
+  height             auto
+  min-height         0
+  margin             10px
+
+.tyto-time-modal__content-title
+  justify-content    center
+  padding-bottom     0
+
+.tyto-time-modal__content-text
+  width              100%
+  padding-top        0

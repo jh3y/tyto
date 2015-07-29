@@ -52,7 +52,8 @@ for dir in left right center
   transition opacity .25s
   &:hover
     opacity  1
-
+.is--hidden
+  display none
 /*
   tx--black wouldn't work on this set up because it's a generated el.
 */

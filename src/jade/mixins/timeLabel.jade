@@ -1,0 +1,5 @@
+mixin timeLabel(className)
+  div(title="Time spent", class!=className)
+    i.material-icons schedule
+    span(class!="#{className}-hours") <%= timeSpent.hours %>h
+    span(class!="#{className}-minutes") <%= timeSpent.minutes %>m

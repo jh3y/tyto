@@ -1,4 +1,5 @@
 include ../mixins/menu.jade
+include ../mixins/timeLabel.jade
 
 .tyto-edit__nav
   |<% if (isNew) { %>
@@ -11,6 +12,7 @@ include ../mixins/menu.jade
     h1.tyto-edit__title(contenteditable="true", data-model-prop="title", title="Task title") <%= title %>
     .tyto-edit__description(contenteditable="true", data-model-prop="description", title="Task description") <%= description %>
   .tyto-edit__details-footer.tx--right.has--bottom-margin
+    +timeLabel('tyto-task__time')
     .tyto-edit__task-column
       |<% if (selectedColumn) { %>
       |<%= selectedColumn.attributes.title %>
