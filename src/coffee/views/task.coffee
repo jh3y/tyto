@@ -18,8 +18,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     description  : '.tyto-task__description'
     title        : '.tyto-task__title'
     menu         : '.tyto-task__menu'
-    hours        : '.tyto-task__time-hours'
-    minutes      : '.tyto-task__time-minutes'
+    hours        : '.tyto-task__time__hours'
+    minutes      : '.tyto-task__time__minutes'
     time         : '.tyto-task__time'
 
   events:
@@ -67,20 +67,7 @@ module.exports = Backbone.Marionette.ItemView.extend
 
   onRender: ->
     view = this
-    view.renderTime()
-
-  renderTime: ->
-    view = this
-    time = view.model.get 'timeSpent'
-    if time.hours > 0 or time.minutes > 0
-      if view.ui.time.hasClass view.domAttributes.HIDDEN_UTIL_CLASS
-        view.ui.time.removeClass view.domAttributes.HIDDEN_UTIL_CLASS
-      friendly = Tyto.Utils.getRenderFriendlyTime time
-      view.ui.hours.text friendly.hours + 'h'
-      view.ui.minutes.text friendly.minutes + 'm'
-    else
-      if !view.ui.time.hasClass view.domAttributes.HIDDEN_UTIL_CLASS
-        view.ui.time.addClass view.domAttributes.HIDDEN_UTIL_CLASS
+    Tyto.Utils.renderTime view
 
   trackTask: (e) ->
     Tyto.Utils.showTimeModal this.model, this

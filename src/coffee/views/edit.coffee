@@ -19,10 +19,11 @@ EditView = Backbone.Marionette.ItemView.extend
     Tyto.RootView.el.classList.remove view.domAttributes.BLOOM_SHOW_CLASS
 
   domAttributes:
-    VIEW_CLASS      : 'tyto-edit'
-    BLOOM_SHOW_CLASS: 'is--showing-bloom'
-    EDIT_SHOW_CLASS : 'is--showing-edit-view'
-    MODEL_PROP_ATTR : 'data-model-prop'
+    VIEW_CLASS       : 'tyto-edit'
+    BLOOM_SHOW_CLASS : 'is--showing-bloom'
+    EDIT_SHOW_CLASS  : 'is--showing-edit-view'
+    MODEL_PROP_ATTR  : 'data-model-prop'
+    HIDDEN_UTIL_CLASS: 'is--hidden'
 
   props:
     DEFAULT_COLOR_VALUE: 'default'
@@ -30,17 +31,22 @@ EditView = Backbone.Marionette.ItemView.extend
   ui:
     save           : '.tyto-edit__save'
     color          : '.tyto-edit__color-select__menu-option'
-    taskDescription: '.tyto-edit__description'
-    taskTitle      : '.tyto-edit__title'
+    taskDescription: '.tyto-edit__task-description'
+    taskTitle      : '.tyto-edit__task-title'
     column         : '.tyto-edit__column-select__menu-option'
     colorMenu      : '.tyto-edit__color-select__menu'
     columnMenu     : '.tyto-edit__column-select__menu'
     columnLabel    : '.tyto-edit__task-column'
+    track          : '.tyto-edit__track'
+    time           : '.tyto-edit__task-time'
+    hours          : '.tyto-edit__task-time__hours'
+    minutes        : '.tyto-edit__task-time__minutes'
 
   events:
     'click @ui.save'          : 'saveTask'
     'click @ui.color'         : 'changeColor'
     'click @ui.column'        : 'changeColumn'
+    'click @ui.track'         : 'trackTime'
     'blur @ui.taskDescription': 'updateTask'
     'blur @ui.taskTitle'      : 'updateTask'
 
@@ -63,6 +69,13 @@ EditView = Backbone.Marionette.ItemView.extend
 
   onShow: ->
     Tyto.Utils.upgradeMDL this.getMDLMap()
+
+  onRender: ->
+    view = this
+    Tyto.Utils.renderTime view
+
+  trackTime: ->
+    Tyto.Utils.showTimeModal this.model, this
 
   ###
     This is a function for handling fresh tasks and saving them on 'DONE'

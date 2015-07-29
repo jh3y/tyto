@@ -9,10 +9,10 @@ include ../mixins/timeLabel.jade
   |<% } %>
 .tyto-edit__content
   .tyto-edit__details.has--bottom-margin
-    h1.tyto-edit__title(contenteditable="true", data-model-prop="title", title="Task title") <%= title %>
-    .tyto-edit__description(contenteditable="true", data-model-prop="description", title="Task description") <%= description %>
+    h1.tyto-edit__task-title(contenteditable="true", data-model-prop="title", title="Task title") <%= title %>
+    .tyto-edit__task-description(contenteditable="true", data-model-prop="description", title="Task description") <%= description %>
   .tyto-edit__details-footer.tx--right.has--bottom-margin
-    +timeLabel('tyto-task__time')
+    +timeLabel('tyto-edit__task-time')
     .tyto-edit__task-column
       |<% if (selectedColumn) { %>
       |<%= selectedColumn.attributes.title %>
@@ -30,3 +30,5 @@ include ../mixins/timeLabel.jade
       |<% var activeColor = (col === color) ? 'is--selected': '' %>
       li.mdl-menu__item.tyto-edit__color-select__menu-option(class!="bg--<%= col %> hv--<%= col %> <%= activeColor %>", data-color!="<%= col %>", title!="<%= col %>")
       |<% }); %>
+    button.tyto-edit__track.mdl-button.mdl-js-button.mdl-button--icon.mdl-js-ripple-effect(title="Start tracking")
+      i.material-icons schedule

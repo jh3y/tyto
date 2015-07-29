@@ -59,12 +59,9 @@ taskMinHeight = 150px
   padding       0
 
 .tyto-task__time
-  display         flex
-  justify-content flex-end
-  align-items     center
-  padding         16px
+  padding       16px
   & > *
-    opacity 0.4
+    opacity     0.4
 
 .tyto-task__mover
   position      absolute

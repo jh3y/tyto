@@ -142,4 +142,16 @@ Utils = (Utils, App, Backbone, Marionette) ->
       renderTime[measure] = if (time[measure] < 10) then '0' + time[measure] else time[measure]
     renderTime
 
+  Utils.renderTime = (view) ->
+    time = view.model.get 'timeSpent'
+    if time.hours > 0 or time.minutes > 0
+      if view.ui.time.hasClass view.domAttributes.HIDDEN_UTIL_CLASS
+        view.ui.time.removeClass view.domAttributes.HIDDEN_UTIL_CLASS
+      friendly = Tyto.Utils.getRenderFriendlyTime time
+      view.ui.hours.text friendly.hours + 'h'
+      view.ui.minutes.text friendly.minutes + 'm'
+    else
+      if !view.ui.time.hasClass view.domAttributes.HIDDEN_UTIL_CLASS
+        view.ui.time.addClass view.domAttributes.HIDDEN_UTIL_CLASS
+
 module.exports = Utils

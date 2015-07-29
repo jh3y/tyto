@@ -33,11 +33,11 @@
 
 .tyto-edit__nav
 .tyto-edit__details-footer
-  margin     0 0 30px 0
   min-height 50px
 
-.tyto-edit__task-column
-  padding    0 8px
+.tyto-edit__details-footer
+  padding 0 8px
+  opacity 0.4
 
 .tyto-edit__actions
   position       absolute

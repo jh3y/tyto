@@ -1,5 +1,5 @@
 mixin timeLabel(className)
-  div(title="Time spent", class!=className)
+  .tyto-time(title="Time spent", class!=className)
     i.material-icons schedule
-    span(class!="#{className}-hours") <%= timeSpent.hours %>h
-    span(class!="#{className}-minutes") <%= timeSpent.minutes %>m
+    span(class!="#{className}__hours tyto-time__hours") <%= timeSpent.hours %>h
+    span(class!="#{className}__minutes tyto-time__minutes") <%= timeSpent.minutes %>m
