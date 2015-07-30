@@ -9,6 +9,16 @@
   "scripts": {
     "test": "./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/index.html"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jh3y/tyto"
+  },
+  "author": "jh3y <jh3y@live.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jh3y/tyto/issues"
+  },
+  "homepage": "https://github.com/jh3y/tyto",
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.6.4",
