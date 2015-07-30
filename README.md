@@ -13,31 +13,16 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 * easy to use
 * easy to extend and develop
 * localStorage persistence
+* time tracking for items
 * sortable columns and items
 * etc.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/add_task.gif)
 
-
-###Timeline
-* __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
-* __14/02/14__: V1.1.0 released with plenty of new features that were raised in̨ the first showing.
-* __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
-* __23/05/14__: V1.4.0 major overhaul of code as it's been some time. Moving away from requireJS and introducing bower instead for piling sources together via grunt.̨
-* __02/03/15__: It's now 2015. And the issues have gone untouched and I've started adding new ones! So it looks like it's going to be a good time soon to make some progress on them. Looking to add:
-  * DB Support (Mongo)
-  * Ability to modify notes using custom markup
-  * Multiple boards
-  * Better mobile view; One column at a time.
-  * Huge refactor to get rid of annoyances such as load time template loading.
-  * Add tracking for both tasks and time!
-* __01/08/15__: V2.0.0 is live! There are still features to be implemented but there has been a complete overhaul to an MV* architecture using Backbone Marionette. A redesign using the Material Design spec has also been put in place and gives a nicer UI IMO.
-
-
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/edit_view.png)
-
 ###Why tyto? What's it for?
 To be honest __tyto__ arose from my own and other members of my then team desiring something easy to organise and manage your own daily workflow. This could be something simple like the current development tasks on your plate or maybe the meetings you have scheduled in the current week coming. The ability to also share this is important.
+
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/edit_view.png)
 
 It is true that most organisations have some form of tool for this exact problem but in my experience many employees don't actually like what they are using and you still see peoples whiteboards and walls etc. covered in sticky notes.
 
@@ -139,7 +124,17 @@ Using jade and lodash has made it very easy to template views/markup for __tyto_
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/open_menu.gif)
 
-
+###Timeline
+* __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
+* __14/02/14__: V1.1.0 released with plenty of new features that were raised in̨ the first showing.
+* __16/02/14__: V1.2.0 new release with jQuery UI implementation for sorting columns and items.
+* __23/05/14__: V1.4.0 major overhaul of code as it's been some time. Moving away from requireJS and introducing bower instead for piling sources together via grunt.̨
+* __02/03/15__: It's now 2015. And the issues have gone untouched and I've started adding new ones! So it looks like it's going to be a good time soon to make some progress on them. Looking to add:
+  * Ability to modify notes using custom markup
+  * Multiple boards
+  * Huge refactor to get rid of annoyances such as load time template loading.
+  * Add tracking for both tasks and time!
+* __01/08/15__: V2.0.0 is live! There are still features to be implemented but there has been a complete overhaul to an MV* architecture using Backbone Marionette. A more minimal design has also been implemented trying to follow the Material Design spec.
 
 ###Contributing
 If you feel __tyto__ would be something you'd like to contribute ideas to or enhancements please don't hesitate to get in touch or fork the repo and submit a pull request. I know __tyto__ isn't everyone's cup of tea and my implementation may not be perfectly inline with how you feel things should be done so I welcome any criticism or pointers that may help work towards a better project.
