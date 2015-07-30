@@ -5,55 +5,55 @@
     animation-name     fade__in
     animation-duration .25s
 
-.tyto-edit__content
-  position fixed
-  top      56px
-  right    0
-  bottom   0
-  left     0
-  padding  20px
-  overflow auto
-  @media(min-width 852px)
-    top    64px
-  @media(min-width 768px)
-    width  600px
-    margin 0 auto
+  &__content
+    position fixed
+    top      56px
+    right    0
+    bottom   0
+    left     0
+    padding  20px
+    overflow auto
+    @media(min-width 852px)
+      top    64px
+    @media(min-width 768px)
+      width  600px
+      margin 0 auto
 
-.tyto-edit__color-select__menu
-  display        flex
-  flex-wrap      wrap
-  flex-direction row
-  padding        8px
+  &__color-select__menu
+    display        flex
+    flex-wrap      wrap
+    flex-direction row
+    padding        8px
 
-.tyto-edit__color-select__menu-option
-  width 50%
+  &__color-select__menu-option
+    width 50%
 
-.tyto-edit__title
-  margin 0 32px 30px 0
+  &__title
+    margin 0 32px 30px 0
 
-.tyto-edit__nav
-.tyto-edit__details-footer
-  min-height 50px
+  &__nav
+  &__details-footer
+    min-height 50px
 
-.tyto-edit__details-footer
-  padding 0 8px
-  opacity 0.4
+  &__details-footer
+    padding 0 8px
+    opacity 0.4
 
-.tyto-edit__actions
-  position       absolute
-  top            20px
-  right          20px
-  display        flex
-  flex-direction column
+  &__actions
+    position       absolute
+    top            20px
+    right          20px
+    display        flex
+    flex-direction column
 
 
-.tyto-edit__nav
-  position    fixed
-  display     flex
-  align-items center
-  z-index     2
-  top         0
-  left        100px
-  height      56px
-  @media(min-width 852px)
-    height 64px
+  &__nav
+    position    fixed
+    display     flex
+    align-items center
+    z-index     2
+    top         0
+    left        100px
+    height      56px
+    @media(min-width 852px)
+      height 64px

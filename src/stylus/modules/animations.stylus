@@ -34,3 +34,24 @@
     transform scale(0)
   to
     transform scale(0.8)
+
+
+/* Used for animating in freshly created columns */
+.tyto-board.is--adding-column
+  .tyto-column
+    &:last-of-type
+      .tyto-column__content
+        transform-origin          center center
+        animation-duration        .5s
+        animation-name            create
+
+
+/*
+  animates a freshly created task with the spring in effect.
+*/
+.tyto-column.is--adding-task
+  .tyto-task
+    &:last-of-type
+      transform-origin   center center
+      animation-duration .5s
+      animation-name     create

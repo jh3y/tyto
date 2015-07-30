@@ -1,76 +1,82 @@
+/***
+
+  Board component.
+
+***/
+
 .tyto-board
   display        flex
   flex-direction column
 
-.tyto-board__options
-  position    fixed
-  display     flex
-  align-items center
-  z-index     2
-  top         0
-  right       10px
-  height      56px
-  @media(min-width 852px)
-    height    64px
+  &__options
+    position    fixed
+    display     flex
+    align-items center
+    z-index     2
+    top         0
+    right       10px
+    height      56px
+    @media(min-width 852px)
+      height    64px
 
-.tyto-board__columns
-  display        flex
-  flex-direction row
-  overflow-x     auto
-  overflow-y     hidden
-  flex           1 1 auto
-  padding        10px
+  &__columns
+    display        flex
+    flex-direction row
+    overflow-x     auto
+    overflow-y     hidden
+    flex           1 1 auto
+    padding        10px
 
 
-.tyto-board__details
-  position    fixed
-  display     flex
-  align-items center
-  z-index     2
-  top         0px
-  left        75px
-  right       75px
+  &__details
+    position    fixed
+    display     flex
+    align-items center
+    z-index     2
+    top         0px
+    left        75px
+    right       75px
 
-.tyto-board__selector__menu-btn
-  margin-left   6px
+  &__selector__menu-btn
+    margin-left   6px
 
-.tyto-board__selector-option
-  padding       0
-  a
-    padding         0 8px
-    display         block
-    text-decoration none
+  &__selector-option
+    padding       0
+    a
+      padding         0 8px
+      display         block
+      text-decoration none
 
-.tyto-board__title
-  font-size     24px
-  height        56px
-  line-height   56px
-  margin        0
-  outline       0
-  min-width     100px
-  overflow      hidden
-  white-space   nowrap
-  text-overflow ellipsis
-  &:active
-  &:focus
-    overflow    visible
-    white-space normal
-  @media(min-width 852px)
-    line-height 64px
-    height      64px
+  &__title
+    font-size     24px
+    height        56px
+    line-height   56px
+    margin        0
+    outline       0
+    min-width     100px
+    overflow      hidden
+    white-space   nowrap
+    text-overflow ellipsis
+    &:active
+    &:focus
+      overflow    visible
+      white-space normal
+    @media(min-width 852px)
+      line-height 64px
+      height      64px
 
-.tyto-board__bloomer
-  position      fixed
-  height        100px
-  width         100px
-  margin-left   -50px
-  margin-top    -50px
-  border-radius 100%
-  z-index       9999
-  display       none
-  animation-fill-mode       forwards
-  animation-timing-function linear
-  animation-duration        .5s
-  &.is--blooming
-    display        block
-    animation-name bloom
+  &__bloomer
+    position      fixed
+    height        100px
+    width         100px
+    margin-left   -50px
+    margin-top    -50px
+    border-radius 100%
+    z-index       9999
+    display       none
+    animation-fill-mode       forwards
+    animation-timing-function linear
+    animation-duration        .5s
+    &.is--blooming
+      display        block
+      animation-name bloom
