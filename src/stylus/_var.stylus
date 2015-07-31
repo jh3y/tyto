@@ -1,50 +1,33 @@
-tytoRed       = #ef5350
-tytoAltRed    = #ff1744
-tytoPurple    = #7E57C2
-tytoAltPurple = #651FFF
-tytoNavy      = #5C6BC0
-tytoAltNavy   = #3D5AFE
-tytoBlue      = #42A5F5
-tytoAltBlue   = #2979FF
-tytoGreen     = #66B66A
-tytoAltGreen  = #00E676
-tytoYellow    = #FFEE58
-tytoAltYellow = #FFEA00
-tytoOrange    = #FFA726
-tytoAltOrange = #FF9100
-tytoPink      = #EC407A
-tytoAltPink   = #F50057
-tytoBlack     = #000
-tytoAltBlack  = #BDBDBD
-tytoWhite     = #FFF
-tytoAltWhite  = #BDBDBD
-tytoGrey      = #9e9e9e
-tytoAltGrey   = #E0E0E0
-
+red    = #f44336
+pink   = #E91E63
+purple = #9C27B0
+indigo = #3F51B5
+blue   = #2196F3
+cyan   = #00BCD4
+teal   = #009688
+green  = #4CAF50
+lime   = #CDDC39
+yellow = #FFEB3B
+amber  = #FFC107
+orange = #FF5722
+grey   = #9E9E9E
+black  = #000000
+white  = #ffffff
 
 colorPalette = {
-  red   : tytoRed
-  purple: tytoPurple
-  navy  : tytoNavy
-  blue  : tytoBlue
-  green : tytoGreen
-  yellow: tytoYellow
-  orange: tytoOrange
-  black : tytoBlack
-  white : tytoWhite
-  pink  : tytoPink
-}
-
-
-alternatePalette = {
-  red   : tytoAltRed
-  purple: tytoAltPurple
-  navy  : tytoAltNavy
-  blue  : tytoAltBlue
-  green : tytoAltGreen
-  yellow: tytoAltYellow
-  orange: tytoAltOrange
-  black : tytoAltBlack
-  white : tytoAltWhite
-  pink  : tytoAltPink
+  red   : red
+  pink  : pink
+  purple: purple
+  indigo: indigo
+  blue  : blue
+  cyan  : cyan
+  teal  : teal
+  green : green
+  lime  : lime
+  yellow: yellow
+  amber : amber
+  orange: orange
+  grey  : grey
+  black : black
+  white : white
 }

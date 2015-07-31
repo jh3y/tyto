@@ -32,7 +32,7 @@ for key, value in colorPalette
       outline               0
       &:active
       &:focus
-        background-color alternatePalette[key]
+        background-color darken(value, 15%)
 /*
   Generates text alignment utility classes.
 */
@@ -40,19 +40,6 @@ for dir in left right center
   .tx--{dir}
     text-align dir
 
-/*
-  Utility classes
-*/
-.has--bottom-margin
-  margin-bottom 30px
-
-.does--fade
-  opacity    .4
-  transition opacity .25s
-  &:hover
-    opacity  1
-.is--hidden
-  display none
 /*
   tx--black wouldn't work on this set up because it's a generated el.
 */

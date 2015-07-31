@@ -8,7 +8,7 @@ appConfig = Marionette.Application.extend
     'yellow',
     'red',
     'blue',
-    'navy',
+    'indigo',
     'green',
     'purple',
     'orange',

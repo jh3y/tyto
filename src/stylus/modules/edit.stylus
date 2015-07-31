@@ -28,8 +28,12 @@
   &__color-select__menu-option
     width 50%
 
-  &__title
-    margin 0 32px 30px 0
+  &__task-title
+    margin  0 32px 0 0
+    padding 10px 24px
+
+  &__task-description
+    padding 24px
 
   &__nav
   &__details-footer

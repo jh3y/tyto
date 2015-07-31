@@ -16,7 +16,6 @@
   .tyto-header
     z-index 99999
 
-
 .is--selected
   position   relative
   &:after
@@ -25,3 +24,15 @@
     position absolute
     top      0
     right    2px
+
+.has--bottom-margin
+  margin-bottom 30px
+
+.does--fade
+  opacity    .4
+  transition opacity .25s
+  &:hover
+    opacity  1
+
+.is--hidden
+  display none
