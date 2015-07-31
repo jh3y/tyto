@@ -87,12 +87,3 @@ columnWidth = 320px
       flex      1
       font-size 32px
       cursor    pointer
-
-// /* Used for animating in freshly created columns */
-// .tyto-board.is--adding-column
-//   .tyto-column
-//     &:last-of-type
-//       .tyto-column__content
-//         transform-origin          center center
-//         animation-duration        .5s
-//         animation-name            create
