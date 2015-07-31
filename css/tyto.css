@@ -1,336 +1,1327 @@
-.actions {
-  padding: 2em 1em 0 1em;
-  min-width: 550px;
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Roboto-Regular.ttf") format('truetype');
 }
-.actions button {
-  margin-right: 0.5em;
+/***
+  Material Icons integration.
+***/
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/MaterialIcons-Regular.eot");
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url("../fonts/MaterialIcons-Regular.woff2") format('woff2'), url("../fonts/MaterialIcons-Regular.woff") format('woff'), url("../fonts/MaterialIcons-Regular.ttf") format('truetype');
 }
-.actions button i {
-  margin: 0 0 0 0.25em;
-}
-.dropdown-menu i {
-  position: absolute;
-  right: 0;
-  margin: 0.25em;
-  width: 3em;
-  text-align: center;
-}
-.btn-group ul.dropdown-menu {
-  margin-top: 0 !important;
-}
-
-#barn {
-  border: thin solid black;
-  position: relative;
-  background-color: #fff;
-  min-height: 320px;
-  height: 600px;
-  /*fallback*/
-  height: calc(100% - 125px);
-  height: -webkit-calc(100% - 125px);
-  width: 90%;
-  min-width: 610px;
-  padding: 1em 3em;
-  margin: 0 auto 0 auto;
-  overflow: hidden;
-}
-#barn .column {
-  height: 85%;
-  height: calc(100% - 60px);
-  height: -webkit-calc(100% - 60px);
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px /* Preferred icon size */;
   display: inline-block;
-  vertical-align: top;
-  position: relative;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+/* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+/* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+/* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+/* Support for IE. */
+  -webkit-font-feature-settings: 'liga';
+     -moz-font-feature-settings: 'liga';
+          font-feature-settings: 'liga';
 }
-#barn .column .column-title {
-  font-size: 1.25em;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  text-align: center;
-  text-decoration: underline;
-  margin: 0 0 0.5em 0;
+* {
+  box-sizing: border-box;
 }
-#barn .column .tyto-item-holder {
-  height: 100%;
-  margin: 0 auto;
-  overflow: auto;
+body {
+  overflow-y: scroll;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-feature-settings: 'liga';
+     -moz-font-feature-settings: 'liga';
+          font-feature-settings: 'liga';
 }
-#barn .column .tyto-item-holder.over {
-  border: 2px dashed #999;
-}
-#barn i.fa.fa-plus.addcolumn[data-action] {
-  position: absolute;
-  margin: 0.1em;
-  top: 0;
-  right: 0;
-}
-#barn .column .icon-holder {
-  text-align: right;
-}
-#barn .column .icon-holder .column-mover {
-  margin: 0 4px 0 0;
-}
-#barn .column .items {
-  padding: 0 0 1em 0;
-}
-#barn .column .tyto-item-holder .icon-holder {
-  text-align: center;
-}
-#barn i {
-  opacity: 0.2;
-  font-size: 14px;
-  cursor: pointer;
-}
-#barn i.fa.fa-plus[data-action] {
-  font-size: 1em;
-}
-#barn i:hover {
-  opacity: 0.8;
-}
-.viewport-message {
-  text-align: center;
-}
+/***
+  LAYOUT SPECIFIC STYLES
 
-.cookie-banner {
-  background-color: #95A5A6;
-  border-radius: 0.25em;
-  z-index: 2;
-}
-.cookie-banner h6 {
-  margin: 0 0 0 0;
-}
-.cookie-banner img {
-  margin: 0.5em;
-  -moz-transform: scaleX(-1);
-  -o-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-  filter: FlipH;
-  -ms-filter: "FlipH";
-}
-.cookie-banner .cookie-banner-content a[data-action='cookie-close'] {
-  position: absolute;
-  right: 0;
-  top: 1em;
-}
-.cookie-banner .cookie-banner-content {
-  width: 90%;
-  margin: 0 auto;
-  position: relative;
-}
-.cookie-banner .image,
-.cookie-banner .blurb {
-  display: inline-block;
-  vertical-align: top;
-}
-.cookie-banner .blurb .small {
-  margin-right: 60px;
-}
+  Used for defining positional relationships.
 
-.tyto-header-content {
-  text-align: center;
+***/
+.tyto-content > div {
+  position: fixed;
+  top: 56px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+@media (min-width: 852px) {
+  .tyto-content > div {
+    top: 64px;
+  }
 }
 .tyto-header {
-  width: 90%;
-  margin: 10px auto 0 auto;
-  padding: 0.5em 0;
-}
-h2.tyto-title {
-  margin: 0.2em 0 0 0;
-}
-/* RESPONSIVE MEDIA QUERIES */
-@media (min-width: 768px) {
-  .tyto-header .tyto-header-content {
-    display: inline-block;
-    float: right;
-    text-align: left;
-  }
-  .tyto-header .tyto-header-content h2.tyto-title,
-  .tyto-header .tyto-header-content .tyto-logo {
-    display: inline-block;
-  }
-}
-
-.tyto-item-content {
-  min-height: 50px;
-  margin: 10px 0 0 0;
-  text-align: left;
-  font-size: 0.85em;
-  color: #777;
-  overflow: hidden;
-}
-.tyto-item .tyto-item-header {
-  position: relative;
-}
-.tyto-item {
-  width: 90%;
-  padding: 10px 10px 10px 10px;
-  margin: 0 auto 1em;
-  font-size: 0.85em;
-  box-shadow: #ebebeb 0px 5px 5px;
-  background-color: #ffffd5;
-}
-.tyto-item-header h6 {
-  margin: 0 50px 0 0;
-  font-size: 1.25em;
-  height: 1.25em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
-}
-.tyto-item .tyto-item-header .action-icons {
-  position: absolute;
-  top: -4px;
-  right: 0;
-}
-.tyto-item .action-icons i:not(:last-of-type) {
-  margin-right: 4px;
-}
-
-#tytoInfoModal img.modal-tyto-logo {
-  height: 150px;
-}
-#tytoInfoModal .modal-dialog {
-  width: 465px;
-  text-align: center;
-}
-img.modal-tyto-logo {
-  -moz-transform: scaleX(-1);
-  -o-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-  filter: FlipH;
-  -ms-filter: "FlipH";
-}
-
-.tyto-notification {
-  position: absolute;
-  right: 0;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+}
+.tyto-content {
+  overflow: visible;
+}
+.tyto-header {
   z-index: 1;
-  margin: 0.25em 0.25em 0.25em 0.25em;
-  background-color: #FFF;
-  padding: 0.25em 0.25em 0.25em 0.25em;
-  border: thin solid black;
-  border-radius: 0.25em 0.25em 0.25em 0.25em;
-  transition: all 1s ease 0s;
-  -webkit-transition: all 1s ease 0s;
 }
-.notify[data-tyto-notify="0"] {
-  animation-name: notify 0s;
-  -webkit-animation-name: notify 0s;
-}
-.notify[data-tyto-notify="1"] {
-  animation-name: notify 1s;
-  -webkit-animation-name: notify 1s;
-}
-.notify[data-tyto-notify="2"] {
-  animation-name: notify 2s;
-  -webkit-animation-name: notify 2s;
-}
-.notify[data-tyto-notify="3"] {
-  animation-name: notify 3s;
-  -webkit-animation-name: notify 3s;
-}
-.notify[data-tyto-notify="4"] {
-  animation-name: notify 4s;
-  -webkit-animation-name: notify 4s;
-}
-.notify[data-tyto-notify="5"] {
-  animation-name: notify 5s;
-  -webkit-animation-name: notify 5s;
-}
-.notify[data-tyto-notify="6"] {
-  animation-name: notify 6s;
-  -webkit-animation-name: notify 6s;
-}
-.notify[data-tyto-notify="7"] {
-  animation-name: notify 7s;
-  -webkit-animation-name: notify 7s;
-}
-.notify[data-tyto-notify="8"] {
-  animation-name: notify 8s;
-  -webkit-animation-name: notify 8s;
-}
-.notify[data-tyto-notify="9"] {
-  animation-name: notify 9s;
-  -webkit-animation-name: notify 9s;
-}
-.notify[data-tyto-notify="10"] {
-  animation-name: notify 10s;
-  -webkit-animation-name: notify 10s;
-}
-@keyframes notify {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@-webkit-keyframes notify {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
+/***
 
-html,
-body {
-  height: 100%;
+  Animations --
+
+  Set of keyframes used across app. Mainly revolve around animating various
+  scale sizes for elements.
+
+***/
+/* Give newly created entities an entry animation */
+/* Animate bloomer for view transition */
+/* Fade in content */
+/* FAB speed dial button animation of options */
+/* Used for animating in freshly created columns */
+.tyto-board.is--adding-column .tyto-column:last-of-type .tyto-column__content {
+  -webkit-transform-origin: center center;
+      -ms-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-name: create;
+          animation-name: create;
 }
-a:hover {
-  color: #E74C3C;
+/*
+  animates a freshly created task with the spring in effect.
+*/
+.tyto-column.is--adding-task .tyto-task:last-of-type {
+  -webkit-transform-origin: center center;
+      -ms-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+  -webkit-animation-name: create;
+          animation-name: create;
 }
-.center-text {
-  text-align: center;
+/***
+
+  Board component.
+
+***/
+.tyto-board {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
-body {
-  background-color: #f0ffff;
-  font-family: tahoma;
-  padding: 5px 5px 5px 5px;
+.tyto-board__options {
+  position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 2;
+  top: 0;
+  right: 10px;
+  height: 56px;
 }
-footer {
-  padding: 10px 10px 10px 10px;
+@media (min-width: 852px) {
+  .tyto-board__options {
+    height: 64px;
+  }
 }
-.close {
-  float: none;
+.tyto-board__columns {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  padding: 10px;
 }
-#barn i.fa.fa-arrows {
-  cursor: move;
+.tyto-board__details {
+  position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 2;
+  top: 0px;
+  left: 75px;
+  right: 75px;
 }
-ul.dropdown-menu {
-  padding: 0 0 0 0;
+.tyto-board__selector__menu-btn {
+  margin-left: 6px;
 }
-ul.dropdown-menu li {
-  padding: 6px 0;
-}
-ul.dropdown-menu li:hover {
-  background-color: #F5F5F5;
-}
-ul.dropdown-menu li.divider {
-  margin: 0;
+.tyto-board__selector-option {
   padding: 0;
 }
-.item-placeholder {
-  border: 1px dashed #888;
+.tyto-board__selector-option a {
+  padding: 0 8px;
+  display: block;
+  text-decoration: none;
+}
+.tyto-board__title {
+  font-size: 24px;
+  font-size: 1.5rem;
+  height: 56px;
+  line-height: 56px;
+  margin: 0;
+  outline: 0;
+  min-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.tyto-board__title:active,
+.tyto-board__title:focus {
+  overflow: visible;
+  white-space: normal;
+}
+@media (min-width: 852px) {
+  .tyto-board__title {
+    line-height: 64px;
+    height: 64px;
+  }
+}
+.tyto-board__bloomer {
+  position: fixed;
+  height: 100px;
+  width: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+  border-radius: 100%;
+  z-index: 9999;
+  display: none;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-duration: 0.5s;
+          animation-duration: 0.5s;
+}
+.tyto-board__bloomer.is--blooming {
+  display: block;
+  -webkit-animation-name: bloom;
+          animation-name: bloom;
+}
+/***
+
+  Columns
+
+***/
+/* variables */
+.tyto-column {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 320px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 320px;
+      -ms-flex: 0 0 320px;
+          flex: 0 0 320px;
+  max-height: 100%;
+}
+.tyto-column:hover .tyto-column__action {
+  min-height: 40px;
+  height: 40px;
+}
+.tyto-column:hover .tyto-column__actions .does--fade {
+  opacity: 0.4;
+}
+.tyto-column:hover .tyto-column__actions .does--fade:hover {
+  opacity: 1;
+}
+.tyto-column__content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  width: 100%;
+  max-height: 100%;
+  padding-right: 10px;
+  overflow: auto;
+}
+.tyto-column__mover {
+  position: absolute;
+  top: 0;
+  left: 14px;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  cursor: move;
+}
+.tyto-column__actions {
+  text-align: center;
+  margin: 20px 0;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  position: relative;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.tyto-column__actions .does--fade {
+  opacity: 0;
+}
+.tyto-column__title {
+  max-width: 200px;
+  margin: 0;
+  display: inline-block;
+}
+.tyto-column__menu-btn {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  min-width: 24px;
+  padding: 0;
+  right: 5px;
+  top: 0;
+}
+.tyto-column__tasks {
+  padding: 0 10px;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.tyto-column__placeholder {
+  display: inline-block;
+  min-width: 320px;
+  height: 100%;
+}
+.tyto-column__action {
+  height: 0;
+  min-height: 0;
+  overflow: hidden;
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  -webkit-transition: height 0.25s linear, min-height 0.25s linear;
+          transition: height 0.25s linear, min-height 0.25s linear;
+}
+.tyto-column__action i {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  font-size: 32px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.tyto-cookies {
+  position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  z-index: 999;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+}
+.tyto-cookies > * {
+  margin: 10px;
+}
+.tyto-cookies > img {
+  min-width: 50px;
+}
+.tyto-cookies__content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 50px;
+}
+.tyto-cookies__content img {
+  height: 100px;
+  margin: 30px;
+}
+.tyto-cookies__content h1,
+.tyto-cookies__content h2 {
+  margin: 0;
+}
+.tyto-cookies__content p {
+  max-width: 500px;
+}
+.tyto-edit > * {
+  -webkit-animation-name: fade__in;
+          animation-name: fade__in;
+  -webkit-animation-duration: 0.25s;
+          animation-duration: 0.25s;
+}
+.tyto-edit__content {
+  position: fixed;
+  top: 56px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  overflow: auto;
+}
+@media (min-width: 852px) {
+  .tyto-edit__content {
+    top: 64px;
+  }
+}
+@media (min-width: 768px) {
+  .tyto-edit__content {
+    width: 600px;
+    margin: 0 auto;
+  }
+}
+.tyto-edit__color-select__menu {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding: 8px;
+}
+.tyto-edit__color-select__menu-option {
+  width: 50%;
+}
+.tyto-edit__task-title {
+  margin: 0 32px 0 0;
+  padding: 10px 24px;
+}
+.tyto-edit__task-description {
+  padding: 24px;
+}
+.tyto-edit__nav,
+.tyto-edit__details-footer {
+  min-height: 50px;
+}
+.tyto-edit__details-footer {
+  padding: 0 8px;
+  opacity: 0.4;
+}
+.tyto-edit__actions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.tyto-edit__nav {
+  position: fixed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 2;
+  top: 0;
+  left: 100px;
+  height: 56px;
+}
+@media (min-width: 852px) {
+  .tyto-edit__nav {
+    height: 64px;
+  }
+}
+/***
+
+  Floating action button --
+
+  Styles the board FAB for adding columns and tasks. Implementation based on the maximum amount of sub options being six as set out in Material Design spec.
+
+***/
+.mdl-button--fab_flinger-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+.mdl-button--fab_flinger-container.is-showing-options > button i {
+  -webkit-transition: -webkit-transform 0.1s linear;
+          transition: transform 0.1s linear;
+  -webkit-transform: translate(-12px, -12px) rotate(45deg);
+      -ms-transform: translate(-12px, -12px) rotate(45deg);
+          transform: translate(-12px, -12px) rotate(45deg);
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: column-reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button {
+/*
+          Calculate animation delay of each child by using a loop
+          through finite set up to max children (6).
+        */
+  display: block;
+  -webkit-animation-name: fab__enter;
+          animation-name: fab__enter;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-duration: 0.1s;
+          animation-duration: 0.1s;
+  -webkit-transform-origin: bottom center;
+      -ms-transform-origin: bottom center;
+          transform-origin: bottom center;
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(1) {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s;
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(2) {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s;
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(3) {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s;
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(4) {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s;
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(5) {
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+}
+.mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(6) {
+  -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
+}
+.mdl-button--fab_flinger-container .mdl-button--fab_flinger-options {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 10px;
+}
+.mdl-button--fab_flinger-container .mdl-button--fab_flinger-options button {
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
+  display: none;
+}
+/*
+  Required for FAB button sub icon styling.
+  In this case, the additional plus icon for column and task icons.
+*/
+.mdl-button--fab i.sub {
+  -webkit-transform: scale(0.75);
+      -ms-transform: scale(0.75);
+          transform: scale(0.75);
+  font-weight: 800;
+}
+/*
+  Styling for top level layout__drawer menu.
+*/
+.tyto-menu__title {
+  background-image: url("../img/tyto.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100px;
+  position: relative;
+  padding: 20px;
+  margin: 20px;
+}
+.tyto-menu__title h1 {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
+.tyto-menu__actions {
+  list-style: none;
+}
+.tyto-menu__actions input[type=file] {
+  display: none;
+}
+.tyto-select {
+  padding: 50px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+/***
+
+  Tasks.
+
+***/
+.tyto-task {
+  margin-bottom: 30px;
+  max-width: 100%;
+  min-height: 150px;
+  overflow: visible;
+  z-index: auto;
+/* Adds extra drop shadow when task is being lifted/dragged */
+/* Manages show/hide of opaque element interaction icons */
+}
+.tyto-task.ui-sortable-helper {
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.14), 0 6px 2px -4px rgba(0,0,0,0.2), 0 2px 10px 0 rgba(0,0,0,0.12);
+}
+.tyto-task .does--fade {
+  opacity: 0;
+}
+.tyto-task:hover .does--fade {
+  opacity: 0.4;
+}
+.tyto-task:hover .does--fade:hover {
+  opacity: 1;
+}
+.tyto-task__header {
+  position: relative;
+  margin: 10px 0;
+}
+.tyto-task__title {
+  display: inline-block;
+  max-width: 200px;
+  margin: 0;
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 32px;
+}
+.tyto-task__menu-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  min-width: 24px;
+  padding: 0;
+}
+.tyto-task__time {
+  padding: 16px;
+}
+.tyto-task__time > * {
+  opacity: 0.4;
+}
+.tyto-task__mover {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+}
+.tyto-task__description {
+  width: 100%;
+}
+.tyto-task__placeholder {
   height: 100px;
   width: 90%;
   margin: 0em auto 1em auto;
 }
-.column-placeholder {
-  border: 1px dashed #888;
-  display: inline-block;
-  width: 100px;
-  margin: 0 1em;
-  height: 100%;
-  vertical-align: top;
+/***
+
+  Time label component
+
+***/
+.tyto-time {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.tyto-time__icon,
+.tyto-time__hours,
+.tyto-time__minutes {
+  font-size: 16px;
+  font-size: 1rem;
+}
+.tyto-time-modal {
+  max-width: 100%;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 1 auto;
+      -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+  -webkit-animation-duration: 0.25s;
+          animation-duration: 0.25s;
+  -webkit-animation-name: create;
+          animation-name: create;
+}
+.tyto-time-modal__wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 99999;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-animation-duration: 0.25s;
+          animation-duration: 0.25s;
+  -webkit-animation-name: fade__in;
+          animation-name: fade__in;
+}
+.tyto-time-modal__content {
+  width: auto;
+  height: auto;
+  min-height: 0;
+  margin: 10px;
+}
+.tyto-time-modal__content-title {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-bottom: 0;
+}
+.tyto-time-modal__content-text {
+  width: 100%;
+  padding-top: 0;
+}
+/***
+
+  States --
+
+  Various states for elements.
+
+  Mainly concerned with when the app is showing a particular view and
+  whether the 'bloom' transition is being displayed.
+
+***/
+.is--showing-edit-view {
+  -webkit-transition: background-color 0.5s;
+          transition: background-color 0.5s;
+}
+.is--showing-bloom .tyto-header {
+  z-index: 99999;
+}
+.is--selected {
+  position: relative;
+}
+.is--selected:after {
+  display: block;
+  content: '\2713';
+  position: absolute;
+  top: 0;
+  right: 2px;
+}
+.has--bottom-margin {
+  margin-bottom: 30px;
+}
+.does--fade {
+  opacity: 0.4;
+  -webkit-transition: opacity 0.25s;
+          transition: opacity 0.25s;
+}
+.does--fade:hover {
+  opacity: 1;
+}
+.is--hidden {
+  display: none;
+}
+/***
+
+  THEME --
+
+  Contains styling rules for various app wide styles.
+
+***/
+/*
+  Generates color palette specific styles for background, border, text and
+  hover color
+*/
+.bg--red {
+  background-color: #f44336;
+}
+.tx--red {
+  color: #f44336;
+}
+.bd--red {
+  border: 4px solid #f44336;
+}
+.hv--red:hover {
+  background-color: #f44336;
+}
+.bg--pink {
+  background-color: #e91e63;
+}
+.tx--pink {
+  color: #e91e63;
+}
+.bd--pink {
+  border: 4px solid #e91e63;
+}
+.hv--pink:hover {
+  background-color: #e91e63;
+}
+.bg--purple {
+  background-color: #9c27b0;
+}
+.tx--purple {
+  color: #9c27b0;
+}
+.bd--purple {
+  border: 4px solid #9c27b0;
+}
+.hv--purple:hover {
+  background-color: #9c27b0;
+}
+.bg--indigo {
+  background-color: #3f51b5;
+}
+.tx--indigo {
+  color: #3f51b5;
+}
+.bd--indigo {
+  border: 4px solid #3f51b5;
+}
+.hv--indigo:hover {
+  background-color: #3f51b5;
+}
+.bg--blue {
+  background-color: #2196f3;
+}
+.tx--blue {
+  color: #2196f3;
+}
+.bd--blue {
+  border: 4px solid #2196f3;
+}
+.hv--blue:hover {
+  background-color: #2196f3;
+}
+.bg--cyan {
+  background-color: #00bcd4;
+}
+.tx--cyan {
+  color: #00bcd4;
+}
+.bd--cyan {
+  border: 4px solid #00bcd4;
+}
+.hv--cyan:hover {
+  background-color: #00bcd4;
+}
+.bg--teal {
+  background-color: #009688;
+}
+.tx--teal {
+  color: #009688;
+}
+.bd--teal {
+  border: 4px solid #009688;
+}
+.hv--teal:hover {
+  background-color: #009688;
+}
+.bg--green {
+  background-color: #4caf50;
+}
+.tx--green {
+  color: #4caf50;
+}
+.bd--green {
+  border: 4px solid #4caf50;
+}
+.hv--green:hover {
+  background-color: #4caf50;
+}
+.bg--lime {
+  background-color: #cddc39;
+}
+.tx--lime {
+  color: #cddc39;
+}
+.bd--lime {
+  border: 4px solid #cddc39;
+}
+.hv--lime:hover {
+  background-color: #cddc39;
+}
+.bg--yellow {
+  background-color: #ffeb3b;
+}
+.tx--yellow {
+  color: #ffeb3b;
+}
+.bd--yellow {
+  border: 4px solid #ffeb3b;
+}
+.hv--yellow:hover {
+  background-color: #ffeb3b;
+}
+.bg--amber {
+  background-color: #ffc107;
+}
+.tx--amber {
+  color: #ffc107;
+}
+.bd--amber {
+  border: 4px solid #ffc107;
+}
+.hv--amber:hover {
+  background-color: #ffc107;
+}
+.bg--orange {
+  background-color: #ff5722;
+}
+.tx--orange {
+  color: #ff5722;
+}
+.bd--orange {
+  border: 4px solid #ff5722;
+}
+.hv--orange:hover {
+  background-color: #ff5722;
+}
+.bg--grey {
+  background-color: #9e9e9e;
+}
+.tx--grey {
+  color: #9e9e9e;
+}
+.bd--grey {
+  border: 4px solid #9e9e9e;
+}
+.hv--grey:hover {
+  background-color: #9e9e9e;
+}
+.bg--black {
+  background-color: #000;
+}
+.tx--black {
+  color: #000;
+}
+.bd--black {
+  border: 4px solid #000;
+}
+.hv--black:hover {
+  background-color: #000;
+}
+.bg--white {
+  background-color: #fff;
+}
+.tx--white {
+  color: #fff;
+}
+.bd--white {
+  border: 4px solid #fff;
+}
+.hv--white:hover {
+  background-color: #fff;
+}
+/*
+  NOTE: That for [contenteditable] elements with a background color we wish
+  to show an accented color on :focus/:active.
+*/
+.bg--red [contenteditable],
+[contenteditable].bg--red {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--red [contenteditable]:active,
+[contenteditable].bg--red:active,
+.bg--red [contenteditable]:focus,
+[contenteditable].bg--red:focus {
+  background-color: #f01d0d;
+}
+.bg--pink [contenteditable],
+[contenteditable].bg--pink {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--pink [contenteditable]:active,
+[contenteditable].bg--pink:active,
+.bg--pink [contenteditable]:focus,
+[contenteditable].bg--pink:focus {
+  background-color: #cc1452;
+}
+.bg--purple [contenteditable],
+[contenteditable].bg--purple {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--purple [contenteditable]:active,
+[contenteditable].bg--purple:active,
+.bg--purple [contenteditable]:focus,
+[contenteditable].bg--purple:focus {
+  background-color: #852196;
+}
+.bg--indigo [contenteditable],
+[contenteditable].bg--indigo {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--indigo [contenteditable]:active,
+[contenteditable].bg--indigo:active,
+.bg--indigo [contenteditable]:focus,
+[contenteditable].bg--indigo:focus {
+  background-color: #36459a;
+}
+.bg--blue [contenteditable],
+[contenteditable].bg--blue {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--blue [contenteditable]:active,
+[contenteditable].bg--blue:active,
+.bg--blue [contenteditable]:focus,
+[contenteditable].bg--blue:focus {
+  background-color: #0c81df;
+}
+.bg--cyan [contenteditable],
+[contenteditable].bg--cyan {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--cyan [contenteditable]:active,
+[contenteditable].bg--cyan:active,
+.bg--cyan [contenteditable]:focus,
+[contenteditable].bg--cyan:focus {
+  background-color: #00a0b4;
+}
+.bg--teal [contenteditable],
+[contenteditable].bg--teal {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--teal [contenteditable]:active,
+[contenteditable].bg--teal:active,
+.bg--teal [contenteditable]:focus,
+[contenteditable].bg--teal:focus {
+  background-color: #008074;
+}
+.bg--green [contenteditable],
+[contenteditable].bg--green {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--green [contenteditable]:active,
+[contenteditable].bg--green:active,
+.bg--green [contenteditable]:focus,
+[contenteditable].bg--green:focus {
+  background-color: #419544;
+}
+.bg--lime [contenteditable],
+[contenteditable].bg--lime {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--lime [contenteditable]:active,
+[contenteditable].bg--lime:active,
+.bg--lime [contenteditable]:focus,
+[contenteditable].bg--lime:focus {
+  background-color: #b9c823;
+}
+.bg--yellow [contenteditable],
+[contenteditable].bg--yellow {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--yellow [contenteditable]:active,
+[contenteditable].bg--yellow:active,
+.bg--yellow [contenteditable]:focus,
+[contenteditable].bg--yellow:focus {
+  background-color: #ffe60c;
+}
+.bg--amber [contenteditable],
+[contenteditable].bg--amber {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--amber [contenteditable]:active,
+[contenteditable].bg--amber:active,
+.bg--amber [contenteditable]:focus,
+[contenteditable].bg--amber:focus {
+  background-color: #dfa700;
+}
+.bg--orange [contenteditable],
+[contenteditable].bg--orange {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--orange [contenteditable]:active,
+[contenteditable].bg--orange:active,
+.bg--orange [contenteditable]:focus,
+[contenteditable].bg--orange:focus {
+  background-color: #f63b00;
+}
+.bg--grey [contenteditable],
+[contenteditable].bg--grey {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--grey [contenteditable]:active,
+[contenteditable].bg--grey:active,
+.bg--grey [contenteditable]:focus,
+[contenteditable].bg--grey:focus {
+  background-color: #868686;
+}
+.bg--black [contenteditable],
+[contenteditable].bg--black {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--black [contenteditable]:active,
+[contenteditable].bg--black:active,
+.bg--black [contenteditable]:focus,
+[contenteditable].bg--black:focus {
+  background-color: #000;
+}
+.bg--white [contenteditable],
+[contenteditable].bg--white {
+  -webkit-transition: background 0.25s;
+          transition: background 0.25s;
+  outline: 0;
+}
+.bg--white [contenteditable]:active,
+[contenteditable].bg--white:active,
+.bg--white [contenteditable]:focus,
+[contenteditable].bg--white:focus {
+  background-color: #d9d9d9;
+}
+/*
+  Generates text alignment utility classes.
+*/
+.tx--left {
+  text-align: left;
+}
+.tx--right {
+  text-align: right;
+}
+.tx--center {
+  text-align: center;
+}
+/*
+  Position helper
+*/
+/*
+  tx--black wouldn't work on this set up because it's a generated el.
+*/
+.mdl-layout__drawer-button i {
+  color: #000;
+}
+.github-stats {
+  margin-top: 50px;
+}
+/*
+  NOTE: MDL Override FIX to stop MDL menu clipped menus blocking UI
+  interaction.
+*/
+.tyto-board .mdl-menu__container {
+  height: 0px !important;
+}
+@-webkit-keyframes create {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes create {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@-webkit-keyframes bloom {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(50);
+            transform: scale(50);
+  }
+}
+@keyframes bloom {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(50);
+            transform: scale(50);
+  }
+}
+@-webkit-keyframes fade__in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade__in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fab__enter {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+  }
+}
+@keyframes fab__enter {
+  from {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+  }
 }
