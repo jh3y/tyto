@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/jh3y/tyto.svg?branch=master)](https://travis-ci.org/jh3y/tyto)
-tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/images/tyto.png)
+tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/img/tyto.png)
 ===
 __tyto__ is an extensible and customizable management and organisation tool
 
