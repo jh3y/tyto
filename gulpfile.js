@@ -1,7 +1,8 @@
 var gulp       = require('gulp'),
-  browserify = require('browserify'),
-  source = require('vinyl-source-stream'),
-  buffer = require('vinyl-buffer'),
+  browserify   = require('browserify'),
+  source       = require('vinyl-source-stream'),
+  buffer       = require('vinyl-buffer'),
+  fs           = require('fs'),
   browserSync  = require('browser-sync'),
   gConfig      = require('./gulp-config'),
   pluginOpts   = gConfig.pluginOpts,
@@ -39,6 +40,7 @@ gulp.task('coffee:compile', ['tmpl:compile'], function () {
     .pipe(buffer())
     .pipe(isMapped ? plugins.sourcemaps.init({loadMaps: true}): plugins.gUtil.noop())
     .pipe(plugins.wrap(pluginOpts.wrap))
+    .pipe(plugins.header(fs.readFileSync('./src/txt/license.txt', 'utf-8')))
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
     .pipe(gulp.dest(destinations.js))
     .pipe(plugins.uglify())
