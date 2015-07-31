@@ -41,6 +41,14 @@ for dir in left right center
     text-align dir
 
 /*
+  Position helper
+*/
+position()
+  position arguments
+  z-index  1 unless @z-index
+
+
+/*
   tx--black wouldn't work on this set up because it's a generated el.
 */
 .mdl-layout__drawer-button

@@ -4,6 +4,7 @@ include ../mixins/timeLabel.jade
 .tyto-edit__nav
   |<% if (isNew) { %>
   button.tyto-edit__save.mdl-button.mdl-js-button.mdl-js-ripple-effect Done
+  a.tyto-edit__cancel.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<% board.id %>") Cancel
   |<% } else { %>
   a.tyto-edit__back.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<%= board.id %>") Return to board
   |<% } %>

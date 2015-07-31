@@ -33,9 +33,9 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
       Tyto.RootView
         .$el
         .prepend $('<div id="cookie-banner"></div>')
-      Tyto.RootView.addRegion 'cookie', '#cookie-banner'
+      Tyto.RootView.addRegion 'Cookie', '#cookie-banner'
       Tyto.CookieBannerView = new App.Views.CookieBanner()
-      Tyto.RootView.showChildView 'cookie', Tyto.CookieBannerView
+      Tyto.RootView.showChildView 'Cookie', Tyto.CookieBannerView
 
 
     showBoardView: (id) ->
@@ -71,7 +71,7 @@ AppCtrl = (AppCtrl, App, Backbone, Marionette) ->
         qS = Tyto.Utils.processQueryString params
         if qS.isFresh is 'true'
           isNew      = true
-          taskToEdit = new Tyto.Models.Task
+          taskToEdit = Tyto.TempTask = new Tyto.Models.Task
             boardId: bId
             id     : tId
       else

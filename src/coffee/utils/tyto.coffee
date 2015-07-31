@@ -109,7 +109,7 @@ Utils = (Utils, App, Backbone, Marionette) ->
     I did try implementing this part through the templateStore but with mixed results. May return to look at this at a later date.
   ###
   Utils.EMAIL_TEMPLATE = '''
-    <div>Status for: <%= board.title %>\n\n<% if (columns.length > 0 && tasks.length > 0) { %><% _.forEach(columns, function(column) { %><%= column.attributes.title %>\n&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;\n\n<% _.forEach(tasks, function(task) { %><% if (task.attributes.columnId === column.attributes.id) { %>&#8226; <%= task.attributes.title %>; <%= task.attributes.description %>\n<% } %><% });%>\n<% }); %><% } else { %>Seems we are way ahead, so treat yourself and go grab a coffee! :)<% } %></div>
+    <div>Status for: <%= board.title %>\n\n<% if (columns.length > 0 && tasks.length > 0) { %><% _.forEach(columns, function(column) { %><%= column.attributes.title %>\n&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;\n\n<% _.forEach(tasks, function(task) { %><% if (task.attributes.columnId === column.attributes.id) { %>&#8226; <%= task.attributes.title %>; <%= task.attributes.description %><% if (task.attributes.timeSpent.hours > 0 || task.attributes.timeSpent.minutes > 0) { %> -- <%=task.attributes.timeSpent.hours %> hours, <%= task.attributes.timeSpent.minutes %> minutes.<% } %>\n<% } %><% });%>\n<% }); %><% } else { %>Seems we are way ahead, so treat yourself and go grab a coffee! :)<% } %></div>
   '''
 
   Utils.getEmailContent = (board) ->

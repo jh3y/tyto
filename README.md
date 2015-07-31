@@ -8,7 +8,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/app_three_cols.png)
 
 ###Features
-* nice simple minimal UI for managing and organising
+* minimal UI for managing and organising
 * no accounts necessary
 * easy to use
 * easy to extend and develop
@@ -33,7 +33,9 @@ This is why __tyto__ came about. It's simple to use, no accounts needed, and the
 ###Who's it for?
 Initially, __tyto__ was intended for developers and project managers as an easy way to share current tasks and project progression.
 
-For example; a developer may have columns set up for 'to do', 'in progress', 'awaiting merge' and 'done'. Then this can easily be shared with the project manager by using the email function. Another perspective could be that the project manager will configure a default configuration of columns etc. and then share this with the developer to load and then email back or share when necessary.
+For example; a developer may have columns set up for 'to do', 'in progress', 'awaiting merge' and 'done'. They may also want to track time spent on different tasks and then email this to a project manager.
+
+You could also have a boilerplate board set up created via exporting board data or share boards via the email function.
 
 However, why have this restriction? It doesn't really make sense. As __tyto__ can be extended and customized however you see fit, it can be used for many different purposes.
 
@@ -57,9 +59,11 @@ If you want to move to a different browser or machine, simply use the __export__
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/menu.png)
 
-As for a nice persistent workflow across devices, I haven't implemented accounts and it's not something I am keen on doing to be honest as I believe it takes away from __tyto__.
+As for a nice persistent workflow across devices, I'm afraid I haven't actually implemented that and accounts is not something I am keen on implementing to be honest as I believe it takes away from my original purpose for __tyto__.
 
 However, you can easily integrate with something like Google Drive or Dropbox using their respective desktop features to keep track of your tasks by exporting and loading your task file to a shared folder on your machine. This works for me going between machines.
+
+You can also share board content using the email function. However, this is just a means to export the text content into an email and doesn't provide nice formatting. Just saves some of the heavy lifting of copy & pasting things.
 
 ####Using tyto in your own environment to develop against, extend, etc.
 Alternatively, if you want to use __tyto__ in your own environment or want to start hacking away at it and extending, configuring it etc. it's very easy!
@@ -111,6 +115,17 @@ There are a range of technologies being used under the hood to achieve this.
 The use of Jade, Stylus and CoffeeScript or any of the technology being used is completely optional, but for me personally, development using these in combination with gulp makes development very speedy for myself.
 
 The addition of watches with BrowserSyncs' live reload capability is a big plus too!
+#####Why that tech?
+__tyto__ has always been a project that I put together for myself to try out and learn new things whilst developing my own e-pinboard.
+
+With the new version I've made some rather large changes with the things I've used. I've continued with Jade, CoffeeScript etc. but have introduced Lodash, Material Design, Stylus and Backbone.
+
+Why? Simply because I wanted to try and use them together for this version :smile:
+
+Moving to an MV* type framework/library was a no brainer as I wanted to introduce new features such as multiple boards etc. along with a single page app like experience. I believe Backbone & Marionette was a good choice for this version and fits well with __tyto__.
+
+For this version I was looking to make the UI more minimal and clean. The release time of MDL and the Material Design spec was convenient I have to admit and I like the spec and look and feel it provides.
+
 ####Templating
 Using jade and lodash has made it very easy to template views/markup for __tyto__. Making use of `gulp-template-store` means I can maintain an app wide template store for my application markup that is easily accessed by components of the app.
 
