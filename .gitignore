@@ -2,3 +2,4 @@ node_modules/
 public/
 src/vendor/
 src/coffee/templates/
+.publish/
