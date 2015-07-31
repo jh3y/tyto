@@ -1,0 +1,38 @@
+/***
+
+  States --
+
+  Various states for elements.
+
+  Mainly concerned with when the app is showing a particular view and
+  whether the 'bloom' transition is being displayed.
+
+***/
+
+.is--showing-edit-view
+  transition background-color .5s
+
+.is--showing-bloom
+  .tyto-header
+    z-index 99999
+
+.is--selected
+  position   relative
+  &:after
+    display  block
+    content  '\2713'
+    position absolute
+    top      0
+    right    2px
+
+.has--bottom-margin
+  margin-bottom 30px
+
+.does--fade
+  opacity    .4
+  transition opacity .25s
+  &:hover
+    opacity  1
+
+.is--hidden
+  display none

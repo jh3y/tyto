@@ -1,0 +1,10 @@
+*
+  box-sizing border-box
+  
+body
+  overflow-y  scroll
+  font-family 'Roboto', 'Helvetica', 'Arial', sans-serif
+  -webkit-font-smoothing  antialiased
+  text-rendering          optimizeLegibility
+  -moz-osx-font-smoothing grayscale
+  font-feature-settings   'liga'

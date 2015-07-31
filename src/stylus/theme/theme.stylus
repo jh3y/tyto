@@ -1,0 +1,66 @@
+/***
+
+  THEME --
+
+  Contains styling rules for various app wide styles.
+
+***/
+
+
+/*
+  Generates color palette specific styles for background, border, text and
+  hover color
+*/
+for key, value in colorPalette
+  .bg--{key}
+    background-color value
+  .tx--{key}
+    color value
+  .bd--{key}
+    border 4px solid value
+  .hv--{key}
+    &:hover
+      background-color value
+/*
+  NOTE: That for [contenteditable] elements with a background color we wish
+  to show an accented color on :focus/:active.
+*/
+for key, value in colorPalette
+  .bg--{key} [contenteditable]
+  [contenteditable].bg--{key}
+      transition background .25s
+      outline               0
+      &:active
+      &:focus
+        background-color darken(value, 15%)
+/*
+  Generates text alignment utility classes.
+*/
+for dir in left right center
+  .tx--{dir}
+    text-align dir
+
+/*
+  Position helper
+*/
+position()
+  position arguments
+  z-index  1 unless @z-index
+
+
+/*
+  tx--black wouldn't work on this set up because it's a generated el.
+*/
+.mdl-layout__drawer-button
+  i
+    color black
+
+.github-stats
+  margin-top 50px
+
+/*
+  NOTE: MDL Override FIX to stop MDL menu clipped menus blocking UI
+  interaction.
+*/
+.tyto-board .mdl-menu__container
+  height 0px !important

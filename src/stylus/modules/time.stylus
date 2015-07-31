@@ -1,0 +1,13 @@
+/***
+
+  Time label component
+
+***/
+.tyto-time
+  display         flex
+  justify-content flex-end
+  align-items     center
+  &__icon
+  &__hours
+  &__minutes
+    font-size     16px

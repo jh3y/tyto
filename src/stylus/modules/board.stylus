@@ -1,0 +1,82 @@
+/***
+
+  Board component.
+
+***/
+
+.tyto-board
+  display        flex
+  flex-direction column
+
+  &__options
+    position    fixed
+    display     flex
+    align-items center
+    z-index     2
+    top         0
+    right       10px
+    height      56px
+    @media(min-width 852px)
+      height    64px
+
+  &__columns
+    display        flex
+    flex-direction row
+    overflow-x     auto
+    overflow-y     hidden
+    flex           1 1 auto
+    padding        10px
+
+
+  &__details
+    position    fixed
+    display     flex
+    align-items center
+    z-index     2
+    top         0px
+    left        75px
+    right       75px
+
+  &__selector__menu-btn
+    margin-left   6px
+
+  &__selector-option
+    padding       0
+    a
+      padding         0 8px
+      display         block
+      text-decoration none
+
+  &__title
+    font-size     24px
+    height        56px
+    line-height   56px
+    margin        0
+    outline       0
+    min-width     100px
+    overflow      hidden
+    white-space   nowrap
+    text-overflow ellipsis
+    &:active
+    &:focus
+      overflow    visible
+      white-space normal
+    @media(min-width 852px)
+      line-height 64px
+      height      64px
+
+  &__bloomer
+    position      fixed
+    height        100px
+    width         100px
+    margin-left   -50px
+    margin-top    -50px
+    border-radius 100%
+    z-index       9999
+    display       none
+    animation-fill-mode       forwards
+    animation-timing-function linear
+    animation-duration        .5s
+    &.is--blooming
+      display        block
+      animation-name bloom

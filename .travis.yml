@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "0.10"
+install:
+  - npm install -g mocha-phantomjs
+  - npm install -g gulp
+  - npm install -g bower
+  - npm install
+  - bower install
+before_script:
+  - phantomjs --version
+  - mocha-phantomjs --version
+  - gulp build:complete
+  - sleep 5 # give gulp background task some time to execute.
+script:
+  - mocha-phantomjs /test/index.html

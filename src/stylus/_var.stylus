@@ -1,0 +1,33 @@
+red    = #f44336
+pink   = #E91E63
+purple = #9C27B0
+indigo = #3F51B5
+blue   = #2196F3
+cyan   = #00BCD4
+teal   = #009688
+green  = #4CAF50
+lime   = #CDDC39
+yellow = #FFEB3B
+amber  = #FFC107
+orange = #FF5722
+grey   = #9E9E9E
+black  = #000000
+white  = #ffffff
+
+colorPalette = {
+  red   : red
+  pink  : pink
+  purple: purple
+  indigo: indigo
+  blue  : blue
+  cyan  : cyan
+  teal  : teal
+  green : green
+  lime  : lime
+  yellow: yellow
+  amber : amber
+  orange: orange
+  grey  : grey
+  black : black
+  white : white
+}

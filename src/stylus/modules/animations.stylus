@@ -1,0 +1,57 @@
+/***
+
+  Animations --
+
+  Set of keyframes used across app. Mainly revolve around animating various
+  scale sizes for elements.
+
+***/
+
+/* Give newly created entities an entry animation */
+@keyframes create
+  from
+    transform scale(0)
+  to
+    transform scale(1)
+
+/* Animate bloomer for view transition */
+@keyframes bloom
+  from
+    transform scale(0)
+  to
+    transform scale(50)
+
+/* Fade in content */
+@keyframes fade__in
+  from
+    opacity 0
+  to
+    opacity 1
+
+/* FAB speed dial button animation of options */
+@keyframes fab__enter
+  from
+    transform scale(0)
+  to
+    transform scale(0.8)
+
+
+/* Used for animating in freshly created columns */
+.tyto-board.is--adding-column
+  .tyto-column
+    &:last-of-type
+      .tyto-column__content
+        transform-origin          center center
+        animation-duration        .5s
+        animation-name            create
+
+
+/*
+  animates a freshly created task with the spring in effect.
+*/
+.tyto-column.is--adding-task
+  .tyto-task
+    &:last-of-type
+      transform-origin   center center
+      animation-duration .5s
+      animation-name     create
