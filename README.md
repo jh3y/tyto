@@ -152,7 +152,7 @@ Using jade and lodash has made it very easy to template views/markup for __tyto_
 * __01/08/15__: V2.0.0 is live! There are still features to be implemented but there has been a complete overhaul to an MV* architecture using Backbone Marionette. A more minimal design has also been implemented trying to follow the Material Design spec.
 
 ###Contributing
-If you feel __tyto__ would be something you'd like to contribute ideas to or enhancements please don't hesitate to get in touch or fork the repo and submit a pull request. I know __tyto__ isn't everyone's cup of tea and my implementation may not be perfectly inline with how you feel things should be done so I welcome any criticism or pointers that may help work towards a better project.
+See [contributing](https://github.com/jh3y/tyto/blob/master/CONTRIBUTING.md).
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/show_time.png)
 
