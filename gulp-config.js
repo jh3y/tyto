@@ -25,6 +25,9 @@ module.exports = {
         baseDir: './'
       }
     },
+    uglify: {
+      preserveComments: 'license'
+    },
     rename: {
       suffix: '.min'
     },

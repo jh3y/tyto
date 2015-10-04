@@ -110,7 +110,7 @@ gulp.task('vendor:scripts:publish', function() {
     .pipe(isDist ? yapFilter: plugins.gUtil.noop())
     .pipe(plugins.concat('vendor.js'))
     .pipe(gulp.dest(destinations.js))
-    .pipe(plugins.uglify())
+    .pipe(plugins.uglify(pluginOpts.uglify))
     .pipe(plugins.rename(pluginOpts.rename))
     .pipe(gulp.dest(destinations.js));
 });
