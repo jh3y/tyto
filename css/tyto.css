@@ -250,6 +250,7 @@ body {
   display: -ms-flexbox;
   display: flex;
   width: 320px;
+  max-width: 320px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
