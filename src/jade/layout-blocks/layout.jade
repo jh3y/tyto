@@ -4,13 +4,13 @@ head
   meta(http-equiv="X-UA-Compatible", content="IE=edge")
   title= name
   meta(name="viewport", content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1.0")
-  meta(name="description", content= description)
+  meta(name="description", content="tyto: manage and organise things")
   link(rel="stylesheet", href="css/vendor.css")
   link(rel="stylesheet", href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.yellow-red.min.css")
   link(rel="stylesheet", href="css/#{name}.min.css")
 body#tyto-app.tyto-app
   block content
-  script(src="js/vendor.js")
+  script(src="js/vendor.min.js")
   script.
     yap.muzzle(false);
   script(src="js/#{name}.min.js")
