@@ -11,7 +11,7 @@ include ../mixins/timeLabel.jade
 .tyto-edit__content
   .tyto-edit__details.has--bottom-margin
     h1.tyto-edit__task-title(contenteditable="true", data-model-prop="title", title="Task title") <%= title %>
-    .tyto-edit__task-description(contenteditable="true", data-model-prop="description", title="Task description") <%= description %>
+    textarea.tyto-edit__task-description(data-model-prop="description", title="Task description") <%= description %>
   .tyto-edit__details-footer.tx--right.has--bottom-margin
     +timeLabel('tyto-edit__task-time')
     .tyto-edit__task-column

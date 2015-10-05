@@ -8,6 +8,7 @@ include ../mixins/timeLabel.jade
       li.mdl-menu__item.tyto-task__delete-task(title="Delete task") Delete
       li.mdl-menu__item.tyto-task__edit-task(title="Edit task") Edit
       li.mdl-menu__item.tyto-task__track-task(title="Track task time") Track
-  .mdl-card__supporting-text.tyto-task__description(contenteditable="true", title="Task description") <%= description %>
+  .mdl-card__supporting-text.tyto-task__description(title="Task description") <%= description %>
+  textarea.tyto-task__description-edit.is--hidden
   |<% var hidden = (timeSpent.hours > 0 || timeSpent.minutes > 0) ? '': 'is--hidden'; %>
   +timeLabel('tyto-task__time')

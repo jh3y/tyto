@@ -12,22 +12,24 @@ module.exports = Backbone.Marionette.ItemView.extend
   template       : Tyto.TemplateStore.task
 
   ui:
-    deleteTask   : '.tyto-task__delete-task'
-    editTask     : '.tyto-task__edit-task'
-    trackTask    : '.tyto-task__track-task'
-    description  : '.tyto-task__description'
-    title        : '.tyto-task__title'
-    menu         : '.tyto-task__menu'
-    hours        : '.tyto-task__time__hours'
-    minutes      : '.tyto-task__time__minutes'
-    time         : '.tyto-task__time'
+    deleteTask      : '.tyto-task__delete-task'
+    editTask        : '.tyto-task__edit-task'
+    trackTask       : '.tyto-task__track-task'
+    description     : '.tyto-task__description'
+    title           : '.tyto-task__title'
+    menu            : '.tyto-task__menu'
+    hours           : '.tyto-task__time__hours'
+    minutes         : '.tyto-task__time__minutes'
+    time            : '.tyto-task__time'
+    editDescription : '.tyto-task__description-edit'
 
   events:
-    'click @ui.deleteTask'     : 'deleteTask'
-    'click @ui.editTask'       : 'editTask'
-    'click @ui.trackTask'      : 'trackTask'
-    'blur @ui.title'           : 'saveTaskTitle'
-    'blur @ui.description'     : 'saveTaskDescription'
+    'click @ui.deleteTask'      : 'deleteTask'
+    'click @ui.editTask'        : 'editTask'
+    'click @ui.trackTask'       : 'trackTask'
+    'blur  @ui.title'           : 'saveTaskTitle'
+    'blur  @ui.editDescription' : 'saveTaskDescription'
+    'click @ui.description'     : 'showEditMode'
 
   domAttributes:
     VIEW_CLASS          : 'tyto-task mdl-card mdl-shadow--2dp bg--'
@@ -68,6 +70,7 @@ module.exports = Backbone.Marionette.ItemView.extend
 
   onRender: ->
     view = this
+    view.ui.description.html marked(view.model.get('description'))
     Tyto.Utils.renderTime view
 
   trackTask: (e) ->
@@ -80,9 +83,26 @@ module.exports = Backbone.Marionette.ItemView.extend
     editUrl = '#board/' + boardId + '/task/' + taskId
     Tyto.Utils.bloom view.ui.editTask[0], view.model.get('color'), editUrl
 
+  showEditMode: () ->
+    domAttributes = this.domAttributes
+    model = this.model
+    desc  = this.ui.description
+    edit  = this.ui.editDescription
+    desc.addClass domAttributes.HIDDEN_UTIL_CLASS
+    edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS)
+      .val(model.get('description'))
+      .focus()
+
   saveTaskDescription: ->
+    domAttributes = this.domAttributes
+    edit = this.ui.editDescription
+    desc = this.ui.description
+    edit.addClass domAttributes.HIDDEN_UTIL_CLASS
+    desc.removeClass domAttributes.HIDDEN_UTIL_CLASS
+    content = edit.val()
     this.model.save
-      description: this.ui.description.html()
+      description: content
+    desc.html marked(content)
 
   saveTaskTitle: ->
     this.model.save

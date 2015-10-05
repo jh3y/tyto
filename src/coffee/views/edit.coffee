@@ -65,7 +65,8 @@ EditView = Backbone.Marionette.ItemView.extend
     view = this
     attr = view.domAttributes
     el   = e.target
-    view.model.set el.getAttribute(attr.MODEL_PROP_ATTR), el.innerHTML
+    val  = if el.nodeName is 'TEXTAREA' then el.value else el.innerHTML
+    view.model.set el.getAttribute(attr.MODEL_PROP_ATTR), val
 
   onShow: ->
     Tyto.Utils.upgradeMDL this.getMDLMap()
