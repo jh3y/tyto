@@ -53,13 +53,15 @@ Just want to use it? Do that by visiting [jh3y.github.io/tyto](http://jh3y.githu
 
 GitHub flavored markdown is supported thanks to `marked`.
 
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/markdown.gif)
+
 Changes are persistent thanks to `localStorage`.
 
 Want to move to a different browser or machine though? Use the export utility to export a json file. Load this using the import utility.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/menu.png)
-
 A persistent workflow across devices? I'm afraid I haven't implemented that. Accounts is not something I am keen on implementing. I think it diverts from my original intention with tyto.
+
+
 
 ####Your own environment
 #####Prerequisites
@@ -113,10 +115,6 @@ There are a range of technologies being used under the hood.
 
 MIT
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/show_time.png)
-
 If you wish to use __tyto__ please star, fork or share the repo! It aids with project presence.
-
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/open_menu.gif)
 
 [@jh3y](https://github.com/jh3y) (c) 2015.
