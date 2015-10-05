@@ -39,6 +39,7 @@
     "lodash": "~3.9.3",
     "material-design-icons": "~2.0.0",
     "roboto": "google/roboto",
-    "material-design-lite": "~1.0.0"
+    "material-design-lite": "~1.0.0",
+    "marked": "chjj/marked#~0.3.5"
   }
 }

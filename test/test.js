@@ -79,7 +79,7 @@ describe('tyto', function() {
           model     : columnModel,
           collection: viewCollection,
           board     : boardModel
-        })
+        });
         testView.render();
       });
       it('Renders the correct amount of tasks', function() {
@@ -123,9 +123,27 @@ describe('tyto', function() {
         testView.ui.title.blur();
         expect(testView.model.get('title')).to.equal(UPDATED_TITLE);
         // Test out the description field
-        testView.ui.description.text(UPDATED_DESCRIPTION);
-        testView.ui.description.blur();
+        testView.ui.editDescription.text(UPDATED_DESCRIPTION);
+        testView.ui.editDescription.blur();
         expect(testView.model.get('description')).to.equal(UPDATED_DESCRIPTION);
+      });
+      it('Honors markdown support by rendering correct output', function(){
+        var description = '__bold__',
+          UPDATED_DESCRIPTION = 'This is in _italics_',
+          mdOutput = marked(description);
+        taskModel = tasksCollection.create();
+        taskModel.set('description', description);
+        testView  = new Tyto.Views.Task(
+          {
+            model: taskModel
+          }
+        );
+        testView.render();
+        expect(testView.ui.description.html()).to.equal(mdOutput);
+        mdOutput = marked(UPDATED_DESCRIPTION);
+        testView.ui.editDescription.text(UPDATED_DESCRIPTION);
+        testView.ui.editDescription.blur();
+        expect(testView.ui.description.html()).to.equal(mdOutput);
       });
     });
     describe('EditView', function() {

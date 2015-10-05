@@ -28,6 +28,7 @@ for key, value in colorPalette
 for key, value in colorPalette
   .bg--{key} [contenteditable]
   [contenteditable].bg--{key}
+  .bg--{key} textarea
       transition background .25s
       outline               0
       &:active
