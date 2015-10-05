@@ -15,6 +15,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto)!
 * localStorage persistence
 * time tracking
 * sortable UI
+* Markdown support
 * etc.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/add_task.gif)
@@ -49,6 +50,8 @@ Tyto is a personal pet of mine and if it can help others, that's great!
 
 ###Using tyto
 Just want to use it? Do that by visiting [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
+
+GitHub flavored markdown is supported thanks to `marked`.
 
 Changes are persistent thanks to `localStorage`.
 
@@ -98,18 +101,13 @@ There are a range of technologies being used under the hood.
 * Lodash
 * Backbone
 * Marionette
+* Marked
 * Jade
 * Stylus
 * CoffeeScript
 * Gulp
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/move_task.gif)
-
-###Roadmap and known needs
-* Better app wide source commentary.
-* Markdown support.
-
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/open_menu.gif)
 
 ###License
 
@@ -118,5 +116,7 @@ MIT
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/show_time.png)
 
 If you wish to use __tyto__ please star, fork or share the repo! It aids with project presence.
+
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/open_menu.gif)
 
 [@jh3y](https://github.com/jh3y) (c) 2015.

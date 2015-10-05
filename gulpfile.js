@@ -38,13 +38,11 @@ gulp.task('coffee:compile', ['tmpl:compile'], function () {
     .pipe(buffer())
     .pipe(isMapped ? plugins.sourcemaps.init({loadMaps: true}): plugins.gUtil.noop())
     .pipe(plugins.wrap(pluginOpts.wrap))
-    .pipe(plugins.header(fs.readFileSync('./src/txt/license.txt', 'utf-8')))
+    .pipe(plugins.header(fs.readFileSync('./LICENSE', 'utf-8')))
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
     .pipe(gulp.dest(destinations.js))
-    .pipe(plugins.uglify())
-    .pipe(plugins.rename({
-      suffix: '.min'
-    }))
+    .pipe(plugins.uglify(pluginOpts.uglify))
+    .pipe(plugins.rename(pluginOpts.rename))
     .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
     .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
     .pipe(gulp.dest(isDist ? destinations.dist: destinations.js));
