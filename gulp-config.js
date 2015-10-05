@@ -101,7 +101,7 @@ module.exports = {
       docs     : 'src/jade/*.jade',
       templates: 'src/jade/templates/**/*.jade',
       stylus   : 'src/stylus/**/*.stylus',
-      overwatch: env + '**/*.{html,js,css}'
+      overwatch: env + '**/*.*'
     },
     destinations: {
       html     : env,
