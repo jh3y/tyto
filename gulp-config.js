@@ -15,6 +15,9 @@ module.exports = {
     coffee: {
       bare: true
     },
+    minify: {
+      keepSpecialComments: 1
+    },
     gSize: {
       showFiles: true
     },

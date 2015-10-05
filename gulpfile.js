@@ -20,8 +20,6 @@ gulp.task('serve', ['build:complete'], function() {
   gulp.watch(sources.overwatch).on('change', browserSync.reload);
 });
 
-
-
 gulp.task('coffee:compile', ['tmpl:compile'], function () {
 
   var b = browserify({
@@ -127,7 +125,7 @@ gulp.task('vendor:styles:publish', function() {
     .pipe(plugins.plumber())
     .pipe(plugins.concat('vendor.css'))
     .pipe(gulp.dest(destinations.css))
-    .pipe(plugins.minify())
+    .pipe(plugins.minify(pluginOpts.minify))
     .pipe(plugins.rename(pluginOpts.rename))
     .pipe(gulp.dest(destinations.css));
 });

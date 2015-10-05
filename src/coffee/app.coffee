@@ -33,6 +33,24 @@ Tyto.on 'before:start', ->
   Tyto.setRootLayout()
 
 Tyto.on 'start', ->
+  # Set up marked renderer
+  Tyto.__renderer      = new marked.Renderer()
+  Tyto.__renderer.link = (href, title, text) ->
+    if @options.sanitize
+      try
+        prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, '').toLowerCase()
+      catch e
+        return ''
+      if prot.indexOf('javascript:') == 0 or prot.indexOf('vbscript:') == 0
+        return ''
+    out = '<a target="_blank" href="' + href + '"'
+    if title
+      out += ' title="' + title + '"'
+    out += '>' + text + '</a>'
+    out
+  marked.setOptions
+    renderer: Tyto.__renderer
+
   # Instantiate the app controller and router on start.
   Tyto.Controller        = new Tyto.Ctrl.Controller()
   Tyto.Controller.Router = new Tyto.Ctrl.Router
