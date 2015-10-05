@@ -1,3 +1,15 @@
+/*
+tyto - http://jh3y.github.io/tyto
+Licensed under the MIT license
+
+jh3y (c) 2015
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 (function() { (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Tyto, TytoApp, TytoCtrl, TytoModels, TytoViews, Utils;
 
@@ -40,6 +52,30 @@ Tyto.on('before:start', function() {
 });
 
 Tyto.on('start', function() {
+  Tyto.__renderer = new marked.Renderer();
+  Tyto.__renderer.link = function(href, title, text) {
+    var e, error, out, prot;
+    if (this.options.sanitize) {
+      try {
+        prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, '').toLowerCase();
+      } catch (error) {
+        e = error;
+        return '';
+      }
+      if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0) {
+        return '';
+      }
+    }
+    out = '<a target="_blank" href="' + href + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += '>' + text + '</a>';
+    return out;
+  };
+  marked.setOptions({
+    renderer: Tyto.__renderer
+  });
   Tyto.Controller = new Tyto.Ctrl.Controller();
   Tyto.Controller.Router = new Tyto.Ctrl.Router({
     controller: Tyto.Controller
@@ -250,25 +286,25 @@ obj || (obj = {});
 var __t, __p = '', __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '\n<div class="tyto-board__options">\n  <button id="tyto-board__menu" title="Board options" class="mdl-button mdl-js-button mdl-button--icon tyto-board__menu-btn "><i class="material-icons">more_vert</i></button>\n  <ul for="tyto-board__menu" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-board__menu mdl-menu--bottom-right">\n    <li class="tyto-board__wipe-board mdl-menu__item">Wipe board</li>\n    <li class="tyto-board__delete-board mdl-menu__item">Delete board</li>\n    <li class="tyto-board__email-board mdl-menu__item">Email board</li><a style="display: none;" class="tyto-board__emailer"></a>\n  </ul>\n</div>\n<div class="tyto-board__details">\n  <h1 contenteditable="true" class="tyto-board__title bg--white">' +
+__p += '<div class="tyto-board__options"><button id="tyto-board__menu" title="Board options" class="mdl-button mdl-js-button mdl-button--icon tyto-board__menu-btn "><i class="material-icons">more_vert</i></button><ul for="tyto-board__menu" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-board__menu mdl-menu--bottom-right"><li class="tyto-board__wipe-board mdl-menu__item">Wipe board</li><li class="tyto-board__delete-board mdl-menu__item">Delete board</li><li class="tyto-board__email-board mdl-menu__item">Email board</li><a style="display: none;" class="tyto-board__emailer"></a></ul></div><div class="tyto-board__details"><h1 contenteditable="true" class="tyto-board__title bg--white">' +
 ((__t = ( title )) == null ? '' : __t) +
 '</h1>';
  if (boards.length > 1) { ;
-__p += '\n  <button id="tyto-board__selector" title="Select a board" class="mdl-button mdl-js-button mdl-button--icon tyto-board__selector__menu-btn "><i class="material-icons">expand_more</i></button>\n  <ul for="tyto-board__selector" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-board__selector__menu mdl-menu--bottom-right">\n    ';
+__p += '<button id="tyto-board__selector" title="Select a board" class="mdl-button mdl-js-button mdl-button--icon tyto-board__selector__menu-btn "><i class="material-icons">expand_more</i></button><ul for="tyto-board__selector" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-board__selector__menu mdl-menu--bottom-right">';
  _.each(boards.models, function(i){ ;
-__p += '\n    ';
+__p += '\n';
  if (i.attributes.id != id) { ;
-__p += '\n    <li title="View board" class="mdl-menu__item tyto-board__selector-option"><a href="#board/' +
+__p += '<li title="View board" class="mdl-menu__item tyto-board__selector-option"><a href="#board/' +
 ((__t = ( i.attributes.id )) == null ? '' : __t) +
 '">' +
 ((__t = ( i.attributes.title )) == null ? '' : __t) +
 '</a></li>';
  } ;
-__p += '\n    ';
+__p += '\n';
  }) ;
-__p += '\n  </ul>';
+__p += '</ul>';
  } ;
-__p += '\n</div>\n<div class="tyto-board__columns"></div>\n<div class="tyto-board__actions mdl-button--fab_flinger-container">\n  <button class="tyto-board__add-entity mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button>\n  <div class="mdl-button--fab_flinger-options">\n    <button title="Add task" class="tyto-board__super-add mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">description</i><i class="material-icons sub">add</i></button>\n    <button title="Add column" class="tyto-board__add-column mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">view_column</i><i class="material-icons sub">add</i></button>\n  </div>\n</div>\n<div class="tyto-board__bloomer"></div>';
+__p += '</div><div class="tyto-board__columns"></div><div class="tyto-board__actions mdl-button--fab_flinger-container"><button class="tyto-board__add-entity mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button><div class="mdl-button--fab_flinger-options"><button title="Add task" class="tyto-board__super-add mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">description</i><i class="material-icons sub">add</i></button><button title="Add column" class="tyto-board__add-column mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">view_column</i><i class="material-icons sub">add</i></button></div></div><div class="tyto-board__bloomer"></div>';
 
 }
 return __p
@@ -276,13 +312,13 @@ return __p
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '\n<div class="tyto-column__content">\n  <div class="tyto-column__actions"><i title="Move column" class="tyto-column__mover material-icons does--fade">open_with</i>\n    <h6 contenteditable="true" title="Column title" class="tyto-column__title input--fade bg--white">' +
+__p += '<div class="tyto-column__content"><div class="tyto-column__actions"><i title="Move column" class="tyto-column__mover material-icons does--fade">open_with</i><h6 contenteditable="true" title="Column title" class="tyto-column__title input--fade bg--white">' +
 ((__t = ( title )) == null ? '' : __t) +
-'</h6>\n    <button id="' +
+'</h6><button id="' +
 ((__t = ( id )) == null ? '' : __t) +
-'--menu" title="Column options" class="mdl-button mdl-js-button mdl-button--icon tyto-column__menu-btn does--fade"><i class="material-icons">more_vert</i></button>\n    <ul for="' +
+'--menu" title="Column options" class="mdl-button mdl-js-button mdl-button--icon tyto-column__menu-btn does--fade"><i class="material-icons">more_vert</i></button><ul for="' +
 ((__t = ( id )) == null ? '' : __t) +
-'--menu" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-column__menu mdl-menu--bottom-right">\n      <li title="Delete column" class="tyto-column__delete-column mdl-menu__item">Delete</li>\n      <li title="Add task" class="tyto-column__add-task mdl-menu__item">Add task</li>\n    </ul>\n  </div>\n  <div class="tyto-column__tasks"></div>\n  <div class="tyto-column__action"><i title="Add task" class="material-icons tyto-column__add-task does--fade">add</i></div>\n</div>';
+'--menu" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-column__menu mdl-menu--bottom-right"><li title="Delete column" class="tyto-column__delete-column mdl-menu__item">Delete</li><li title="Add task" class="tyto-column__add-task mdl-menu__item">Add task</li></ul></div><div class="tyto-column__tasks"></div><div class="tyto-column__action"><i title="Add task" class="material-icons tyto-column__add-task does--fade">add</i></div></div>';
 
 }
 return __p
@@ -290,7 +326,7 @@ return __p
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '\n<div class="tyto-cookies bg--blue"><img src="img/tyto.png"/>\n  <p>tyto uses cookies that enable it to provide functionality and a better user experience. By using tyto and closing this message you agree to the use of cookies. <a href="cookies.html" target="_blank">Read more...</a></p>\n  <button class="tyto-cookies__accept mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">Close</button>\n</div>';
+__p += '<div class="tyto-cookies bg--blue"><img src="img/tyto.png"/><p>tyto uses cookies that enable it to provide functionality and a better user experience. By using tyto and closing this message you agree to the use of cookies. <a href="cookies.html" target="_blank">Read more...</a></p><button class="tyto-cookies__accept mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect">Close</button></div>';
 
 }
 return __p
@@ -299,9 +335,9 @@ obj || (obj = {});
 var __t, __p = '', __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '\n<div class="tyto-edit__nav">';
+__p += '<div class="tyto-edit__nav">';
  if (isNew) { ;
-__p += '\n  <button class="tyto-edit__save mdl-button mdl-js-button mdl-js-ripple-effect">Done</button><a href="#board/';
+__p += '<button class="tyto-edit__save mdl-button mdl-js-button mdl-js-ripple-effect">Done</button><a href="#board/';
  board.id ;
 __p += '" class="tyto-edit__cancel mdl-button mdl-js-button mdl-js-ripple-effect">Cancel</a>';
  } else { ;
@@ -309,27 +345,27 @@ __p += '<a href="#board/' +
 ((__t = ( board.id )) == null ? '' : __t) +
 '" class="tyto-edit__back mdl-button mdl-js-button mdl-js-ripple-effect">Return to board</a>';
  } ;
-__p += '\n</div>\n<div class="tyto-edit__content">\n  <div class="tyto-edit__details has--bottom-margin">\n    <h1 contenteditable="true" data-model-prop="title" title="Task title" class="tyto-edit__task-title">' +
+__p += '</div><div class="tyto-edit__content"><div class="tyto-edit__details has--bottom-margin"><h1 contenteditable="true" data-model-prop="title" title="Task title" class="tyto-edit__task-title">' +
 ((__t = ( title )) == null ? '' : __t) +
-'</h1>\n    <div contenteditable="true" data-model-prop="description" title="Task description" class="tyto-edit__task-description">' +
+'</h1><textarea data-model-prop="description" title="Task description" class="tyto-edit__task-description">' +
 ((__t = ( description )) == null ? '' : __t) +
-'</div>\n  </div>\n  <div class="tyto-edit__details-footer tx--right has--bottom-margin">\n    <div title="Time spent" class="tyto-time tyto-edit__task-time"><i class="tyto-time__icon material-icons">schedule</i><span class="tyto-edit__task-time__hours tyto-time__hours">' +
+'</textarea></div><div class="tyto-edit__details-footer tx--right has--bottom-margin"><div title="Time spent" class="tyto-time tyto-edit__task-time"><i class="tyto-time__icon material-icons">schedule</i><span class="tyto-edit__task-time__hours tyto-time__hours">' +
 ((__t = ( timeSpent.hours )) == null ? '' : __t) +
 'h</span><span class="tyto-edit__task-time__minutes tyto-time__minutes">' +
 ((__t = ( timeSpent.minutes )) == null ? '' : __t) +
-'m</span></div>\n    <div class="tyto-edit__task-column">\n      ';
+'m</span></div><div class="tyto-edit__task-column">';
  if (selectedColumn) { ;
-__p += '\n      ' +
+__p += '\n' +
 ((__t = ( selectedColumn.attributes.title )) == null ? '' : __t) +
-'\n      ';
+'\n';
  } ;
-__p += '\n    </div>\n  </div>\n  <div class="tyto-edit__actions">';
+__p += '</div></div><div class="tyto-edit__actions">';
  if (columns.length > 0 ) { ;
-__p += '\n    <button id="column-select" title="Select column" class="mdl-button mdl-js-button mdl-button--icon tyto-edit__column-select__menu-btn "><i class="material-icons">view_column</i></button>\n    <ul for="column-select" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-edit__column-select__menu mdl-menu--bottom-right">\n      ';
+__p += '<button id="column-select" title="Select column" class="mdl-button mdl-js-button mdl-button--icon tyto-edit__column-select__menu-btn "><i class="material-icons">view_column</i></button><ul for="column-select" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-edit__column-select__menu mdl-menu--bottom-right">';
  _.forEach(columns, function(column) { ;
-__p += '\n      ';
+__p += '\n';
  if (!isNew) { var activeClass = (column.attributes.id === columnId) ? 'is--selected': '' } ;
-__p += '\n      <li data-column-id="' +
+__p += '<li data-column-id="' +
 ((__t = ( column.id )) == null ? '' : __t) +
 '" class="mdl-menu__item tyto-edit__column-select__menu-option ' +
 ((__t = ( activeClass )) == null ? '' : __t) +
@@ -337,13 +373,13 @@ __p += '\n      <li data-column-id="' +
 ((__t = ( column.attributes.title )) == null ? '' : __t) +
 '</li>';
  }); ;
-__p += '\n    </ul>';
+__p += '</ul>';
  } ;
-__p += '\n    <button id="color-select" title="Change color" class="mdl-button mdl-js-button mdl-button--icon tyto-edit__color-select__menu-btn "><i class="material-icons">color_lens</i></button>\n    <ul for="color-select" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-edit__color-select__menu mdl-menu--bottom-right">\n      ';
+__p += '<button id="color-select" title="Change color" class="mdl-button mdl-js-button mdl-button--icon tyto-edit__color-select__menu-btn "><i class="material-icons">color_lens</i></button><ul for="color-select" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-edit__color-select__menu mdl-menu--bottom-right">';
  _.forEach(colors, function(col) { ;
-__p += '\n      ';
+__p += '\n';
  var activeColor = (col === color) ? 'is--selected': '' ;
-__p += '\n      <li data-color="' +
+__p += '<li data-color="' +
 ((__t = ( col )) == null ? '' : __t) +
 '" title="' +
 ((__t = ( col )) == null ? '' : __t) +
@@ -355,7 +391,7 @@ __p += '\n      <li data-color="' +
 ((__t = ( activeColor )) == null ? '' : __t) +
 '"></li>';
  }); ;
-__p += '\n    </ul>\n    <button title="Start tracking" class="tyto-edit__track mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect"><i class="material-icons">schedule</i></button>\n  </div>\n</div>';
+__p += '</ul><button title="Start tracking" class="tyto-edit__track mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect"><i class="material-icons">schedule</i></button></div></div>';
 
 }
 return __p
@@ -363,7 +399,7 @@ return __p
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '\n<div class="mdl-layout-title">\n  <div class="tyto-menu__title">\n    <h1>tyto</h1>\n  </div>\n</div>\n<ul class="tyto-menu__actions">\n  <li>\n    <button class="tyto-menu__add-board mdl-button mdl-js-button mdl-js-ripple-effect">Add new board</button>\n  </li>\n  <li>\n    <button class="tyto-menu__import mdl-button mdl-js-button mdl-js-ripple-effect">Import data</button>\n  </li>\n  <li>\n    <button class="tyto-menu__load mdl-button mdl-js-button mdl-js-ripple-effect">Load data</button>\n  </li>\n  <li>\n    <button class="tyto-menu__export mdl-button mdl-js-button mdl-js-ripple-effect">Export data</button>\n  </li>\n  <li>\n    <button class="tyto-menu__delete-save mdl-button mdl-js-button mdl-js-ripple-effect">Delete data</button>\n  </li><a class="tyto-menu__exporter"></a>\n  <input type="file" class="tyto-menu__importer"/>\n  <li>\n    <div class="github-stats">\n      <div class="github-stats__stars">\n        <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=tyto&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe>\n      </div>\n      <div class="github-stats__forks">\n        <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=tyto&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe>\n      </div>\n      <div class="github-stats__user">\n        <iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=tyto&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="120px" height="20"></iframe>\n      </div>\n    </div>\n  </li>\n</ul>';
+__p += '<div class="mdl-layout-title"><div class="tyto-menu__title"><h1>tyto</h1></div></div><ul class="tyto-menu__actions"><li><button class="tyto-menu__add-board mdl-button mdl-js-button mdl-js-ripple-effect">Add new board</button></li><li><button class="tyto-menu__import mdl-button mdl-js-button mdl-js-ripple-effect">Import data</button></li><li><button class="tyto-menu__load mdl-button mdl-js-button mdl-js-ripple-effect">Load data</button></li><li><button class="tyto-menu__export mdl-button mdl-js-button mdl-js-ripple-effect">Export data</button></li><li><button class="tyto-menu__delete-save mdl-button mdl-js-button mdl-js-ripple-effect">Delete data</button></li><a class="tyto-menu__exporter"></a><input type="file" class="tyto-menu__importer"/><li><div class="github-stats"><div class="github-stats__stars"><iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=tyto&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe></div><div class="github-stats__forks"><iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=tyto&amp;type=fork&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90px" height="20"></iframe></div><div class="github-stats__user"><iframe src="http://ghbtns.com/github-btn.html?user=jh3y&amp;repo=tyto&amp;type=follow&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="120px" height="20"></iframe></div></div></li></ul>';
 
 }
 return __p
@@ -374,17 +410,17 @@ function print() { __p += __j.call(arguments, '') }
 with (obj) {
 
  if (items.length == 0) { ;
-__p += '\n<p><span>To start,</span>\n  <button class="tyto-select__add-board mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Add a board</button>\n</p>\n<p><span>or</span>\n  <button class="tyto-select__load-intro-board mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Load the intro board</button>\n</p>';
+__p += '<p><span>To start,</span><button class="tyto-select__add-board mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Add a board</button></p><p><span>or</span><button class="tyto-select__load-intro-board mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Load the intro board</button></p>';
  } else {;
-__p += '\n<p><span>To start, select one of your boards.</span>\n  <div class="selector">\n    <select class="tyto-select__board-selector">\n      <option>--select a board--</option>';
+__p += '<p><span>To start, select one of your boards.</span><div class="selector"><select class="tyto-select__board-selector"><option>--select a board--</option>';
  _.each(items, function(i){ ;
-__p += '\n      <option value="' +
+__p += '<option value="' +
 ((__t = ( i.id )) == null ? '' : __t) +
 '">' +
 ((__t = ( i.title )) == null ? '' : __t) +
 '</option>';
  }) ;
-__p += '\n    </select>\n  </div>\n</p>\n<p><span>Alternatively,</span>\n  <button class="tyto-select__add-board mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Add a board</button>\n</p>';
+__p += '</select></div></p><p><span>Alternatively,</span><button class="tyto-select__add-board mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Add a board</button></p>';
  } ;
 
 
@@ -395,21 +431,21 @@ obj || (obj = {});
 var __t, __p = '', __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
 with (obj) {
-__p += '\n<div class="tyto-task__content">\n  <div class="tyto-task__header tx--center"><i title="Move task" class="material-icons tyto-task__mover does--fade">open_with</i>\n    <h2 contenteditable="true" title="Task title" class="tyto-task__title">' +
+__p += '<div class="tyto-task__content"><div class="tyto-task__header tx--center"><i title="Move task" class="material-icons tyto-task__mover does--fade">open_with</i><h2 contenteditable="true" title="Task title" class="tyto-task__title">' +
 ((__t = ( title )) == null ? '' : __t) +
-'</h2>\n    <button id="' +
+'</h2><button id="' +
 ((__t = ( id )) == null ? '' : __t) +
-'--menu" title="Task options" class="mdl-button mdl-js-button mdl-button--icon tyto-task__menu-btn does--fade"><i class="material-icons">more_vert</i></button>\n    <ul for="' +
+'--menu" title="Task options" class="mdl-button mdl-js-button mdl-button--icon tyto-task__menu-btn does--fade"><i class="material-icons">more_vert</i></button><ul for="' +
 ((__t = ( id )) == null ? '' : __t) +
-'--menu" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-task__menu mdl-menu--bottom-right">\n      <li title="Delete task" class="mdl-menu__item tyto-task__delete-task">Delete</li>\n      <li title="Edit task" class="mdl-menu__item tyto-task__edit-task">Edit</li>\n      <li title="Track task time" class="mdl-menu__item tyto-task__track-task">Track</li>\n    </ul>\n  </div>\n  <div contenteditable="true" title="Task description" class="mdl-card__supporting-text tyto-task__description">' +
+'--menu" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-task__menu mdl-menu--bottom-right"><li title="Delete task" class="mdl-menu__item tyto-task__delete-task">Delete</li><li title="Edit task" class="mdl-menu__item tyto-task__edit-task">Edit</li><li title="Track task time" class="mdl-menu__item tyto-task__track-task">Track</li></ul></div><div title="Task description" class="mdl-card__supporting-text tyto-task__description">' +
 ((__t = ( description )) == null ? '' : __t) +
-'</div>';
+'</div><textarea class="tyto-task__description-edit is--hidden"></textarea>';
  var hidden = (timeSpent.hours > 0 || timeSpent.minutes > 0) ? '': 'is--hidden'; ;
-__p += '\n  <div title="Time spent" class="tyto-time tyto-task__time"><i class="tyto-time__icon material-icons">schedule</i><span class="tyto-task__time__hours tyto-time__hours">' +
+__p += '<div title="Time spent" class="tyto-time tyto-task__time"><i class="tyto-time__icon material-icons">schedule</i><span class="tyto-task__time__hours tyto-time__hours">' +
 ((__t = ( timeSpent.hours )) == null ? '' : __t) +
 'h</span><span class="tyto-task__time__minutes tyto-time__minutes">' +
 ((__t = ( timeSpent.minutes )) == null ? '' : __t) +
-'m</span></div>\n</div>';
+'m</span></div></div>';
 
 }
 return __p
@@ -417,11 +453,11 @@ return __p
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '\n<div class="tyto-time-modal__content mdl-card mdl-shadow--4dp">\n  <div class="tyto-time-modal__content-title mdl-card__title">\n    <h2 class="mdl-card__title-text">' +
+__p += '<div class="tyto-time-modal__content mdl-card mdl-shadow--4dp"><div class="tyto-time-modal__content-title mdl-card__title"><h2 class="mdl-card__title-text">' +
 ((__t = ( title )) == null ? '' : __t) +
-'</h2>\n  </div>\n  <div class="tyto-time-modal__content-text tx--center mdl-card__supporting-text">\n    <p>' +
+'</h2></div><div class="tyto-time-modal__content-text tx--center mdl-card__supporting-text"><p>' +
 ((__t = ( description )) == null ? '' : __t) +
-'</p>\n    <h1 class="tyto-time-modal__timer-lbl"><span class="tyto-time-modal__timer-lbl-hours"></span><span>:</span><span class="tyto-time-modal__timer-lbl-minutes"></span><span>:</span><span class="tyto-time-modal__timer-lbl-seconds"></span></h1>\n  </div>\n  <div class="tyto-time-modal__actions mdl-card__actions mdl-card--border tx--center">\n    <button title="Reset time" class="tyto-time-modal__timer-reset mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">restore</i></button>\n    <button title="Stop/Start tracking" class="tyto-time-modal__timer mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="tyto-time-modal__timer-icon material-icons">play_arrow</i></button>\n    <button title="Exit tracking" class="tyto-time-modal__close mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">clear</i></button>\n  </div>\n</div>';
+'</p><h1 class="tyto-time-modal__timer-lbl"><span class="tyto-time-modal__timer-lbl-hours"></span><span>:</span><span class="tyto-time-modal__timer-lbl-minutes"></span><span>:</span><span class="tyto-time-modal__timer-lbl-seconds"></span></h1></div><div class="tyto-time-modal__actions mdl-card__actions mdl-card--border tx--center"><button title="Reset time" class="tyto-time-modal__timer-reset mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">restore</i></button><button title="Stop/Start tracking" class="tyto-time-modal__timer mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="tyto-time-modal__timer-icon material-icons">play_arrow</i></button><button title="Exit tracking" class="tyto-time-modal__close mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">clear</i></button></div></div>';
 
 }
 return __p
@@ -1106,11 +1142,12 @@ EditView = Backbone.Marionette.ItemView.extend({
     ];
   },
   updateTask: function(e) {
-    var attr, el, view;
+    var attr, el, val, view;
     view = this;
     attr = view.domAttributes;
     el = e.target;
-    return view.model.set(el.getAttribute(attr.MODEL_PROP_ATTR), el.innerHTML);
+    val = el.nodeName === 'TEXTAREA' ? el.value : el.innerHTML;
+    return view.model.set(el.getAttribute(attr.MODEL_PROP_ATTR), val);
   },
   onShow: function() {
     return Tyto.Utils.upgradeMDL(this.getMDLMap());
@@ -1204,12 +1241,14 @@ module.exports = Backbone.Marionette.ItemView.extend({
     exportBtn: '.tyto-menu__export',
     loadBtn: '.tyto-menu__load',
     importBtn: '.tyto-menu__import',
+    deleteBtn: '.tyto-menu__delete-save',
     exporter: '.tyto-menu__exporter',
     importer: '.tyto-menu__importer'
   },
   events: {
     'click  @ui.addBoardBtn': 'addBoard',
     'click  @ui.exportBtn': 'exportData',
+    'click  @ui.deleteBtn': 'deleteAppData',
     'click  @ui.loadBtn': 'initLoad',
     'click  @ui.importBtn': 'initLoad',
     'change @ui.importer': 'handleFile'
@@ -1275,6 +1314,17 @@ module.exports = Backbone.Marionette.ItemView.extend({
     anchor.setAttribute('download', filename);
     anchor.setAttribute('href', content);
     anchor.click();
+  },
+  deleteAppData: function() {
+    _.forOwn(window.localStorage, function(val, key) {
+      if (key.indexOf('tyto') !== -1 && key !== 'tyto') {
+        return window.localStorage.removeItem(key);
+      }
+    });
+    Tyto.Boards.reset();
+    Tyto.Columns.reset();
+    Tyto.Tasks.reset();
+    return Tyto.navigate('/', true);
   },
   addBoard: function() {
     return Tyto.navigate('board/' + Tyto.Boards.create().id, true);
@@ -1375,14 +1425,16 @@ module.exports = Backbone.Marionette.ItemView.extend({
     menu: '.tyto-task__menu',
     hours: '.tyto-task__time__hours',
     minutes: '.tyto-task__time__minutes',
-    time: '.tyto-task__time'
+    time: '.tyto-task__time',
+    editDescription: '.tyto-task__description-edit'
   },
   events: {
     'click @ui.deleteTask': 'deleteTask',
     'click @ui.editTask': 'editTask',
     'click @ui.trackTask': 'trackTask',
-    'blur @ui.title': 'saveTaskTitle',
-    'blur @ui.description': 'saveTaskDescription'
+    'blur  @ui.title': 'saveTaskTitle',
+    'blur  @ui.editDescription': 'saveTaskDescription',
+    'click @ui.description': 'showEditMode'
   },
   domAttributes: {
     VIEW_CLASS: 'tyto-task mdl-card mdl-shadow--2dp bg--',
@@ -1429,6 +1481,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
   onRender: function() {
     var view;
     view = this;
+    view.ui.description.html(marked(view.model.get('description')));
     return Tyto.Utils.renderTime(view);
   },
   trackTask: function(e) {
@@ -1442,10 +1495,27 @@ module.exports = Backbone.Marionette.ItemView.extend({
     editUrl = '#board/' + boardId + '/task/' + taskId;
     return Tyto.Utils.bloom(view.ui.editTask[0], view.model.get('color'), editUrl);
   },
+  showEditMode: function() {
+    var desc, domAttributes, edit, model;
+    domAttributes = this.domAttributes;
+    model = this.model;
+    desc = this.ui.description;
+    edit = this.ui.editDescription;
+    desc.addClass(domAttributes.HIDDEN_UTIL_CLASS);
+    return edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS).val(model.get('description')).focus();
+  },
   saveTaskDescription: function() {
-    return this.model.save({
-      description: this.ui.description.html()
+    var content, desc, domAttributes, edit;
+    domAttributes = this.domAttributes;
+    edit = this.ui.editDescription;
+    desc = this.ui.description;
+    edit.addClass(domAttributes.HIDDEN_UTIL_CLASS);
+    desc.removeClass(domAttributes.HIDDEN_UTIL_CLASS);
+    content = edit.val();
+    this.model.save({
+      description: content
     });
+    return desc.html(marked(content));
   },
   saveTaskTitle: function() {
     return this.model.save({

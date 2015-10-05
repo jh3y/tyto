@@ -476,6 +476,11 @@ body {
 }
 .tyto-edit__task-description {
   padding: 24px;
+  width: 100%;
+  outline: 0;
+  background: transparent;
+  border: none;
+  height: 200px;
 }
 .tyto-edit__nav,
 .tyto-edit__details-footer {
@@ -713,6 +718,21 @@ body {
 }
 .tyto-task__description {
   width: 100%;
+}
+.tyto-task__description a {
+  z-index: 99999;
+  cursor: pointer;
+}
+.tyto-task__description-edit {
+  outline: 0;
+  border: none;
+  background: transparent;
+  padding: 16px 0;
+  width: 258px;
+  margin: 0 16px;
+  font-size: 14px;
+  font-size: 0.875rem;
+  line-height: 14px;
 }
 .tyto-task__placeholder {
   height: 100px;
@@ -1039,183 +1059,228 @@ body {
   to show an accented color on :focus/:active.
 */
 .bg--red [contenteditable],
-[contenteditable].bg--red {
+[contenteditable].bg--red,
+.bg--red textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--red [contenteditable]:active,
 [contenteditable].bg--red:active,
+.bg--red textarea:active,
 .bg--red [contenteditable]:focus,
-[contenteditable].bg--red:focus {
+[contenteditable].bg--red:focus,
+.bg--red textarea:focus {
   background-color: #f01d0d;
 }
 .bg--pink [contenteditable],
-[contenteditable].bg--pink {
+[contenteditable].bg--pink,
+.bg--pink textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--pink [contenteditable]:active,
 [contenteditable].bg--pink:active,
+.bg--pink textarea:active,
 .bg--pink [contenteditable]:focus,
-[contenteditable].bg--pink:focus {
+[contenteditable].bg--pink:focus,
+.bg--pink textarea:focus {
   background-color: #cc1452;
 }
 .bg--purple [contenteditable],
-[contenteditable].bg--purple {
+[contenteditable].bg--purple,
+.bg--purple textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--purple [contenteditable]:active,
 [contenteditable].bg--purple:active,
+.bg--purple textarea:active,
 .bg--purple [contenteditable]:focus,
-[contenteditable].bg--purple:focus {
+[contenteditable].bg--purple:focus,
+.bg--purple textarea:focus {
   background-color: #852196;
 }
 .bg--indigo [contenteditable],
-[contenteditable].bg--indigo {
+[contenteditable].bg--indigo,
+.bg--indigo textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--indigo [contenteditable]:active,
 [contenteditable].bg--indigo:active,
+.bg--indigo textarea:active,
 .bg--indigo [contenteditable]:focus,
-[contenteditable].bg--indigo:focus {
+[contenteditable].bg--indigo:focus,
+.bg--indigo textarea:focus {
   background-color: #36459a;
 }
 .bg--blue [contenteditable],
-[contenteditable].bg--blue {
+[contenteditable].bg--blue,
+.bg--blue textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--blue [contenteditable]:active,
 [contenteditable].bg--blue:active,
+.bg--blue textarea:active,
 .bg--blue [contenteditable]:focus,
-[contenteditable].bg--blue:focus {
+[contenteditable].bg--blue:focus,
+.bg--blue textarea:focus {
   background-color: #0c81df;
 }
 .bg--cyan [contenteditable],
-[contenteditable].bg--cyan {
+[contenteditable].bg--cyan,
+.bg--cyan textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--cyan [contenteditable]:active,
 [contenteditable].bg--cyan:active,
+.bg--cyan textarea:active,
 .bg--cyan [contenteditable]:focus,
-[contenteditable].bg--cyan:focus {
+[contenteditable].bg--cyan:focus,
+.bg--cyan textarea:focus {
   background-color: #00a0b4;
 }
 .bg--teal [contenteditable],
-[contenteditable].bg--teal {
+[contenteditable].bg--teal,
+.bg--teal textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--teal [contenteditable]:active,
 [contenteditable].bg--teal:active,
+.bg--teal textarea:active,
 .bg--teal [contenteditable]:focus,
-[contenteditable].bg--teal:focus {
+[contenteditable].bg--teal:focus,
+.bg--teal textarea:focus {
   background-color: #008074;
 }
 .bg--green [contenteditable],
-[contenteditable].bg--green {
+[contenteditable].bg--green,
+.bg--green textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--green [contenteditable]:active,
 [contenteditable].bg--green:active,
+.bg--green textarea:active,
 .bg--green [contenteditable]:focus,
-[contenteditable].bg--green:focus {
+[contenteditable].bg--green:focus,
+.bg--green textarea:focus {
   background-color: #419544;
 }
 .bg--lime [contenteditable],
-[contenteditable].bg--lime {
+[contenteditable].bg--lime,
+.bg--lime textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--lime [contenteditable]:active,
 [contenteditable].bg--lime:active,
+.bg--lime textarea:active,
 .bg--lime [contenteditable]:focus,
-[contenteditable].bg--lime:focus {
+[contenteditable].bg--lime:focus,
+.bg--lime textarea:focus {
   background-color: #b9c823;
 }
 .bg--yellow [contenteditable],
-[contenteditable].bg--yellow {
+[contenteditable].bg--yellow,
+.bg--yellow textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--yellow [contenteditable]:active,
 [contenteditable].bg--yellow:active,
+.bg--yellow textarea:active,
 .bg--yellow [contenteditable]:focus,
-[contenteditable].bg--yellow:focus {
+[contenteditable].bg--yellow:focus,
+.bg--yellow textarea:focus {
   background-color: #ffe60c;
 }
 .bg--amber [contenteditable],
-[contenteditable].bg--amber {
+[contenteditable].bg--amber,
+.bg--amber textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--amber [contenteditable]:active,
 [contenteditable].bg--amber:active,
+.bg--amber textarea:active,
 .bg--amber [contenteditable]:focus,
-[contenteditable].bg--amber:focus {
+[contenteditable].bg--amber:focus,
+.bg--amber textarea:focus {
   background-color: #dfa700;
 }
 .bg--orange [contenteditable],
-[contenteditable].bg--orange {
+[contenteditable].bg--orange,
+.bg--orange textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--orange [contenteditable]:active,
 [contenteditable].bg--orange:active,
+.bg--orange textarea:active,
 .bg--orange [contenteditable]:focus,
-[contenteditable].bg--orange:focus {
+[contenteditable].bg--orange:focus,
+.bg--orange textarea:focus {
   background-color: #f63b00;
 }
 .bg--grey [contenteditable],
-[contenteditable].bg--grey {
+[contenteditable].bg--grey,
+.bg--grey textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--grey [contenteditable]:active,
 [contenteditable].bg--grey:active,
+.bg--grey textarea:active,
 .bg--grey [contenteditable]:focus,
-[contenteditable].bg--grey:focus {
+[contenteditable].bg--grey:focus,
+.bg--grey textarea:focus {
   background-color: #868686;
 }
 .bg--black [contenteditable],
-[contenteditable].bg--black {
+[contenteditable].bg--black,
+.bg--black textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--black [contenteditable]:active,
 [contenteditable].bg--black:active,
+.bg--black textarea:active,
 .bg--black [contenteditable]:focus,
-[contenteditable].bg--black:focus {
+[contenteditable].bg--black:focus,
+.bg--black textarea:focus {
   background-color: #000;
 }
 .bg--white [contenteditable],
-[contenteditable].bg--white {
+[contenteditable].bg--white,
+.bg--white textarea {
   -webkit-transition: background 0.25s;
           transition: background 0.25s;
   outline: 0;
 }
 .bg--white [contenteditable]:active,
 [contenteditable].bg--white:active,
+.bg--white textarea:active,
 .bg--white [contenteditable]:focus,
-[contenteditable].bg--white:focus {
+[contenteditable].bg--white:focus,
+.bg--white textarea:focus {
   background-color: #d9d9d9;
 }
 /*

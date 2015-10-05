@@ -425,27 +425,12 @@ th {
 
 /**
  * material-design-lite - Material Design Components in CSS, JS and HTML
- * @version v1.0.1
+ * @version v1.0.4
  * @license Apache-2.0
  * @copyright 2015 Google, Inc.
  * @link https://github.com/google/material-design-lite
  */
 @charset "UTF-8";
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -538,6 +523,22 @@ th {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -565,22 +566,11 @@ th {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -597,6 +587,7 @@ th {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -721,6 +712,22 @@ th {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -748,22 +755,11 @@ th {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -780,6 +776,7 @@ th {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /*
  * What follows is the result of much research on cross-browser styling.
  * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
@@ -794,14 +791,15 @@ html {
   line-height: 1.4; }
 
 /*
- * Remove text-shadow in selection highlight: h5bp.com/i
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
  * These selection rule sets have to be separate.
  * Customize the background color to match your design.
  */
 ::-moz-selection {
   background: #b3d4fc;
   text-shadow: none; }
-
 ::selection {
   background: #b3d4fc;
   text-shadow: none; }
@@ -818,11 +816,13 @@ hr {
   padding: 0; }
 
 /*
- * Remove the gap between images, videos, audio and canvas and the bottom of
- * their containers: h5bp.com/i/440
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
  */
 audio,
 canvas,
+iframe,
 img,
 svg,
 video {
@@ -843,9 +843,9 @@ textarea {
   resize: vertical; }
 
 /* ==========================================================================
-   Browse Happy prompt
+   Browser Upgrade Prompt
    ========================================================================== */
-.browsehappy {
+.browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
@@ -858,14 +858,14 @@ textarea {
    Helper classes
    ========================================================================== */
 /*
- * Hide visually and from screen readers: h5bp.com/u
+ * Hide visually and from screen readers:
  */
 .hidden {
-  display: none !important;
-  visibility: hidden; }
+  display: none !important; }
 
 /*
- * Hide only visually, but have it available for screen readers: h5bp.com/v
+ * Hide only visually, but have it available for screen readers:
+ * http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
  */
 .visuallyhidden {
   border: 0;
@@ -878,8 +878,9 @@ textarea {
   width: 1px; }
 
 /*
- * Extends the .visuallyhidden class to allow the element to be focusable
- * when navigated to via the keyboard: h5bp.com/p
+ * Extends the .visuallyhidden class to allow the element
+ * to be focusable when navigated to via the keyboard:
+ * https://www.drupal.org/node/897638
  */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
@@ -924,15 +925,18 @@ textarea {
    ========================================================================== */
 /* ==========================================================================
    Print styles.
-   Inlined to avoid the additional HTTP request: h5bp.com/r
+   Inlined to avoid the additional HTTP request:
+   http://www.phpied.com/delay-loading-your-print-css/
    ========================================================================== */
 @media print {
   *,
   *:before,
-  *:after {
+  *:after,
+  *:first-letter,
+  *:first-line {
     background: transparent !important;
     color: #000 !important;
-    /* Black prints faster: h5bp.com/s */
+    /* Black prints faster: http://www.sanbeiji.com/archives/953 */
     box-shadow: none !important;
     text-shadow: none !important; }
   a,
@@ -953,9 +957,12 @@ textarea {
   blockquote {
     border: 1px solid #999;
     page-break-inside: avoid; }
+  /*
+     * Printing Tables:
+     * http://css-discuss.incutio.com/wiki/Printing_Tables
+     */
   thead {
-    display: table-header-group;
-    /* h5bp.com/t */ }
+    display: table-header-group; }
   tr,
   img {
     page-break-inside: avoid; }
@@ -1116,6 +1123,22 @@ main {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -1143,22 +1166,11 @@ main {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -1175,6 +1187,7 @@ main {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -1666,6 +1679,22 @@ ul, ol {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -1693,22 +1722,11 @@ ul, ol {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -1725,6 +1743,7 @@ ul, ol {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-color-text--red {
   color: rgb(244,67,54) !important; }
 
@@ -3496,6 +3515,22 @@ ul, ol {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -3523,22 +3558,11 @@ ul, ol {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -3555,6 +3579,7 @@ ul, ol {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-ripple {
   background: rgb(0,0,0);
   border-radius: 50%;
@@ -3666,6 +3691,22 @@ ul, ol {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -3693,22 +3734,11 @@ ul, ol {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -3725,6 +3755,7 @@ ul, ol {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-animation--default {
   -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
@@ -3832,6 +3863,22 @@ ul, ol {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -3859,22 +3906,11 @@ ul, ol {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -3891,6 +3927,7 @@ ul, ol {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-badge {
   position: relative;
   white-space: nowrap;
@@ -4032,6 +4069,22 @@ ul, ol {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4059,22 +4112,11 @@ ul, ol {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -4091,6 +4133,7 @@ ul, ol {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -4114,7 +4157,6 @@ ul, ol {
   border: none;
   border-radius: 2px;
   color: rgb(0,0,0);
-  display: block;
   position: relative;
   height: 36px;
   min-width: 64px;
@@ -4261,7 +4303,8 @@ input.mdl-button[type="submit"] {
   width: 100%;
   z-index: 0;
   overflow: hidden; }
-  .mdl-button[disabled] .mdl-button__ripple-container .mdl-ripple {
+  .mdl-button[disabled] .mdl-button__ripple-container .mdl-ripple,
+  .mdl-button.mdl-button--disabled .mdl-button__ripple-container .mdl-ripple {
     background-color: transparent; }
 
 .mdl-button--primary.mdl-button--primary {
@@ -4280,25 +4323,30 @@ input.mdl-button[type="submit"] {
     color: rgb(255,255,255);
     background-color: rgb(255,64,129); }
 
-.mdl-button[disabled][disabled] {
+.mdl-button[disabled][disabled],
+.mdl-button.mdl-button--disabled.mdl-button--disabled {
   color: rgba(0,0,0, 0.26);
   cursor: auto;
   background-color: transparent; }
 
-.mdl-button--fab[disabled][disabled] {
+.mdl-button--fab[disabled][disabled],
+.mdl-button--fab.mdl-button--disabled.mdl-button--disabled {
   background-color: rgba(0,0,0, 0.12);
   color: rgba(0,0,0, 0.26);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-.mdl-button--raised[disabled][disabled] {
+.mdl-button--raised[disabled][disabled],
+.mdl-button--raised.mdl-button--disabled.mdl-button--disabled {
   background-color: rgba(0,0,0, 0.12);
   color: rgba(0,0,0, 0.26);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
-.mdl-button--colored[disabled][disabled] {
-  background-color: rgba(0,0,0, 0.12);
-  color: rgba(0,0,0, 0.26);
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+.mdl-button--colored[disabled][disabled],
+.mdl-button--colored.mdl-button--disabled.mdl-button--disabled {
+  color: rgba(0,0,0, 0.26); }
+
+.mdl-button .material-icons {
+  vertical-align: middle; }
 
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
@@ -4391,6 +4439,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4418,22 +4482,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -4450,6 +4503,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-card {
   display: -webkit-box;
   display: -webkit-flex;
@@ -4650,6 +4704,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4677,22 +4747,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -4709,6 +4768,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -4932,6 +4992,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -4959,22 +5035,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -4991,6 +5056,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -5066,7 +5132,9 @@ input.mdl-button[type="submit"] {
     padding-bottom: 8px;
     box-sizing: border-box; }
     .mdl-data-table th .mdl-data-table__select {
-      position: relative; }
+      position: absolute;
+      bottom: 8px;
+      left: 24px; }
 
 .mdl-data-table__select {
   width: 16px; }
@@ -5165,6 +5233,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -5192,22 +5276,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -5224,6 +5297,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -5549,6 +5623,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -5576,22 +5666,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -5608,6 +5687,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-mini-footer {
   display: -webkit-box;
   display: -webkit-flex;
@@ -5771,6 +5851,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -5798,22 +5894,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -5830,6 +5915,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-icon-toggle {
   position: relative;
   z-index: 1;
@@ -5996,6 +6082,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -6023,22 +6125,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -6055,6 +6146,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -6082,9 +6174,12 @@ input.mdl-button[type="submit"] {
   overflow: visible;
   height: 0;
   width: 0;
+  visibility: hidden;
   z-index: -1; }
-  .mdl-menu__container.is-visible {
-    z-index: 999; }
+  .mdl-menu__container.is-visible,
+  .mdl-menu__container.is-animating {
+    z-index: 999;
+    visibility: visible; }
 
 .mdl-menu__outline {
   display: block;
@@ -6312,6 +6407,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -6339,22 +6450,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -6371,6 +6471,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-progress {
   display: block;
   position: relative;
@@ -6575,6 +6676,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -6602,22 +6719,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -6634,6 +6740,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -6876,9 +6983,12 @@ input.mdl-button[type="submit"] {
   @media screen and (max-width: 1024px) {
     .mdl-layout__header {
       min-height: 56px; } }
-  .mdl-layout--fixed-drawer:not(.is-small-screen) > .mdl-layout__header {
+  .mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen) > .mdl-layout__header {
     margin-left: 240px;
     width: calc(100% - 240px); }
+  @media screen and (min-width: 1025px) {
+    .mdl-layout--fixed-drawer > .mdl-layout__header .mdl-layout__header-row {
+      padding-left: 40px; } }
   .mdl-layout__header > .mdl-layout-icon {
     position: absolute;
     left: 40px;
@@ -7266,6 +7376,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -7293,22 +7419,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -7325,6 +7440,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -7371,7 +7487,7 @@ input.mdl-button[type="submit"] {
 
 .mdl-radio__outer-circle {
   position: absolute;
-  top: 2px;
+  top: 4px;
   left: 0;
   display: inline-block;
   box-sizing: border-box;
@@ -7392,7 +7508,7 @@ input.mdl-button[type="submit"] {
   position: absolute;
   z-index: 1;
   margin: 0;
-  top: 6px;
+  top: 8px;
   left: 4px;
   box-sizing: border-box;
   width: 8px;
@@ -7533,6 +7649,22 @@ input.mdl-button[type="submit"] {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -7560,22 +7692,11 @@ input.mdl-button[type="submit"] {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -7592,6 +7713,7 @@ input.mdl-button[type="submit"] {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
   -ms-appearance: none;
   height: 32px;
@@ -7617,6 +7739,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
         -ms-flex-item-align: center;
             align-self: center;
     z-index: 1;
+    cursor: pointer;
     /**************************** Tracks ****************************/
     /**************************** Thumbs ****************************/
     /**************************** 0-value ****************************/
@@ -7939,6 +8062,22 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -7966,22 +8105,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -7998,6 +8126,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-spinner {
   display: inline-block;
   position: relative;
@@ -8416,6 +8545,22 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -8443,22 +8588,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -8475,6 +8609,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -8716,6 +8851,22 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -8743,22 +8894,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -8775,6 +8915,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-tabs {
   display: block;
   width: 100%; }
@@ -8963,6 +9104,22 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -8990,22 +9147,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -9022,6 +9168,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -9067,12 +9214,12 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 .mdl-textfield__input {
   border: none;
   border-bottom: 1px solid rgba(0,0,0, 0.12);
-  display: inline-block;
+  display: block;
   font-size: 16px;
   margin: 0;
   padding: 4px 0;
   width: 100%;
-  background: 16px;
+  background: none;
   text-align: left;
   color: inherit; }
   .mdl-textfield.is-focused .mdl-textfield__input {
@@ -9082,7 +9229,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
     box-shadow: none; }
   .mdl-textfield.is-disabled .mdl-textfield__input {
     background-color: transparent;
-    border-bottom: 1px dotted rgba(0,0,0, 0.12); }
+    border-bottom: 1px dotted rgba(0,0,0, 0.12);
+    color: rgba(0,0,0, 0.26); }
+
+.mdl-textfield textarea.mdl-textfield__input {
+  display: block; }
 
 .mdl-textfield__label {
   bottom: 0;
@@ -9092,6 +9243,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
   right: 0;
   pointer-events: none;
   position: absolute;
+  display: block;
   top: 24px;
   width: 100%;
   overflow: hidden;
@@ -9104,6 +9256,8 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
             transition-duration: 0.2s;
     -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+  .mdl-textfield.is-disabled.is-disabled .mdl-textfield__label {
+    color: rgba(0,0,0, 0.26); }
   .mdl-textfield--floating-label.is-focused .mdl-textfield__label,
   .mdl-textfield--floating-label.is-dirty .mdl-textfield__label {
     color: rgb(63,81,181);
@@ -9141,7 +9295,8 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
   position: absolute;
   font-size: 12px;
   margin-top: 3px;
-  visibility: hidden; }
+  visibility: hidden;
+  display: block; }
   .mdl-textfield.is-invalid .mdl-textfield__error {
     visibility: visible; }
 
@@ -9251,6 +9406,22 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -9278,22 +9449,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -9310,6 +9470,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-tooltip {
   -webkit-transform: scale(0);
       -ms-transform: scale(0);
@@ -9461,6 +9622,22 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -9488,22 +9665,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -9520,6 +9686,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -9571,6 +9738,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/*
+* NOTE: Some rules here are applied using duplicate selectors.
+* This is on purpose to increase their specificity when applied.
+* For example: `.mdl-cell--1-col-phone.mdl-cell--1-col-phone`
+*/
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -9647,6 +9819,22 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
  */
 /* ==========  Color Palettes  ========== */
 /* colors.scss */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  IMAGES  ========== */
 /* ==========  Color & Themes  ========== */
 /* ==========  Typography  ========== */
 /* ==========  Components  ========== */
@@ -9674,22 +9862,11 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* RADIO */
 /* MENU */
 /* LIST */
-/* ICONS */
+/* LAYOUT */
 /* ICON TOGGLE */
 /* FOOTER */
 /*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
 /*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
 /* CHECKBOX */
 /* CARD */
 /* Card dimensions */
@@ -9706,6 +9883,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
+/* TOOLTIP */
 .mdl-grid {
   display: -webkit-box;
   display: -webkit-flex;
@@ -9758,100 +9936,76 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
       width: 100%; }
   .mdl-cell--hide-phone {
     display: none !important; }
-  .mdl-cell--1-col {
-    width: calc(25% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--1-col {
-      width: 25%; }
+  .mdl-cell--1-col,
   .mdl-cell--1-col-phone.mdl-cell--1-col-phone {
     width: calc(25% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--1-col,
     .mdl-grid--no-spacing > .mdl-cell--1-col-phone.mdl-cell--1-col-phone {
       width: 25%; }
-  .mdl-cell--2-col {
-    width: calc(50% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--2-col {
-      width: 50%; }
+  .mdl-cell--2-col,
   .mdl-cell--2-col-phone.mdl-cell--2-col-phone {
     width: calc(50% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--2-col,
     .mdl-grid--no-spacing > .mdl-cell--2-col-phone.mdl-cell--2-col-phone {
       width: 50%; }
-  .mdl-cell--3-col {
-    width: calc(75% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--3-col {
-      width: 75%; }
+  .mdl-cell--3-col,
   .mdl-cell--3-col-phone.mdl-cell--3-col-phone {
     width: calc(75% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--3-col,
     .mdl-grid--no-spacing > .mdl-cell--3-col-phone.mdl-cell--3-col-phone {
       width: 75%; }
-  .mdl-cell--4-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--4-col {
-      width: 100%; }
+  .mdl-cell--4-col,
   .mdl-cell--4-col-phone.mdl-cell--4-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--4-col,
     .mdl-grid--no-spacing > .mdl-cell--4-col-phone.mdl-cell--4-col-phone {
       width: 100%; }
-  .mdl-cell--5-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--5-col {
-      width: 100%; }
+  .mdl-cell--5-col,
   .mdl-cell--5-col-phone.mdl-cell--5-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--5-col,
     .mdl-grid--no-spacing > .mdl-cell--5-col-phone.mdl-cell--5-col-phone {
       width: 100%; }
-  .mdl-cell--6-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--6-col {
-      width: 100%; }
+  .mdl-cell--6-col,
   .mdl-cell--6-col-phone.mdl-cell--6-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--6-col,
     .mdl-grid--no-spacing > .mdl-cell--6-col-phone.mdl-cell--6-col-phone {
       width: 100%; }
-  .mdl-cell--7-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--7-col {
-      width: 100%; }
+  .mdl-cell--7-col,
   .mdl-cell--7-col-phone.mdl-cell--7-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--7-col,
     .mdl-grid--no-spacing > .mdl-cell--7-col-phone.mdl-cell--7-col-phone {
       width: 100%; }
-  .mdl-cell--8-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--8-col {
-      width: 100%; }
+  .mdl-cell--8-col,
   .mdl-cell--8-col-phone.mdl-cell--8-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--8-col,
     .mdl-grid--no-spacing > .mdl-cell--8-col-phone.mdl-cell--8-col-phone {
       width: 100%; }
-  .mdl-cell--9-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--9-col {
-      width: 100%; }
+  .mdl-cell--9-col,
   .mdl-cell--9-col-phone.mdl-cell--9-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--9-col,
     .mdl-grid--no-spacing > .mdl-cell--9-col-phone.mdl-cell--9-col-phone {
       width: 100%; }
-  .mdl-cell--10-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--10-col {
-      width: 100%; }
+  .mdl-cell--10-col,
   .mdl-cell--10-col-phone.mdl-cell--10-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--10-col,
     .mdl-grid--no-spacing > .mdl-cell--10-col-phone.mdl-cell--10-col-phone {
       width: 100%; }
-  .mdl-cell--11-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--11-col {
-      width: 100%; }
+  .mdl-cell--11-col,
   .mdl-cell--11-col-phone.mdl-cell--11-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--11-col,
     .mdl-grid--no-spacing > .mdl-cell--11-col-phone.mdl-cell--11-col-phone {
       width: 100%; }
-  .mdl-cell--12-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--12-col {
-      width: 100%; }
+  .mdl-cell--12-col,
   .mdl-cell--12-col-phone.mdl-cell--12-col-phone {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--12-col,
     .mdl-grid--no-spacing > .mdl-cell--12-col-phone.mdl-cell--12-col-phone {
       width: 100%; } }
 
@@ -9865,100 +10019,76 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
       width: 50%; }
   .mdl-cell--hide-tablet {
     display: none !important; }
-  .mdl-cell--1-col {
-    width: calc(12.5% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--1-col {
-      width: 12.5%; }
+  .mdl-cell--1-col,
   .mdl-cell--1-col-tablet.mdl-cell--1-col-tablet {
     width: calc(12.5% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--1-col,
     .mdl-grid--no-spacing > .mdl-cell--1-col-tablet.mdl-cell--1-col-tablet {
       width: 12.5%; }
-  .mdl-cell--2-col {
-    width: calc(25% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--2-col {
-      width: 25%; }
+  .mdl-cell--2-col,
   .mdl-cell--2-col-tablet.mdl-cell--2-col-tablet {
     width: calc(25% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--2-col,
     .mdl-grid--no-spacing > .mdl-cell--2-col-tablet.mdl-cell--2-col-tablet {
       width: 25%; }
-  .mdl-cell--3-col {
-    width: calc(37.5% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--3-col {
-      width: 37.5%; }
+  .mdl-cell--3-col,
   .mdl-cell--3-col-tablet.mdl-cell--3-col-tablet {
     width: calc(37.5% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--3-col,
     .mdl-grid--no-spacing > .mdl-cell--3-col-tablet.mdl-cell--3-col-tablet {
       width: 37.5%; }
-  .mdl-cell--4-col {
-    width: calc(50% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--4-col {
-      width: 50%; }
+  .mdl-cell--4-col,
   .mdl-cell--4-col-tablet.mdl-cell--4-col-tablet {
     width: calc(50% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--4-col,
     .mdl-grid--no-spacing > .mdl-cell--4-col-tablet.mdl-cell--4-col-tablet {
       width: 50%; }
-  .mdl-cell--5-col {
-    width: calc(62.5% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--5-col {
-      width: 62.5%; }
+  .mdl-cell--5-col,
   .mdl-cell--5-col-tablet.mdl-cell--5-col-tablet {
     width: calc(62.5% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--5-col,
     .mdl-grid--no-spacing > .mdl-cell--5-col-tablet.mdl-cell--5-col-tablet {
       width: 62.5%; }
-  .mdl-cell--6-col {
-    width: calc(75% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--6-col {
-      width: 75%; }
+  .mdl-cell--6-col,
   .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
     width: calc(75% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--6-col,
     .mdl-grid--no-spacing > .mdl-cell--6-col-tablet.mdl-cell--6-col-tablet {
       width: 75%; }
-  .mdl-cell--7-col {
-    width: calc(87.5% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--7-col {
-      width: 87.5%; }
+  .mdl-cell--7-col,
   .mdl-cell--7-col-tablet.mdl-cell--7-col-tablet {
     width: calc(87.5% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--7-col,
     .mdl-grid--no-spacing > .mdl-cell--7-col-tablet.mdl-cell--7-col-tablet {
       width: 87.5%; }
-  .mdl-cell--8-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--8-col {
-      width: 100%; }
+  .mdl-cell--8-col,
   .mdl-cell--8-col-tablet.mdl-cell--8-col-tablet {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--8-col,
     .mdl-grid--no-spacing > .mdl-cell--8-col-tablet.mdl-cell--8-col-tablet {
       width: 100%; }
-  .mdl-cell--9-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--9-col {
-      width: 100%; }
+  .mdl-cell--9-col,
   .mdl-cell--9-col-tablet.mdl-cell--9-col-tablet {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--9-col,
     .mdl-grid--no-spacing > .mdl-cell--9-col-tablet.mdl-cell--9-col-tablet {
       width: 100%; }
-  .mdl-cell--10-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--10-col {
-      width: 100%; }
+  .mdl-cell--10-col,
   .mdl-cell--10-col-tablet.mdl-cell--10-col-tablet {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--10-col,
     .mdl-grid--no-spacing > .mdl-cell--10-col-tablet.mdl-cell--10-col-tablet {
       width: 100%; }
-  .mdl-cell--11-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--11-col {
-      width: 100%; }
+  .mdl-cell--11-col,
   .mdl-cell--11-col-tablet.mdl-cell--11-col-tablet {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--11-col,
     .mdl-grid--no-spacing > .mdl-cell--11-col-tablet.mdl-cell--11-col-tablet {
       width: 100%; }
-  .mdl-cell--12-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--12-col {
-      width: 100%; }
+  .mdl-cell--12-col,
   .mdl-cell--12-col-tablet.mdl-cell--12-col-tablet {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--12-col,
     .mdl-grid--no-spacing > .mdl-cell--12-col-tablet.mdl-cell--12-col-tablet {
       width: 100%; } }
 
@@ -9972,159 +10102,75 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
       width: 33.3333333333%; }
   .mdl-cell--hide-desktop {
     display: none !important; }
-  .mdl-cell--1-col {
-    width: calc(8.3333333333% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--1-col {
-      width: 8.3333333333%; }
+  .mdl-cell--1-col,
   .mdl-cell--1-col-desktop.mdl-cell--1-col-desktop {
     width: calc(8.3333333333% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--1-col,
     .mdl-grid--no-spacing > .mdl-cell--1-col-desktop.mdl-cell--1-col-desktop {
       width: 8.3333333333%; }
-  .mdl-cell--2-col {
-    width: calc(16.6666666667% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--2-col {
-      width: 16.6666666667%; }
+  .mdl-cell--2-col,
   .mdl-cell--2-col-desktop.mdl-cell--2-col-desktop {
     width: calc(16.6666666667% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--2-col,
     .mdl-grid--no-spacing > .mdl-cell--2-col-desktop.mdl-cell--2-col-desktop {
       width: 16.6666666667%; }
-  .mdl-cell--3-col {
-    width: calc(25% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--3-col {
-      width: 25%; }
+  .mdl-cell--3-col,
   .mdl-cell--3-col-desktop.mdl-cell--3-col-desktop {
     width: calc(25% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--3-col,
     .mdl-grid--no-spacing > .mdl-cell--3-col-desktop.mdl-cell--3-col-desktop {
       width: 25%; }
-  .mdl-cell--4-col {
-    width: calc(33.3333333333% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--4-col {
-      width: 33.3333333333%; }
+  .mdl-cell--4-col,
   .mdl-cell--4-col-desktop.mdl-cell--4-col-desktop {
     width: calc(33.3333333333% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--4-col,
     .mdl-grid--no-spacing > .mdl-cell--4-col-desktop.mdl-cell--4-col-desktop {
       width: 33.3333333333%; }
-  .mdl-cell--5-col {
-    width: calc(41.6666666667% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--5-col {
-      width: 41.6666666667%; }
+  .mdl-cell--5-col,
   .mdl-cell--5-col-desktop.mdl-cell--5-col-desktop {
     width: calc(41.6666666667% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--5-col,
     .mdl-grid--no-spacing > .mdl-cell--5-col-desktop.mdl-cell--5-col-desktop {
       width: 41.6666666667%; }
-  .mdl-cell--6-col {
-    width: calc(50% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--6-col {
-      width: 50%; }
+  .mdl-cell--6-col,
   .mdl-cell--6-col-desktop.mdl-cell--6-col-desktop {
     width: calc(50% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--6-col,
     .mdl-grid--no-spacing > .mdl-cell--6-col-desktop.mdl-cell--6-col-desktop {
       width: 50%; }
-  .mdl-cell--7-col {
-    width: calc(58.3333333333% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--7-col {
-      width: 58.3333333333%; }
+  .mdl-cell--7-col,
   .mdl-cell--7-col-desktop.mdl-cell--7-col-desktop {
     width: calc(58.3333333333% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--7-col,
     .mdl-grid--no-spacing > .mdl-cell--7-col-desktop.mdl-cell--7-col-desktop {
       width: 58.3333333333%; }
-  .mdl-cell--8-col {
-    width: calc(66.6666666667% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--8-col {
-      width: 66.6666666667%; }
+  .mdl-cell--8-col,
   .mdl-cell--8-col-desktop.mdl-cell--8-col-desktop {
     width: calc(66.6666666667% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--8-col,
     .mdl-grid--no-spacing > .mdl-cell--8-col-desktop.mdl-cell--8-col-desktop {
       width: 66.6666666667%; }
-  .mdl-cell--9-col {
-    width: calc(75% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--9-col {
-      width: 75%; }
+  .mdl-cell--9-col,
   .mdl-cell--9-col-desktop.mdl-cell--9-col-desktop {
     width: calc(75% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--9-col,
     .mdl-grid--no-spacing > .mdl-cell--9-col-desktop.mdl-cell--9-col-desktop {
       width: 75%; }
-  .mdl-cell--10-col {
-    width: calc(83.3333333333% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--10-col {
-      width: 83.3333333333%; }
+  .mdl-cell--10-col,
   .mdl-cell--10-col-desktop.mdl-cell--10-col-desktop {
     width: calc(83.3333333333% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--10-col,
     .mdl-grid--no-spacing > .mdl-cell--10-col-desktop.mdl-cell--10-col-desktop {
       width: 83.3333333333%; }
-  .mdl-cell--11-col {
-    width: calc(91.6666666667% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--11-col {
-      width: 91.6666666667%; }
+  .mdl-cell--11-col,
   .mdl-cell--11-col-desktop.mdl-cell--11-col-desktop {
     width: calc(91.6666666667% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--11-col,
     .mdl-grid--no-spacing > .mdl-cell--11-col-desktop.mdl-cell--11-col-desktop {
       width: 91.6666666667%; }
-  .mdl-cell--12-col {
-    width: calc(100% - 16px); }
-    .mdl-grid--no-spacing > .mdl-cell--12-col {
-      width: 100%; }
+  .mdl-cell--12-col,
   .mdl-cell--12-col-desktop.mdl-cell--12-col-desktop {
     width: calc(100% - 16px); }
+    .mdl-grid--no-spacing > .mdl-cell--12-col,
     .mdl-grid--no-spacing > .mdl-cell--12-col-desktop.mdl-cell--12-col-desktop {
       width: 100%; } }
-
-body {
-  margin: 0px; }
-
-.styleguide-demo h1 {
-  margin: 48px 24px 0 24px; }
-
-.styleguide-demo h1:after {
-  content: '';
-  display: block;
-  width: 100%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  margin-top: 24px; }
-
-.styleguide-demo {
-  opacity: 0;
-  -webkit-transition: opacity 0.6s ease;
-          transition: opacity 0.6s ease; }
-
-.styleguide-masthead {
-  height: 256px;
-  background: rgb(33,33,33);
-  padding: 115px 16px 0; }
-
-.styleguide-container {
-  position: relative;
-  max-width: 960px;
-  width: 100%; }
-
-.styleguide-title {
-  color: #fff;
-  bottom: auto;
-  position: relative;
-  font-size: 56px;
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.02em; }
-  .styleguide-title:after {
-    border-bottom: 0px; }
-  .styleguide-title span {
-    font-weight: 300; }
-
-.mdl-styleguide .mdl-layout__drawer .mdl-navigation__link {
-  padding: 10px 24px; }
-
-.demosLoaded .styleguide-demo {
-  opacity: 1; }
-
-iframe {
-  display: block;
-  width: 100%;
-  border: none; }
-
-iframe.heightSet {
-  overflow: hidden; }
-
-.demo-wrapper {
-  margin: 24px; }
-  .demo-wrapper iframe {
-    border: 1px solid rgba(0, 0, 0, 0.5); }
