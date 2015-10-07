@@ -22,14 +22,17 @@ module.exports = Backbone.Marionette.ItemView.extend
     minutes         : '.tyto-task__time__minutes'
     time            : '.tyto-task__time'
     editDescription : '.tyto-task__description-edit'
+    suggestions     : '.tyto-task__suggestions'
 
   events:
-    'click @ui.deleteTask'      : 'deleteTask'
-    'click @ui.editTask'        : 'editTask'
-    'click @ui.trackTask'       : 'trackTask'
-    'blur  @ui.title'           : 'saveTaskTitle'
-    'blur  @ui.editDescription' : 'saveTaskDescription'
-    'click @ui.description'     : 'showEditMode'
+    'click @ui.deleteTask'        : 'deleteTask'
+    'click @ui.editTask'          : 'editTask'
+    'click @ui.trackTask'         : 'trackTask'
+    'blur  @ui.title'             : 'saveTaskTitle'
+    'blur  @ui.editDescription'   : 'saveTaskDescription'
+    'click @ui.description'       : 'showEditMode'
+    'keypress @ui.editDescription': 'filterItems'
+    'keydown @ui.editDescription' : 'filterItems'
 
   domAttributes:
     VIEW_CLASS          : 'tyto-task mdl-card mdl-shadow--2dp bg--'
@@ -71,6 +74,11 @@ module.exports = Backbone.Marionette.ItemView.extend
   onRender: ->
     view = this
     view.ui.description.html marked(view.model.get('description'))
+    Tyto.Utils.autoSize view.ui.editDescription[0]
+    # view.ui.editDescription[0].addEventListener 'input', ->
+    #   console.info 'change'
+    #   view.ui.editDescription[0].style.height = 'auto'
+    #   view.ui.editDescription[0].style.height = view.ui.editDescription[0].scrollHeight + 'px'
     Tyto.Utils.renderTime view
 
   trackTask: (e) ->
@@ -92,6 +100,53 @@ module.exports = Backbone.Marionette.ItemView.extend
     edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS)
       .val(model.get('description'))
       .focus()
+
+  filterItems: (e) ->
+    view        = this
+    suggestions = view.ui.suggestions
+    props       = view.domAttributes
+    edit        = view.ui.editDescription
+    renderSuggestions  = ->
+      collection       = Tyto.Boards.models.concat Tyto.Tasks.models
+      markup           = Tyto.TemplateStore.filterList
+        models: collection
+      suggestions.html(markup)
+        .removeClass props.HIDDEN_UTIL_CLASS
+    # PROCESS PRESSED KEY
+    key   = e.which
+    # console.info key, e
+    # console.info edit[0].selectionStar
+    # edit[0].style.height = 'auto'
+    # edit[0].style.height = edit[0].scrollHeight + 'px'
+    switch key
+      when 35
+        # console.info 'hey'
+        if view.__EDIT_MODE
+          view.__EDIT_MODE = false
+          suggestions.addClass props.HIDDEN_UTIL_CLASS
+        else
+          before = edit[0].value.charAt(edit[0].selectionStart - 1).trim()
+          after  = edit[0].value.charAt(edit[0].selectionStart).trim()
+          # console.info before, after
+          if before is '' and after is ''
+            # IF '#' IS PRECEDED BY A HASH DONT SHOW A THING...
+            view.__EDIT_MODE       = true
+            view.__SUGGESTION_TEXT = ''
+            view.__EDIT_START      = edit[0].selectionStart
+            renderSuggestions()
+      when 32
+        if view.__EDIT_MODE
+          view.__EDIT_MODE = false
+          suggestions.addClass props.HIDDEN_UTIL_CLASS
+      when 38, 40
+        console.info 'pressing up/down'
+      else
+        # Add key to string...
+        if view.__EDIT_MODE
+          # console.info e
+        else
+          # console.info 'PRESSED SOMETHING...'
+          # Let's work out the coordinates.
 
   saveTaskDescription: ->
     domAttributes = this.domAttributes

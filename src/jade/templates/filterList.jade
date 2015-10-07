@@ -1,0 +1,4 @@
+ul.tyto-suggestions__list
+  |<% _.each(models, function(model) { %>
+  li.tyto-suggestions__item(data-model-id!="<%= model.attributes.id %>") <%= model.attributes.title %>
+  |<% }) %>

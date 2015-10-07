@@ -8,6 +8,7 @@ taskMinHeight = 150px
 
 .tyto-task
   margin-bottom 30px
+  padding       0 0 20px 0
   max-width     100%
   min-height    taskMinHeight
   overflow      visible
@@ -58,11 +59,22 @@ taskMinHeight = 150px
     left          5px
     cursor        pointer
 
+  &__edit-wrapper
+    position      relative
+
+  &__suggestions
+    position      absolute
+    top           100%
+    right         0
+    background    white
+    border-radius 2px
+
   &__description
     width         100%
     a
       z-index     99999
       cursor      pointer
+
   &__description-edit
     outline       0
     border        none

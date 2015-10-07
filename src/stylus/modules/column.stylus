@@ -9,6 +9,7 @@ columnWidth = 320px
 .tyto-column
   display        flex
   width          columnWidth
+  max-width      columnWidth
   flex-direction column
   flex           0 0 columnWidth
   max-height     100%

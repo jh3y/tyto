@@ -18,6 +18,15 @@ Utils = (Utils, App, Backbone, Marionette) ->
       if model
         model.save
           ordinal: idx + 1
+  Utils.autoSize = (el) ->
+    sizeUp = ->
+      el.style.height = 'auto'
+      if el.scrollHeight > 60
+        el.style.height = el.scrollHeight + 'px'
+    el.addEventListener 'keydown', sizeUp
+    el.addEventListener 'input'  , sizeUp
+    el.addEventListener 'focus'  , sizeUp
+    sizeUp()
 
   Utils.processQueryString = (params) ->
     qS = {}
