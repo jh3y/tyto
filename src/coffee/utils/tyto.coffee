@@ -41,8 +41,10 @@ Utils = (Utils, App, Backbone, Marionette) ->
     div.appendChild(span);
     document.body.appendChild(div);
     fontSize = parseFloat(copyStyle.fontSize.replace('px', ''), 10)
+    top      = el.offsetTop - el.scrollTop + span.offsetTop + fontSize
+    top      = if (top) > el.offsetHeight then el.offsetHeight else top
     coords =
-      TOP : el.offsetTop - el.scrollTop + span.offsetTop + fontSize + 'px'
+      TOP : top + 'px'
       LEFT: el.offsetLeft - el.scrollLeft + span.offsetLeft + 'px'
     document.body.removeChild(div);
     coords
