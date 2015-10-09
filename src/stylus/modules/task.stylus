@@ -81,11 +81,18 @@ taskMinHeight = 150px
     background    transparent
     padding       16px 0
     width         258px
+    max-height    100px
     margin        0 16px
-    font-size     14px
-    line-height   14px
+    font-size     16px !important
+    line-height   16px
     // resize        none
   &__placeholder
     height        taskMinHeight - 50px
     width         90%
     margin        0em auto 1em auto
+.indicator
+  position absolute
+  height 10px
+  width 10px
+  background red
+  display block

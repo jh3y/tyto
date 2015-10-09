@@ -33,6 +33,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     'click @ui.description'       : 'showEditMode'
     'keypress @ui.editDescription': 'filterItems'
     'keydown @ui.editDescription' : 'filterItems'
+    'input @ui.editDescription'   : 'renderIndicator'
 
   domAttributes:
     VIEW_CLASS          : 'tyto-task mdl-card mdl-shadow--2dp bg--'
@@ -100,6 +101,13 @@ module.exports = Backbone.Marionette.ItemView.extend
     edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS)
       .val(model.get('description'))
       .focus()
+# Initiate this when VIEW EDIT MODE is ON...
+  renderIndicator: ->
+    edit = this.ui.editDescription
+    coords = Tyto.Utils.getCaretPosition edit[0]
+    $('.indicator').css
+      left: coords.LEFT
+      top : coords.TOP
 
   filterItems: (e) ->
     view        = this
@@ -110,14 +118,15 @@ module.exports = Backbone.Marionette.ItemView.extend
       collection       = Tyto.Boards.models.concat Tyto.Tasks.models
       markup           = Tyto.TemplateStore.filterList
         models: collection
+      coords = Tyto.Utils.getCaretPosition edit[0]
       suggestions.html(markup)
+        .css({
+          left: coords.TOP,
+          top: coords.LEFT
+        })
         .removeClass props.HIDDEN_UTIL_CLASS
     # PROCESS PRESSED KEY
     key   = e.which
-    # console.info key, e
-    # console.info edit[0].selectionStar
-    # edit[0].style.height = 'auto'
-    # edit[0].style.height = edit[0].scrollHeight + 'px'
     switch key
       when 35
         # console.info 'hey'
@@ -127,7 +136,6 @@ module.exports = Backbone.Marionette.ItemView.extend
         else
           before = edit[0].value.charAt(edit[0].selectionStart - 1).trim()
           after  = edit[0].value.charAt(edit[0].selectionStart).trim()
-          # console.info before, after
           if before is '' and after is ''
             # IF '#' IS PRECEDED BY A HASH DONT SHOW A THING...
             view.__EDIT_MODE       = true

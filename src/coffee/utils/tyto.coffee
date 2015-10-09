@@ -21,12 +21,31 @@ Utils = (Utils, App, Backbone, Marionette) ->
   Utils.autoSize = (el) ->
     sizeUp = ->
       el.style.height = 'auto'
-      if el.scrollHeight > 60
-        el.style.height = el.scrollHeight + 'px'
+      el.style.height = el.scrollHeight + 'px'
     el.addEventListener 'keydown', sizeUp
     el.addEventListener 'input'  , sizeUp
     el.addEventListener 'focus'  , sizeUp
     sizeUp()
+
+  Utils.getCaretPosition = (el) ->
+    carPos    = el.selectionEnd
+    div       = document.createElement 'div'
+    span      = document.createElement 'span'
+    copyStyle = getComputedStyle el
+    coords    = {}
+    [].forEach.call copyStyle, (prop) ->
+      div.style[prop] = copyStyle[prop]
+    div.style.position = 'absolute';
+    div.textContent    = el.value.substr(0, carPos);
+    span.textContent   = el.value.substr(carPos) || '.';
+    div.appendChild(span);
+    document.body.appendChild(div);
+    fontSize = parseFloat(copyStyle.fontSize.replace('px', ''), 10)
+    coords =
+      TOP : el.offsetTop - el.scrollTop + span.offsetTop + fontSize + 'px'
+      LEFT: el.offsetLeft - el.scrollLeft + span.offsetLeft + 'px'
+    document.body.removeChild(div);
+    coords
 
   Utils.processQueryString = (params) ->
     qS = {}
