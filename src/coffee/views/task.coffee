@@ -42,6 +42,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     COLUMN_CLASS        : '.tyto-column'
     TASK_CONTAINER_CLASS: '.tyto-column__tasks'
     HIDDEN_UTIL_CLASS   : 'is--hidden'
+    INDICATOR           : '.indicator'
 
   getMDLMap: ->
     view = this
@@ -75,11 +76,8 @@ module.exports = Backbone.Marionette.ItemView.extend
   onRender: ->
     view = this
     view.ui.description.html marked(view.model.get('description'))
+    # Sets up auto resizing for text area up to a CSS defined max height.
     Tyto.Utils.autoSize view.ui.editDescription[0]
-    # view.ui.editDescription[0].addEventListener 'input', ->
-    #   console.info 'change'
-    #   view.ui.editDescription[0].style.height = 'auto'
-    #   view.ui.editDescription[0].style.height = view.ui.editDescription[0].scrollHeight + 'px'
     Tyto.Utils.renderTime view
 
   trackTask: (e) ->
@@ -101,51 +99,62 @@ module.exports = Backbone.Marionette.ItemView.extend
     edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS)
       .val(model.get('description'))
       .focus()
-# Initiate this when VIEW EDIT MODE is ON...
+
+  # Initiate this when VIEW EDIT MODE is ON...
   renderIndicator: ->
-    edit = this.ui.editDescription
-    coords = Tyto.Utils.getCaretPosition edit[0]
-    $('.indicator').css
+    edit       = this.ui.editDescription
+    $indicator = this.$el.find this.domAttributes.INDICATOR
+    coords     = Tyto.Utils.getCaretPosition edit[0]
+    $indicator.css
       left: coords.LEFT
       top : coords.TOP
+
+  renderSuggestions: (filterString) ->
+    view        = this
+    edit        = view.ui.editDescription
+    props       = view.domAttributes
+    suggestions = view.ui.suggestions
+    collection  = Tyto.Boards.models.concat Tyto.Tasks.models
+    markup      = Tyto.TemplateStore.filterList
+      models: collection
+    coords = Tyto.Utils.getCaretPosition edit[0]
+    view.__EDIT_MODE       = true
+    view.__SUGGESTION_TEXT = ''
+    view.__EDIT_START      = edit[0].selectionStart
+    suggestions.html(markup)
+      .css({
+        left: coords.LEFT,
+        top : coords.TOP
+      })
+      .removeClass props.HIDDEN_UTIL_CLASS
+
+  hideSuggestions: ->
+    view                   = this
+    props                  = view.domAttributes
+    view.__EDIT_MODE       = false
+    view.__SUGGESTION_TEXT = ''
+    suggestions            = view.ui.suggestions
+    suggestions.addClass props.HIDDEN_UTIL_CLASS
 
   filterItems: (e) ->
     view        = this
     suggestions = view.ui.suggestions
     props       = view.domAttributes
     edit        = view.ui.editDescription
-    renderSuggestions  = ->
-      collection       = Tyto.Boards.models.concat Tyto.Tasks.models
-      markup           = Tyto.TemplateStore.filterList
-        models: collection
-      coords = Tyto.Utils.getCaretPosition edit[0]
-      suggestions.html(markup)
-        .css({
-          left: coords.TOP,
-          top: coords.LEFT
-        })
-        .removeClass props.HIDDEN_UTIL_CLASS
     # PROCESS PRESSED KEY
     key   = e.which
     switch key
       when 35
-        # console.info 'hey'
         if view.__EDIT_MODE
-          view.__EDIT_MODE = false
-          suggestions.addClass props.HIDDEN_UTIL_CLASS
+          view.hideSuggestions()
         else
           before = edit[0].value.charAt(edit[0].selectionStart - 1).trim()
           after  = edit[0].value.charAt(edit[0].selectionStart).trim()
           if before is '' and after is ''
-            # IF '#' IS PRECEDED BY A HASH DONT SHOW A THING...
-            view.__EDIT_MODE       = true
-            view.__SUGGESTION_TEXT = ''
-            view.__EDIT_START      = edit[0].selectionStart
-            renderSuggestions()
+            view.renderSuggestions()
       when 32
         if view.__EDIT_MODE
-          view.__EDIT_MODE = false
-          suggestions.addClass props.HIDDEN_UTIL_CLASS
+          view.hideSuggestions()
       when 38, 40
         console.info 'pressing up/down'
       else

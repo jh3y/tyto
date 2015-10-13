@@ -33,6 +33,7 @@ Utils = (Utils, App, Backbone, Marionette) ->
     span      = document.createElement 'span'
     copyStyle = getComputedStyle el
     coords    = {}
+    bounds    = el.getBoundingClientRect()
     [].forEach.call copyStyle, (prop) ->
       div.style[prop] = copyStyle[prop]
     div.style.position = 'absolute';
@@ -43,9 +44,10 @@ Utils = (Utils, App, Backbone, Marionette) ->
     fontSize = parseFloat(copyStyle.fontSize.replace('px', ''), 10)
     top      = el.offsetTop - el.scrollTop + span.offsetTop + fontSize
     top      = if (top) > el.offsetHeight then el.offsetHeight else top
+    left     = el.offsetLeft - el.scrollLeft + span.offsetLeft
     coords =
-      TOP : top + 'px'
-      LEFT: el.offsetLeft - el.scrollLeft + span.offsetLeft + 'px'
+      TOP : top + bounds.top + 'px'
+      LEFT: left + bounds.left + 'px'
     document.body.removeChild(div);
     coords
 
