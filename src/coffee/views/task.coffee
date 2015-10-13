@@ -33,7 +33,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     'click @ui.description'       : 'showEditMode'
     'keypress @ui.editDescription': 'filterItems'
     'keydown @ui.editDescription' : 'filterItems'
-    'input @ui.editDescription'   : 'renderIndicator'
+    # 'input @ui.editDescription'   : 'renderIndicator'
 
   domAttributes:
     VIEW_CLASS          : 'tyto-task mdl-card mdl-shadow--2dp bg--'
@@ -100,15 +100,6 @@ module.exports = Backbone.Marionette.ItemView.extend
       .val(model.get('description'))
       .focus()
 
-  # Initiate this when VIEW EDIT MODE is ON...
-  renderIndicator: ->
-    edit       = this.ui.editDescription
-    $indicator = this.$el.find this.domAttributes.INDICATOR
-    coords     = Tyto.Utils.getCaretPosition edit[0]
-    $indicator.css
-      left: coords.LEFT
-      top : coords.TOP
-
   renderSuggestions: (filterString) ->
     view        = this
     edit        = view.ui.editDescription
@@ -152,8 +143,11 @@ module.exports = Backbone.Marionette.ItemView.extend
           after  = edit[0].value.charAt(edit[0].selectionStart).trim()
           if before is '' and after is ''
             view.renderSuggestions()
-      when 32
+      when 32, 13
         if view.__EDIT_MODE
+          view.hideSuggestions()
+      when 8
+        if view.__EDIT_MODE and ((edit[0].selectionEnd - 1) is view.__EDIT_START)
           view.hideSuggestions()
       when 38, 40
         console.info 'pressing up/down'
@@ -166,15 +160,16 @@ module.exports = Backbone.Marionette.ItemView.extend
           # Let's work out the coordinates.
 
   saveTaskDescription: ->
-    domAttributes = this.domAttributes
-    edit = this.ui.editDescription
-    desc = this.ui.description
-    edit.addClass domAttributes.HIDDEN_UTIL_CLASS
-    desc.removeClass domAttributes.HIDDEN_UTIL_CLASS
-    content = edit.val()
-    this.model.save
-      description: content
-    desc.html marked(content)
+    if !this.__EDIT_MODE
+      domAttributes = this.domAttributes
+      edit = this.ui.editDescription
+      desc = this.ui.description
+      edit.addClass domAttributes.HIDDEN_UTIL_CLASS
+      desc.removeClass domAttributes.HIDDEN_UTIL_CLASS
+      content = edit.val()
+      this.model.save
+        description: content
+      desc.html marked(content)
 
   saveTaskTitle: ->
     this.model.save
