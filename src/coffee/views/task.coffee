@@ -33,6 +33,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     'click @ui.description'       : 'showEditMode'
     'keypress @ui.editDescription': 'filterItems'
     'keydown @ui.editDescription' : 'filterItems'
+    'click @ui.suggestions'       : 'selectSuggestion'
     # 'input @ui.editDescription'   : 'renderIndicator'
 
   domAttributes:
@@ -101,6 +102,7 @@ module.exports = Backbone.Marionette.ItemView.extend
       .focus()
 
   renderSuggestions: (filterString) ->
+    console.log filterString
     view        = this
     edit        = view.ui.editDescription
     props       = view.domAttributes
@@ -108,16 +110,34 @@ module.exports = Backbone.Marionette.ItemView.extend
     collection  = Tyto.Boards.models.concat Tyto.Tasks.models
     markup      = Tyto.TemplateStore.filterList
       models: collection
-    coords = Tyto.Utils.getCaretPosition edit[0]
-    view.__EDIT_MODE       = true
-    view.__SUGGESTION_TEXT = ''
-    view.__EDIT_START      = edit[0].selectionStart
-    suggestions.html(markup)
-      .css({
-        left: coords.LEFT,
-        top : coords.TOP
-      })
-      .removeClass props.HIDDEN_UTIL_CLASS
+    # NOTE Have to turn off blurring because clicking a suggestion triggers a blur which gives an undesirable UI effect. We re-delegate the event when we have selected a suggestion or clicked out of the zone.
+    handleBlurring = (e) ->
+      el = e.target
+      console.log el, el.nodeName
+      if el.nodeName isnt 'LI' and el.nodeName isnt 'TEXTAREA'
+        # if el.nodeName isnt 'TEXTAREA' and el.nodeName isnt 'LI'
+        console.log 'CLOSE ME DOWN NOW'
+        view.delegateEvents()
+        edit.blur()
+        $('body').off 'click', handleBlurring
+        view.hideSuggestions()
+
+    view.$el.off 'blur', '.tyto-task__description-edit'
+    $('body').on 'click', handleBlurring
+    # If we are already in edit mode we just need to rerender the markup
+    # NO positioning etc.
+    if !view.__EDIT_MODE
+      view.__EDIT_MODE       = true
+      view.__EDIT_START      = edit[0].selectionStart
+      coords = Tyto.Utils.getCaretPosition edit[0]
+      suggestions.html(markup)
+        .css({
+          left: coords.LEFT,
+          top : coords.TOP
+        })
+        .removeClass props.HIDDEN_UTIL_CLASS
+    else
+      suggestions.html markup
 
   hideSuggestions: ->
     view                   = this
@@ -152,24 +172,28 @@ module.exports = Backbone.Marionette.ItemView.extend
       when 38, 40
         console.info 'pressing up/down'
       else
-        # Add key to string...
+        # Render filtered suggestions using filterString
         if view.__EDIT_MODE
-          # console.info e
-        else
-          # console.info 'PRESSED SOMETHING...'
-          # Let's work out the coordinates.
+          view.renderSuggestions edit[0].value.substr(view.__EDIT_START + 1, edit[0].selectionEnd)
 
-  saveTaskDescription: ->
-    if !this.__EDIT_MODE
-      domAttributes = this.domAttributes
-      edit = this.ui.editDescription
-      desc = this.ui.description
-      edit.addClass domAttributes.HIDDEN_UTIL_CLASS
-      desc.removeClass domAttributes.HIDDEN_UTIL_CLASS
-      content = edit.val()
-      this.model.save
-        description: content
-      desc.html marked(content)
+  selectSuggestion: (e) ->
+    console.info 'SELECTING SUGGESTION', e.target
+    $('body').off 'click'
+    this.ui.editDescription.focus()
+    this.hideSuggestions()
+    this.delegateEvents()
+
+  saveTaskDescription: (e) ->
+    console.info 'SAVING'
+    domAttributes = this.domAttributes
+    edit = this.ui.editDescription
+    desc = this.ui.description
+    edit.addClass domAttributes.HIDDEN_UTIL_CLASS
+    desc.removeClass domAttributes.HIDDEN_UTIL_CLASS
+    content = edit.val()
+    this.model.save
+      description: content
+    desc.html marked(content)
 
   saveTaskTitle: ->
     this.model.save
