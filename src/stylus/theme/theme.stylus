@@ -70,6 +70,11 @@ position()
   Suggestions
 ***/
 .tyto-suggestions
+  &__container
+    position      fixed
+    background    white
+    border-radius 2px
+    z-index       99999
   &__list
     list-style none
     padding    0

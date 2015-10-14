@@ -62,12 +62,6 @@ taskMinHeight = 150px
   &__edit-wrapper
     position      relative
 
-  &__suggestions
-    position      fixed
-    background    white
-    border-radius 2px
-    z-index       99999
-
   &__description
     width         100%
     a
@@ -85,6 +79,7 @@ taskMinHeight = 150px
     font-size     16px
     line-height   16px
     resize        none
+
   &__placeholder
     height        taskMinHeight - 50px
     width         90%

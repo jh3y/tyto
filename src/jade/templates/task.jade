@@ -11,10 +11,6 @@ include ../mixins/timeLabel.jade
   .mdl-card__supporting-text.tyto-task__description(title="Task description") <%= description %>
   .tyto-task__edit-wrapper
     textarea.tyto-task__description-edit.is--hidden
-    .tyto-task__suggestions.mdl-shadow--2dp.is--hidden
-      ul
-        li A board
-        li Another board
-        li The greatest board.
+    .tyto-task__suggestions.tyto-suggestions__container.mdl-shadow--2dp.is--hidden
   |<% var hidden = (timeSpent.hours > 0 || timeSpent.minutes > 0) ? '': 'is--hidden'; %>
   +timeLabel('tyto-task__time')

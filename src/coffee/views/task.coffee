@@ -31,10 +31,13 @@ module.exports = Backbone.Marionette.ItemView.extend
     'blur  @ui.title'             : 'saveTaskTitle'
     'blur  @ui.editDescription'   : 'saveTaskDescription'
     'click @ui.description'       : 'showEditMode'
+    ###
+      NOTE:: These are functions that are bootstrapped in from
+              the 'Suggestions' module.
+    ###
     'keypress @ui.editDescription': 'filterItems'
     'keydown @ui.editDescription' : 'filterItems'
     'click @ui.suggestions'       : 'selectSuggestion'
-    # 'input @ui.editDescription'   : 'renderIndicator'
 
   domAttributes:
     VIEW_CLASS          : 'tyto-task mdl-card mdl-shadow--2dp bg--'
@@ -55,6 +58,8 @@ module.exports = Backbone.Marionette.ItemView.extend
   initialize: ->
     view = this
     attr = view.domAttributes
+    # Bootstrap "Suggestions" module functions onto view.
+    Tyto.Suggestions.bootstrapView view
     view.$el.on Tyto.ANIMATION_EVENT, ->
       $(this).parents(attr.COLUMN_CLASS).removeClass attr.IS_BEING_ADDED_CLASS
 
@@ -100,94 +105,6 @@ module.exports = Backbone.Marionette.ItemView.extend
     edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS)
       .val(model.get('description'))
       .focus()
-
-  renderSuggestions: (filterString) ->
-    console.log filterString
-    view        = this
-    edit        = view.ui.editDescription
-    props       = view.domAttributes
-    suggestions = view.ui.suggestions
-    collection  = Tyto.Boards.models.concat Tyto.Tasks.models
-    markup      = Tyto.TemplateStore.filterList
-      models: collection
-    # NOTE Have to turn off blurring because clicking a suggestion triggers a blur which gives an undesirable UI effect. We re-delegate the event when we have selected a suggestion or clicked out of the zone.
-    handleBlurring = (e) ->
-      el = e.target
-      console.log el, el.nodeName
-      if el.nodeName isnt 'LI' and el.nodeName isnt 'TEXTAREA'
-        # if el.nodeName isnt 'TEXTAREA' and el.nodeName isnt 'LI'
-        console.log 'CLOSE ME DOWN NOW'
-        view.delegateEvents()
-        edit.blur()
-        $('body').off 'click', handleBlurring
-        view.hideSuggestions()
-    scrollOff = (e) ->
-      view.delegateEvents()
-      edit.focus()
-      $('body').off 'click', handleBlurring
-      $('.tyto-column__tasks').off 'scroll', scrollOff
-      view.hideSuggestions()
-    view.$el.off 'blur', '.tyto-task__description-edit'
-    $('body').on 'click', handleBlurring
-    $('.tyto-column__tasks').on 'scroll', scrollOff
-    # If we are already in edit mode we just need to rerender the markup
-    # NO positioning etc.
-    if !view.__EDIT_MODE
-      view.__EDIT_MODE       = true
-      view.__EDIT_START      = edit[0].selectionStart
-      coords = Tyto.Utils.getCaretPosition edit[0]
-      suggestions.html(markup)
-        .css({
-          left: coords.LEFT,
-          top : coords.TOP
-        })
-        .removeClass props.HIDDEN_UTIL_CLASS
-    else
-      suggestions.html markup
-
-  hideSuggestions: ->
-    view                   = this
-    props                  = view.domAttributes
-    view.__EDIT_MODE       = false
-    view.__SUGGESTION_TEXT = ''
-    suggestions            = view.ui.suggestions
-    suggestions.addClass props.HIDDEN_UTIL_CLASS
-
-  filterItems: (e) ->
-    view        = this
-    suggestions = view.ui.suggestions
-    props       = view.domAttributes
-    edit        = view.ui.editDescription
-    # PROCESS PRESSED KEY
-    key   = e.which
-    switch key
-      when 35
-        if view.__EDIT_MODE
-          view.hideSuggestions()
-        else
-          before = edit[0].value.charAt(edit[0].selectionStart - 1).trim()
-          after  = edit[0].value.charAt(edit[0].selectionStart).trim()
-          if before is '' and after is ''
-            view.renderSuggestions()
-      when 32, 13
-        if view.__EDIT_MODE
-          view.hideSuggestions()
-      when 8
-        if view.__EDIT_MODE and ((edit[0].selectionEnd - 1) is view.__EDIT_START)
-          view.hideSuggestions()
-      when 38, 40
-        console.info 'pressing up/down'
-      else
-        # Render filtered suggestions using filterString
-        if view.__EDIT_MODE
-          view.renderSuggestions edit[0].value.substr(view.__EDIT_START + 1, edit[0].selectionEnd)
-
-  selectSuggestion: (e) ->
-    console.info 'SELECTING SUGGESTION', e.target
-    $('body').off 'click'
-    this.ui.editDescription.focus()
-    this.hideSuggestions()
-    this.delegateEvents()
 
   saveTaskDescription: (e) ->
     console.info 'SAVING'
