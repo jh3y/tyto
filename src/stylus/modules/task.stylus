@@ -66,6 +66,7 @@ taskMinHeight = 150px
     position      fixed
     background    white
     border-radius 2px
+    z-index       99999
 
   &__description
     width         100%
@@ -81,9 +82,9 @@ taskMinHeight = 150px
     width         258px
     max-height    100px
     margin        0 16px
-    font-size     16px !important
+    font-size     16px
     line-height   16px
-    // resize        none
+    resize        none
   &__placeholder
     height        taskMinHeight - 50px
     width         90%

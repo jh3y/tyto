@@ -121,9 +121,15 @@ module.exports = Backbone.Marionette.ItemView.extend
         edit.blur()
         $('body').off 'click', handleBlurring
         view.hideSuggestions()
-
+    scrollOff = (e) ->
+      view.delegateEvents()
+      edit.focus()
+      $('body').off 'click', handleBlurring
+      $('.tyto-column__tasks').off 'scroll', scrollOff
+      view.hideSuggestions()
     view.$el.off 'blur', '.tyto-task__description-edit'
     $('body').on 'click', handleBlurring
+    $('.tyto-column__tasks').on 'scroll', scrollOff
     # If we are already in edit mode we just need to rerender the markup
     # NO positioning etc.
     if !view.__EDIT_MODE
