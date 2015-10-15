@@ -97,8 +97,9 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
         else if view.__EDIT_MODE
           view.renderSuggestions edit[0].value.substr(view.__EDIT_START + 1, edit[0].selectionEnd)
       when 38, 40
-        e.preventDefault()
-        console.info 'pressing up/down'
+        if view.__EDIT_MODE
+          e.preventDefault()
+          console.info 'pressing up/down'
       else
         # Render filtered suggestions using filterString
         if view.__EDIT_MODE
