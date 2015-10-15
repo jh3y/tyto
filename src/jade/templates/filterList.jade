@@ -2,9 +2,9 @@ ul.tyto-suggestions__list
   |<% if (models.length > 0) { %>
   |<% _.each(models, function(model) { %>
   |<% if (model.attributes.boardId) { %>
-  li.tyto-suggestions__item(data-type="task", data-model-id!="<%= model.attributes.id %>") <%= model.attributes.title %>
+  li.tyto-suggestions__item(data-type="Tasks", data-model-id!="<%= model.attributes.id %>") <%= model.attributes.title %>
   |<% } else { %>
-  li.tyto-suggestions__item(data-type="board", data-model-id!="<%= model.attributes.id %>") <%= model.attributes.title %>
+  li.tyto-suggestions__item(data-type="Boards", data-model-id!="<%= model.attributes.id %>") <%= model.attributes.title %>
   |<% } %>
   |<% }) %>
   |<% } else { %>

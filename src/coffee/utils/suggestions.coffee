@@ -95,7 +95,7 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
         if view.__EDIT_MODE and ((edit[0].selectionEnd) is view.__EDIT_START)
           view.hideSuggestions()
         else if view.__EDIT_MODE
-          view.renderSuggestions edit[0].value.substr(view.__EDIT_START + 1, edit[0].selectionEnd)
+          view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
       when 38, 40
         if view.__EDIT_MODE
           e.preventDefault()
@@ -103,11 +103,27 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
       else
         # Render filtered suggestions using filterString
         if view.__EDIT_MODE
-          view.renderSuggestions edit[0].value.substr(view.__EDIT_START + 1, edit[0].selectionEnd)
+          view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
 
   Suggestions.selectSuggestion = (e) ->
     view = this
+    edit = view.ui.editDescription
     console.info 'SELECTING SUGGESTION', e.target
+    entityType = e.target.getAttribute 'data-type'
+    entityId   = e.target.getAttribute 'data-model-id'
+    url = ''
+    if entityType
+      entity     = Tyto[entityType].get entityId
+      if entity.attributes.boardId
+        boardId = Tyto.Tasks.get(entityId).attributes.boardId
+        url     = '#board/' + boardId + '/task/' + entityId
+      else
+        url     = '#board/' + entityId
+      url   = '[' + entity.attributes.title + '](' + url + ')'
+      start = edit[0].value.slice 0, view.__EDIT_START
+      end   = edit[0].value.slice edit[0].selectionEnd, edit[0].value.length
+      edit[0].value = start + ' ' + url + ' ' + end
+
     $('body').off 'click'
     view.ui.editDescription.focus()
     view.hideSuggestions()
