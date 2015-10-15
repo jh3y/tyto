@@ -75,13 +75,15 @@ position()
     background    white
     border-radius 2px
     z-index       99999
+    max-height    100px
+    overflow      auto
   &__list
     list-style none
     padding    0
     margin     0
     font-size  14px
   &__item
-    padding    8px 16px
+    padding    8px 26px
     cursor     pointer
     &:hover
       color    white

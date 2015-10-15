@@ -16,12 +16,14 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
       view[func] = Suggestions[func]
 
   Suggestions.renderSuggestions = (filterString) ->
-    console.log filterString
+    console.log 'filtering with', filterString
+    filterByTerm = (entity) ->
+      return entity.attributes.title.toLowerCase().indexOf(filterString.toLowerCase()) isnt -1
     view        = this
     edit        = view.ui.editDescription
     props       = view.domAttributes
     suggestions = view.ui.suggestions
-    collection  = Tyto.Boards.models.concat Tyto.Tasks.models
+    collection  = if filterString then Tyto.Boards.models.concat(Tyto.Tasks.models).filter(filterByTerm) else Tyto.Boards.models.concat(Tyto.Tasks.models)
     markup      = Tyto.TemplateStore.filterList
       models: collection
     $body       = $ 'body'
@@ -90,9 +92,12 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
         if view.__EDIT_MODE
           view.hideSuggestions()
       when 8
-        if view.__EDIT_MODE and ((edit[0].selectionEnd - 1) is view.__EDIT_START)
+        if view.__EDIT_MODE and ((edit[0].selectionEnd) is view.__EDIT_START)
           view.hideSuggestions()
+        else if view.__EDIT_MODE
+          view.renderSuggestions edit[0].value.substr(view.__EDIT_START + 1, edit[0].selectionEnd)
       when 38, 40
+        e.preventDefault()
         console.info 'pressing up/down'
       else
         # Render filtered suggestions using filterString
