@@ -16,7 +16,6 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
       view[func] = Suggestions[func]
 
   Suggestions.renderSuggestions = (filterString) ->
-    console.log 'filtering with', filterString
     filterByTerm = (entity) ->
       return entity.attributes.title.toLowerCase().indexOf(filterString.toLowerCase()) isnt -1
     view        = this
@@ -25,7 +24,7 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
     suggestions = view.ui.suggestions
     collection  = if filterString then Tyto.Boards.models.concat(Tyto.Tasks.models).filter(filterByTerm) else Tyto.Boards.models.concat(Tyto.Tasks.models)
     markup      = Tyto.TemplateStore.filterList
-      models: collection
+      models: collection.slice(0, 4)
     $body       = $ 'body'
     $column     = $ '.tyto-column__tasks'
 
@@ -66,11 +65,12 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
       suggestions.html markup
 
   Suggestions.hideSuggestions = ->
-    view                   = this
-    props                  = view.domAttributes
-    view.__EDIT_MODE       = false
-    view.__SUGGESTION_TEXT = ''
-    suggestions            = view.ui.suggestions
+    view                          = this
+    props                         = view.domAttributes
+    view.__EDIT_MODE              = false
+    view.__ACTIVE_SUGGESTION      = null
+    view.__EDIT_MODE_IN_SELECTION = false
+    suggestions                   = view.ui.suggestions
     suggestions.addClass props.HIDDEN_UTIL_CLASS
 
   Suggestions.filterItems = (e) ->
@@ -78,8 +78,7 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
     suggestions = view.ui.suggestions
     props       = view.domAttributes
     edit        = view.ui.editDescription
-    key   = e.which
-    yap key
+    key         = e.which
     switch key
       when 35
         if view.__EDIT_MODE
@@ -89,31 +88,44 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
           after  = edit[0].value.charAt(edit[0].selectionStart).trim()
           if before is '' and after is ''
             view.renderSuggestions()
-      when 32, 13
+      when 32
         if view.__EDIT_MODE
+          view.hideSuggestions()
+      when 13
+        if view.__EDIT_MODE_IN_SELECTION and view.__ACTIVE_SUGGESTION isnt null
+          e.preventDefault()
+          view.__ACTIVE_SUGGESTION.click()
+        else if view.__EDIT_MODE
           view.hideSuggestions()
       when 8
         if view.__EDIT_MODE and ((edit[0].selectionEnd) is view.__EDIT_START)
           view.hideSuggestions()
         else if view.__EDIT_MODE
           view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
-      when 40
-        if view.__EDIT_MODE
+      when 38, 40
+        if e.type is 'keydown' and view.__EDIT_MODE
+          dir = if key is 38 then 'prev' else 'next'
+          reset = if key is 38 then 'last' else 'first'
           e.preventDefault()
-          view.__EDIT_MODE_IN_SELECTION = true
-          console.info 'SELECT DOWN'
-      when 38
-        if view.__EDIT_MODE and view.__EDIT_MODE_IN_SELECTION
-          e.preventDefault()
-          console.info 'SELECT UP'
+          if view.__EDIT_MODE_IN_SELECTION
+            if view.__ACTIVE_SUGGESTION[dir]().length is 0
+              view.__ACTIVE_SUGGESTION.removeClass 'is--active'
+              view.__ACTIVE_SUGGESTION = suggestions.find('.tyto-suggestions__item')[reset]().addClass 'is--active'
+            else
+              view.__ACTIVE_SUGGESTION =  view.__ACTIVE_SUGGESTION.removeClass('is--active')[dir]()
+                .addClass('is--active')
+          else
+            view.__EDIT_MODE_IN_SELECTION = true
+            # Need to select the first item in the view...
+            view.__ACTIVE_SUGGESTION = suggestions.find('.tyto-suggestions__item')[reset]().addClass 'is--active'
       when 37, 39
         # Need to check for left/right arrow press and being within the work so to speak.
-        if view.__EDIT_MODE
+        if view.__EDIT_MODE and e.type is 'keydown'
           if edit[0].selectionEnd < (view.__EDIT_START + 1) or edit[0].value.substring(view.__EDIT_START, edit[0].selectionEnd).length isnt edit[0].value.substring(view.__EDIT_START, edit[0].selectionEnd).trim().length
             view.hideSuggestions()
       else
         # Render filtered suggestions using filterString
-        if view.__EDIT_MODE
+        if view.__EDIT_MODE and e.type is 'keyup'
           view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
 
   Suggestions.selectSuggestion = (e) ->
