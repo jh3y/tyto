@@ -92,7 +92,7 @@ TimeModal = Backbone.Marionette.ItemView.extend
     view = this
     view.model.save
       timeSpent: view.model.get 'timeSpent'
-    Tyto.RootView.getRegion('TimeModal').el.remove()
+    Tyto.RootView.getRegion('TimeModal').$el.remove()
     Tyto.RootView.removeRegion 'TimeModal'
     Tyto.Utils.renderTime view.options.modelView
     view.destroy()

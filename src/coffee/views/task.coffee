@@ -36,7 +36,6 @@ module.exports = Backbone.Marionette.ItemView.extend
               the 'Suggestions' module.
     ###
     'keypress @ui.editDescription': 'filterItems'
-    'keydown @ui.editDescription' : 'filterItems'
     'keyup @ui.editDescription'   : 'filterItems'
     'click @ui.suggestions'       : 'selectSuggestion'
 

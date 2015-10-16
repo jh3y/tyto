@@ -79,6 +79,7 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
     props       = view.domAttributes
     edit        = view.ui.editDescription
     key   = e.which
+    yap key
     switch key
       when 35
         if view.__EDIT_MODE
@@ -96,10 +97,20 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
           view.hideSuggestions()
         else if view.__EDIT_MODE
           view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
-      when 38, 40
+      when 40
         if view.__EDIT_MODE
           e.preventDefault()
-          console.info 'pressing up/down'
+          view.__EDIT_MODE_IN_SELECTION = true
+          console.info 'SELECT DOWN'
+      when 38
+        if view.__EDIT_MODE and view.__EDIT_MODE_IN_SELECTION
+          e.preventDefault()
+          console.info 'SELECT UP'
+      when 37, 39
+        # Need to check for left/right arrow press and being within the work so to speak.
+        if view.__EDIT_MODE
+          if edit[0].selectionEnd < (view.__EDIT_START + 1) or edit[0].value.substring(view.__EDIT_START, edit[0].selectionEnd).length isnt edit[0].value.substring(view.__EDIT_START, edit[0].selectionEnd).trim().length
+            view.hideSuggestions()
       else
         # Render filtered suggestions using filterString
         if view.__EDIT_MODE
