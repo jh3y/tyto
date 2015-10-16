@@ -10,14 +10,15 @@ TimeModal = Backbone.Marionette.ItemView.extend
     PAUSE_ICON: 'pause'
 
   ui:
-    timerBtn : '.tyto-time-modal__timer'
-    timerIcon: '.tyto-time-modal__timer-icon'
-    resetBtn : '.tyto-time-modal__timer-reset'
-    closeBtn : '.tyto-time-modal__close'
-    timeLbl  : '.tyto-time-modal__timer-lbl'
-    hours    : '.tyto-time-modal__timer-lbl-hours'
-    minutes  : '.tyto-time-modal__timer-lbl-minutes'
-    seconds  : '.tyto-time-modal__timer-lbl-seconds'
+    timerBtn       : '.tyto-time-modal__timer'
+    taskDescription: '.tyto-time-modal__content-description'
+    timerIcon      : '.tyto-time-modal__timer-icon'
+    resetBtn       : '.tyto-time-modal__timer-reset'
+    closeBtn       : '.tyto-time-modal__close'
+    timeLbl        : '.tyto-time-modal__timer-lbl'
+    hours          : '.tyto-time-modal__timer-lbl-hours'
+    minutes        : '.tyto-time-modal__timer-lbl-minutes'
+    seconds        : '.tyto-time-modal__timer-lbl-seconds'
 
   events:
     'click @ui.closeBtn': 'closeModal'
@@ -58,6 +59,7 @@ TimeModal = Backbone.Marionette.ItemView.extend
 
   onRender: ->
     view    = this
+    view.ui.taskDescription.html marked view.model.get 'description'
     view.renderTime()
 
   stopTimer: ->
