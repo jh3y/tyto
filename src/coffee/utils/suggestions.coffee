@@ -31,9 +31,7 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
 
     handleBlurring = (e) ->
       el = e.target
-      console.log el, el.nodeName
       if el.nodeName isnt 'LI' and el.nodeName isnt 'TEXTAREA'
-        console.log 'CLOSE ME DOWN NOW'
         view.hideSuggestions()
         view.delegateEvents()
         edit.blur()
@@ -46,11 +44,13 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
       edit.focus()
       $body.off   'click' , handleBlurring
       $column.off 'scroll', scrollOff
+      edit.off    'scroll', scrollOff
       view.hideSuggestions()
 
     view.$el.off 'blur'  , '.' + edit[0].className
     $body.on     'click' , handleBlurring
     $column.on   'scroll', scrollOff
+    edit.on      'scroll', scrollOff
 
     if !view.__EDIT_MODE
       view.__EDIT_MODE  = true
@@ -106,14 +106,12 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
           view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
 
   Suggestions.selectSuggestion = (e) ->
-    view = this
-    edit = view.ui.editDescription
-    console.info 'SELECTING SUGGESTION', e.target
-    entityType = e.target.getAttribute 'data-type'
-    entityId   = e.target.getAttribute 'data-model-id'
-    url = ''
+    view        = this
+    edit        = view.ui.editDescription
+    entityType  = e.target.getAttribute 'data-type'
+    entityId    = e.target.getAttribute 'data-model-id'
     if entityType
-      entity     = Tyto[entityType].get entityId
+      entity    = Tyto[entityType].get entityId
       if entity.attributes.boardId
         boardId = Tyto.Tasks.get(entityId).attributes.boardId
         url     = '#board/' + boardId + '/task/' + entityId
