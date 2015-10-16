@@ -36,7 +36,8 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
         edit.blur()
         $body.off 'click', handleBlurring
       else if el.nodeName is 'TEXTAREA'
-        console.info 'Have I moved out of the selection zone???'
+        if e.target.selectionEnd < (view.__EDIT_START + 1) or e.target.value.substring(view.__EDIT_START, e.target.selectionEnd).indexOf(' ') isnt -1
+          view.hideSuggestions()
 
     scrollOff = (e) ->
       view.delegateEvents()
