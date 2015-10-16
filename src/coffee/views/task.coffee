@@ -75,7 +75,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     # rendering animation on creation.
     container = view.$el.parents(attr.TASK_CONTAINER_CLASS)[0]
     column    = view.$el.parents(attr.COLUMN_CLASS)
-    if container.scrollHeight > container.offsetHeight and column.hasClass(attr.IS_BEING_ADDED_CLASS)
+
+    if container.scrollHeight > container.offsetHeight
       container.scrollTop = container.scrollHeight
     # Upgrade MDL components.
     Tyto.Utils.upgradeMDL view.getMDLMap()

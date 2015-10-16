@@ -7,12 +7,14 @@
 .tyto-content
   & > div
     position fixed
-    top 56px
-    right 0
-    bottom 0
-    left 0
+    top      56px
+    right    0
+    bottom   0
+    left     0
+    // Required for IE EDGE
+    z-index  2
     @media(min-width 852px)
-      top 64px
+      top    64px
 
 .tyto-header
   position fixed

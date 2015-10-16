@@ -135,11 +135,11 @@ module.exports = Backbone.Marionette.CompositeView.extend
   addTask: ->
     view = this
     attr = view.domAttributes
-    view.$el.addClass attr.TASK_ADD_CLASS
     this.collection.add Tyto.Tasks.create
       columnId: view.model.id
       boardId : view.options.board.id
       ordinal : view.collection.length + 1
+    view.$el.addClass attr.TASK_ADD_CLASS
 
   deleteColumn: ->
     if this.collection.length is 0 or confirm Tyto.CONFIRM_MESSAGE
