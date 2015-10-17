@@ -1276,7 +1276,7 @@ module.exports = Backbone.Marionette.CompositeView.extend({
     attr = view.domAttributes;
     columns = $(attr.PARENT_CONTAINER_CLASS)[0];
     board = view.$el.parents(attr.BOARD_CLASS);
-    if (columns.scrollWidth > window.outerWidth && board.hasClass(attr.COLUMN_ADD_CLASS)) {
+    if (columns.scrollWidth > window.outerWidth) {
       columns.scrollLeft = columns.scrollWidth;
     }
     return view.upgradeComponents();
