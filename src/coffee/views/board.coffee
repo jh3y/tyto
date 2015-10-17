@@ -124,11 +124,12 @@ module.exports = Backbone.Marionette.CompositeView.extend
     view    = this
     board   = view.model
     columns = view.collection
-    view.$el.addClass view.domAttributes.ADDING_COLUMN_CLASS
 
     columns.add Tyto.Columns.create
       boardId: board.id
       ordinal: columns.length + 1
+
+    view.$el.addClass view.domAttributes.ADDING_COLUMN_CLASS
 
   saveBoardName: ->
     this.model.save

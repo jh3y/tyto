@@ -10,14 +10,16 @@ Tyto.TemplateStore = require './templates/templates'
 TytoCtrl           = require './controllers/tyto'
 TytoViews          = require './views/tyto'
 TytoModels         = require './models/tyto'
-Utils              = require './utils/tyto'
+TytoUtils          = require './utils/utils'
+TytoSuggestions    = require './utils/suggestions'
 
 
 # Create Modules
 Tyto.module 'Models'      , TytoModels
 Tyto.module 'Ctrl'        , TytoCtrl
 Tyto.module 'Views'       , TytoViews
-Tyto.module 'Utils'       , Utils
+Tyto.module 'Utils'       , TytoUtils
+Tyto.module 'Suggestions' , TytoSuggestions
 
 
 # Instantiate and cache collections.

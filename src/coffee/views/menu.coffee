@@ -12,6 +12,7 @@ module.exports =  Backbone.Marionette.ItemView.extend
     deleteBtn    : '.tyto-menu__delete-save'
     exporter     : '.tyto-menu__exporter'
     importer     : '.tyto-menu__importer'
+    action       : 'button'
 
   events:
     'click  @ui.addBoardBtn'  : 'addBoard'
@@ -19,13 +20,15 @@ module.exports =  Backbone.Marionette.ItemView.extend
     'click  @ui.deleteBtn'    : 'deleteAppData'
     'click  @ui.loadBtn'      : 'initLoad'
     'click  @ui.importBtn'    : 'initLoad'
+    'click  @ui.action'       : 'restoreContent'
     'change @ui.importer'     : 'handleFile'
 
   props:
     DOWNLOAD_FILE_NAME: 'barn.json'
 
   domAttributes:
-    VIEW_CLASS: 'tyto-menu'
+    VIEW_CLASS        : 'tyto-menu'
+    MENU_VISIBLE_CLASS: 'is-visible'
 
   onShow: ->
     view        = this
@@ -43,6 +46,9 @@ module.exports =  Backbone.Marionette.ItemView.extend
         Tyto.Utils.load data, true, false
       Tyto.navigate '/', true
 
+  restoreContent: ->
+    props = this.domAttributes
+    Tyto.RootView.getRegion('Menu').$el.removeClass props.MENU_VISIBLE_CLASS
   handleFile: (e) ->
     view = this
     file = e.target.files[0]

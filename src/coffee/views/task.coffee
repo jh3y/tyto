@@ -22,14 +22,23 @@ module.exports = Backbone.Marionette.ItemView.extend
     minutes         : '.tyto-task__time__minutes'
     time            : '.tyto-task__time'
     editDescription : '.tyto-task__description-edit'
+    suggestions     : '.tyto-task__suggestions'
 
   events:
-    'click @ui.deleteTask'      : 'deleteTask'
-    'click @ui.editTask'        : 'editTask'
-    'click @ui.trackTask'       : 'trackTask'
-    'blur  @ui.title'           : 'saveTaskTitle'
-    'blur  @ui.editDescription' : 'saveTaskDescription'
-    'click @ui.description'     : 'showEditMode'
+    'click @ui.deleteTask'        : 'deleteTask'
+    'click @ui.editTask'          : 'editTask'
+    'click @ui.trackTask'         : 'trackTask'
+    'blur  @ui.title'             : 'saveTaskTitle'
+    'blur  @ui.editDescription'   : 'saveTaskDescription'
+    'click @ui.description'       : 'showEditMode'
+    ###
+      NOTE:: These are functions that are bootstrapped in from
+              the 'Suggestions' module.
+    ###
+    'keypress @ui.editDescription': 'filterItems'
+    'keydown @ui.editDescription' : 'filterItems'
+    'keyup @ui.editDescription'   : 'filterItems'
+    'click @ui.suggestions'       : 'selectSuggestion'
 
   domAttributes:
     VIEW_CLASS          : 'tyto-task mdl-card mdl-shadow--2dp bg--'
@@ -38,6 +47,7 @@ module.exports = Backbone.Marionette.ItemView.extend
     COLUMN_CLASS        : '.tyto-column'
     TASK_CONTAINER_CLASS: '.tyto-column__tasks'
     HIDDEN_UTIL_CLASS   : 'is--hidden'
+    INDICATOR           : '.indicator'
 
   getMDLMap: ->
     view = this
@@ -49,6 +59,8 @@ module.exports = Backbone.Marionette.ItemView.extend
   initialize: ->
     view = this
     attr = view.domAttributes
+    # Bootstrap "Suggestions" module functions onto view.
+    Tyto.Suggestions.bootstrapView view
     view.$el.on Tyto.ANIMATION_EVENT, ->
       $(this).parents(attr.COLUMN_CLASS).removeClass attr.IS_BEING_ADDED_CLASS
 
@@ -63,7 +75,8 @@ module.exports = Backbone.Marionette.ItemView.extend
     # rendering animation on creation.
     container = view.$el.parents(attr.TASK_CONTAINER_CLASS)[0]
     column    = view.$el.parents(attr.COLUMN_CLASS)
-    if container.scrollHeight > container.offsetHeight and column.hasClass(attr.IS_BEING_ADDED_CLASS)
+
+    if container.scrollHeight > container.offsetHeight
       container.scrollTop = container.scrollHeight
     # Upgrade MDL components.
     Tyto.Utils.upgradeMDL view.getMDLMap()
@@ -71,6 +84,8 @@ module.exports = Backbone.Marionette.ItemView.extend
   onRender: ->
     view = this
     view.ui.description.html marked(view.model.get('description'))
+    # Sets up auto resizing for text area up to a CSS defined max height.
+    Tyto.Utils.autoSize view.ui.editDescription[0]
     Tyto.Utils.renderTime view
 
   trackTask: (e) ->
@@ -93,7 +108,8 @@ module.exports = Backbone.Marionette.ItemView.extend
       .val(model.get('description'))
       .focus()
 
-  saveTaskDescription: ->
+  saveTaskDescription: (e) ->
+    console.info 'SAVING'
     domAttributes = this.domAttributes
     edit = this.ui.editDescription
     desc = this.ui.description

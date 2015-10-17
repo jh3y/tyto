@@ -166,9 +166,30 @@ describe('tyto', function() {
         testView.ui.taskTitle.blur();
         expect(testView.model.get('title')).to.equal('Updated title');
         // Test out the description field
-        testView.ui.taskDescription.text('Updated description');
-        testView.ui.taskDescription.blur();
+        testView.ui.editDescription.text('Updated description');
+        testView.ui.editDescription.blur();
         expect(testView.model.get('description')).to.equal('Updated description');
+      });
+      it('Honors markdown support by rendering correct output', function(){
+        var description = '__bold__',
+          UPDATED_DESCRIPTION = 'This is in _italics_',
+          mdOutput = marked(description);
+        taskModel = tasksCollection.create();
+        taskModel.set('description', description);
+        testView  = new Tyto.Views.Edit(
+          {
+            model  : taskModel,
+            board  : boardModel,
+            columns: [],
+            isNew  : true
+          }
+        );
+        testView.render();
+        expect(testView.ui.taskDescription.html()).to.equal(mdOutput);
+        mdOutput = marked(UPDATED_DESCRIPTION);
+        testView.ui.editDescription.text(UPDATED_DESCRIPTION);
+        testView.ui.editDescription.blur();
+        expect(testView.ui.taskDescription.html()).to.equal(mdOutput);
       });
     });
   });

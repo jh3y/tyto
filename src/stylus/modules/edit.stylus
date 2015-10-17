@@ -36,7 +36,20 @@
     outline    0
     background transparent
     border     none
-    height     200px
+    min-height 100px
+
+  &__edit-description
+    outline     0
+    border      none
+    background  transparent
+    padding     16px 0
+    width       100%
+    min-height  100px
+    max-height  300px
+    margin      0 16px
+    font-size   16px
+    line-height 16px
+    resize      none
 
   &__nav
   &__details-footer

@@ -1,6 +1,6 @@
 {
   "name": "tyto",
-  "version": "2.1.2",
+  "version": "2.2.2",
   "description": "tyto - manage and organise",
   "engines": {
     "node": "0.10",
@@ -47,7 +47,7 @@
     "gulp-util": "^3.0.4",
     "gulp-wrap": "^0.11.0",
     "mocha": "^2.2.5",
-    "mocha-phantomjs": "^3.5.3",
+    "mocha-phantomjs": "^4.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }

@@ -18,6 +18,38 @@ Utils = (Utils, App, Backbone, Marionette) ->
       if model
         model.save
           ordinal: idx + 1
+  Utils.autoSize = (el) ->
+    sizeUp = ->
+      el.style.height = 'auto'
+      el.style.height = el.scrollHeight + 'px'
+    el.addEventListener 'keydown', sizeUp
+    el.addEventListener 'input'  , sizeUp
+    el.addEventListener 'focus'  , sizeUp
+    sizeUp()
+
+  Utils.getCaretPosition = (el) ->
+    carPos    = el.selectionEnd
+    div       = document.createElement 'div'
+    span      = document.createElement 'span'
+    copyStyle = getComputedStyle el
+    coords    = {}
+    bounds    = el.getBoundingClientRect()
+    [].forEach.call copyStyle, (prop) ->
+      div.style[prop] = copyStyle[prop]
+    div.style.position = 'absolute';
+    div.textContent    = el.value.substr(0, carPos);
+    span.textContent   = el.value.substr(carPos) || '.';
+    div.appendChild(span);
+    document.body.appendChild(div);
+    fontSize = parseFloat(copyStyle.fontSize.replace('px', ''), 10)
+    top      = el.offsetTop - el.scrollTop + span.offsetTop + fontSize
+    top      = if (top) > el.offsetHeight then el.offsetHeight else top
+    left     = el.offsetLeft - el.scrollLeft + span.offsetLeft
+    coords =
+      TOP : top + bounds.top + 'px'
+      LEFT: left + bounds.left + 'px'
+    document.body.removeChild(div);
+    coords
 
   Utils.processQueryString = (params) ->
     qS = {}

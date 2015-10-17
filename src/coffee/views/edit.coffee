@@ -13,11 +13,6 @@ EditView = Backbone.Marionette.ItemView.extend
     isNew         : this.options.isNew
     colors        : Tyto.TASK_COLORS
 
-  initialize: ->
-    view = this
-    Tyto.RootView.el.classList.add 'bg--' + view.model.get('color')
-    Tyto.RootView.el.classList.remove view.domAttributes.BLOOM_SHOW_CLASS
-
   domAttributes:
     VIEW_CLASS       : 'tyto-edit'
     BLOOM_SHOW_CLASS : 'is--showing-bloom'
@@ -32,6 +27,8 @@ EditView = Backbone.Marionette.ItemView.extend
     save           : '.tyto-edit__save'
     color          : '.tyto-edit__color-select__menu-option'
     taskDescription: '.tyto-edit__task-description'
+    editDescription: '.tyto-edit__edit-description'
+    suggestions    : '.tyto-task__suggestions'
     taskTitle      : '.tyto-edit__task-title'
     column         : '.tyto-edit__column-select__menu-option'
     colorMenu      : '.tyto-edit__color-select__menu'
@@ -43,13 +40,27 @@ EditView = Backbone.Marionette.ItemView.extend
     minutes        : '.tyto-edit__task-time__minutes'
 
   events:
-    'click @ui.save'          : 'saveTask'
-    'click @ui.color'         : 'changeColor'
-    'click @ui.column'        : 'changeColumn'
-    'click @ui.track'         : 'trackTime'
-    'blur @ui.taskDescription': 'updateTask'
-    'blur @ui.taskTitle'      : 'updateTask'
+    'click @ui.save'           : 'saveTask'
+    'click @ui.color'          : 'changeColor'
+    'click @ui.column'         : 'changeColumn'
+    'click @ui.track'          : 'trackTime'
+    'click @ui.taskDescription': 'showEditMode'
+    'blur @ui.editDescription' : 'updateTask'
+    'blur @ui.taskTitle'       : 'updateTask'
+    ###
+      NOTE:: These are functions that are bootstrapped in from
+            the 'Suggestions' module.
+    ###
+    'keypress @ui.editDescription': 'filterItems'
+    'keydown @ui.editDescription' : 'filterItems'
+    'keyup @ui.editDescription'   : 'filterItems'
+    'click @ui.suggestions'       : 'selectSuggestion'
 
+  initialize: ->
+    view = this
+    Tyto.Suggestions.bootstrapView view
+    Tyto.RootView.el.classList.add 'bg--' + view.model.get('color')
+    Tyto.RootView.el.classList.remove view.domAttributes.BLOOM_SHOW_CLASS
 
   getMDLMap: ->
     view = this
@@ -67,16 +78,35 @@ EditView = Backbone.Marionette.ItemView.extend
     el   = e.target
     val  = if el.nodeName is 'TEXTAREA' then el.value else el.innerHTML
     view.model.set el.getAttribute(attr.MODEL_PROP_ATTR), val
+    if el.nodeName is 'TEXTAREA'
+      desc = view.ui.taskDescription
+      edit = view.ui.editDescription
+      desc.html marked(edit.val())
+      edit.addClass attr.HIDDEN_UTIL_CLASS
+      desc.removeClass attr.HIDDEN_UTIL_CLASS
 
   onShow: ->
     Tyto.Utils.upgradeMDL this.getMDLMap()
 
   onRender: ->
     view = this
+    view.ui.taskDescription.html marked(view.model.get('description'))
+    # Sets up auto resizing for text area up to a CSS defined max height.
+    Tyto.Utils.autoSize view.ui.editDescription[0]
     Tyto.Utils.renderTime view
 
   trackTime: ->
     Tyto.Utils.showTimeModal this.model, this
+
+  showEditMode: ->
+    domAttributes = this.domAttributes
+    model = this.model
+    desc  = this.ui.taskDescription
+    edit  = this.ui.editDescription
+    desc.addClass domAttributes.HIDDEN_UTIL_CLASS
+    edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS)
+      .val(model.get('description'))
+      .focus()
 
   ###
     This is a function for handling fresh tasks and saving them on 'DONE'
