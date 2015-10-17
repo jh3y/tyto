@@ -1,6 +1,6 @@
 *
   box-sizing border-box
-  
+
 body
   overflow-y  scroll
   font-family 'Roboto', 'Helvetica', 'Arial', sans-serif
@@ -8,3 +8,7 @@ body
   text-rendering          optimizeLegibility
   -moz-osx-font-smoothing grayscale
   font-feature-settings   'liga'
+
+a
+  color       grey
+  font-weight 800

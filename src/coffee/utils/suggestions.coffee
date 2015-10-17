@@ -5,6 +5,9 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
     'renderSuggestions'
     'hideSuggestions'
   ]
+  Suggestions.props =
+    ACTIVE_CLASS    : 'is--active'
+    SUGGESTIONS_ITEM: '.tyto-suggestions__item'
 
   Suggestions.bootstrapView = (view) ->
     ###
@@ -22,11 +25,15 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
     edit        = view.ui.editDescription
     props       = view.domAttributes
     suggestions = view.ui.suggestions
-    collection  = if filterString then Tyto.Boards.models.concat(Tyto.Tasks.models).filter(filterByTerm) else Tyto.Boards.models.concat(Tyto.Tasks.models)
+    collection  = Tyto.Boards.models.concat Tyto.Tasks.models
+    collection  = if filterString then collection.filter(filterByTerm) else collection
     markup      = Tyto.TemplateStore.filterList
       models: collection.slice(0, 4)
     $body       = $ 'body'
     $column     = $ '.tyto-column__tasks'
+    end         = edit[0].selectionEnd
+    start       = view.__EDIT_START + 1
+    val         = edit[0].value
 
     handleBlurring = (e) ->
       el = e.target
@@ -36,7 +43,7 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
         edit.blur()
         $body.off 'click', handleBlurring
       else if el.nodeName is 'TEXTAREA'
-        if e.target.selectionEnd < (view.__EDIT_START + 1) or e.target.value.substring(view.__EDIT_START, e.target.selectionEnd).indexOf(' ') isnt -1
+        if end < start or val.substring(start, end).indexOf(' ') isnt -1
           view.hideSuggestions()
 
     scrollOff = (e) ->
@@ -80,54 +87,59 @@ Suggestions = (Suggestions, App, Backbone, Marionette) ->
     props       = view.domAttributes
     edit        = view.ui.editDescription
     key         = e.which
-    switch key
-      when 35
-        if view.__EDIT_MODE
+    start       = edit[0].selectionStart
+    end         = edit[0].selectionEnd
+    val         = edit[0].value
+    # ONLY TRIGGERING IF 35 or in VIEW.__EDIT_MODE
+    if key is 35 and !view.__EDIT_MODE
+      before = val.charAt(start - 1).trim()
+      after  = val.charAt(start).trim()
+      if before is '' and after is ''
+        view.renderSuggestions()
+    else if view.__EDIT_MODE
+      switch key
+        # HASH, SPACE
+        when 35, 32
           view.hideSuggestions()
-        else
-          before = edit[0].value.charAt(edit[0].selectionStart - 1).trim()
-          after  = edit[0].value.charAt(edit[0].selectionStart).trim()
-          if before is '' and after is ''
-            view.renderSuggestions()
-      when 32
-        if view.__EDIT_MODE
-          view.hideSuggestions()
-      when 13
-        if view.__EDIT_MODE_IN_SELECTION and view.__ACTIVE_SUGGESTION isnt null
-          e.preventDefault()
-          view.__ACTIVE_SUGGESTION.click()
-        else if view.__EDIT_MODE
-          view.hideSuggestions()
-      when 8
-        if view.__EDIT_MODE and ((edit[0].selectionEnd) is view.__EDIT_START)
-          view.hideSuggestions()
-        else if view.__EDIT_MODE
-          view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
-      when 38, 40
-        if e.type is 'keydown' and view.__EDIT_MODE
-          dir = if key is 38 then 'prev' else 'next'
-          reset = if key is 38 then 'last' else 'first'
-          e.preventDefault()
-          if view.__EDIT_MODE_IN_SELECTION
-            if view.__ACTIVE_SUGGESTION[dir]().length is 0
-              view.__ACTIVE_SUGGESTION.removeClass 'is--active'
-              view.__ACTIVE_SUGGESTION = suggestions.find('.tyto-suggestions__item')[reset]().addClass 'is--active'
-            else
-              view.__ACTIVE_SUGGESTION =  view.__ACTIVE_SUGGESTION.removeClass('is--active')[dir]()
-                .addClass('is--active')
+        # ENTER
+        when 13
+          if view.__EDIT_MODE_IN_SELECTION and view.__ACTIVE_SUGGESTION isnt null
+            e.preventDefault()
+            view.__ACTIVE_SUGGESTION.click()
           else
-            view.__EDIT_MODE_IN_SELECTION = true
-            # Need to select the first item in the view...
-            view.__ACTIVE_SUGGESTION = suggestions.find('.tyto-suggestions__item')[reset]().addClass 'is--active'
-      when 37, 39
-        # Need to check for left/right arrow press and being within the work so to speak.
-        if view.__EDIT_MODE and e.type is 'keydown'
-          if edit[0].selectionEnd < (view.__EDIT_START + 1) or edit[0].value.substring(view.__EDIT_START, edit[0].selectionEnd).length isnt edit[0].value.substring(view.__EDIT_START, edit[0].selectionEnd).trim().length
             view.hideSuggestions()
-      else
-        # Render filtered suggestions using filterString
-        if view.__EDIT_MODE and e.type is 'keyup'
-          view.renderSuggestions edit[0].value.substring(view.__EDIT_START + 1, edit[0].selectionEnd)
+        # BACKSPACE
+        when 8
+          if end is view.__EDIT_START
+            view.hideSuggestions()
+          else
+            view.renderSuggestions val.substring(view.__EDIT_START + 1, end)
+        # UP/DOWN
+        when 38, 40
+          if e.type is 'keydown'
+            e.preventDefault()
+            dir   = if key is 38 then 'prev' else 'next'
+            reset = if key is 38 then 'last' else 'first'
+            if view.__EDIT_MODE_IN_SELECTION
+              if view.__ACTIVE_SUGGESTION[dir]().length is 0
+                view.__ACTIVE_SUGGESTION.removeClass Suggestions.props.ACTIVE_CLASS
+                view.__ACTIVE_SUGGESTION = suggestions.find(Suggestions.props.SUGGESTIONS_ITEM)[reset]().addClass Suggestions.props.ACTIVE_CLASS
+              else
+                view.__ACTIVE_SUGGESTION =  view.__ACTIVE_SUGGESTION.removeClass(Suggestions.props.ACTIVE_CLASS)[dir]()
+                  .addClass(Suggestions.props.ACTIVE_CLASS)
+            else
+              view.__EDIT_MODE_IN_SELECTION = true
+              view.__ACTIVE_SUGGESTION = suggestions.find(Suggestions.props.SUGGESTIONS_ITEM)[reset]().addClass Suggestions.props.ACTIVE_CLASS
+        # LEFT/RIGHT
+        when 37, 39
+          # Need to check for left/right arrow press and being within the work so to speak.
+          if e.type is 'keyup'
+            if end < (view.__EDIT_START + 1) or val.substring(view.__EDIT_START, end).length isnt val.substring(view.__EDIT_START, end).trim().length
+              view.hideSuggestions()
+        else
+          # Render filtered suggestions using filterString
+          if e.type is 'keyup'
+            view.renderSuggestions val.substring(view.__EDIT_START + 1, end)
 
   Suggestions.selectSuggestion = (e) ->
     view        = this
