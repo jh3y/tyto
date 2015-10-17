@@ -11,7 +11,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 (function() { (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Tyto, TytoApp, TytoCtrl, TytoModels, TytoViews, Utils;
+var Tyto, TytoApp, TytoCtrl, TytoModels, TytoSuggestions, TytoUtils, TytoViews;
 
 TytoApp = require('./config/tyto');
 
@@ -25,7 +25,9 @@ TytoViews = require('./views/tyto');
 
 TytoModels = require('./models/tyto');
 
-Utils = require('./utils/tyto');
+TytoUtils = require('./utils/utils');
+
+TytoSuggestions = require('./utils/suggestions');
 
 Tyto.module('Models', TytoModels);
 
@@ -33,7 +35,9 @@ Tyto.module('Ctrl', TytoCtrl);
 
 Tyto.module('Views', TytoViews);
 
-Tyto.module('Utils', Utils);
+Tyto.module('Utils', TytoUtils);
+
+Tyto.module('Suggestions', TytoSuggestions);
 
 Tyto.Boards = new Tyto.Models.BoardCollection();
 
@@ -54,12 +58,12 @@ Tyto.on('before:start', function() {
 Tyto.on('start', function() {
   Tyto.__renderer = new marked.Renderer();
   Tyto.__renderer.link = function(href, title, text) {
-    var e, error, out, prot;
+    var e, out, prot;
     if (this.options.sanitize) {
       try {
         prot = decodeURIComponent(unescape(href)).replace(/[^\w:]/g, '').toLowerCase();
-      } catch (error) {
-        e = error;
+      } catch (_error) {
+        e = _error;
         return '';
       }
       if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0) {
@@ -103,7 +107,7 @@ Tyto.Utils.load(window.localStorage);
 Tyto.start();
 
 
-},{"./config/tyto":2,"./controllers/tyto":3,"./models/tyto":4,"./templates/templates":5,"./utils/tyto":6,"./views/tyto":16}],2:[function(require,module,exports){
+},{"./config/tyto":2,"./controllers/tyto":3,"./models/tyto":4,"./templates/templates":5,"./utils/suggestions":6,"./utils/utils":7,"./views/tyto":17}],2:[function(require,module,exports){
 var appConfig;
 
 appConfig = Marionette.Application.extend({
@@ -347,9 +351,9 @@ __p += '<a href="#board/' +
  } ;
 __p += '</div><div class="tyto-edit__content"><div class="tyto-edit__details has--bottom-margin"><h1 contenteditable="true" data-model-prop="title" title="Task title" class="tyto-edit__task-title">' +
 ((__t = ( title )) == null ? '' : __t) +
-'</h1><textarea data-model-prop="description" title="Task description" class="tyto-edit__task-description">' +
+'</h1><div title="Task description" class="tyto-edit__task-description">' +
 ((__t = ( description )) == null ? '' : __t) +
-'</textarea></div><div class="tyto-edit__details-footer tx--right has--bottom-margin"><div title="Time spent" class="tyto-time tyto-edit__task-time"><i class="tyto-time__icon material-icons">schedule</i><span class="tyto-edit__task-time__hours tyto-time__hours">' +
+'</div><div class="tyto-task__edit-wrapper"><textarea data-model-prop="description" class="tyto-edit__edit-description is--hidden"></textarea><div class="tyto-task__suggestions tyto-suggestions__container mdl-shadow--2dp is--hidden"></div></div></div><div class="tyto-edit__details-footer tx--right has--bottom-margin"><div title="Time spent" class="tyto-time tyto-edit__task-time"><i class="tyto-time__icon material-icons">schedule</i><span class="tyto-edit__task-time__hours tyto-time__hours">' +
 ((__t = ( timeSpent.hours )) == null ? '' : __t) +
 'h</span><span class="tyto-edit__task-time__minutes tyto-time__minutes">' +
 ((__t = ( timeSpent.minutes )) == null ? '' : __t) +
@@ -392,6 +396,39 @@ __p += '<li data-color="' +
 '"></li>';
  }); ;
 __p += '</ul><button title="Start tracking" class="tyto-edit__track mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect"><i class="material-icons">schedule</i></button></div></div>';
+
+}
+return __p
+},"filterList": function(obj) {
+obj || (obj = {});
+var __t, __p = '', __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+with (obj) {
+__p += '<ul class="tyto-suggestions__list">';
+ if (models.length > 0) { ;
+__p += '\n';
+ _.each(models, function(model) { ;
+__p += '\n';
+ if (model.attributes.boardId) { ;
+__p += '<li data-type="Tasks" data-model-id="' +
+((__t = ( model.attributes.id )) == null ? '' : __t) +
+'" class="tyto-suggestions__item">' +
+((__t = ( model.attributes.title )) == null ? '' : __t) +
+'</li>';
+ } else { ;
+__p += '<li data-type="Boards" data-model-id="' +
+((__t = ( model.attributes.id )) == null ? '' : __t) +
+'" class="tyto-suggestions__item">' +
+((__t = ( model.attributes.title )) == null ? '' : __t) +
+'</li>';
+ } ;
+__p += '\n';
+ }) ;
+__p += '\n';
+ } else { ;
+__p += '<li class="tyto-suggestions__item">No suggestions available...</li>';
+ } ;
+__p += '</ul>';
 
 }
 return __p
@@ -439,7 +476,7 @@ __p += '<div class="tyto-task__content"><div class="tyto-task__header tx--center
 ((__t = ( id )) == null ? '' : __t) +
 '--menu" class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-task__menu mdl-menu--bottom-right"><li title="Delete task" class="mdl-menu__item tyto-task__delete-task">Delete</li><li title="Edit task" class="mdl-menu__item tyto-task__edit-task">Edit</li><li title="Track task time" class="mdl-menu__item tyto-task__track-task">Track</li></ul></div><div title="Task description" class="mdl-card__supporting-text tyto-task__description">' +
 ((__t = ( description )) == null ? '' : __t) +
-'</div><textarea class="tyto-task__description-edit is--hidden"></textarea>';
+'</div><div class="tyto-task__edit-wrapper"><textarea class="tyto-task__description-edit is--hidden"></textarea><div class="tyto-task__suggestions tyto-suggestions__container mdl-shadow--2dp is--hidden"></div></div>';
  var hidden = (timeSpent.hours > 0 || timeSpent.minutes > 0) ? '': 'is--hidden'; ;
 __p += '<div title="Time spent" class="tyto-time tyto-task__time"><i class="tyto-time__icon material-icons">schedule</i><span class="tyto-task__time__hours tyto-time__hours">' +
 ((__t = ( timeSpent.hours )) == null ? '' : __t) +
@@ -455,14 +492,203 @@ var __t, __p = '';
 with (obj) {
 __p += '<div class="tyto-time-modal__content mdl-card mdl-shadow--4dp"><div class="tyto-time-modal__content-title mdl-card__title"><h2 class="mdl-card__title-text">' +
 ((__t = ( title )) == null ? '' : __t) +
-'</h2></div><div class="tyto-time-modal__content-text tx--center mdl-card__supporting-text"><p>' +
-((__t = ( description )) == null ? '' : __t) +
-'</p><h1 class="tyto-time-modal__timer-lbl"><span class="tyto-time-modal__timer-lbl-hours"></span><span>:</span><span class="tyto-time-modal__timer-lbl-minutes"></span><span>:</span><span class="tyto-time-modal__timer-lbl-seconds"></span></h1></div><div class="tyto-time-modal__actions mdl-card__actions mdl-card--border tx--center"><button title="Reset time" class="tyto-time-modal__timer-reset mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">restore</i></button><button title="Stop/Start tracking" class="tyto-time-modal__timer mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="tyto-time-modal__timer-icon material-icons">play_arrow</i></button><button title="Exit tracking" class="tyto-time-modal__close mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">clear</i></button></div></div>';
+'</h2></div><div class="tyto-time-modal__content-text tx--center mdl-card__supporting-text"><p class="tyto-time-modal__content-description"></p><h1 class="tyto-time-modal__timer-lbl"><span class="tyto-time-modal__timer-lbl-hours"></span><span>:</span><span class="tyto-time-modal__timer-lbl-minutes"></span><span>:</span><span class="tyto-time-modal__timer-lbl-seconds"></span></h1></div><div class="tyto-time-modal__actions mdl-card__actions mdl-card--border tx--center"><button title="Reset time" class="tyto-time-modal__timer-reset mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">restore</i></button><button title="Stop/Start tracking" class="tyto-time-modal__timer mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="tyto-time-modal__timer-icon material-icons">play_arrow</i></button><button title="Exit tracking" class="tyto-time-modal__close mdl-button mdl-js-button mdl-button--icon mdl-button--accent mdl-js-ripple-effect"><i class="material-icons">clear</i></button></div></div>';
 
 }
 return __p
 } };
 },{}],6:[function(require,module,exports){
+var Suggestions;
+
+Suggestions = function(Suggestions, App, Backbone, Marionette) {
+  Suggestions.proto = ['filterItems', 'selectSuggestion', 'renderSuggestions', 'hideSuggestions'];
+  Suggestions.props = {
+    ACTIVE_CLASS: 'is--active',
+    SUGGESTIONS_ITEM: '.tyto-suggestions__item'
+  };
+  Suggestions.bootstrapView = function(view) {
+
+    /*
+      Bootstraps the given view with module functions.
+      This is purely for a quick DRY fix. There is most definitely
+      a better way to do this I am sure.
+     */
+    var func, idx, ref, results;
+    ref = Suggestions.proto;
+    results = [];
+    for (idx in ref) {
+      func = ref[idx];
+      results.push(view[func] = Suggestions[func]);
+    }
+    return results;
+  };
+  Suggestions.renderSuggestions = function(filterString) {
+    var $body, $column, collection, coords, edit, end, filterByTerm, handleBlurring, markup, props, scrollOff, start, suggestions, val, view;
+    filterByTerm = function(entity) {
+      return entity.attributes.title.toLowerCase().indexOf(filterString.toLowerCase()) !== -1;
+    };
+    view = this;
+    edit = view.ui.editDescription;
+    props = view.domAttributes;
+    suggestions = view.ui.suggestions;
+    collection = Tyto.Boards.models.concat(Tyto.Tasks.models);
+    collection = filterString ? collection.filter(filterByTerm) : collection;
+    markup = Tyto.TemplateStore.filterList({
+      models: collection.slice(0, 4)
+    });
+    $body = $('body');
+    $column = $('.tyto-column__tasks');
+    end = edit[0].selectionEnd;
+    start = view.__EDIT_START + 1;
+    val = edit[0].value;
+    handleBlurring = function(e) {
+      var el;
+      el = e.target;
+      if (el.nodeName !== 'LI' && el.nodeName !== 'TEXTAREA') {
+        view.hideSuggestions();
+        view.delegateEvents();
+        edit.blur();
+        return $body.off('click', handleBlurring);
+      } else if (el.nodeName === 'TEXTAREA') {
+        if (end < start || val.substring(start, end).indexOf(' ') !== -1) {
+          return view.hideSuggestions();
+        }
+      }
+    };
+    scrollOff = function(e) {
+      view.delegateEvents();
+      edit.focus();
+      $body.off('click', handleBlurring);
+      $column.off('scroll', scrollOff);
+      edit.off('scroll', scrollOff);
+      return view.hideSuggestions();
+    };
+    view.$el.off('blur', '.' + edit[0].className);
+    $body.on('click', handleBlurring);
+    $column.on('scroll', scrollOff);
+    edit.on('scroll', scrollOff);
+    if (!view.__EDIT_MODE) {
+      view.__EDIT_MODE = true;
+      view.__EDIT_START = edit[0].selectionStart;
+      coords = Tyto.Utils.getCaretPosition(edit[0]);
+      return suggestions.html(markup).css({
+        left: coords.LEFT,
+        top: coords.TOP
+      }).removeClass(props.HIDDEN_UTIL_CLASS);
+    } else {
+      return suggestions.html(markup);
+    }
+  };
+  Suggestions.hideSuggestions = function() {
+    var props, suggestions, view;
+    view = this;
+    props = view.domAttributes;
+    view.__EDIT_MODE = false;
+    view.__ACTIVE_SUGGESTION = null;
+    view.__EDIT_MODE_IN_SELECTION = false;
+    suggestions = view.ui.suggestions;
+    return suggestions.addClass(props.HIDDEN_UTIL_CLASS);
+  };
+  Suggestions.filterItems = function(e) {
+    var after, before, dir, edit, end, key, props, reset, start, suggestions, val, view;
+    view = this;
+    suggestions = view.ui.suggestions;
+    props = view.domAttributes;
+    edit = view.ui.editDescription;
+    key = e.which;
+    start = edit[0].selectionStart;
+    end = edit[0].selectionEnd;
+    val = edit[0].value;
+    if (key === 35 && !view.__EDIT_MODE) {
+      before = val.charAt(start - 1).trim();
+      after = val.charAt(start).trim();
+      if (before === '' && after === '') {
+        return view.renderSuggestions();
+      }
+    } else if (view.__EDIT_MODE) {
+      switch (key) {
+        case 35:
+        case 32:
+          return view.hideSuggestions();
+        case 13:
+          if (view.__EDIT_MODE_IN_SELECTION && view.__ACTIVE_SUGGESTION !== null) {
+            e.preventDefault();
+            return view.__ACTIVE_SUGGESTION.click();
+          } else {
+            return view.hideSuggestions();
+          }
+          break;
+        case 8:
+          if (end === view.__EDIT_START) {
+            return view.hideSuggestions();
+          } else {
+            return view.renderSuggestions(val.substring(view.__EDIT_START + 1, end));
+          }
+          break;
+        case 38:
+        case 40:
+          if (e.type === 'keydown') {
+            e.preventDefault();
+            dir = key === 38 ? 'prev' : 'next';
+            reset = key === 38 ? 'last' : 'first';
+            if (view.__EDIT_MODE_IN_SELECTION) {
+              if (view.__ACTIVE_SUGGESTION[dir]().length === 0) {
+                view.__ACTIVE_SUGGESTION.removeClass(Suggestions.props.ACTIVE_CLASS);
+                return view.__ACTIVE_SUGGESTION = suggestions.find(Suggestions.props.SUGGESTIONS_ITEM)[reset]().addClass(Suggestions.props.ACTIVE_CLASS);
+              } else {
+                return view.__ACTIVE_SUGGESTION = view.__ACTIVE_SUGGESTION.removeClass(Suggestions.props.ACTIVE_CLASS)[dir]().addClass(Suggestions.props.ACTIVE_CLASS);
+              }
+            } else {
+              view.__EDIT_MODE_IN_SELECTION = true;
+              return view.__ACTIVE_SUGGESTION = suggestions.find(Suggestions.props.SUGGESTIONS_ITEM)[reset]().addClass(Suggestions.props.ACTIVE_CLASS);
+            }
+          }
+          break;
+        case 37:
+        case 39:
+          if (e.type === 'keyup') {
+            if (end < (view.__EDIT_START + 1) || val.substring(view.__EDIT_START, end).length !== val.substring(view.__EDIT_START, end).trim().length) {
+              return view.hideSuggestions();
+            }
+          }
+          break;
+        default:
+          if (e.type === 'keyup') {
+            return view.renderSuggestions(val.substring(view.__EDIT_START + 1, end));
+          }
+      }
+    }
+  };
+  return Suggestions.selectSuggestion = function(e) {
+    var boardId, edit, end, entity, entityId, entityType, start, url, view;
+    view = this;
+    edit = view.ui.editDescription;
+    entityType = e.target.getAttribute('data-type');
+    entityId = e.target.getAttribute('data-model-id');
+    if (entityType) {
+      entity = Tyto[entityType].get(entityId);
+      if (entity.attributes.boardId) {
+        boardId = Tyto.Tasks.get(entityId).attributes.boardId;
+        url = '#board/' + boardId + '/task/' + entityId;
+      } else {
+        url = '#board/' + entityId;
+      }
+      url = '[' + entity.attributes.title + '](' + url + ')';
+      start = edit[0].value.slice(0, view.__EDIT_START);
+      end = edit[0].value.slice(edit[0].selectionEnd, edit[0].value.length);
+      edit[0].value = start + ' ' + url + ' ' + end;
+    }
+    $('body').off('click');
+    view.ui.editDescription.focus();
+    view.hideSuggestions();
+    return view.delegateEvents();
+  };
+};
+
+module.exports = Suggestions;
+
+
+},{}],7:[function(require,module,exports){
 var Utils;
 
 Utils = function(Utils, App, Backbone, Marionette) {
@@ -494,6 +720,44 @@ Utils = function(Utils, App, Backbone, Marionette) {
         });
       }
     });
+  };
+  Utils.autoSize = function(el) {
+    var sizeUp;
+    sizeUp = function() {
+      el.style.height = 'auto';
+      return el.style.height = el.scrollHeight + 'px';
+    };
+    el.addEventListener('keydown', sizeUp);
+    el.addEventListener('input', sizeUp);
+    el.addEventListener('focus', sizeUp);
+    return sizeUp();
+  };
+  Utils.getCaretPosition = function(el) {
+    var bounds, carPos, coords, copyStyle, div, fontSize, left, span, top;
+    carPos = el.selectionEnd;
+    div = document.createElement('div');
+    span = document.createElement('span');
+    copyStyle = getComputedStyle(el);
+    coords = {};
+    bounds = el.getBoundingClientRect();
+    [].forEach.call(copyStyle, function(prop) {
+      return div.style[prop] = copyStyle[prop];
+    });
+    div.style.position = 'absolute';
+    div.textContent = el.value.substr(0, carPos);
+    span.textContent = el.value.substr(carPos) || '.';
+    div.appendChild(span);
+    document.body.appendChild(div);
+    fontSize = parseFloat(copyStyle.fontSize.replace('px', ''), 10);
+    top = el.offsetTop - el.scrollTop + span.offsetTop + fontSize;
+    top = top > el.offsetHeight ? el.offsetHeight : top;
+    left = el.offsetLeft - el.scrollLeft + span.offsetLeft;
+    coords = {
+      TOP: top + bounds.top + 'px',
+      LEFT: left + bounds.left + 'px'
+    };
+    document.body.removeChild(div);
+    return coords;
   };
   Utils.processQueryString = function(params) {
     var pushToQs, qS;
@@ -665,7 +929,7 @@ Utils = function(Utils, App, Backbone, Marionette) {
 module.exports = Utils;
 
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var Column;
 
 Column = require('./column');
@@ -813,11 +1077,11 @@ module.exports = Backbone.Marionette.CompositeView.extend({
     view = this;
     board = view.model;
     columns = view.collection;
-    view.$el.addClass(view.domAttributes.ADDING_COLUMN_CLASS);
-    return columns.add(Tyto.Columns.create({
+    columns.add(Tyto.Columns.create({
       boardId: board.id,
       ordinal: columns.length + 1
     }));
+    return view.$el.addClass(view.domAttributes.ADDING_COLUMN_CLASS);
   },
   saveBoardName: function() {
     return this.model.save({
@@ -873,7 +1137,7 @@ module.exports = Backbone.Marionette.CompositeView.extend({
 });
 
 
-},{"./column":8}],8:[function(require,module,exports){
+},{"./column":9}],9:[function(require,module,exports){
 var Task;
 
 Task = require('./task');
@@ -1034,12 +1298,12 @@ module.exports = Backbone.Marionette.CompositeView.extend({
     var attr, view;
     view = this;
     attr = view.domAttributes;
-    view.$el.addClass(attr.TASK_ADD_CLASS);
-    return this.collection.add(Tyto.Tasks.create({
+    this.collection.add(Tyto.Tasks.create({
       columnId: view.model.id,
       boardId: view.options.board.id,
       ordinal: view.collection.length + 1
     }));
+    return view.$el.addClass(attr.TASK_ADD_CLASS);
   },
   deleteColumn: function() {
     if (this.collection.length === 0 || confirm(Tyto.CONFIRM_MESSAGE)) {
@@ -1052,7 +1316,7 @@ module.exports = Backbone.Marionette.CompositeView.extend({
 });
 
 
-},{"./task":14}],9:[function(require,module,exports){
+},{"./task":15}],10:[function(require,module,exports){
 module.exports = Backbone.Marionette.ItemView.extend({
   template: Tyto.TemplateStore.cookieBanner,
   ui: {
@@ -1069,7 +1333,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 });
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var EditView;
 
 EditView = Backbone.Marionette.ItemView.extend({
@@ -1090,12 +1354,6 @@ EditView = Backbone.Marionette.ItemView.extend({
       colors: Tyto.TASK_COLORS
     };
   },
-  initialize: function() {
-    var view;
-    view = this;
-    Tyto.RootView.el.classList.add('bg--' + view.model.get('color'));
-    return Tyto.RootView.el.classList.remove(view.domAttributes.BLOOM_SHOW_CLASS);
-  },
   domAttributes: {
     VIEW_CLASS: 'tyto-edit',
     BLOOM_SHOW_CLASS: 'is--showing-bloom',
@@ -1110,6 +1368,8 @@ EditView = Backbone.Marionette.ItemView.extend({
     save: '.tyto-edit__save',
     color: '.tyto-edit__color-select__menu-option',
     taskDescription: '.tyto-edit__task-description',
+    editDescription: '.tyto-edit__edit-description',
+    suggestions: '.tyto-task__suggestions',
     taskTitle: '.tyto-edit__task-title',
     column: '.tyto-edit__column-select__menu-option',
     colorMenu: '.tyto-edit__color-select__menu',
@@ -1125,8 +1385,25 @@ EditView = Backbone.Marionette.ItemView.extend({
     'click @ui.color': 'changeColor',
     'click @ui.column': 'changeColumn',
     'click @ui.track': 'trackTime',
-    'blur @ui.taskDescription': 'updateTask',
-    'blur @ui.taskTitle': 'updateTask'
+    'click @ui.taskDescription': 'showEditMode',
+    'blur @ui.editDescription': 'updateTask',
+    'blur @ui.taskTitle': 'updateTask',
+
+    /*
+      NOTE:: These are functions that are bootstrapped in from
+            the 'Suggestions' module.
+     */
+    'keypress @ui.editDescription': 'filterItems',
+    'keydown @ui.editDescription': 'filterItems',
+    'keyup @ui.editDescription': 'filterItems',
+    'click @ui.suggestions': 'selectSuggestion'
+  },
+  initialize: function() {
+    var view;
+    view = this;
+    Tyto.Suggestions.bootstrapView(view);
+    Tyto.RootView.el.classList.add('bg--' + view.model.get('color'));
+    return Tyto.RootView.el.classList.remove(view.domAttributes.BLOOM_SHOW_CLASS);
   },
   getMDLMap: function() {
     var view;
@@ -1142,12 +1419,19 @@ EditView = Backbone.Marionette.ItemView.extend({
     ];
   },
   updateTask: function(e) {
-    var attr, el, val, view;
+    var attr, desc, edit, el, val, view;
     view = this;
     attr = view.domAttributes;
     el = e.target;
     val = el.nodeName === 'TEXTAREA' ? el.value : el.innerHTML;
-    return view.model.set(el.getAttribute(attr.MODEL_PROP_ATTR), val);
+    view.model.set(el.getAttribute(attr.MODEL_PROP_ATTR), val);
+    if (el.nodeName === 'TEXTAREA') {
+      desc = view.ui.taskDescription;
+      edit = view.ui.editDescription;
+      desc.html(marked(edit.val()));
+      edit.addClass(attr.HIDDEN_UTIL_CLASS);
+      return desc.removeClass(attr.HIDDEN_UTIL_CLASS);
+    }
   },
   onShow: function() {
     return Tyto.Utils.upgradeMDL(this.getMDLMap());
@@ -1155,10 +1439,21 @@ EditView = Backbone.Marionette.ItemView.extend({
   onRender: function() {
     var view;
     view = this;
+    view.ui.taskDescription.html(marked(view.model.get('description')));
+    Tyto.Utils.autoSize(view.ui.editDescription[0]);
     return Tyto.Utils.renderTime(view);
   },
   trackTime: function() {
     return Tyto.Utils.showTimeModal(this.model, this);
+  },
+  showEditMode: function() {
+    var desc, domAttributes, edit, model;
+    domAttributes = this.domAttributes;
+    model = this.model;
+    desc = this.ui.taskDescription;
+    edit = this.ui.editDescription;
+    desc.addClass(domAttributes.HIDDEN_UTIL_CLASS);
+    return edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS).val(model.get('description')).focus();
   },
 
   /*
@@ -1229,7 +1524,7 @@ EditView = Backbone.Marionette.ItemView.extend({
 module.exports = EditView;
 
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = Backbone.Marionette.ItemView.extend({
   template: Tyto.TemplateStore.menu,
   tagName: 'div',
@@ -1243,7 +1538,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
     importBtn: '.tyto-menu__import',
     deleteBtn: '.tyto-menu__delete-save',
     exporter: '.tyto-menu__exporter',
-    importer: '.tyto-menu__importer'
+    importer: '.tyto-menu__importer',
+    action: 'button'
   },
   events: {
     'click  @ui.addBoardBtn': 'addBoard',
@@ -1251,13 +1547,15 @@ module.exports = Backbone.Marionette.ItemView.extend({
     'click  @ui.deleteBtn': 'deleteAppData',
     'click  @ui.loadBtn': 'initLoad',
     'click  @ui.importBtn': 'initLoad',
+    'click  @ui.action': 'restoreContent',
     'change @ui.importer': 'handleFile'
   },
   props: {
     DOWNLOAD_FILE_NAME: 'barn.json'
   },
   domAttributes: {
-    VIEW_CLASS: 'tyto-menu'
+    VIEW_CLASS: 'tyto-menu',
+    MENU_VISIBLE_CLASS: 'is-visible'
   },
   onShow: function() {
     var view;
@@ -1278,6 +1576,11 @@ module.exports = Backbone.Marionette.ItemView.extend({
       }
       return Tyto.navigate('/', true);
     };
+  },
+  restoreContent: function() {
+    var props;
+    props = this.domAttributes;
+    return Tyto.RootView.getRegion('Menu').$el.removeClass(props.MENU_VISIBLE_CLASS);
   },
   handleFile: function(e) {
     var file, view;
@@ -1332,7 +1635,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 });
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var RootLayout;
 
 RootLayout = Backbone.Marionette.LayoutView.extend({
@@ -1346,7 +1649,7 @@ RootLayout = Backbone.Marionette.LayoutView.extend({
 module.exports = RootLayout;
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = Backbone.Marionette.ItemView.extend({
   template: Tyto.TemplateStore.select,
   tagName: 'div',
@@ -1403,7 +1706,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 });
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = Backbone.Marionette.ItemView.extend({
   tagName: 'div',
   className: function() {
@@ -1426,7 +1729,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
     hours: '.tyto-task__time__hours',
     minutes: '.tyto-task__time__minutes',
     time: '.tyto-task__time',
-    editDescription: '.tyto-task__description-edit'
+    editDescription: '.tyto-task__description-edit',
+    suggestions: '.tyto-task__suggestions'
   },
   events: {
     'click @ui.deleteTask': 'deleteTask',
@@ -1434,7 +1738,16 @@ module.exports = Backbone.Marionette.ItemView.extend({
     'click @ui.trackTask': 'trackTask',
     'blur  @ui.title': 'saveTaskTitle',
     'blur  @ui.editDescription': 'saveTaskDescription',
-    'click @ui.description': 'showEditMode'
+    'click @ui.description': 'showEditMode',
+
+    /*
+      NOTE:: These are functions that are bootstrapped in from
+              the 'Suggestions' module.
+     */
+    'keypress @ui.editDescription': 'filterItems',
+    'keydown @ui.editDescription': 'filterItems',
+    'keyup @ui.editDescription': 'filterItems',
+    'click @ui.suggestions': 'selectSuggestion'
   },
   domAttributes: {
     VIEW_CLASS: 'tyto-task mdl-card mdl-shadow--2dp bg--',
@@ -1442,7 +1755,8 @@ module.exports = Backbone.Marionette.ItemView.extend({
     IS_BEING_ADDED_CLASS: 'is--adding-task',
     COLUMN_CLASS: '.tyto-column',
     TASK_CONTAINER_CLASS: '.tyto-column__tasks',
-    HIDDEN_UTIL_CLASS: 'is--hidden'
+    HIDDEN_UTIL_CLASS: 'is--hidden',
+    INDICATOR: '.indicator'
   },
   getMDLMap: function() {
     var view;
@@ -1458,6 +1772,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     var attr, view;
     view = this;
     attr = view.domAttributes;
+    Tyto.Suggestions.bootstrapView(view);
     return view.$el.on(Tyto.ANIMATION_EVENT, function() {
       return $(this).parents(attr.COLUMN_CLASS).removeClass(attr.IS_BEING_ADDED_CLASS);
     });
@@ -1473,7 +1788,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     attr = view.domAttributes;
     container = view.$el.parents(attr.TASK_CONTAINER_CLASS)[0];
     column = view.$el.parents(attr.COLUMN_CLASS);
-    if (container.scrollHeight > container.offsetHeight && column.hasClass(attr.IS_BEING_ADDED_CLASS)) {
+    if (container.scrollHeight > container.offsetHeight) {
       container.scrollTop = container.scrollHeight;
     }
     return Tyto.Utils.upgradeMDL(view.getMDLMap());
@@ -1482,6 +1797,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     var view;
     view = this;
     view.ui.description.html(marked(view.model.get('description')));
+    Tyto.Utils.autoSize(view.ui.editDescription[0]);
     return Tyto.Utils.renderTime(view);
   },
   trackTask: function(e) {
@@ -1504,8 +1820,9 @@ module.exports = Backbone.Marionette.ItemView.extend({
     desc.addClass(domAttributes.HIDDEN_UTIL_CLASS);
     return edit.removeClass(domAttributes.HIDDEN_UTIL_CLASS).val(model.get('description')).focus();
   },
-  saveTaskDescription: function() {
+  saveTaskDescription: function(e) {
     var content, desc, domAttributes, edit;
+    console.info('SAVING');
     domAttributes = this.domAttributes;
     edit = this.ui.editDescription;
     desc = this.ui.description;
@@ -1525,7 +1842,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
 });
 
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var TimeModal;
 
 TimeModal = Backbone.Marionette.ItemView.extend({
@@ -1540,6 +1857,7 @@ TimeModal = Backbone.Marionette.ItemView.extend({
   },
   ui: {
     timerBtn: '.tyto-time-modal__timer',
+    taskDescription: '.tyto-time-modal__content-description',
     timerIcon: '.tyto-time-modal__timer-icon',
     resetBtn: '.tyto-time-modal__timer-reset',
     closeBtn: '.tyto-time-modal__close',
@@ -1600,6 +1918,7 @@ TimeModal = Backbone.Marionette.ItemView.extend({
   onRender: function() {
     var view;
     view = this;
+    view.ui.taskDescription.html(marked(view.model.get('description')));
     return view.renderTime();
   },
   stopTimer: function() {
@@ -1638,7 +1957,7 @@ TimeModal = Backbone.Marionette.ItemView.extend({
     view.model.save({
       timeSpent: view.model.get('timeSpent')
     });
-    Tyto.RootView.getRegion('TimeModal').el.remove();
+    Tyto.RootView.getRegion('TimeModal').$el.remove();
     Tyto.RootView.removeRegion('TimeModal');
     Tyto.Utils.renderTime(view.options.modelView);
     return view.destroy();
@@ -1648,7 +1967,7 @@ TimeModal = Backbone.Marionette.ItemView.extend({
 module.exports = TimeModal;
 
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var BoardView, ColumnView, CookieBannerView, EditView, MenuView, RootView, SelectView, TaskView, TimeModalView, Views;
 
 TaskView = require('./task');
@@ -1684,5 +2003,5 @@ Views = function(Views, App, Backbone) {
 module.exports = Views;
 
 
-},{"./board":7,"./column":8,"./cookie":9,"./edit":10,"./menu":11,"./root":12,"./select":13,"./task":14,"./time":15}]},{},[1]);
+},{"./board":8,"./column":9,"./cookie":10,"./edit":11,"./menu":12,"./root":13,"./select":14,"./task":15,"./time":16}]},{},[1]);
  }());
