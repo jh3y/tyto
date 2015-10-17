@@ -9,21 +9,26 @@ module.exports =  Backbone.Marionette.ItemView.extend
     exportBtn    : '.tyto-menu__export'
     loadBtn      : '.tyto-menu__load'
     importBtn    : '.tyto-menu__import'
+    deleteBtn    : '.tyto-menu__delete-save'
     exporter     : '.tyto-menu__exporter'
     importer     : '.tyto-menu__importer'
+    action       : 'button'
 
   events:
-    'click  @ui.addBoardBtn'  : 'addBoard',
+    'click  @ui.addBoardBtn'  : 'addBoard'
     'click  @ui.exportBtn'    : 'exportData'
+    'click  @ui.deleteBtn'    : 'deleteAppData'
     'click  @ui.loadBtn'      : 'initLoad'
     'click  @ui.importBtn'    : 'initLoad'
+    'click  @ui.action'       : 'restoreContent'
     'change @ui.importer'     : 'handleFile'
 
   props:
     DOWNLOAD_FILE_NAME: 'barn.json'
 
   domAttributes:
-    VIEW_CLASS: 'tyto-menu'
+    VIEW_CLASS        : 'tyto-menu'
+    MENU_VISIBLE_CLASS: 'is-visible'
 
   onShow: ->
     view        = this
@@ -41,6 +46,9 @@ module.exports =  Backbone.Marionette.ItemView.extend
         Tyto.Utils.load data, true, false
       Tyto.navigate '/', true
 
+  restoreContent: ->
+    props = this.domAttributes
+    Tyto.RootView.getRegion('Menu').$el.removeClass props.MENU_VISIBLE_CLASS
   handleFile: (e) ->
     view = this
     file = e.target.files[0]
@@ -72,6 +80,19 @@ module.exports =  Backbone.Marionette.ItemView.extend
     anchor.setAttribute 'href'    , content
     anchor.click()
     return
+
+  deleteAppData: ->
+    # Need to wipe data app wide and proceed to route.
+    # Wipe localStorage records
+    _.forOwn window.localStorage, (val, key) ->
+      if key.indexOf('tyto') isnt -1 and key isnt 'tyto'
+        window.localStorage.removeItem key
+    # Wipe app-wide collections.
+    Tyto.Boards.reset()
+    Tyto.Columns.reset()
+    Tyto.Tasks.reset()
+    # Redirect to root.
+    Tyto.navigate '/', true
 
   addBoard: ->
     Tyto.navigate 'board/' + Tyto.Boards.create().id, true

@@ -1,4 +1,4 @@
-Contributing to tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/images/tyto.png)
+Contributing to tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/img/tyto.png)
 ===
 Open source is a great thing and I really appreciate that you may be interested in contributing to `tyto`!
 

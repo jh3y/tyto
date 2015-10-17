@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/jh3y/tyto.svg?branch=master)](https://travis-ci.org/jh3y/tyto)
-tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/images/tyto.png)
+tyto ![alt tag](https://raw.github.com/jh3y/tyto/master/src/img/tyto.png)
 ===
 __tyto__ is an extensible and customizable management and organisation tool
 
@@ -15,6 +15,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto)!
 * localStorage persistence
 * time tracking
 * sortable UI
+* Markdown support
 * etc.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/add_task.gif)
@@ -50,13 +51,17 @@ Tyto is a personal pet of mine and if it can help others, that's great!
 ###Using tyto
 Just want to use it? Do that by visiting [jh3y.github.io/tyto](http://jh3y.github.io/tyto).
 
+GitHub flavored markdown is supported thanks to `marked`.
+
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/markdown.gif)
+
 Changes are persistent thanks to `localStorage`.
 
 Want to move to a different browser or machine though? Use the export utility to export a json file. Load this using the import utility.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/menu.png)
-
 A persistent workflow across devices? I'm afraid I haven't implemented that. Accounts is not something I am keen on implementing. I think it diverts from my original intention with tyto.
+
+
 
 ####Your own environment
 #####Prerequisites
@@ -98,6 +103,7 @@ There are a range of technologies being used under the hood.
 * Lodash
 * Backbone
 * Marionette
+* Marked
 * Jade
 * Stylus
 * CoffeeScript
@@ -105,17 +111,9 @@ There are a range of technologies being used under the hood.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/move_task.gif)
 
-###Roadmap and known needs
-* Better app wide source commentary.
-* Markdown support.
-
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/open_menu.gif)
-
 ###License
 
 MIT
-
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/show_time.png)
 
 If you wish to use __tyto__ please star, fork or share the repo! It aids with project presence.
 

@@ -1,4 +1,4 @@
-Log  ![alt tag](https://raw.github.com/jh3y/tyto/master/src/images/tyto.png)
+Log  ![alt tag](https://raw.github.com/jh3y/tyto/master/src/img/tyto.png)
 ===
 * __11/12/13__: Posted to HN, really great and very appreciated feedback from a large group of people.
 * __14/02/14__: V1.1.0.
