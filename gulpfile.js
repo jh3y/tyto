@@ -3,7 +3,6 @@ var gulp       = require('gulp'),
   source       = require('vinyl-source-stream'),
   buffer       = require('vinyl-buffer'),
   fs           = require('fs'),
-  os           = require('os'),
   browserSync  = require('browser-sync'),
   gConfig      = require('./gulp-config'),
   pluginOpts   = gConfig.pluginOpts,
@@ -88,7 +87,7 @@ gulp.task('tmpl:compile', function(){
     .pipe(plugins.jade(pluginOpts.jade))
     .pipe(plugins.template({
       name: 'templates.js',
-      base: (os.platform() === 'win32') ? 'src\\jade\\templates\\': 'src/jade/templates/',
+      base: 'src/jade/templates/',
       variable: 'module.exports'
     }))
     .pipe(gulp.dest(destinations.templates));
