@@ -1,0 +1,36 @@
+include ../mixins/menu.pug
+
+.tyto-board__options
+  +actionMenu('tyto-board__menu', 'more_vert', 'tyto-board', '', 'bottom-right', 'Board options')
+    li.tyto-board__wipe-board.mdl-menu__item Wipe board
+    li.tyto-board__delete-board.mdl-menu__item Delete board
+    li.tyto-board__email-board.mdl-menu__item Email board
+    a.tyto-board__emailer(style="display: none;")
+
+.tyto-board__details
+  h1.tyto-board__title.bg--white(contenteditable="true")
+    |<%= tyto.title %>
+  |<% if (tyto.boards.length > 1) { %>
+  +actionMenu('tyto-board__selector', 'expand_more', 'tyto-board__selector', '', 'bottom-right', 'Select a board')
+    |<% _.each(tyto.boards.models, function(i){ %>
+    |<% if (i.attributes.id != tyto.id) { %>
+    li.mdl-menu__item.tyto-board__selector-option(title="View board")
+      a(href!="#board/<%= i.attributes.id %>") <%= i.attributes.title %>
+    |<% } %>
+    |<% }) %>
+  |<% } %>
+
+.tyto-board__columns
+
+.tyto-board__actions.mdl-button--fab_flinger-container
+  button.tyto-board__add-entity.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored
+    i.material-icons add
+  .mdl-button--fab_flinger-options
+    button.tyto-board__super-add.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(title="Add task")
+      i.material-icons description
+      i.material-icons.sub add
+    button.tyto-board__add-column.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(title="Add column")
+      i.material-icons view_column
+      i.material-icons.sub add
+
+.tyto-board__bloomer

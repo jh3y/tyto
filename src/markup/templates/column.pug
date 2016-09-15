@@ -1,0 +1,12 @@
+include ../mixins/menu.pug
+
+.tyto-column__content
+  .tyto-column__actions
+    i.tyto-column__mover.material-icons.does--fade(title="Move column") open_with
+    h6.tyto-column__title.input--fade.bg--white(contenteditable="true", title="Column title") <%= tyto.title %>
+    +actionMenu('<%= tyto.id %>--menu', 'more_vert', 'tyto-column', 'does--fade', 'bottom-right', 'Column options')
+      li.tyto-column__delete-column.mdl-menu__item(title="Delete column") Delete
+      li.tyto-column__add-task.mdl-menu__item(title="Add task") Add task
+  .tyto-column__tasks
+  .tyto-column__action
+    i.material-icons.tyto-column__add-task.does--fade(title="Add task") add

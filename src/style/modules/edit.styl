@@ -1,0 +1,79 @@
+.tyto-edit
+  & > *
+    animation-name     fade__in
+    animation-duration .25s
+
+  &__content
+    position fixed
+    top      56px
+    right    0
+    bottom   0
+    left     0
+    padding  20px
+    overflow visible
+    @media(min-width 852px)
+      top    64px
+    @media(min-width 768px)
+      width  600px
+      margin 0 auto
+
+  &__color-select__menu
+    display        flex
+    flex-wrap      wrap
+    flex-direction row
+    padding        8px
+
+  &__color-select__menu-option
+    width 50%
+
+  &__task-title
+    margin  0 32px 0 0
+    padding 10px 24px
+
+  &__task-description
+    padding    24px
+    width      100%
+    outline    0
+    background transparent
+    border     none
+    min-height 100px
+
+  &__edit-description
+    outline     0
+    border      none
+    background  transparent
+    padding     16px 0
+    width       100%
+    min-height  100px
+    max-height  300px
+    margin      0 16px
+    font-size   16px
+    line-height 16px
+    resize      none
+
+  &__nav
+  &__details-footer
+    min-height 50px
+
+  &__details-footer
+    padding 0 8px
+    opacity 0.4
+
+  &__actions
+    position       absolute
+    top            20px
+    right          20px
+    display        flex
+    flex-direction column
+
+
+  &__nav
+    position    fixed
+    display     flex
+    align-items center
+    z-index     2
+    top         0
+    left        100px
+    height      56px
+    @media(min-width 852px)
+      height 64px

@@ -1,0 +1,38 @@
+include ../mixins/menu.pug
+include ../mixins/timeLabel.pug
+
+.tyto-edit__nav
+  |<% if (tyto.isNew) { %>
+  button.tyto-edit__save.mdl-button.mdl-js-button.mdl-js-ripple-effect Done
+  a.tyto-edit__cancel.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<%= tyto.board.id %>") Cancel
+  |<% } else { %>
+  a.tyto-edit__back.mdl-button.mdl-js-button.mdl-js-ripple-effect(href!="#board/<%= tyto.board.id %>") Return to board
+  |<% } %>
+.tyto-edit__content
+  .tyto-edit__details.has--bottom-margin
+    h1.tyto-edit__task-title(contenteditable="true", data-model-prop="title", title="Task title") <%= tyto.title %>
+    .tyto-edit__task-description(title="Task description") <%= tyto.description %>
+    .tyto-task__edit-wrapper
+      textarea.tyto-edit__edit-description.is--hidden(data-model-prop="description")
+      .tyto-task__suggestions.tyto-suggestions__container.mdl-shadow--2dp.is--hidden
+  .tyto-edit__details-footer.tx--right.has--bottom-margin
+    +timeLabel('tyto-edit__task-time')
+    .tyto-edit__task-column
+      |<% if (tyto.selectedColumn) { %>
+      |<%= tyto.selectedColumn.attributes.title %>
+      |<% } %>
+  .tyto-edit__actions
+    |<% if (tyto.columns.length > 0 ) { %>
+    +actionMenu('column-select', 'view_column', 'tyto-edit__column-select', '', 'bottom-right', 'Select column')
+      |<% _.forEach(tyto.columns, function(column) { %>
+      |<% if (!tyto.isNew) { var activeClass = (column.attributes.id === tyto.columnId) ? 'is--selected': '' } %>
+      li.mdl-menu__item.tyto-edit__column-select__menu-option(data-column-id!="<%= column.id %>" class!="<%= activeClass %>") <%= column.attributes.title %>
+      |<% }); %>
+    |<% } %>
+    +actionMenu('color-select' , 'color_lens', 'tyto-edit__color-select', '', 'bottom-right', 'Change color')
+      |<% _.forEach(tyto.colors, function(col) { %>
+      |<% var activeColor = (col === tyto.color) ? 'is--selected': '' %>
+      li.mdl-menu__item.tyto-edit__color-select__menu-option(class!="bg--<%= col %> hv--<%= col %> <%= tyto.activeColor %>", data-color!="<%= col %>", title!="<%= col %>")
+      |<% }); %>
+    button.tyto-edit__track.mdl-button.mdl-js-button.mdl-button--icon.mdl-js-ripple-effect(title="Start tracking")
+      i.material-icons schedule

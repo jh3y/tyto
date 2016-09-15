@@ -1,0 +1,6 @@
+mixin actionMenu(id, icon, className, fades, position, title)
+  button.mdl-button.mdl-js-button.mdl-button--icon(id!=`${id}`, class!=`${className}__menu-btn ${fades}`, title!=`${title}`)
+    i.material-icons= icon
+  ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect(for!=`${id}`, class!=`${className}__menu mdl-menu--${position}`)
+    if block
+      block

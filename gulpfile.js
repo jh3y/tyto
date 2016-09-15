@@ -1,147 +1,31 @@
-var gulp       = require('gulp'),
-  browserify   = require('browserify'),
-  source       = require('vinyl-source-stream'),
-  buffer       = require('vinyl-buffer'),
-  fs           = require('fs'),
-  browserSync  = require('browser-sync'),
-  gConfig      = require('./gulp-config'),
-  pluginOpts   = gConfig.pluginOpts,
-  sources      = gConfig.paths.sources,
-  destinations = gConfig.paths.destinations,
-  plugins      = require('gulp-load-plugins')(pluginOpts.load),
-  isTest       = (plugins.gUtil.env.test)   ? true: false,
-  isMapped     = (plugins.gUtil.env.map)    ? true: false,
-  isStat       = (plugins.gUtil.env.stat)   ? true: false,
-  isDist       = (plugins.gUtil.env.dist)   ? true: false,
-  isDeploy     = (plugins.gUtil.env.deploy) ? true: false;
+var gulp = require('gulp'),
+  script = require('./build-tasks/script'),
+  style  = require('./build-tasks/style'),
+  markup = require('./build-tasks/markup'),
+  tmpl   = require('./build-tasks/tmpl'),
+  deploy = require('./build-tasks/deploy'),
+  server = require('./build-tasks/serve'),
+  assets = require('./build-tasks/assets');
 
+gulp.task('serve', ['build:complete'], server.start);
 
-gulp.task('serve', ['build:complete'], function() {
-  browserSync(pluginOpts.browserSync);
-  gulp.watch(sources.overwatch).on('change', browserSync.reload);
-});
+gulp.task('script:compile', ['tmpl:compile'], script.compile);
+gulp.task('script:watch', script.watch);
 
-gulp.task('coffee:compile', ['tmpl:compile'], function () {
+gulp.task('style:compile', style.compile);
+gulp.task('style:watch', style.watch);
 
-  var b = browserify({
-    entries: [
-      './src/coffee/app.coffee'
-    ],
-    transform: 'coffeeify',
-    extensions: '.coffee',
-    debug: isMapped ? true: false
-  });
+gulp.task('markup:compile', markup.compile);
+gulp.task('markup:watch', markup.watch);
 
-  return b.bundle()
-    .pipe(plugins.plumber())
-    .pipe(source(gConfig.pkg.name + '.js'))
-    .pipe(buffer())
-    .pipe(isMapped ? plugins.sourcemaps.init({loadMaps: true}): plugins.gUtil.noop())
-    .pipe(plugins.wrap(pluginOpts.wrap))
-    .pipe(plugins.header(fs.readFileSync('./LICENSE', 'utf-8')))
-    .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
-    .pipe(gulp.dest(destinations.js))
-    .pipe(plugins.uglify(pluginOpts.uglify))
-    .pipe(plugins.rename(pluginOpts.rename))
-    .pipe(isMapped ? plugins.sourcemaps.write('./'): plugins.gUtil.noop())
-    .pipe(isStat ? plugins.size(pluginOpts.gSize): plugins.gUtil.noop())
-    .pipe(gulp.dest(isDist ? destinations.dist: destinations.js));
+gulp.task('tmpl:compile', tmpl.compile);
+gulp.task('tmpl:watch', tmpl.watch);
 
-});
-
-gulp.task('coffee:watch', function() {
-  gulp.watch(sources.coffee, ['coffee:compile']);
-});
-
-
-gulp.task('stylus:compile', function() {
-  return gulp.src(sources.stylus, {base: 'src/stylus'})
-    .pipe(plugins.plumber())
-    .pipe(plugins.order(pluginOpts.order.stylus))
-    .pipe(plugins.concat(gConfig.pkg.name + '.stylus'))
-    .pipe(plugins.stylus())
-    .pipe(plugins.prefix(pluginOpts.prefix))
-    .pipe(gulp.dest(destinations.css))
-    .pipe(plugins.minify())
-    .pipe(plugins.rename(pluginOpts.rename))
-    .pipe(gulp.dest(destinations.css));
-});
-gulp.task('stylus:watch', function() {
-  gulp.watch(sources.stylus, ['stylus:compile']);
-});
-
-
-gulp.task('jade:compile', function(){
-  return gulp.src(sources.docs)
-    .pipe(plugins.plumber())
-    .pipe(plugins.jade(pluginOpts.jade))
-    .pipe(gulp.dest(destinations.html));
-});
-gulp.task('jade:watch', function() {
-  gulp.watch(sources.jade, ['jade:compile']);
-});
-
-gulp.task('tmpl:compile', function(){
-  return gulp.src(sources.templates)
-    .pipe(plugins.plumber())
-    .pipe(plugins.jade(pluginOpts.jade))
-    .pipe(plugins.template({
-      name: 'templates.js',
-      base: 'src/jade/templates/',
-      variable: 'module.exports'
-    }))
-    .pipe(gulp.dest(destinations.templates));
-});
-gulp.task('tmpl:watch', function() {
-  gulp.watch(sources.templates, ['coffee:compile']);
-});
-
-
-
-gulp.task('vendor:scripts:publish', function() {
-  var yapFilter = plugins.filter([
-    '**/*.js',
-    '!**/yap.min.js'
-  ]);
-  return gulp.src(sources.vendor.js)
-    .pipe(plugins.plumber())
-    .pipe(isDist ? yapFilter: plugins.gUtil.noop())
-    .pipe(plugins.concat('vendor.js'))
-    .pipe(gulp.dest(destinations.js))
-    .pipe(plugins.uglify(pluginOpts.uglify))
-    .pipe(plugins.rename(pluginOpts.rename))
-    .pipe(gulp.dest(destinations.js));
-});
-
-gulp.task('vendor:fonts:publish', function() {
-  return gulp.src(sources.vendor.fonts)
-    .pipe(plugins.plumber())
-    .pipe(gulp.dest(destinations.fonts));
-});
-
-
-gulp.task('vendor:styles:publish', function() {
-  return gulp.src(sources.vendor.css)
-    .pipe(plugins.plumber())
-    .pipe(plugins.concat('vendor.css'))
-    .pipe(gulp.dest(destinations.css))
-    .pipe(plugins.minify(pluginOpts.minify))
-    .pipe(plugins.rename(pluginOpts.rename))
-    .pipe(gulp.dest(destinations.css));
-});
-
-
-gulp.task('img:publish', function() {
-  return gulp.src(sources.img)
-    .pipe(plugins.plumber())
-    .pipe(gulp.dest(destinations.img));
-});
-
-gulp.task('json:publish', function() {
-  return gulp.src(sources.json)
-    .pipe(plugins.plumber())
-    .pipe(gulp.dest(destinations.js));
-});
+gulp.task('vendor:scripts:publish', assets.scripts);
+gulp.task('vendor:fonts:publish', assets.fonts);
+gulp.task('vendor:styles:publish', assets.styles);
+gulp.task('img:publish', assets.img);
+gulp.task('json:publish', assets.json);
 
 
 gulp.task('vendor:publish', [
@@ -152,23 +36,20 @@ gulp.task('vendor:publish', [
   'json:publish'
 ]);
 
-gulp.task('deploy', ['build:complete'], function () {
-  return gulp.src(sources.overwatch)
-    .pipe(plugins.deploy());
-});
+gulp.task('deploy', ['build:complete'], deploy.deploy);
 
 gulp.task('build:complete', [
-  'jade:compile',
+  'markup:compile',
   'tmpl:compile',
-  'coffee:compile',
+  'script:compile',
   'vendor:publish',
-  'stylus:compile'
+  'style:compile'
 ]);
 gulp.task('watch', [
-  'jade:watch',
+  'markup:watch',
   'tmpl:watch',
-  'coffee:watch',
-  'stylus:watch'
+  'script:watch',
+  'style:watch'
 ]);
 gulp.task('default', [
   'serve',
