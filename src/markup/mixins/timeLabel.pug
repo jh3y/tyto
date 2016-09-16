@@ -1,0 +1,5 @@
+mixin timeLabel(className)
+  .tyto-time(title="Time spent", class!=className)
+    i.tyto-time__icon.material-icons schedule
+    span(class!=`${className}__hours tyto-time__hours`) <%= tyto.timeSpent.hours %>h
+    span(class!=`${className}__minutes tyto-time__minutes`) <%= tyto.timeSpent.minutes %>m

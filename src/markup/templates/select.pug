@@ -1,0 +1,20 @@
+|<% if (!tyto.items || tyto.items.length == 0) { %>
+p
+  span To start,
+  button.tyto-select__add-board.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect Add a board
+p
+  span or
+  button.tyto-select__load-intro-board.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect Load the intro board
+|<% } else {%>
+p
+  span To start, select one of your boards.
+  .selector
+    select.tyto-select__board-selector
+      option --select a board--
+      |<% _.each(tyto.items, function(i){ %>
+      option(value!="<%= i.id %>") <%= i.title %>
+      |<% }) %>
+p
+  span Alternatively,
+  button.tyto-select__add-board.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect Add a board
+|<% } %>

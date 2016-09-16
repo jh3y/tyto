@@ -7,7 +7,7 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto)!
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/app_three_cols.png)
 
-###Features
+### Features
 * minimal UI
 * no accounts necessary
 * intuitive
@@ -15,33 +15,34 @@ just visit [jh3y.github.io/tyto](http://jh3y.github.io/tyto)!
 * localStorage persistence
 * time tracking
 * sortable UI
+* task linking
 * Markdown support
 * etc.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/add_task.gif)
 
-###Why tyto? What's it for?
-Tyto arose from a desire of my own and members of my then team. The desire for an intuitive and simple tool for easy workflow/task management. Whether it be managing tasks in the current sprint or your weekly schedule. An ability to share was also vital.
+### Why tyto? What's it for?
+
+Tyto arose from the want for an electronic post-it board without the need for accounts. Something simple and intuitive that could be easily shared.
+
+It's also the product of my own curiosity being used as an opportunity to pick up new tech stacks. It started as a vanilla JS app utilising one file and experimenting with HTML5 drag and drop. It then grew a little more, and a little more after that. Now it uses Backbone w/ Marionette. The next step? Most likely Angular 2.0 or React.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/edit_view.png)
 
-In truth, most organisations have some form of tool for this. In my experience though, most are cumbersome and clunky. Employees tend to dislike internal tools. Whiteboards and walls etc. are still covered in sticky notes.
+In truth, most organisations have some form of tool for what Tyto is doing. In my experience though, they can be cumbersome, clunky and just a bit noisy. Some employees tend to dislike internal tools. You still see whiteboards and walls plastered in sticky notes.
 
-This is why tyto came about. It's intuitive and minimal. No accounts are necessary. On top of that, the source isn't too hard to grasp making it rather easy to extend and customise.
+This is where Tyto came from, It's my personal intuitive and minimal TodoMVC. No accounts necessary and the source isn't too hard to grasp making it rather easy to extend and customise.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/edit_task.gif)
 
-###Who's it for?
-Developer and project managers were the original target audience. A means to share project progression on a more personal level. As opposed to an automated message from an internal system.
+### Who's it for?
+Developer and project managers were the original target audience. A means to share project progression on a more _personal_ level. As opposed to publicly through an internal system. Almost like a complimentary attachment to an email.
 
-For example; a developer may track the different stages of a task. They may also want to track time spent on different tasks and then email this to a project manager.
-Tyto isn't restricting. It has use in a multitude of scenarios. Not quite right out of the box? Extensibility provides a means to create a bespoke version based on theme or functionality.
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/linking.gif)
 
-Examples:
-* the plan for the week ahead.
-* ingredient lists.
-* priority lists etc.
-* managing your xmas shopping
+There are no restrictions though, it's open source. Not quite right out of the box? Change it :smile:
+
+Extensibility provides a means to create a bespoke version based on theme or functionality.
 
 Tyto is a personal pet of mine and if it can help others, that's great!
 
@@ -59,12 +60,10 @@ Changes are persistent thanks to `localStorage`.
 
 Want to move to a different browser or machine though? Use the export utility to export a json file. Load this using the import utility.
 
-A persistent workflow across devices? I'm afraid I haven't implemented that. Accounts is not something I am keen on implementing. I think it diverts from my original intention with tyto.
+A persistent workflow across devices? I'm afraid I haven't implemented that. Accounts is _not_ something I am keen on implementing/hosting right now. I think it diverts from my original intention with Tyto.
 
-
-
-####Your own environment
-#####Prerequisites
+#### Your own environment
+##### Prerequisites
 If you're cloning the repo and setting up the codebase you are going to need __[node]__, __[bower]__ and  __[gulp]__ installed.
 #####Set up
 1. Clone the repo.
@@ -81,14 +80,14 @@ If you're cloning the repo and setting up the codebase you are going to need __[
 
         gulp
 
-####Hosting
+#### Hosting
 I would suggest just taking a snapshot of the `gh-pages` branch and ftp'ing this onto your desired server or web space. Alternatively, follow the set up procedure and FTP the contents of the `public` directory.
 
 If you wish to host on Github. Follow the set up procedure first(ideally, with a fork). When happy with your version, use the `deploy` task. This will require familiarity with `gulp-gh-pages` in order to publish to the correct location if other than `gh-pages`.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/speed_dial.gif)
 
-###Development
+### Development
 A strength of tyto is extensibility. Making changes whether it be functional or aesthetic is straightforward once familiar with the codebase.
 
 Any queries as to how things work in the codebase? Feel free to raise an issue with a question!
@@ -106,15 +105,15 @@ There are a range of technologies being used under the hood.
 * Marked
 * Jade
 * Stylus
-* CoffeeScript
+* Babel
 * Gulp
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/move_task.gif)
 
-###License
+### License
 
 MIT
 
-If you wish to use __tyto__ please star, fork or share the repo! It aids with project presence.
+---------------------------
 
-[@jh3y](https://github.com/jh3y) (c) 2015.
+Made with :sparkles: [@jh3y](https://twitter.com/@_jh3y) 2016

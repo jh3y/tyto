@@ -1,0 +1,18 @@
+.tyto-time-modal__content.mdl-card.mdl-shadow--4dp
+  .tyto-time-modal__content-title.mdl-card__title
+    h2.mdl-card__title-text <%= tyto.title %>
+  .tyto-time-modal__content-text.tx--center.mdl-card__supporting-text
+    p.tyto-time-modal__content-description
+    h1.tyto-time-modal__timer-lbl
+      span.tyto-time-modal__timer-lbl-hours
+      span :
+      span.tyto-time-modal__timer-lbl-minutes
+      span :
+      span.tyto-time-modal__timer-lbl-seconds
+  .tyto-time-modal__actions.mdl-card__actions.mdl-card--border.tx--center
+    button.tyto-time-modal__timer-reset.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent.mdl-js-ripple-effect(title="Reset time")
+      i.material-icons restore
+    button.tyto-time-modal__timer.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent.mdl-js-ripple-effect(title="Stop/Start tracking")
+      i.tyto-time-modal__timer-icon.material-icons play_arrow
+    button.tyto-time-modal__close.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--accent.mdl-js-ripple-effect(title="Exit tracking")
+      i.material-icons clear

@@ -1,0 +1,16 @@
+include ../mixins/menu.pug
+include ../mixins/timeLabel.pug
+.tyto-task__content
+  .tyto-task__header.tx--center
+    i.material-icons.tyto-task__mover.does--fade(title="Move task") open_with
+    h2.tyto-task__title(contenteditable="true", title="Task title") <%= tyto.title %>
+    +actionMenu('<%= tyto.id %>--menu', 'more_vert', 'tyto-task', 'does--fade', 'bottom-right', 'Task options')
+      li.mdl-menu__item.tyto-task__delete-task(title="Delete task") Delete
+      li.mdl-menu__item.tyto-task__edit-task(title="Edit task") Edit
+      li.mdl-menu__item.tyto-task__track-task(title="Track task time") Track
+  .mdl-card__supporting-text.tyto-task__description(title="Task description") <%= tyto.description %>
+  .tyto-task__edit-wrapper
+    textarea.tyto-task__description-edit.is--hidden
+    .tyto-task__suggestions.tyto-suggestions__container.mdl-shadow--2dp.is--hidden
+  |<% var hidden = (tyto.timeSpent.hours > 0 || tyto.timeSpent.minutes > 0) ? '': 'is--hidden'; %>
+  +timeLabel('tyto-task__time')

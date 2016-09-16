@@ -6,3 +6,6 @@ Log  ![alt tag](https://raw.github.com/jh3y/tyto/master/src/img/tyto.png)
 * __23/05/14__: V1.4.0. Introduction of Grunt and Bower.̨
 * __01/08/15__: V2.0.0. Complete overhaul of design and functionality. Move to MV* framework and introduction of minimal UI using MDL.
 * __02/10/15__: Documentation reduction.
+* __05/10/15__: Add markdown support + bug fixes.
+* __17/10/15__: Implement dynamic linking between entities via Markdown `#`.
+* __16/09/16__: V3.0.0 Removal of CoffeeScript in favor of Babel ES6 + various bug fixes/improvements.

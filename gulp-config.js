@@ -6,7 +6,7 @@ module.exports = {
     name: pkg.name
   },
   pluginOpts: {
-    jade: {
+    pug: {
       data  : {
         name       : pkg.name,
         description: pkg.description
@@ -63,8 +63,8 @@ module.exports = {
   paths: {
     base   : env,
     sources: {
-      coffee: [
-        'src/coffee/**/*.coffee'
+      script: [
+        'src/script/**/*.js'
       ],
       img: [
         'src/img/**/*.*'
@@ -90,17 +90,17 @@ module.exports = {
           vendorDir + 'material-design-lite/material.css'
         ],
         fonts: [
-          vendorDir + 'roboto/out/RobotoTTF/Roboto-Regular.ttf',
+          vendorDir + 'roboto/hinted/Roboto-Regular.ttf',
           vendorDir + 'material-design-icons/iconfont/**/*.{eot,ttf,woff,woff2}'
         ]
       },
-      jade: [
-        'src/jade/*.jade',
-        'src/jade/layout-blocks/**/*.jade'
+      markup: [
+        'src/markup/*.pug',
+        'src/markup/layout-blocks/**/*.pug'
       ],
-      docs     : 'src/jade/*.jade',
-      templates: 'src/jade/templates/**/*.jade',
-      stylus   : 'src/stylus/**/*.stylus',
+      docs     : 'src/markup/*.pug',
+      templates: 'src/markup/templates/**/*.pug',
+      style    : 'src/style/**/*.styl',
       overwatch: env + '**/*.*'
     },
     destinations: {
@@ -109,7 +109,7 @@ module.exports = {
       css      : env + 'css/',
       img      : env + 'img/',
       fonts    : env + 'fonts/',
-      templates: 'src/coffee/templates/',
+      templates: 'src/script/templates/',
       build    : '',
       dist     : './dist',
       test     : 'testEnv/'

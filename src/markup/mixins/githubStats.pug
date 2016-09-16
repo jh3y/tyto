@@ -1,0 +1,8 @@
+mixin githubStats(userName, repoName)
+  .github-stats
+    .github-stats__stars
+      iframe(src = `http://ghbtns.com/github-btn.html?user=${userName}&repo=${repoName}&type=watch&count=true`, allowtransparency="true", frameborder="0", scrolling="0", width="90px", height="20")
+    .github-stats__forks
+      iframe(src = `http://ghbtns.com/github-btn.html?user=${userName}&repo=${repoName}&type=fork&count=true`, allowtransparency="true", frameborder="0", scrolling="0", width="90px", height="20")
+    .github-stats__user
+      iframe(src = `http://ghbtns.com/github-btn.html?user=${userName}&repo=${repoName}&type=follow&count=true`, allowtransparency="true", frameborder="0", scrolling="0", width="120px", height="20")
