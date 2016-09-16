@@ -18,7 +18,8 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px /* Preferred icon size */;
+  font-size: 24px;
+  font-size: 1.5rem;
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -100,7 +101,6 @@ a {
 /* Used for animating in freshly created columns */
 .tyto-board.is--adding-column .tyto-column:last-of-type .tyto-column__content {
   -webkit-transform-origin: center center;
-      -ms-transform-origin: center center;
           transform-origin: center center;
   -webkit-animation-duration: 0.5s;
           animation-duration: 0.5s;
@@ -112,7 +112,6 @@ a {
 */
 .tyto-column.is--adding-task .tyto-task:last-of-type {
   -webkit-transform-origin: center center;
-      -ms-transform-origin: center center;
           transform-origin: center center;
   -webkit-animation-duration: 0.5s;
           animation-duration: 0.5s;
@@ -126,23 +125,19 @@ a {
 ***/
 .tyto-board {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
 }
 .tyto-board__options {
   position: fixed;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   z-index: 2;
@@ -157,18 +152,15 @@ a {
 }
 .tyto-board__columns {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   padding: 10px;
@@ -176,11 +168,9 @@ a {
 .tyto-board__details {
   position: fixed;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   z-index: 2;
@@ -251,18 +241,15 @@ a {
 /* variables */
 .tyto-column {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 320px;
   max-width: 320px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 320px;
       -ms-flex: 0 0 320px;
           flex: 0 0 320px;
   max-height: 100%;
@@ -279,16 +266,13 @@ a {
 }
 .tyto-column__content {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   width: 100%;
@@ -301,7 +285,6 @@ a {
   top: 0;
   left: 14px;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
   cursor: move;
@@ -310,12 +293,10 @@ a {
   text-align: center;
   margin: 20px 0;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
   position: relative;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
 }
@@ -340,7 +321,6 @@ a {
 .tyto-column__tasks {
   padding: 0 10px;
   -webkit-box-flex: 1;
-  -webkit-flex: 1 1 auto;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
   overflow-y: auto;
@@ -357,22 +337,18 @@ a {
   overflow: hidden;
   text-align: center;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-align-content: center;
-      -ms-flex-line-pack: center;
-          align-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
   -webkit-transition: height 0.25s linear, min-height 0.25s linear;
           transition: height 0.25s linear, min-height 0.25s linear;
 }
 .tyto-column__action i {
   -webkit-box-flex: 1;
-  -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1;
   font-size: 32px;
@@ -382,15 +358,12 @@ a {
 .tyto-cookies {
   position: fixed;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
   z-index: 999;
@@ -407,16 +380,13 @@ a {
 }
 .tyto-cookies__content {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   padding: 50px;
@@ -445,7 +415,7 @@ a {
   bottom: 0;
   left: 0;
   padding: 20px;
-  overflow: auto;
+  overflow: visible;
 }
 @media (min-width: 852px) {
   .tyto-edit__content {
@@ -460,15 +430,12 @@ a {
 }
 .tyto-edit__color-select__menu {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
   padding: 8px;
@@ -515,23 +482,19 @@ a {
   top: 20px;
   right: 20px;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
 }
 .tyto-edit__nav {
   position: fixed;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   z-index: 2;
@@ -561,17 +524,14 @@ a {
   -webkit-transition: -webkit-transform 0.1s linear;
           transition: transform 0.1s linear;
   -webkit-transform: translate(-12px, -12px) rotate(45deg);
-      -ms-transform: translate(-12px, -12px) rotate(45deg);
           transform: translate(-12px, -12px) rotate(45deg);
 }
 .mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: reverse;
-  -webkit-flex-direction: column-reverse;
       -ms-flex-direction: column-reverse;
           flex-direction: column-reverse;
 }
@@ -588,7 +548,6 @@ a {
   -webkit-animation-duration: 0.1s;
           animation-duration: 0.1s;
   -webkit-transform-origin: bottom center;
-      -ms-transform-origin: bottom center;
           transform-origin: bottom center;
 }
 .mdl-button--fab_flinger-container.is-showing-options .mdl-button--fab_flinger-options button:nth-of-type(1) {
@@ -622,7 +581,6 @@ a {
 }
 .mdl-button--fab_flinger-container .mdl-button--fab_flinger-options button {
   -webkit-transform: scale(0);
-      -ms-transform: scale(0);
           transform: scale(0);
   display: none;
 }
@@ -632,7 +590,6 @@ a {
 */
 .mdl-button--fab i.sub {
   -webkit-transform: scale(0.75);
-      -ms-transform: scale(0.75);
           transform: scale(0.75);
   font-weight: 800;
 }
@@ -663,16 +620,13 @@ a {
 .tyto-select {
   padding: 50px;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
 }
@@ -765,35 +719,9 @@ a {
   width: 90%;
   margin: 0em auto 1em auto;
 }
-/***
-
-  Time label component
-
-***/
-.tyto-time {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.tyto-time__icon,
-.tyto-time__hours,
-.tyto-time__minutes {
-  font-size: 16px;
-  font-size: 1rem;
-}
 .tyto-time-modal {
   max-width: 100%;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 1 auto;
       -ms-flex: 0 1 auto;
           flex: 0 1 auto;
   -webkit-animation-duration: 0.25s;
@@ -810,20 +738,16 @@ a {
   background-color: rgba(0,0,0,0.5);
   z-index: 99999;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-align: center;
-  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-animation-duration: 0.25s;
@@ -839,7 +763,6 @@ a {
 }
 .tyto-time-modal__content-title {
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
   padding-bottom: 0;
@@ -847,6 +770,28 @@ a {
 .tyto-time-modal__content-text {
   width: 100%;
   padding-top: 0;
+}
+/***
+
+  Time label component
+
+***/
+.tyto-time {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.tyto-time__icon,
+.tyto-time__hours,
+.tyto-time__minutes {
+  font-size: 16px;
+  font-size: 1rem;
 }
 /***
 
