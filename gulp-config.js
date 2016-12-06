@@ -1,5 +1,5 @@
 var env     = 'public/',
-  vendorDir = 'src/vendor/',
+  vendorDir = 'node_modules/',
   pkg       = require('./package.json');
 module.exports = {
   pkg: {
@@ -75,13 +75,13 @@ module.exports = {
       vendor: {
         js: [
           vendorDir + 'jquery/dist/jquery.js',
-          vendorDir + 'lodash/lodash.js',
+          vendorDir + 'lodash/index.js',
           vendorDir + 'backbone/backbone.js',
-          vendorDir + 'Backbone.localStorage/backbone.localStorage.js',
-          vendorDir + 'marionette/lib/backbone.marionette.js',
-          vendorDir + 'yap/dist/yap.min.js',
+          vendorDir + 'backbone.wreqr/lib/backbone.wreqr.js',
+          vendorDir + 'backbone.localstorage/backbone.localStorage.js',
+          vendorDir + 'backbone.marionette/lib/backbone.marionette.js',
           vendorDir + 'jquery-ui/jquery-ui.js',
-          vendorDir + 'jqueryui-touch-punch/jquery.ui.touch-punch.min.js',
+          vendorDir + 'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
           vendorDir + 'material-design-lite/material.js',
           vendorDir + 'marked/marked.min.js'
         ],
@@ -90,7 +90,6 @@ module.exports = {
           vendorDir + 'material-design-lite/material.css'
         ],
         fonts: [
-          vendorDir + 'roboto/hinted/Roboto-Regular.ttf',
           vendorDir + 'material-design-icons/iconfont/**/*.{eot,ttf,woff,woff2}'
         ]
       },

@@ -23,7 +23,4 @@ const App = Marionette.Application.extend({
   SELECTED_CLASS     : 'is--selected',
   CONFIRM_MESSAGE    : '[tyto] are you sure you wish to delete this item?'
 });
-
 export default App;
-
-/*Some thing*/

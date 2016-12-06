@@ -9,3 +9,4 @@ Log  ![alt tag](https://raw.github.com/jh3y/tyto/master/src/img/tyto.png)
 * __05/10/15__: Add markdown support + bug fixes.
 * __17/10/15__: Implement dynamic linking between entities via Markdown `#`.
 * __16/09/16__: V3.0.0 Removal of CoffeeScript in favor of Babel ES6 + various bug fixes/improvements.
+* __06/12/16__: V3.0.1 Removal of Bower in favor of just npm use with Yarn. Fix issues #60 and #61

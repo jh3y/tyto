@@ -38,7 +38,7 @@ This is where Tyto came from, It's my personal intuitive and minimal TodoMVC. No
 ### Who's it for?
 Developer and project managers were the original target audience. A means to share project progression on a more _personal_ level. As opposed to publicly through an internal system. Almost like a complimentary attachment to an email.
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/linking.gif)
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/change_color.gif)
 
 There are no restrictions though, it's open source. Not quite right out of the box? Change it :smile:
 
@@ -46,7 +46,6 @@ Extensibility provides a means to create a bespoke version based on theme or fun
 
 Tyto is a personal pet of mine and if it can help others, that's great!
 
-![alt tag](https://raw.github.com/jh3y/pics/master/tyto/change_color.gif)
 
 
 ###Using tyto
@@ -55,6 +54,10 @@ Just want to use it? Do that by visiting [jh3y.github.io/tyto](http://jh3y.githu
 GitHub flavored markdown is supported thanks to `marked`.
 
 ![alt tag](https://raw.github.com/jh3y/pics/master/tyto/markdown.gif)
+
+This also enables you to link to boards, columns and other tasks by using the `#` character
+
+![alt tag](https://raw.github.com/jh3y/pics/master/tyto/linking.gif)
 
 Changes are persistent thanks to `localStorage`.
 

@@ -5,7 +5,6 @@ sudo: false
 install:
   - npm install -g mocha-phantomjs
   - npm install -g gulp
-  - npm install -g bower
   - npm install
   - bower install
 before_script:
