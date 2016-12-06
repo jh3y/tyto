@@ -2,7 +2,7 @@
 tyto - http://jh3y.github.io/tyto
 Licensed under the MIT license
 
-jh3y (c) 2015
+jh3y (c) 2016
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -53,8 +53,6 @@ window.Tyto = Tyto;
 Tyto.TemplateStore = _templates2.default;
 
 // Import requirements
-
-// const TytoViews = require('./views/tyto');
 
 
 Tyto.module('Models', _tyto8.default);
@@ -145,10 +143,7 @@ var App = Marionette.Application.extend({
   SELECTED_CLASS: 'is--selected',
   CONFIRM_MESSAGE: '[tyto] are you sure you wish to delete this item?'
 });
-
 exports.default = App;
-
-/*Some thing*/
 
 },{}],3:[function(require,module,exports){
 'use strict';
