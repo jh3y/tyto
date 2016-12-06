@@ -11,7 +11,6 @@ Tyto.TemplateStore = Templates;
 // Import requirements
 import TytoCtrl from './controllers/tyto';
 import TytoViews from './views/tyto';
-// const TytoViews = require('./views/tyto');
 import TytoModels from './models/tyto';
 import TytoUtils from './utils/utils';
 import TytoSuggestions from './utils/suggestions';

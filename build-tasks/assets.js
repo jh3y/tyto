@@ -8,13 +8,8 @@ var gulp         = require('gulp'),
 
 var assets = {
   scripts: function() {
-    var yapFilter = plugins.filter([
-      '**/*.js',
-      '!**/yap.min.js'
-    ]);
     return gulp.src(sources.vendor.js)
       .pipe(plugins.plumber())
-      .pipe(env.dist ? yapFilter: plugins.gUtil.noop())
       .pipe(plugins.concat('vendor.js'))
       .pipe(gulp.dest(destinations.js))
       .pipe(plugins.uglify(pluginOpts.uglify))
