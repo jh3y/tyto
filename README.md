@@ -67,8 +67,9 @@ A persistent workflow across devices? I'm afraid I haven't implemented that. Acc
 
 #### Your own environment
 ##### Prerequisites
-If you're cloning the repo and setting up the codebase you are going to need __[node]__, __[bower]__ and  __[gulp]__ installed.
-#####Set up
+If you're cloning the repo and setting up the codebase you are going to need __node__(_preferably __yarn___) and  __gulp__ installed.
+
+##### Set up
 1. Clone the repo.
 
         git clone https://github.com/jh3y/tyto.git
@@ -76,8 +77,7 @@ If you're cloning the repo and setting up the codebase you are going to need __[
 2. Navigate into the repo and install the dependencies.
 
         cd tyto
-        npm install
-        bower install
+        yarn (alternatively, npm install)
 
 3. Run gulp to take care of preprocessing and running a local static server instance(project utilises BrowserSync).
 
