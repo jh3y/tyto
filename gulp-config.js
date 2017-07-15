@@ -80,7 +80,7 @@ module.exports = {
           vendorDir + 'backbone.wreqr/lib/backbone.wreqr.js',
           vendorDir + 'backbone.localstorage/backbone.localStorage.js',
           vendorDir + 'backbone.marionette/lib/backbone.marionette.js',
-          vendorDir + 'jquery-ui/jquery-ui.js',
+          vendorDir + 'components-jqueryui/jquery-ui.js',
           vendorDir + 'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
           vendorDir + 'material-design-lite/material.js',
           vendorDir + 'marked/marked.min.js'
