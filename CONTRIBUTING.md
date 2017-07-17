@@ -28,8 +28,7 @@ The most important thing to me is that people aren't afraid of contributing. If 
 2. Navigate into the repo and install the dependencies.
 
         cd tyto
-        npm install
-        bower install
+        yarn/npm install
 
 3. Run gulp to take care of preprocessing and running a local static webserver instance(the project uses BrowserSync).
 

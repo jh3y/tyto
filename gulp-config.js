@@ -80,7 +80,17 @@ module.exports = {
           vendorDir + 'backbone.wreqr/lib/backbone.wreqr.js',
           vendorDir + 'backbone.localstorage/backbone.localStorage.js',
           vendorDir + 'backbone.marionette/lib/backbone.marionette.js',
-          vendorDir + 'jquery-ui/jquery-ui.js',
+          /**
+            * In order to use jquery/jquery-ui, need to require specific
+            * modules in order to get sortable working.
+          */
+          vendorDir + 'jquery-ui/ui/data.js',
+          vendorDir + 'jquery-ui/ui/widget.js',
+          vendorDir + 'jquery-ui/ui/widgets/mouse.js',
+          vendorDir + 'jquery-ui/ui/widgets/sortable.js',
+          vendorDir + 'jquery-ui/ui/scroll-parent.js',
+          vendorDir + 'jquery-ui/ui/version.js',
+          vendorDir + 'jquery-ui/ui/ie.js',
           vendorDir + 'jquery-ui-touch-punch/jquery.ui.touch-punch.min.js',
           vendorDir + 'material-design-lite/material.js',
           vendorDir + 'marked/marked.min.js'

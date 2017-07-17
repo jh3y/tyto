@@ -119,4 +119,4 @@ MIT
 
 ---------------------------
 
-Made with :sparkles: [@jh3y](https://twitter.com/@_jh3y) 2016
+Made with :sparkles: [@jh3y](https://twitter.com/@_jh3y) 2017
