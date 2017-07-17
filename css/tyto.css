@@ -339,8 +339,7 @@ a {
           align-items: center;
   -ms-flex-line-pack: center;
       align-content: center;
-  -webkit-transition: height 0.25s linear, min-height 0.25s linear;
-          transition: height 0.25s linear, min-height 0.25s linear;
+  transition: height 0.25s linear, min-height 0.25s linear;
 }
 .tyto-column__action i {
   -webkit-box-flex: 1;
@@ -516,8 +515,8 @@ a {
   z-index: 999;
 }
 .mdl-button--fab_flinger-container.is-showing-options > button i {
-  -webkit-transition: -webkit-transform 0.1s linear;
-          transition: transform 0.1s linear;
+  transition: -webkit-transform 0.1s linear;
+  transition: transform 0.1s linear;
   -webkit-transform: translate(-12px, -12px) rotate(45deg);
           transform: translate(-12px, -12px) rotate(45deg);
 }
@@ -800,8 +799,7 @@ a {
 
 ***/
 .is--showing-edit-view {
-  -webkit-transition: background-color 0.5s;
-          transition: background-color 0.5s;
+  transition: background-color 0.5s;
 }
 .is--showing-bloom .tyto-header {
   z-index: 99999;
@@ -821,8 +819,7 @@ a {
 }
 .does--fade {
   opacity: 0.4;
-  -webkit-transition: opacity 0.25s;
-          transition: opacity 0.25s;
+  transition: opacity 0.25s;
 }
 .does--fade:hover {
   opacity: 1;
@@ -1028,8 +1025,7 @@ a {
 .bg--red [contenteditable],
 [contenteditable].bg--red,
 .bg--red textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--red [contenteditable]:active,
@@ -1043,8 +1039,7 @@ a {
 .bg--pink [contenteditable],
 [contenteditable].bg--pink,
 .bg--pink textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--pink [contenteditable]:active,
@@ -1058,8 +1053,7 @@ a {
 .bg--purple [contenteditable],
 [contenteditable].bg--purple,
 .bg--purple textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--purple [contenteditable]:active,
@@ -1073,8 +1067,7 @@ a {
 .bg--indigo [contenteditable],
 [contenteditable].bg--indigo,
 .bg--indigo textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--indigo [contenteditable]:active,
@@ -1088,8 +1081,7 @@ a {
 .bg--blue [contenteditable],
 [contenteditable].bg--blue,
 .bg--blue textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--blue [contenteditable]:active,
@@ -1103,8 +1095,7 @@ a {
 .bg--cyan [contenteditable],
 [contenteditable].bg--cyan,
 .bg--cyan textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--cyan [contenteditable]:active,
@@ -1118,8 +1109,7 @@ a {
 .bg--teal [contenteditable],
 [contenteditable].bg--teal,
 .bg--teal textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--teal [contenteditable]:active,
@@ -1133,8 +1123,7 @@ a {
 .bg--green [contenteditable],
 [contenteditable].bg--green,
 .bg--green textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--green [contenteditable]:active,
@@ -1148,8 +1137,7 @@ a {
 .bg--lime [contenteditable],
 [contenteditable].bg--lime,
 .bg--lime textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--lime [contenteditable]:active,
@@ -1163,8 +1151,7 @@ a {
 .bg--yellow [contenteditable],
 [contenteditable].bg--yellow,
 .bg--yellow textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--yellow [contenteditable]:active,
@@ -1178,8 +1165,7 @@ a {
 .bg--amber [contenteditable],
 [contenteditable].bg--amber,
 .bg--amber textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--amber [contenteditable]:active,
@@ -1193,8 +1179,7 @@ a {
 .bg--orange [contenteditable],
 [contenteditable].bg--orange,
 .bg--orange textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--orange [contenteditable]:active,
@@ -1208,8 +1193,7 @@ a {
 .bg--grey [contenteditable],
 [contenteditable].bg--grey,
 .bg--grey textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--grey [contenteditable]:active,
@@ -1223,8 +1207,7 @@ a {
 .bg--black [contenteditable],
 [contenteditable].bg--black,
 .bg--black textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--black [contenteditable]:active,
@@ -1238,8 +1221,7 @@ a {
 .bg--white [contenteditable],
 [contenteditable].bg--white,
 .bg--white textarea {
-  -webkit-transition: background 0.25s;
-          transition: background 0.25s;
+  transition: background 0.25s;
   outline: 0;
 }
 .bg--white [contenteditable]:active,
