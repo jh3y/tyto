@@ -1,7 +1,7 @@
 module.exports = { "board": function(tyto) {
 var __t, __p = '', __j = Array.prototype.join;
 function print() { __p += __j.call(arguments, '') }
-__p += '<div class="tyto-board__options"><button class="mdl-button mdl-js-button mdl-button--icon tyto-board__menu-btn " id="tyto-board__menu" title="Board options"><i class="material-icons">more_vert</i></button><ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-board__menu mdl-menu--bottom-right" for="tyto-board__menu"><li class="tyto-board__wipe-board mdl-menu__item">Wipe board</li><li class="tyto-board__delete-board mdl-menu__item">Delete board</li><li class="tyto-board__email-board mdl-menu__item">Email board</li><a class="tyto-board__emailer" style="display: none"></a></ul></div><div class="tyto-board__details"><h1 class="tyto-board__title bg--white" contenteditable="true">' +
+__p += '<div class="tyto-board__options"><button class="mdl-button mdl-js-button mdl-button--icon tyto-board__menu-btn " id="tyto-board__menu" title="Board options"><i class="material-icons">more_vert</i></button><ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect tyto-board__menu mdl-menu--bottom-right" for="tyto-board__menu"><li class="tyto-board__wipe-board mdl-menu__item">Wipe board</li><li class="tyto-board__delete-board mdl-menu__item">Delete board</li><li class="tyto-board__email-board mdl-menu__item">Email board</li><a class="tyto-board__emailer" style="display: none;"></a></ul></div><div class="tyto-board__details"><h1 class="tyto-board__title bg--white" contenteditable="true">' +
 ((__t = ( tyto.title )) == null ? '' : __t) +
 '</h1>';
  if (tyto.boards.length > 1) { ;
