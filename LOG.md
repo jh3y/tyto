@@ -12,3 +12,4 @@ Log  ![alt tag](https://raw.github.com/jh3y/tyto/master/src/img/tyto.png)
 * __06/12/16__: V3.0.1 Removal of Bower in favor of just npm use with Yarn. Fix issues #60 and #61
 * __17/07/2017__: V3.0.2 Update `yarn.lock` and deps to use `jquery/jquery-ui`. Update vendor scripts required. Add `package-lock.json`
 * __11/10/2017__: V3.0.3 Update `mocha-phantomjs` and add styling rules for embedded images #67
+* __04/01/2018__: V3.0.4 Update `marked` dependency as triggering security warning from Github
