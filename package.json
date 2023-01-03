@@ -20,7 +20,7 @@
     "tough-cookie": "^2.3.3",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
-    "babelify": "^7.3.0",
+    "babelify": "^10.0.0",
     "backbone": "1.1.2",
     "backbone.localstorage": "^1.1.16",
     "backbone.marionette": "2.4.1",
